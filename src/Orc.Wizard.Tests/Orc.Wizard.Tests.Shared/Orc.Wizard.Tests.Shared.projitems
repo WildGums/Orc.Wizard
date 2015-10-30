@@ -6,7 +6,7 @@
     <SharedGUID>722fb1b8-8295-457d-9616-3b7b8693e3b1</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Orc.Wizard.Tests.Shared</Import_RootNamespace>
+    <Import_RootNamespace>Orc.Wizard.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DummyFacts.cs" />

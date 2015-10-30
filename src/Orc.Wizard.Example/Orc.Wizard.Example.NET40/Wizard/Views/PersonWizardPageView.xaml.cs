@@ -1,16 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizardService.cs" company="Wild Gums">
+// <copyright file="PersonWizardPageView.xaml.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard
+namespace Orc.Wizard.Example.Wizard.Views
 {
-    using System.Threading.Tasks;
-
-    public interface IWizardService
+    public partial class PersonWizardPageView
     {
-        Task ShowWizardAsync(IWizard wizard);
+        public PersonWizardPageView()
+        {
+            InitializeComponent();
+        }
     }
 }

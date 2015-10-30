@@ -1,16 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizardPageViewModelLocator.cs" company="Wild Gums">
-//   Copyright (c) 2013 - 2015 Wild Gums. All rights reserved.
+// <copyright file="FirstWizardPageViewModel.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard
+namespace Orc.Wizard.Example.Wizard.ViewModels
 {
-    using System;
     using Catel.MVVM;
 
-    public interface IWizardPageViewModelLocator : IViewModelLocator
+    public class PersonWizardPageViewModel : ViewModelBase
     {
     }
 }

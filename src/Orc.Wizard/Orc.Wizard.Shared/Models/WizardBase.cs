@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="WizardBase.cs" company="Wild Gums">
-//   Copyright (c) 2013 - 2015 Wild Gums. All rights reserved.
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,15 +14,25 @@ namespace Orc.Wizard
     using System.Threading.Tasks;
     using Catel;
     using Catel.Data;
+    using Catel.IoC;
     using Catel.Threading;
 
     public abstract class WizardBase : ModelBase, IWizard
     {
         #region Fields
         private readonly IList<IWizardPage> _pages = new List<IWizardPage>();
+        private readonly ITypeFactory _typeFactory;
+
         private int _currentIndex = 0;
         private IWizardPage _currentPage;
         #endregion
+
+        protected WizardBase(ITypeFactory typeFactory)
+        {
+            Argument.IsNotNull(() => typeFactory);
+
+            _typeFactory = typeFactory;
+        }
 
         #region Properties
         public IWizardPage CurrentPage
@@ -84,6 +94,14 @@ namespace Orc.Wizard
             Argument.IsNotNull(() => page);
 
             _pages.Add(page);
+        }
+
+        protected void AddPage<TWizardPage>()
+            where TWizardPage : IWizardPage
+        {
+            var page = _typeFactory.CreateInstance<TWizardPage>();
+
+            AddPage(page);
         }
 
         public virtual Task ResumeAsync()

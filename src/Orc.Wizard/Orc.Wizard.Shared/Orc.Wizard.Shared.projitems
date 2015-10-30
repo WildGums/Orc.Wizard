@@ -11,18 +11,18 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WizardPageSelectionBehavior.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EventArgs\ViewModelChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GeneralInformationWizardPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IWizard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IWizardPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Locators\Extensions\IWizardPageViewModelLocatorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\Interfaces\IWizardPageViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\WizardPageViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodTimeLogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Base\WizardBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Base\WizardPageBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventArgs\ViewModelChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IWizard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IWizardPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\WizardBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\WizardPageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Extensions\IWizardServiceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IWizardService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\WizardService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WizardPageViewModelBase.cs" />
@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Locators\Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Views\WizardWindow.xaml">

@@ -5,7 +5,7 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:catel="http://catel.codeplex.com"
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                  xmlns:behaviors="clr-namespace:Orc.Wizard.Behaviors"
+                  xmlns:wizard="clr-namespace:Orc.Wizard"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     
     <Grid Width="500" Height="400">
@@ -18,7 +18,7 @@
         
         <ContentControl Grid.Row="1">
             <i:Interaction.Behaviors>
-                <behaviors:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
+                <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
             </i:Interaction.Behaviors>
         </ContentControl>
     </Grid>

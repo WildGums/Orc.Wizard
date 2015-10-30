@@ -1,7 +1,13 @@
-﻿namespace Orc.Wizard
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ModuleInitializer.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Wizard
 {
     using Catel.IoC;
-    using Services;
 
     /// <summary>
     /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -16,6 +22,7 @@
             var serviceLocator = ServiceLocator.Default;
 
             serviceLocator.RegisterType<IWizardService, WizardService>();
+            serviceLocator.RegisterType<IWizardPageViewModelLocator, WizardPageViewModelLocator>();
         }
     }
 }

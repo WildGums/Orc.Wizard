@@ -1,16 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizardService.cs" company="Wild Gums">
+// <copyright file="PersonWizardPage.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard
+namespace Orc.Wizard.Example.Wizard.Models
 {
-    using System.Threading.Tasks;
-
-    public interface IWizardService
+    public class PersonWizardPage : WizardPageBase
     {
-        Task ShowWizardAsync(IWizard wizard);
+        public PersonWizardPage()
+        {
+            
+        }
     }
 }

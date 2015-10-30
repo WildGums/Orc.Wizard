@@ -8,6 +8,7 @@
 namespace Orc.Wizard.Example
 {
     using System.Windows;
+    using Catel.Logging;
     using Catel.Windows;
 
     /// <summary>
@@ -18,6 +19,10 @@ namespace Orc.Wizard.Example
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+#if DEBUG
+            LogManager.AddDebugListener(true);
+#endif
 
             StyleHelper.CreateStyleForwardersForDefaultStyles();
         }

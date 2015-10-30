@@ -11,9 +11,7 @@
             <RowDefinition Height="200" />
         </Grid.RowDefinitions>
 
-        <catel:TabControl  Grid.Row="0" LoadTabItems="LazyLoading">
-
-        </catel:TabControl>
+        <Button Command="{Binding ShowWizard}" Content="Show wizard..." HorizontalAlignment="Center" VerticalAlignment="Center" />
         
         <TextBox Grid.Row="1" x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />
     </Grid>

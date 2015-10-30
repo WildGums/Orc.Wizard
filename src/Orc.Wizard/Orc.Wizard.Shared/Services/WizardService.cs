@@ -1,17 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WizardService.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Orc.Wizard.Services
+
+namespace Orc.Wizard
 {
     using System.Threading.Tasks;
     using Catel;
+    using Catel.Logging;
+    using Catel.Reflection;
     using Catel.Services;
     using ViewModels;
 
     public class WizardService : IWizardService
     {
         #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private readonly IUIVisualizerService _uiVisualizerService;
         #endregion
 
@@ -25,9 +32,13 @@ namespace Orc.Wizard.Services
         #endregion
 
         #region Methods
-        public async Task ShowWizardAsync(IWizard wizard)
+        public Task ShowWizardAsync(IWizard wizard)
         {
-            await _uiVisualizerService.ShowDialogAsync<WizardViewModel>(wizard);
+            Argument.IsNotNull(() => wizard);
+
+            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
+
+            return _uiVisualizerService.ShowDialogAsync<WizardViewModel>(wizard);
         }
         #endregion
     }

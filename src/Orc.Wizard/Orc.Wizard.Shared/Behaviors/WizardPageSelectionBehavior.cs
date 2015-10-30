@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.Behaviors
+namespace Orc.Wizard
 {
     using System;
     using System.Windows;
@@ -112,7 +112,7 @@ namespace Orc.Wizard.Behaviors
 
             var serviceLocator = this.GetServiceLocator();
             var viewModelLocator = serviceLocator.ResolveType<IWizardPageViewModelLocator>();
-            var pageViewModelType = viewModelLocator.ResolveWizardPageViewModel(_lastPage.GetType());
+            var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
 
             var viewLocator = serviceLocator.ResolveType<IViewLocator>();
             var viewType = viewLocator.ResolveView(pageViewModelType);
