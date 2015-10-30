@@ -15,7 +15,7 @@
 
         <Label>
             <TextBlock TextWrapping="Wrap">
-                Please select the skills you possess in the list below.
+                Please select your skills:
             </TextBlock>
         </Label>
 

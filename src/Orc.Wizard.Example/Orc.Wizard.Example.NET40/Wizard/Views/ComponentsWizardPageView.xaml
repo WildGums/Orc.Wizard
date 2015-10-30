@@ -16,7 +16,7 @@
 
         <Label>
             <TextBlock TextWrapping="Wrap">
-                Please select the components you use in the list below.
+                Please select the components you want to use:
             </TextBlock>
         </Label>
 

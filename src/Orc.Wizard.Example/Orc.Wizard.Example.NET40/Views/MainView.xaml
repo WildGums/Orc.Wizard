@@ -14,8 +14,8 @@
 
         <Label>
             <TextBlock TextWrapping="Wrap">
-                This example shows you how to use the wizard elements in Orc.Wizard. The code is fairly easy to understand and
-                the wizard isn't much meaningful but shows the real power of the wizard in combination with Catel:
+                This example will show you how to use the wizard elements in Orc.Wizard. The code is fairly easy to understand. Even though 
+                this demo isn't very meaningful it illustrates the real power of the wizard in combination with Catel:
                 <LineBreak /><LineBreak />
                 - State management (remember values when navigating between views)<LineBreak />
                 - Views can be used inside and outside of the wizard<LineBreak />
