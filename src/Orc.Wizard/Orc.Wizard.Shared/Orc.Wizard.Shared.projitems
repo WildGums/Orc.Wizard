@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Locators\WizardPageViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodTimeLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EventArgs\ViewModelChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Extensions\IWizardExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IWizard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IWizardPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\WizardBase.cs" />

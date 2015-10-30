@@ -48,14 +48,20 @@ namespace Orc.Wizard.ViewModels
 
         // TODO: take the value from Wizard.CurrentPage.Header
         public string PageHeader { get; private set; }
+
+        public bool IsFirstPage { get; private set; }
+
+        public bool IsLastPage { get; private set; }
         #endregion
 
         #region Commands
         public TaskCommand GoToPrevious { get; set; }
 
-        private Task OnGoToPreviousExecuteAsync()
+        private async Task OnGoToPreviousExecuteAsync()
         {
-            return Wizard.MoveBackAsync();
+            await Wizard.MoveBackAsync();
+
+            UpdateState();
         }
 
         private bool OnGoToPreviousCanExecute()
@@ -65,9 +71,11 @@ namespace Orc.Wizard.ViewModels
 
         public TaskCommand GoToNext { get; set; }
 
-        private Task OnGoToNextExecuteAsync()
+        private async Task OnGoToNextExecuteAsync()
         {
-            return Wizard.MoveForwardAsync();
+            await Wizard.MoveForwardAsync();
+
+            UpdateState();
         }
 
         private bool OnGoToNextCanExecute()
@@ -111,6 +119,21 @@ namespace Orc.Wizard.ViewModels
         private bool OnCancelCanExecuteAsync()
         {
             return Wizard.CanCancel;
+        }
+        #endregion
+
+        #region Methods
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            UpdateState();
+        }
+
+        private void UpdateState()
+        {
+            IsFirstPage = Wizard.IsFirstPage();
+            IsLastPage = Wizard.IsLastPage();
         }
         #endregion
     }

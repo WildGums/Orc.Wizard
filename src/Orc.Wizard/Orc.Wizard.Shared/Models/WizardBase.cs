@@ -72,9 +72,12 @@ namespace Orc.Wizard
                 if (_currentPage != null)
                 {
                     var vm = _currentPage.ViewModel;
-                    if (!vm.ValidateViewModel())
+                    if (vm != null)
                     {
-                        return false;
+                        if (!vm.ValidateViewModel())
+                        {
+                            return false;
+                        }
                     }
                 }
 
