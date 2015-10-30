@@ -1,0 +1,21 @@
+﻿<catel:Window x:Class="Orc.Wizard.Example.Views.MainView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:catel="http://catel.codeplex.com"
+              xmlns:views="clr-namespace:Orc.Wizard.Example.Views"
+              Height="600" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="200" />
+        </Grid.RowDefinitions>
+
+        <catel:TabControl  Grid.Row="0" LoadTabItems="LazyLoading">
+
+        </catel:TabControl>
+        
+        <TextBox Grid.Row="1" x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />
+    </Grid>
+    
+</catel:Window>

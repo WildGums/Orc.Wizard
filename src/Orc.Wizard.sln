@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.NET40", "Orc.Wizard\Orc.Wizard.NET40\Orc.Wizard.NET40.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{3CC711D4-F114-4399-A440-711E40600B3B}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+		Orc.Wizard.sln.DotSettings = Orc.Wizard.sln.DotSettings
+		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{199C8479-5A41-4318-8129-FB56773099B9}"
+	ProjectSection(SolutionItems) = preProject
+		..\lib\repositories.config = ..\lib\repositories.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Tests.NET40", "Orc.Wizard.Tests\Orc.Wizard.Tests.NET40\Orc.Wizard.Tests.NET40.csproj", "{A226D12E-9802-4364-B4F3-2CAAAE059DD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E58A59BA-FFA8-4D75-A2B9-F6FEFD848E94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{EFD371A0-BDCD-42EA-9874-0E01FC3D456B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{AA1FD81A-33B7-4561-AE49-E375A73C2037}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Example.NET40", "Orc.Wizard.Example\Orc.Wizard.Example.NET40\Orc.Wizard.Example.NET40.csproj", "{2832C49C-CA0C-46DF-9EED-EDD53BC48541}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Orc.Wizard.Shared", "Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.shproj", "{A14D7911-D25C-4D2B-81DF-AF03560AD9CA}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Orc.Wizard.Tests.Shared", "Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.shproj", "{722FB1B8-8295-457D-9616-3B7B8693E3B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.NET45", "Orc.Wizard\Orc.Wizard.NET45\Orc.Wizard.NET45.csproj", "{030359B5-7F76-42EF-BF49-BD06222B212C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Tests.NET45", "Orc.Wizard.Tests\Orc.Wizard.Tests.NET45\Orc.Wizard.Tests.NET45.csproj", "{ECD8C885-72AF-4558-9816-06A329FD1112}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{ecd8c885-72af-4558-9816-06a329fd1112}*SharedItemsImports = 4
+		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{030359b5-7f76-42ef-bf49-bd06222b212c}*SharedItemsImports = 4
+		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{722fb1b8-8295-457d-9616-3b7b8693e3b1}*SharedItemsImports = 13
+		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{a14d7911-d25c-4d2b-81df-af03560ad9ca}*SharedItemsImports = 13
+		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{a226d12e-9802-4364-b4f3-2caaae059dd4}*SharedItemsImports = 4
+		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{31ce78ce-896e-43b5-ae7e-a6a4b9944aa4}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A226D12E-9802-4364-B4F3-2CAAAE059DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A226D12E-9802-4364-B4F3-2CAAAE059DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A226D12E-9802-4364-B4F3-2CAAAE059DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A226D12E-9802-4364-B4F3-2CAAAE059DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2832C49C-CA0C-46DF-9EED-EDD53BC48541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2832C49C-CA0C-46DF-9EED-EDD53BC48541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2832C49C-CA0C-46DF-9EED-EDD53BC48541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2832C49C-CA0C-46DF-9EED-EDD53BC48541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{030359B5-7F76-42EF-BF49-BD06222B212C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{030359B5-7F76-42EF-BF49-BD06222B212C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{030359B5-7F76-42EF-BF49-BD06222B212C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{030359B5-7F76-42EF-BF49-BD06222B212C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD8C885-72AF-4558-9816-06A329FD1112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD8C885-72AF-4558-9816-06A329FD1112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD8C885-72AF-4558-9816-06A329FD1112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD8C885-72AF-4558-9816-06A329FD1112}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4} = {E58A59BA-FFA8-4D75-A2B9-F6FEFD848E94}
+		{A226D12E-9802-4364-B4F3-2CAAAE059DD4} = {EFD371A0-BDCD-42EA-9874-0E01FC3D456B}
+		{E58A59BA-FFA8-4D75-A2B9-F6FEFD848E94} = {E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}
+		{EFD371A0-BDCD-42EA-9874-0E01FC3D456B} = {E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}
+		{AA1FD81A-33B7-4561-AE49-E375A73C2037} = {E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}
+		{2832C49C-CA0C-46DF-9EED-EDD53BC48541} = {AA1FD81A-33B7-4561-AE49-E375A73C2037}
+		{A14D7911-D25C-4D2B-81DF-AF03560AD9CA} = {E58A59BA-FFA8-4D75-A2B9-F6FEFD848E94}
+		{722FB1B8-8295-457D-9616-3B7B8693E3B1} = {EFD371A0-BDCD-42EA-9874-0E01FC3D456B}
+		{030359B5-7F76-42EF-BF49-BD06222B212C} = {E58A59BA-FFA8-4D75-A2B9-F6FEFD848E94}
+		{ECD8C885-72AF-4558-9816-06A329FD1112} = {EFD371A0-BDCD-42EA-9874-0E01FC3D456B}
+	EndGlobalSection
+EndGlobal
