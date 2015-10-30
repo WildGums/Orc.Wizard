@@ -7,16 +7,23 @@
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-    
-    <Grid Width="800" Height="400">
+
+    <Grid x:Name="layoutRoot" Width="800" Height="400">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto" MinHeight="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="{Binding PageHeader}"/>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0">
+            <!-- TODO: ORCOMP-205 Create wizard header -->
+            <TextBlock Text="{Binding PageHeader}"/>
+        </Grid>
+
         <ContentControl Grid.Row="1">
             <i:Interaction.Behaviors>
                 <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
@@ -36,5 +43,5 @@
             <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
         </WrapPanel>
     </Grid>
-    
+
 </catel:DataWindow>

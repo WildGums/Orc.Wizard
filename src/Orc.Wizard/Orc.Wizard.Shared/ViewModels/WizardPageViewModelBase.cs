@@ -5,18 +5,20 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.ViewModels
+namespace Orc.Wizard
 {
     using Catel;
     using Catel.MVVM;
 
-    public class WizardPageViewModelBase<TPage> : ViewModelBase
-        where TPage : class, IWizardPage
+    public class WizardPageViewModelBase<TWizardPage> : ViewModelBase
+        where TWizardPage : class, IWizardPage
     {
         #region Constructors
-        public WizardPageViewModelBase(TPage wizardPage)
+        public WizardPageViewModelBase(TWizardPage wizardPage)
         {
             Argument.IsNotNull(() => wizardPage);
+
+            DeferValidationUntilFirstSaveCall = true;
 
             WizardPage = wizardPage;
         }
@@ -25,7 +27,21 @@ namespace Orc.Wizard.ViewModels
         #region Properties
 
         [Model]
-        public TPage WizardPage { get; private set; }
+        public TWizardPage WizardPage { get; private set; }
+
+        public IWizard Wizard
+        {
+            get
+            {
+                var wizardPage = WizardPage;
+                if (wizardPage == null)
+                {
+                    return null;
+                }
+
+                return wizardPage.Wizard;
+            }
+        }
         #endregion
     }
 }

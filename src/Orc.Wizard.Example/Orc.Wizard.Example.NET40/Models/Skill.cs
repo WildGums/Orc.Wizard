@@ -1,21 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PersonWizardPage.cs" company="Wild Gums">
+// <copyright file="Component.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.Example.Wizard.Models
+namespace Orc.Wizard.Example.Models
 {
-    public class PersonWizardPage : WizardPageBase
+    using Catel.Data;
+
+    public class Skill : ModelBase
     {
-        public PersonWizardPage()
-        {
-            
-        }
+        public bool IsSelected { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -14,9 +14,12 @@ namespace Orc.Wizard.Example.Wizard.Models
         public ExampleWizard(ITypeFactory typeFactory)
             : base(typeFactory)
         {
+            Title = "Orc.Wizard example"; 
+
             AddPage<PersonWizardPage>();
             AddPage<SkillsWizardPage>();
             AddPage<ComponentsWizardPage>();
+            AddPage<SummaryWizardPage>();
         }
     }
 }

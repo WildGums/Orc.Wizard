@@ -5,9 +5,36 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://catel.codeplex.com"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-    
-    <Grid>
-        <Label Content="Person" />
-    </Grid>
+
+    <catel:StackGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Label Grid.ColumnSpan="2">
+            <TextBlock TextWrapping="Wrap">
+                This wizard page shows you how to map textbox elements to a model and validate them. Notice that you cannot
+                move next while the fields are not yet valid. When navigating forward and back, you will see that the values are
+                automatically restored.
+                <LineBreak /><LineBreak />
+                The cool thing is that the view model only has 28 (!) lines of code.
+            </TextBlock>
+        </Label>
+        
+        <Label Content="First name" />
+        <TextBox Text="{Binding FirstName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+        
+        <Label Content="Last name" />
+        <TextBox Text="{Binding LastName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+        
+    </catel:StackGrid>
     
 </catel:UserControl>

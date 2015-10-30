@@ -7,7 +7,22 @@
 
 namespace Orc.Wizard.Example.Wizard.Models
 {
+    using System.Collections.ObjectModel;
+    using Example.Models;
+
     public class SkillsWizardPage : WizardPageBase
     {
+        public SkillsWizardPage()
+        {
+            Skills = new ObservableCollection<Skill>(new[]
+            {
+                new Skill { Name = "C#" },
+                new Skill { Name = "Catel" },
+                new Skill { Name = "MVVM" },
+                new Skill { Name = "WPF" },
+            });
+        }
+
+        public ObservableCollection<Skill> Skills { get; private set; }
     }
 }

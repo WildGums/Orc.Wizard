@@ -5,15 +5,28 @@
               xmlns:views="clr-namespace:Orc.Wizard.Example.Views"
               Height="600" Width="800">
 
-    <Grid>
+    <catel:StackGrid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
 
-        <Button Command="{Binding ShowWizard}" Content="Show wizard..." HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Label>
+            <TextBlock TextWrapping="Wrap">
+                This example shows you how to use the wizard elements in Orc.Wizard. The code is fairly easy to understand and
+                the wizard isn't much meaningful but shows the real power of the wizard in combination with Catel:
+                <LineBreak /><LineBreak />
+                - State management (remember values when navigating between views)<LineBreak />
+                - Views can be used inside and outside of the wizard<LineBreak />
+                - Validation per view model or model<LineBreak />
+                - Easy to code, seriously, check it out for yourself!<LineBreak />
+            </TextBlock>
+        </Label>
         
-        <TextBox Grid.Row="1" x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />
-    </Grid>
+        <Button Command="{Binding ShowWizard}" Content="Show wizard..." />
+        
+        <TextBox x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />
+    </catel:StackGrid>
     
 </catel:Window>

@@ -22,7 +22,7 @@ namespace Orc.Wizard.Views
         }
 
         public WizardWindow(WizardViewModel viewModel)
-            : base(viewModel, DataWindowMode.Custom)
+            : base(viewModel, DataWindowMode.Custom, infoBarMessageControlGenerationMode: InfoBarMessageControlGenerationMode.Overlay)
         {
             InitializeComponent();
         }

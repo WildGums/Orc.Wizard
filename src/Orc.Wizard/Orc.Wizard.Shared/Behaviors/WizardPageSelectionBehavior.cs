@@ -25,7 +25,7 @@ namespace Orc.Wizard
         #region Properties
         public IWizard Wizard
         {
-            get { return (IWizard) GetValue(WizardProperty); }
+            get { return (IWizard)GetValue(WizardProperty); }
             set { SetValue(WizardProperty, value); }
         }
 
@@ -99,13 +99,19 @@ namespace Orc.Wizard
                 return;
             }
 
+            var wizard = Wizard;
+            if (wizard == null)
+            {
+                return;
+            }
+
             if (_lastPage != null)
             {
                 _lastPage.ViewModel = null;
                 _lastPage = null;
             }
 
-            _lastPage = Wizard.CurrentPage;
+            _lastPage = wizard.CurrentPage;
 
             var serviceLocator = this.GetServiceLocator();
             var viewModelLocator = serviceLocator.ResolveType<IWizardPageViewModelLocator>();
@@ -121,8 +127,9 @@ namespace Orc.Wizard
                 return;
             }
 
+            // TODO: Consider setting the data context to a model instead of manually creating a vm
             var viewModelFactory = serviceLocator.ResolveType<IViewModelFactory>();
-            var viewModel = viewModelFactory.CreateViewModel(pageViewModelType, Wizard.CurrentPage);
+            var viewModel = viewModelFactory.CreateViewModel(pageViewModelType, wizard.CurrentPage);
 
             _lastPage.ViewModel = viewModel;
 

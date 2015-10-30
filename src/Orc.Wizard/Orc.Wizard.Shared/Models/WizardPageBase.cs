@@ -28,6 +28,8 @@ namespace Orc.Wizard
             }
         }
 
+        public IWizard Wizard { get; set; }
+
         public event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
     }
 }

@@ -15,6 +15,7 @@ namespace Orc.Wizard
     using Catel;
     using Catel.Data;
     using Catel.IoC;
+    using Catel.MVVM;
     using Catel.Threading;
 
     public abstract class WizardBase : ModelBase, IWizard
@@ -96,6 +97,7 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => page);
 
+            page.Wizard = this;
             _pages.Add(page);
         }
 
@@ -130,7 +132,7 @@ namespace Orc.Wizard
                 var vm = currentPage.ViewModel;
                 if (vm != null)
                 {
-                    await vm.SaveViewModelAsync();
+                    await vm.SaveAndCloseViewModelAsync();
                 }
             }
 

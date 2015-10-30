@@ -11,9 +11,30 @@ namespace Orc.Wizard
     using System.Collections.Generic;
     using System.Linq;
     using Catel;
+    using Catel.Reflection;
 
     public static class IWizardExtensions
     {
+        public static TWizardPage FindPageByType<TWizardPage>(this IWizard wizard)
+            where TWizardPage : IWizardPage
+        {
+            return (TWizardPage)FindPage(wizard, x => typeof(TWizardPage).IsAssignableFromEx(x.GetType()));
+        }
+
+        public static IWizardPage FindPage(this IWizard wizard, Func<IWizardPage, bool> predicate)
+        {
+            Argument.IsNotNull(() => wizard);
+            Argument.IsNotNull(() => predicate);
+
+            var allPages = wizard.Pages.ToList();
+            if (allPages.Count == 0)
+            {
+                return null;
+            }
+
+            return allPages.FirstOrDefault(predicate);
+        }
+
         public static bool IsFirstPage(this IWizard wizard, IWizardPage wizardPage = null)
         {
             return IsPage(wizard, wizardPage, x => x.First());
