@@ -10,13 +10,34 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WizardPageSelectionBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventArgs\ViewModelChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GeneralInformationWizardPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IWizard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IWizardPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Locators\Extensions\IWizardPageViewModelLocatorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Locators\Interfaces\IWizardPageViewModelLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Locators\WizardPageViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodTimeLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Base\WizardBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Base\WizardPageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IWizardService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\WizardService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WizardPageViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WizardViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\WizardWindow.xaml.cs">
+      <DependentUpon>WizardWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Services\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Views\WizardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
