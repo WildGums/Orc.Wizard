@@ -25,7 +25,8 @@
                 move next while the fields are not yet valid. When navigating forward and back, you will see that the values are
                 automatically restored.
                 <LineBreak /><LineBreak />
-                The cool thing is that the view model only has 28 (!) lines of code.
+                The cool thing is that the view model for this page only has 28 (!) lines of code. This makes your pages
+                into small, easily maintainable components.
             </TextBlock>
         </Label>
         
