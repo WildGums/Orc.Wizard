@@ -8,19 +8,31 @@
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     
-    <Grid Width="500" Height="400">
+    <Grid Width="800" Height="400">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{Binding PageHeader}"/>
+        <TextBlock Grid.Row="0" Text="{Binding PageHeader}"/>
         
         <ContentControl Grid.Row="1">
             <i:Interaction.Behaviors>
                 <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
             </i:Interaction.Behaviors>
         </ContentControl>
+
+        <WrapPanel Grid.Row="2" Style="{StaticResource DataWindowButtonContainerStyle}">
+            <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Previous}" Style="{StaticResource DataWindowButtonStyle}" 
+                    Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+
+            <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Next}" Style="{StaticResource DataWindowButtonStyle}" />
+
+            <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Finish}" Style="{StaticResource DataWindowButtonStyle}" />
+
+            <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
+        </WrapPanel>
     </Grid>
     
 </catel:DataWindow>

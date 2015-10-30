@@ -7,7 +7,6 @@
 
 namespace Orc.Wizard.Views
 {
-    using System.Linq;
     using Catel.Windows;
     using ViewModels;
 
@@ -25,45 +24,8 @@ namespace Orc.Wizard.Views
         public WizardWindow(WizardViewModel viewModel)
             : base(viewModel, DataWindowMode.Custom)
         {
-            InitializeButtons(viewModel);
-
             InitializeComponent();
         }
         #endregion
-
-        protected override void OnViewModelChanged()
-        {
-            base.OnViewModelChanged();
-
-            var vm = ViewModel as WizardViewModel;
-            if (vm == null)
-            {
-                return;
-            }
-
-            InitializeButtons(vm);
-        }
-
-        private void InitializeButtons(WizardViewModel viewModel)
-        {
-            if (viewModel == null)
-            {
-                return;
-            }
-
-            // TODO: clear previous buttons
-
-            if (!viewModel.Buttons.Any())
-            {
-                AddCustomButton(new DataWindowButton("OK", OnOkExecute, OnOkCanExecute));
-            }
-            else
-            {
-                foreach (var button in viewModel.Buttons)
-                {
-                    AddCustomButton(button);
-                }
-            }
-        }
     }
 }

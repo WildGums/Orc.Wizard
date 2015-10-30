@@ -11,28 +11,29 @@ namespace Orc.Wizard.ViewModels
     using System.Threading.Tasks;
     using Catel;
     using Catel.MVVM;
+    using Catel.Services;
     using Catel.Windows;
 
     public class WizardViewModel : ViewModelBase
     {
+        private readonly IMessageService _messageService;
+        private readonly ILanguageService _languageService;
+
         #region Constructors
-        public WizardViewModel(IWizard wizard)
+        public WizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService)
         {
             Argument.IsNotNull(() => wizard);
+            Argument.IsNotNull(() => messageService);
+            Argument.IsNotNull(() => languageService);
 
             Wizard = wizard;
+            _messageService = messageService;
+            _languageService = languageService;
 
-            Buttons = new List<DataWindowButton>();
-
-            Ok = new TaskCommand(OnOkExecuteAsync, OnOkCanExecute);
+            Finish = new TaskCommand(OnFinishExecuteAsync, OnFinishCanExecute);
             Cancel = new TaskCommand(OnCancelExecuteAsync, OnCancelCanExecuteAsync);
-            Next = new TaskCommand(OnNextExecuteAsync, OnNextCanExecute);
-            Back = new TaskCommand(OnBackExecuteAsync, OnBackCanExecute);
-
-            Buttons.Add(new DataWindowButton("Back", Back));
-            Buttons.Add(new DataWindowButton("Next", Next));
-            Buttons.Add(new DataWindowButton("OK", Ok));
-            Buttons.Add(new DataWindowButton("Cancel", Cancel));
+            GoToNext = new TaskCommand(OnGoToNextExecuteAsync, OnGoToNextCanExecute);
+            GoToPrevious = new TaskCommand(OnGoToPreviousExecuteAsync, OnGoToPreviousCanExecute);
         }
         #endregion
 
@@ -45,41 +46,38 @@ namespace Orc.Wizard.ViewModels
         [Model]
         public IWizard Wizard { get; set; }
 
-        // TODO: No buttons inside vm
-        public IList<DataWindowButton> Buttons { get; private set; }
-        
         // TODO: take the value from Wizard.CurrentPage.Header
         public string PageHeader { get; private set; }
         #endregion
 
         #region Commands
-        public TaskCommand Back { get; set; }
+        public TaskCommand GoToPrevious { get; set; }
 
-        private Task OnBackExecuteAsync()
+        private Task OnGoToPreviousExecuteAsync()
         {
             return Wizard.MoveBackAsync();
         }
 
-        private bool OnBackCanExecute()
+        private bool OnGoToPreviousCanExecute()
         {
             return Wizard.CanMoveBack;
         }
 
-        public TaskCommand Next { get; set; }
+        public TaskCommand GoToNext { get; set; }
 
-        private Task OnNextExecuteAsync()
+        private Task OnGoToNextExecuteAsync()
         {
             return Wizard.MoveForwardAsync();
         }
 
-        private bool OnNextCanExecute()
+        private bool OnGoToNextCanExecute()
         {
             return Wizard.CanMoveForward;
         }
 
-        public TaskCommand Ok { get; set; }
+        public TaskCommand Finish { get; set; }
 
-        private async Task OnOkExecuteAsync()
+        private async Task OnFinishExecuteAsync()
         {
             if (await SaveAsync())
             {
@@ -88,7 +86,7 @@ namespace Orc.Wizard.ViewModels
             }
         }
 
-        private bool OnOkCanExecute()
+        private bool OnFinishCanExecute()
         {
             var validationSummary = this.GetValidationSummary(true);
             return !validationSummary.HasErrors && !validationSummary.HasWarnings && Wizard.CanResume;
@@ -98,6 +96,11 @@ namespace Orc.Wizard.ViewModels
 
         private async Task OnCancelExecuteAsync()
         {
+            if (await _messageService.ShowAsync(_languageService.GetString("AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+            {
+                return;
+            }
+
             if (await CancelAsync())
             {
                 await Wizard.CancelAsync();

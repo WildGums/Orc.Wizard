@@ -101,14 +101,11 @@ namespace Orc.Wizard
 
             if (_lastPage != null)
             {
-                // TODO: Consider not to clear (to allow previous / next with values in memory)
                 _lastPage.ViewModel = null;
                 _lastPage = null;
             }
 
             _lastPage = Wizard.CurrentPage;
-
-            // TODO: Check if vm already exists, if so, don't recreate
 
             var serviceLocator = this.GetServiceLocator();
             var viewModelLocator = serviceLocator.ResolveType<IWizardPageViewModelLocator>();

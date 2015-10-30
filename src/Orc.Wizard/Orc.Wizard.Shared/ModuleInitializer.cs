@@ -8,6 +8,8 @@
 namespace Orc.Wizard
 {
     using Catel.IoC;
+    using Catel.Services;
+    using Catel.Services.Models;
 
     /// <summary>
     /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -23,6 +25,9 @@ namespace Orc.Wizard
 
             serviceLocator.RegisterType<IWizardService, WizardService>();
             serviceLocator.RegisterType<IWizardPageViewModelLocator, WizardPageViewModelLocator>();
+
+            var languageService = serviceLocator.ResolveType<ILanguageService>();
+            languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Wizard", "Orc.Wizard.Properties", "Resources"));
         }
     }
 }

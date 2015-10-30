@@ -74,13 +74,25 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Compile Include="..\Orc.Wizard.Shared\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+      <Generator>ResxFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems" Label="Shared" Condition="Exists('..\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
