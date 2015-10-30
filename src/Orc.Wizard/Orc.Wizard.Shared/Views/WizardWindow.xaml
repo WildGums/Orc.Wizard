@@ -31,7 +31,7 @@
         </ContentControl>
 
         <WrapPanel Grid.Row="2" Style="{StaticResource DataWindowButtonContainerStyle}">
-            <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Previous}" Style="{StaticResource DataWindowButtonStyle}" 
+            <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 
             <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Next}" Style="{StaticResource DataWindowButtonStyle}" 

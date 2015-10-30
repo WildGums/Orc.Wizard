@@ -10,6 +10,7 @@ namespace Orc.Wizard
     using System;
     using Catel;
     using Catel.Data;
+    using Catel.Fody;
     using Catel.MVVM;
 
     public abstract class WizardPageBase : ModelBase, IWizardPage
@@ -28,6 +29,7 @@ namespace Orc.Wizard
             }
         }
 
+        [NoWeaving]
         public IWizard Wizard { get; set; }
 
         public event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;

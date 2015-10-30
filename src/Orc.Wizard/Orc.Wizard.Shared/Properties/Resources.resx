@@ -120,13 +120,13 @@
   <data name="AreYouSureYouWantToCancelWizard" xml:space="preserve">
     <value>Are you sure you want to cancel the wizard?</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>&lt; Back</value>
+  </data>
   <data name="Finish" xml:space="preserve">
     <value>Finish</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
-  </data>
-  <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Next &gt;</value>
   </data>
 </root>
