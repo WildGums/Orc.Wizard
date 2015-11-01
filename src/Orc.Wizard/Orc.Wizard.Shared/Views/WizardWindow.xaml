@@ -10,6 +10,8 @@
 
     <Grid x:Name="layoutRoot" Width="800" Height="400">
         <Grid.RowDefinitions>
+            <!-- First row is for InfoBarMessageControl -->
+            <RowDefinition Height="20" />
             <RowDefinition Height="Auto" MinHeight="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -19,18 +21,22 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0">
-            <!-- TODO: ORCOMP-205 Create wizard header -->
-            <TextBlock Text="{Binding PageHeader}"/>
+        
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <!-- TODO: ORCOMP-205 Create wizard header -->
+                <TextBlock Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" />
+                <TextBlock Text="{Binding PageDescription}" FontSize="15"/>
+            </StackPanel>
         </Grid>
 
-        <ContentControl Grid.Row="1">
+        <ContentControl Grid.Row="2">
             <i:Interaction.Behaviors>
                 <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
             </i:Interaction.Behaviors>
         </ContentControl>
 
-        <WrapPanel Grid.Row="2" Style="{StaticResource DataWindowButtonContainerStyle}">
+        <WrapPanel Grid.Row="3" Style="{StaticResource DataWindowButtonContainerStyle}">
             <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 

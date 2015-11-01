@@ -19,5 +19,9 @@ namespace Orc.Wizard
         IViewModel ViewModel { get; set; }
 
         event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
+
+        string Title { get; set; }
+
+        string Description { get; set; }
     }
 }

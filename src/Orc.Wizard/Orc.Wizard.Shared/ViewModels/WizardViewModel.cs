@@ -46,8 +46,9 @@ namespace Orc.Wizard.ViewModels
         [Model]
         public IWizard Wizard { get; set; }
 
-        // TODO: take the value from Wizard.CurrentPage.Header
-        public string PageHeader { get; private set; }
+        public string PageTitle { get; private set; }
+
+        public string PageDescription { get; private set; }
 
         public bool IsFirstPage { get; private set; }
 
@@ -134,6 +135,11 @@ namespace Orc.Wizard.ViewModels
         {
             IsFirstPage = Wizard.IsFirstPage();
             IsLastPage = Wizard.IsLastPage();
+
+            var page = Wizard.CurrentPage;
+
+            PageTitle = (page != null) ? page.Title : string.Empty;
+            PageDescription = (page != null) ? page.Description : string.Empty;
         }
         #endregion
     }

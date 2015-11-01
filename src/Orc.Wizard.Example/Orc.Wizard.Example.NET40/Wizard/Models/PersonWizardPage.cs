@@ -11,6 +11,8 @@ namespace Orc.Wizard.Example.Wizard.Models
     {
         public PersonWizardPage()
         {
+            Title = "Person";
+            Description = "Enter the details of the person";
         }
 
         public string FirstName { get; set; }

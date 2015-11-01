@@ -15,6 +15,9 @@ namespace Orc.Wizard.Example.Wizard.Models
     {
         public ComponentsWizardPage()
         {
+            Title = "Components";
+            Description = "Select the components";
+
             Components = new ObservableCollection<Component>(new []
             {
                 new Component { Name = "Orc.Analytics" },

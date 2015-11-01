@@ -15,6 +15,9 @@ namespace Orc.Wizard.Example.Wizard.Models
     {
         public SkillsWizardPage()
         {
+            Title = "Skills";
+            Description = "Select the skills";
+
             Skills = new ObservableCollection<Skill>(new[]
             {
                 new Skill { Name = "C#" },
