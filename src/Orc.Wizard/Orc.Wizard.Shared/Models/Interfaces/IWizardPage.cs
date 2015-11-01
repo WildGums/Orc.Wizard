@@ -12,6 +12,8 @@ namespace Orc.Wizard
 
     public interface IWizardPage
     {
+        ISummaryItem GetSummary();
+
         IWizard Wizard { get; set; }
 
         IViewModel ViewModel { get; set; }

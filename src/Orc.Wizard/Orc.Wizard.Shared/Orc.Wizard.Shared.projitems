@@ -17,8 +17,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)MethodTimeLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EventArgs\ViewModelChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extensions\IWizardExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\ISummaryItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IWizard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IWizardPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SummaryItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SummaryWizardPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\WizardBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\WizardPageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
@@ -26,8 +29,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Extensions\IWizardServiceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IWizardService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\WizardService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SummaryWizardPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WizardPageViewModelBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WizardViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SummaryWizardPageView.xaml.cs">
+      <DependentUpon>SummaryWizardPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\WizardWindow.xaml.cs">
       <DependentUpon>WizardWindow.xaml</DependentUpon>
     </Compile>
@@ -38,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\SummaryWizardPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

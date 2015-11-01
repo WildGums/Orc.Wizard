@@ -8,6 +8,7 @@
 namespace Orc.Wizard.Example.Wizard.Models
 {
     using System.Collections.ObjectModel;
+    using System.Text;
     using Example.Models;
 
     public class ComponentsWizardPage : WizardPageBase
@@ -35,5 +36,24 @@ namespace Orc.Wizard.Example.Wizard.Models
         }
 
         public ObservableCollection<Component> Components { get; private set; }
+
+        public override ISummaryItem GetSummary()
+        {
+            var summary = new StringBuilder();
+
+            foreach (var component in Components)
+            {
+                if (component.IsSelected)
+                {
+                    summary.AppendLine(component.Name);
+                }
+            }
+
+            return new SummaryItem
+            {
+                Title = "Components",
+                Summary = summary.ToString()
+            };
+        }
     }
 }

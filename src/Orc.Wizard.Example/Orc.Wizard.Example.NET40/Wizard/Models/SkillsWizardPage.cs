@@ -8,6 +8,7 @@
 namespace Orc.Wizard.Example.Wizard.Models
 {
     using System.Collections.ObjectModel;
+    using System.Text;
     using Example.Models;
 
     public class SkillsWizardPage : WizardPageBase
@@ -24,5 +25,24 @@ namespace Orc.Wizard.Example.Wizard.Models
         }
 
         public ObservableCollection<Skill> Skills { get; private set; }
+
+        public override ISummaryItem GetSummary()
+        {
+            var summary = new StringBuilder();
+
+            foreach (var skill in Skills)
+            {
+                if (skill.IsSelected)
+                {
+                    summary.AppendLine(skill.Name);
+                }
+            }
+
+            return new SummaryItem
+            {
+                Title = "Skills",
+                Summary = summary.ToString()
+            };
+        }
     }
 }

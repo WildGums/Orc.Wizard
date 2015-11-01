@@ -104,11 +104,9 @@
     <Compile Include="Wizard\Models\PersonWizardPage.cs" />
     <Compile Include="Wizard\Models\SkillsWizardPage.cs" />
     <Compile Include="Wizard\Models\ComponentsWizardPage.cs" />
-    <Compile Include="Wizard\Models\SummaryWizardPage.cs" />
     <Compile Include="Wizard\ViewModels\ComponentsWizardPageViewModel.cs" />
     <Compile Include="Wizard\ViewModels\PersonWizardPageViewModel.cs" />
     <Compile Include="Wizard\ViewModels\SkillsWizardPageViewModel.cs" />
-    <Compile Include="Wizard\ViewModels\SummaryWizardPageViewModel.cs" />
     <Compile Include="Wizard\Views\ComponentsWizardPageView.xaml.cs">
       <DependentUpon>ComponentsWizardPageView.xaml</DependentUpon>
     </Compile>
@@ -117,9 +115,6 @@
     </Compile>
     <Compile Include="Wizard\Views\SkillsWizardPageView.xaml.cs">
       <DependentUpon>SkillsWizardPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\Views\SummaryWizardPageView.xaml.cs">
-      <DependentUpon>SummaryWizardPageView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -147,10 +142,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Wizard\Views\SkillsWizardPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wizard\Views\SummaryWizardPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

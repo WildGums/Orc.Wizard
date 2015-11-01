@@ -1,13 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SummaryWizardPage.cs" company="Wild Gums">
+// <copyright file="SummaryWizardPageView.xaml.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.Example.Wizard.Models
+namespace Orc.Wizard.Views
 {
-    public class SummaryWizardPage : WizardPageBase
+    public partial class SummaryWizardPageView
     {
+        public SummaryWizardPageView()
+        {
+            InitializeComponent();
+        }
     }
 }

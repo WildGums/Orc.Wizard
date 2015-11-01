@@ -11,11 +11,19 @@ namespace Orc.Wizard.Example.Wizard.Models
     {
         public PersonWizardPage()
         {
-            
         }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public override ISummaryItem GetSummary()
+        {
+            return new SummaryItem
+            {
+                Title = "Person",
+                Summary = string.Format("{0} {1}", FirstName, LastName)
+            };
+        }
     }
 }

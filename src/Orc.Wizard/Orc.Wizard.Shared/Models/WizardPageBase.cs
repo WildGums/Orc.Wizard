@@ -29,6 +29,11 @@ namespace Orc.Wizard
             }
         }
 
+        public virtual ISummaryItem GetSummary()
+        {
+            return null;
+        }
+
         [NoWeaving]
         public IWizard Wizard { get; set; }
 
