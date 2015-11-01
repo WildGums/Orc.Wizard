@@ -20,7 +20,7 @@
             </TextBlock>
         </Label>
 
-        <ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Components}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

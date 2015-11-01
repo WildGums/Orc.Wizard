@@ -8,12 +8,23 @@
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
+    <Window.Resources>
+        <Style x:Key="SeparatorRectangleStyle" TargetType="Rectangle">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="6,0,6,0" />
+            <Setter Property="Fill" Value="DarkGray" />
+            <Setter Property="Height" Value="1" />
+        </Style> 
+    </Window.Resources>
+    
     <Grid x:Name="layoutRoot" Width="800" Height="400">
         <Grid.RowDefinitions>
             <!-- First row is for InfoBarMessageControl -->
             <RowDefinition Height="20" />
-            <RowDefinition Height="Auto" MinHeight="50"/>
+            <RowDefinition Height="Auto" MinHeight="60"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -21,7 +32,6 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        
         <Grid Grid.Row="1">
             <StackPanel>
                 <!-- TODO: ORCOMP-205 Create wizard header -->
@@ -30,13 +40,17 @@
             </StackPanel>
         </Grid>
 
-        <ContentControl Grid.Row="2">
+        <Rectangle Grid.Row="2" Style="{StaticResource SeparatorRectangleStyle}" />
+        
+        <ContentControl Grid.Row="3" Margin="6,4,6,4">
             <i:Interaction.Behaviors>
                 <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
             </i:Interaction.Behaviors>
         </ContentControl>
 
-        <WrapPanel Grid.Row="3" Style="{StaticResource DataWindowButtonContainerStyle}">
+        <Rectangle Grid.Row="4" Style="{StaticResource SeparatorRectangleStyle}" />
+        
+        <WrapPanel Grid.Row="5" Style="{StaticResource DataWindowButtonContainerStyle}">
             <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 

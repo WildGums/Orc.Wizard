@@ -13,7 +13,7 @@
         </Style>
     </UserControl.Resources>
 
-    <ScrollViewer>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
         <ItemsControl ItemsSource="{Binding SummaryItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

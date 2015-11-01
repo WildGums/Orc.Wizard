@@ -138,7 +138,11 @@ namespace Orc.Wizard
                 var vm = currentPage.ViewModel;
                 if (vm != null)
                 {
-                    await vm.SaveAndCloseViewModelAsync();
+                    var result = await vm.SaveAndCloseViewModelAsync();
+                    if (!result)
+                    {
+                        return;
+                    }
                 }
             }
 

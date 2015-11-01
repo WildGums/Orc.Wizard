@@ -95,5 +95,23 @@ namespace Orc.Wizard.Properties {
                 return ResourceManager.GetString("Next", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Below is a summary of the wizard..
+        /// </summary>
+        internal static string SummaryDescription {
+            get {
+                return ResourceManager.GetString("SummaryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary.
+        /// </summary>
+        internal static string SummaryTitle {
+            get {
+                return ResourceManager.GetString("SummaryTitle", resourceCulture);
+            }
+        }
     }
 }
