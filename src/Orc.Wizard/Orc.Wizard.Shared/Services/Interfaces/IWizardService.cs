@@ -11,6 +11,6 @@ namespace Orc.Wizard
 
     public interface IWizardService
     {
-        Task ShowWizardAsync(IWizard wizard);
+        Task<bool?> ShowWizardAsync(IWizard wizard);
     }
 }

@@ -32,7 +32,7 @@ namespace Orc.Wizard
         #endregion
 
         #region Methods
-        public Task ShowWizardAsync(IWizard wizard)
+        public Task<bool?> ShowWizardAsync(IWizard wizard)
         {
             Argument.IsNotNull(() => wizard);
 
