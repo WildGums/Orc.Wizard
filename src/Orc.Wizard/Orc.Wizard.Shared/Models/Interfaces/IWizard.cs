@@ -30,5 +30,7 @@ namespace Orc.Wizard
 
         event EventHandler MovedForward;
         event EventHandler MovedBack;
+        void InsertPage(int index, IWizardPage page);
+        void RemovePage(IWizardPage page);
     }
 }

@@ -93,20 +93,26 @@ namespace Orc.Wizard
         #endregion
 
         #region Methods
-        protected virtual void AddPage(IWizardPage page)
+        public void InsertPage(int index, IWizardPage page)
         {
             Argument.IsNotNull(() => page);
 
             page.Wizard = this;
-            _pages.Add(page);
+            _pages.Insert(index, page);
         }
 
-        protected void AddPage<TWizardPage>()
-            where TWizardPage : IWizardPage
+        public void RemovePage(IWizardPage page)
         {
-            var page = _typeFactory.CreateInstance<TWizardPage>();
+            Argument.IsNotNull(() => page);
 
-            AddPage(page);
+            for (int i = 0; i < _pages.Count; i++)
+            {
+                if (ReferenceEquals(page, _pages[i]))
+                {
+                    page.Wizard = null;
+                    _pages.RemoveAt(i--);
+                }
+            }
         }
 
         public virtual Task ResumeAsync()

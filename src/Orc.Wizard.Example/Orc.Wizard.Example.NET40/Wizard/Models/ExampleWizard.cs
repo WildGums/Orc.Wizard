@@ -16,10 +16,10 @@ namespace Orc.Wizard.Example.Wizard.Models
         {
             Title = "Orc.Wizard example"; 
 
-            AddPage<PersonWizardPage>();
-            AddPage<SkillsWizardPage>();
-            AddPage<ComponentsWizardPage>();
-            AddPage<SummaryWizardPage>();
+            this.AddPage<PersonWizardPage>();
+            this.AddPage<SkillsWizardPage>();
+            this.AddPage<ComponentsWizardPage>();
+            this.AddPage<SummaryWizardPage>();
         }
     }
 }

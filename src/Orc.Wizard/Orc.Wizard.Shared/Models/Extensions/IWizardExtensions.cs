@@ -11,10 +11,30 @@ namespace Orc.Wizard
     using System.Collections.Generic;
     using System.Linq;
     using Catel;
+    using Catel.IoC;
     using Catel.Reflection;
 
     public static class IWizardExtensions
     {
+        public static void AddPage(this IWizard wizard, IWizardPage page)
+        {
+            Argument.IsNotNull(() => wizard);
+            Argument.IsNotNull(() => page);
+
+            wizard.InsertPage(wizard.Pages.Count(), page);
+        }
+
+        public static void AddPage<TWizardPage>(this IWizard wizard)
+            where TWizardPage : IWizardPage
+        {
+            Argument.IsNotNull(() => wizard);
+
+            var typeFactory = wizard.GetTypeFactory();
+            var page = typeFactory.CreateInstance<TWizardPage>();
+
+            wizard.AddPage(page);
+        }
+
         public static TWizardPage FindPageByType<TWizardPage>(this IWizard wizard)
             where TWizardPage : IWizardPage
         {
