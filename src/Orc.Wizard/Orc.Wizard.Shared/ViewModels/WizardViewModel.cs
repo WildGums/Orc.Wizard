@@ -112,7 +112,7 @@ namespace Orc.Wizard.ViewModels
             if (await CancelAsync())
             {
                 await Wizard.CancelAsync();
-                await CloseViewModelAsync(true);
+                await CloseViewModelAsync(false);
             }
         }
 
