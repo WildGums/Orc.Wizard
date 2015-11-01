@@ -26,6 +26,8 @@ namespace Orc.Wizard.ViewModels
             Argument.IsNotNull(() => messageService);
             Argument.IsNotNull(() => languageService);
 
+            DeferValidationUntilFirstSaveCall = true;
+
             Wizard = wizard;
             _messageService = messageService;
             _languageService = languageService;
