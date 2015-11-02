@@ -16,15 +16,17 @@ namespace Orc.Wizard
 
     public static class IWizardExtensions
     {
-        public static void AddPage(this IWizard wizard, IWizardPage page)
+        public static IWizardPage AddPage(this IWizard wizard, IWizardPage page)
         {
             Argument.IsNotNull(() => wizard);
             Argument.IsNotNull(() => page);
 
             wizard.InsertPage(wizard.Pages.Count(), page);
+
+            return page;
         }
 
-        public static void AddPage<TWizardPage>(this IWizard wizard)
+        public static TWizardPage AddPage<TWizardPage>(this IWizard wizard)
             where TWizardPage : IWizardPage
         {
             Argument.IsNotNull(() => wizard);
@@ -33,6 +35,8 @@ namespace Orc.Wizard
             var page = typeFactory.CreateInstance<TWizardPage>();
 
             wizard.AddPage(page);
+
+            return page;
         }
 
         public static TWizardPage FindPageByType<TWizardPage>(this IWizard wizard)
