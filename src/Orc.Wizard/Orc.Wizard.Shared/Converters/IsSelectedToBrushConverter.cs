@@ -13,13 +13,22 @@ namespace Orc.Wizard.Converters
 
     public class IsSelectedToBrushConverter : ValueConverterBase<bool>
     {
+        private static readonly Brush SelectedBrush;
+        private static readonly Brush NotSelectedBrush;
+
+        static IsSelectedToBrushConverter()
+        {
+            var application = System.Windows.Application.Current;
+            if (application != null)
+            {
+                SelectedBrush = application.FindResource("AccentColorBrush") as Brush;
+                NotSelectedBrush = application.FindResource("AccentColorBrush4") as Brush;
+            }
+        }
+
         protected override object Convert(bool value, Type targetType, object parameter)
         {
             return value ? SelectedBrush : NotSelectedBrush;
         }
-
-        public Brush SelectedBrush { get; set; }
-
-        public Brush NotSelectedBrush { get; set; }
     }
 }

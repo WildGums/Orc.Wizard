@@ -9,9 +9,6 @@
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="StrokeBrush" Color="LightGray" />
-        
-        <converters:IsSelectedToBrushConverter x:Key="WizardPageToBrushConverter" SelectedBrush="{StaticResource AccentColorBrush}" 
-                                               NotSelectedBrush="{StaticResource AccentColorBrush4}" />
     </UserControl.Resources>
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">
@@ -23,15 +20,15 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Path Grid.Column="0" Stroke="{StaticResource StrokeBrush}" Fill="{Binding IsSelected, Converter={StaticResource WizardPageToBrushConverter}}" 
+            <Path Grid.Column="0" Stroke="{StaticResource StrokeBrush}" Fill="{Binding IsSelected, Converter={converters:IsSelectedToBrushConverter}}" 
                   Data="F1 M 112,144L 104,144L 112,160L 104,176L 112,176" Stretch="Fill" Height="32" Width="12" Margin="0,0,-1,0" />
 
-            <Border Grid.Column="1" Background="{Binding IsSelected, Converter={StaticResource WizardPageToBrushConverter}}" 
+            <Border Grid.Column="1" Background="{Binding IsSelected, Converter={converters:IsSelectedToBrushConverter}}" 
                     BorderBrush="{StaticResource StrokeBrush}" BorderThickness="0,1" VerticalAlignment="Stretch" Padding="1,0,1,0">
                 <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
 
-            <Path Grid.Column="2" Stroke="{StaticResource StrokeBrush}" Fill="{Binding IsSelected, Converter={StaticResource WizardPageToBrushConverter}}" 
+            <Path Grid.Column="2" Stroke="{StaticResource StrokeBrush}" Fill="{Binding IsSelected, Converter={converters:IsSelectedToBrushConverter}}" 
                   Data="F1 M 168,144L 176,160L 168,176" Stretch="Fill" Height="32" Width="12"  Margin="-1,0,0,0" />
         </Grid>
     </Grid>
