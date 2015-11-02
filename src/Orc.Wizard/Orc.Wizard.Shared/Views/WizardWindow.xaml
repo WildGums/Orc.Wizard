@@ -42,7 +42,7 @@
             </Grid.RowDefinitions>
 
             <!-- TODO: ORCOMP-205 Create wizard header -->
-            <ItemsControl ItemsSource="{Binding WizardPages}">
+            <ItemsControl ItemsSource="{Binding WizardPages}" Focusable="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" />
