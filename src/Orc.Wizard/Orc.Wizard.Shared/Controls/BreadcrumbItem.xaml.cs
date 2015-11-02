@@ -47,5 +47,16 @@ namespace Orc.Wizard.Controls
         // Using a DependencyProperty as the backing store for IsSelected.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), 
             typeof(BreadcrumbItem), new PropertyMetadata(false));
+
+
+        public int Number
+        {
+            get { return (int)GetValue(NumberProperty); }
+            set { SetValue(NumberProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Description.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int),
+            typeof(BreadcrumbItem), new PropertyMetadata(0));
     }
 }

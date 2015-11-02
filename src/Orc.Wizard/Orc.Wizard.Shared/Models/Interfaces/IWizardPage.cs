@@ -28,6 +28,8 @@ namespace Orc.Wizard
 
         string Description { get; set; }
 
+        int Number { get; set; }
+
         Task CancelAsync();
         Task SaveAsync();
     }

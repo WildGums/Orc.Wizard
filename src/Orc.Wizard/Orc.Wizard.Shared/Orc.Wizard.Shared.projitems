@@ -16,6 +16,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BreadcrumbTitleConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsSelectedToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IsSelectedToForegroundBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\WizardPageToIsSelectedConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GeneralInformationWizardPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\Interfaces\IWizardPageViewModelLocator.cs" />

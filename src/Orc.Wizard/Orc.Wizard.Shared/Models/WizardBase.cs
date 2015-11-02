@@ -104,6 +104,8 @@ namespace Orc.Wizard
             Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
 
             page.Wizard = this;
+            page.Number = index + 1;
+
             _pages.Insert(index, page);
         }
 

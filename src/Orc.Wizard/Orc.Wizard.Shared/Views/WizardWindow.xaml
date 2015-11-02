@@ -8,18 +8,9 @@
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   xmlns:converters="clr-namespace:Orc.Wizard.Converters"
                   xmlns:controls="clr-namespace:Orc.Wizard.Controls"
-                  mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+                  mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="#F5F5F5">
 
-    <Window.Resources>
-        <Style x:Key="SeparatorRectangleStyle" TargetType="Rectangle">
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Margin" Value="6,0,6,0" />
-            <Setter Property="Fill" Value="DarkGray" />
-            <Setter Property="Height" Value="1" />
-        </Style>
-    </Window.Resources>
-
-    <Grid x:Name="layoutRoot" Width="800" Height="400">
+    <Grid x:Name="layoutRoot" Width="650" Height="500" Background="White">
         <Grid.RowDefinitions>
             <!-- First row is for InfoBarMessageControl -->
             <RowDefinition Height="Auto" />
@@ -41,49 +32,53 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- TODO: ORCOMP-205 Create wizard header -->
-            <ItemsControl ItemsSource="{Binding WizardPages}" Focusable="False">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+            <Grid Background="#F5F5F5">
+                <ItemsControl ItemsSource="{Binding WizardPages}" Focusable="False" 
+                              HorizontalAlignment="Center" Margin="0 0 0 5">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <controls:BreadcrumbItem Title="{Binding Converter={converters:BreadcrumbTitleConverter}}" 
-                                                 Description="{Binding Description}"
-                                                 IsSelected="{Binding Converter={converters:WizardPageToIsSelectedConverter}}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
-            <TextBlock Grid.Row="1" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" />
-            <TextBlock Grid.Row="2" Text="{Binding PageDescription}" FontSize="15"/>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:BreadcrumbItem Title="{Binding Converter={converters:BreadcrumbTitleConverter}}" 
+                                                     Description="{Binding Description}" Number="{Binding Number}"
+                                                     IsSelected="{Binding Converter={converters:WizardPageToIsSelectedConverter}}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            
+            <TextBlock Grid.Row="1" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18"
+                       Margin="18 15 18 8" />
+            <TextBlock Grid.Row="2" Text="{Binding PageDescription}" FontSize="15"
+                       HorizontalAlignment="Stretch" Margin="18 0 18 8"/>
         </Grid>
 
-        <Rectangle Grid.Row="2" Style="{StaticResource SeparatorRectangleStyle}" />
+        <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" Margin="10,0,10,0" Height="1" Fill="LightGray" />
 
-        <ContentControl Grid.Row="3" Margin="6,4,6,4">
+        <ContentControl Grid.Row="3" Margin="10,4,10,4">
             <i:Interaction.Behaviors>
                 <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
             </i:Interaction.Behaviors>
         </ContentControl>
 
-        <Rectangle Grid.Row="4" Style="{StaticResource SeparatorRectangleStyle}" />
-
-        <WrapPanel Grid.Row="5" Style="{StaticResource DataWindowButtonContainerStyle}">
-            <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
+        <Grid Grid.Row="4" Background="#F5F5F5">
+            <WrapPanel Grid.Row="5" Style="{StaticResource DataWindowButtonContainerStyle}">
+                <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 
-            <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Next}" Style="{StaticResource DataWindowButtonStyle}" 
+                <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Next}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 
-            <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Finish}" Style="{StaticResource DataWindowButtonStyle}" 
+                <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Finish}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
 
-            <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
-        </WrapPanel>
+                <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
+            </WrapPanel>
+        </Grid>
     </Grid>
 
 </catel:DataWindow>
