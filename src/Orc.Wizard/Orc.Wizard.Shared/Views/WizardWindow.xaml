@@ -51,7 +51,8 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:BreadcrumbItem Title="{Binding Title}" Description="{Binding Description}"
+                        <controls:BreadcrumbItem Title="{Binding Converter={converters:BreadcrumbTitleConverter}}" 
+                                                 Description="{Binding Description}"
                                                  IsSelected="{Binding Converter={converters:WizardPageToIsSelectedConverter}}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

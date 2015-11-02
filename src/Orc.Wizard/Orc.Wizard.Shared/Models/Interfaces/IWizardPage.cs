@@ -24,6 +24,8 @@ namespace Orc.Wizard
 
         string Title { get; set; }
 
+        string BreadcrumbTitle { get; set; }
+
         string Description { get; set; }
 
         Task CancelAsync();

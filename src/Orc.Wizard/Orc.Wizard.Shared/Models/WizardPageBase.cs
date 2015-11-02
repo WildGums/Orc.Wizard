@@ -41,6 +41,7 @@ namespace Orc.Wizard
 
         public event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
         public string Title { get; set; }
+        public string BreadcrumbTitle { get; set; }
         public string Description { get; set; }
 
         public virtual Task CancelAsync()
