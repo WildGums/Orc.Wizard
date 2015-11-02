@@ -8,10 +8,12 @@
 namespace Orc.Wizard
 {
     using System;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.Data;
     using Catel.Fody;
     using Catel.MVVM;
+    using Catel.Threading;
 
     public abstract class WizardPageBase : ModelBase, IWizardPage
     {
@@ -40,5 +42,15 @@ namespace Orc.Wizard
         public event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
         public string Title { get; set; }
         public string Description { get; set; }
+
+        public virtual Task CancelAsync()
+        {
+            return TaskHelper.Completed;
+        }
+
+        public virtual Task SaveAsync()
+        {
+            return TaskHelper.Completed;
+        }
     }
 }

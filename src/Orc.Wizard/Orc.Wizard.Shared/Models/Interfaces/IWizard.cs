@@ -23,7 +23,7 @@ namespace Orc.Wizard
         bool CanMoveBack { get; }
         #endregion
 
-        Task ResumeAsync();
+        Task SaveAsync();
         Task CancelAsync();
         Task MoveForwardAsync();
         Task MoveBackAsync();

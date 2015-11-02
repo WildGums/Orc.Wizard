@@ -15,12 +15,16 @@ namespace Orc.Wizard
     using Catel;
     using Catel.Data;
     using Catel.IoC;
+    using Catel.Logging;
     using Catel.MVVM;
+    using Catel.Reflection;
     using Catel.Threading;
 
     public abstract class WizardBase : ModelBase, IWizard
     {
         #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private readonly IList<IWizardPage> _pages = new List<IWizardPage>();
         private readonly ITypeFactory _typeFactory;
 
@@ -97,6 +101,8 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => page);
 
+            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
+
             page.Wizard = this;
             _pages.Insert(index, page);
         }
@@ -109,20 +115,32 @@ namespace Orc.Wizard
             {
                 if (ReferenceEquals(page, _pages[i]))
                 {
+                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
+
                     page.Wizard = null;
                     _pages.RemoveAt(i--);
                 }
             }
         }
 
-        public virtual Task ResumeAsync()
+        public virtual async Task SaveAsync()
         {
-            return TaskHelper.Completed;
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+
+            foreach (var page in _pages)
+            {
+                await page.SaveAsync();
+            }
         }
 
         public virtual async Task CancelAsync()
         {
-            // TODO: cancel all pages with view models
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+
+            foreach (var page in _pages)
+            {
+                await page.CancelAsync();
+            }
         }
 
         public virtual async Task MoveForwardAsync()
@@ -158,8 +176,6 @@ namespace Orc.Wizard
                 return;
             }
 
-            // TODO: cancel or remember state?
-
             SetCurrentPage(_currentIndex - 1);
 
             MovedBack.SafeInvoke(this);
@@ -167,6 +183,8 @@ namespace Orc.Wizard
 
         protected virtual IWizardPage SetCurrentPage(int newIndex)
         {
+            Log.Debug("Setting current page index to '{0}'", newIndex);
+
             var currentPage = _currentPage;
             if (currentPage != null)
             {

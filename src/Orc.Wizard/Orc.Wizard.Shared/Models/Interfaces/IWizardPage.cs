@@ -8,6 +8,8 @@
 namespace Orc.Wizard
 {
     using System;
+    using System.Security.RightsManagement;
+    using System.Threading.Tasks;
     using Catel.MVVM;
 
     public interface IWizardPage
@@ -23,5 +25,8 @@ namespace Orc.Wizard
         string Title { get; set; }
 
         string Description { get; set; }
+
+        Task CancelAsync();
+        Task SaveAsync();
     }
 }

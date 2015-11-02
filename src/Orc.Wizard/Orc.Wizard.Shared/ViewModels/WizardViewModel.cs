@@ -92,7 +92,7 @@ namespace Orc.Wizard.ViewModels
         {
             if (await SaveAsync())
             {
-                await Wizard.ResumeAsync();
+                await Wizard.SaveAsync();
                 await CloseViewModelAsync(true);
             }
         }
