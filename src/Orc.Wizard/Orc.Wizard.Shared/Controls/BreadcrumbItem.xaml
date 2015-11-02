@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Orc.Wizard.Controls.BreadcrumbItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Orc.Wizard.Controls"
+             xmlns:converters="clr-namespace:Orc.Wizard.Converters"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="StrokeBrush" Color="LightGray" />
+        
+        <converters:IsSelectedToBrushConverter x:Key="WizardPageToBrushConverter" SelectedBrush="{StaticResource AccentColorBrush}" 
+                                               NotSelectedBrush="{StaticResource AccentColorBrush4}" />
+    </UserControl.Resources>
+
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">
+
+        <Grid ToolTip="{Binding Description}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" MinWidth="100" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Path Grid.Column="0" Stroke="{StaticResource StrokeBrush}" Fill="{Binding IsSelected, Converter={StaticResource WizardPageToBrushConverter}}" 
+                  Data="F1 M 112,144L 104,144L 112,160L 104,176L 112,176" Stretch="Fill" Height="32" Width="12" Margin="0,0,-1,0" />
+
+            <Border Grid.Column="1" Background="{Binding IsSelected, Converter={StaticResource WizardPageToBrushConverter}}" 
+                    BorderBrush="{StaticResource StrokeBrush}" BorderThickness="0,1" VerticalAlignment="Stretch" Padding="1,0,1,0">
+                <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+
+            <Path Grid.Column="2" Stroke="{StaticResource StrokeBrush}" Fill="{Binding IsSelected, Converter={StaticResource WizardPageToBrushConverter}}" 
+                  Data="F1 M 168,144L 176,160L 168,176" Stretch="Fill" Height="32" Width="12"  Margin="-1,0,0,0" />
+        </Grid>
+    </Grid>
+
+</UserControl>

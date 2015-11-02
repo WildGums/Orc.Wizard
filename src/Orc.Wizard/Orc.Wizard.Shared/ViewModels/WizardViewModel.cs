@@ -45,8 +45,10 @@ namespace Orc.Wizard.ViewModels
             get { return Wizard.Title; }
         }
 
-        [Model]
+        [Model(SupportIEditableObject = false)]
         public IWizard Wizard { get; set; }
+
+        public IEnumerable<IWizardPage> WizardPages { get; private set; } 
 
         public string PageTitle { get; private set; }
 
@@ -142,6 +144,9 @@ namespace Orc.Wizard.ViewModels
 
             PageTitle = (page != null) ? page.Title : string.Empty;
             PageDescription = (page != null) ? page.Description : string.Empty;
+
+            // Allow breadcrumb to update
+            WizardPages = new List<IWizardPage>(Wizard.Pages);
         }
         #endregion
     }

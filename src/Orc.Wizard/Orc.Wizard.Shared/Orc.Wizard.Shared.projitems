@@ -11,6 +11,11 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WizardPageSelectionBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BreadcrumbItem.xaml.cs">
+      <DependentUpon>BreadcrumbItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IsSelectedToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\WizardPageToIsSelectedConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GeneralInformationWizardPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\Interfaces\IWizardPageViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\WizardPageViewModelLocator.cs" />
@@ -44,6 +49,10 @@
     <Folder Include="$(MSBuildThisFileDirectory)Locators\Extensions\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\BreadcrumbItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
