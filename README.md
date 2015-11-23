@@ -31,60 +31,60 @@ A wizard page contains of three parts which are explained below.
 
 The wizard model will hold all the information of the wizard page and return the summary (which is optional). 
 
-    public class PersonWizardPage : WizardPageBase
-    {
-        public PersonWizardPage()
-        {
-            Title = "Person";
-            Description = "Enter the details of the person";
-        }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public override ISummaryItem GetSummary()
-        {
-            return new SummaryItem
-            {
-                Title = "Person",
-                Summary = string.Format("{0} {1}", FirstName, LastName)
-            };
-        }
-    }
+	public class PersonWizardPage : WizardPageBase
+	{
+	    public PersonWizardPage()
+	    {
+	        Title = "Person";
+	        Description = "Enter the details of the person";
+	    }
+	
+	    public string FirstName { get; set; }
+	
+	    public string LastName { get; set; }
+	
+	    public override ISummaryItem GetSummary()
+	    {
+	        return new SummaryItem
+	        {
+	            Title = "Person",
+	            Summary = string.Format("{0} {1}", FirstName, LastName)
+	        };
+	    }
+	}
 
 ## Creating the wizard page view model
 
 The view model is responsible for the actual view logic. There can be a lot of stuff in here that is view-specific, as long as the results are stored into the model. This example uses the `ViewModelToModel` feature of Catel to automatically map the values between the view model and model. As you can see this example even contains validation, so users cannot continue to the next page when the validation does not succeed.
 
-    public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPage>
-    {
-        public PersonWizardPageViewModel(PersonWizardPage wizardPage)
-            : base(wizardPage)
-        {
-        }
-
-        [ViewModelToModel]
-        public string FirstName { get; set; }
-
-        [ViewModelToModel]
-        public string LastName { get; set; }
-
-        protected override void ValidateFields(List<IFieldValidationResult> validationResults)
-        {
-            base.ValidateFields(validationResults);
-
-            if (string.IsNullOrWhiteSpace(FirstName))
-            {
-                validationResults.Add(FieldValidationResult.CreateError("FirstName", "First name is required"));
-            }
-
-            if (string.IsNullOrWhiteSpace(LastName))
-            {
-                validationResults.Add(FieldValidationResult.CreateError("LastName", "Last name is required"));
-            }
-        }
-    }
+	public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPage>
+	{
+	    public PersonWizardPageViewModel(PersonWizardPage wizardPage)
+	        : base(wizardPage)
+	    {
+	    }
+	
+	    [ViewModelToModel]
+	    public string FirstName { get; set; }
+	
+	    [ViewModelToModel]
+	    public string LastName { get; set; }
+	
+	    protected override void ValidateFields(List<IFieldValidationResult> validationResults)
+	    {
+	        base.ValidateFields(validationResults);
+	
+	        if (string.IsNullOrWhiteSpace(FirstName))
+	        {
+	            validationResults.Add(FieldValidationResult.CreateError("FirstName", "First name is required"));
+	        }
+	
+	        if (string.IsNullOrWhiteSpace(LastName))
+	        {
+	            validationResults.Add(FieldValidationResult.CreateError("LastName", "Last name is required"));
+	        }
+	    }
+	}
 
 
 ## Creating the wizard page view
@@ -98,7 +98,7 @@ Below is the xaml view for the wizard page. Note that it's just an ordinary Cate
 					   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 					   xmlns:catel="http://catel.codeplex.com"
 					   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-
+	
 		<catel:StackGrid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
@@ -110,7 +110,7 @@ Below is the xaml view for the wizard page. Note that it's just an ordinary Cate
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-
+	
 			<Label Content="First name" />
 			<TextBox Text="{Binding FirstName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 			
@@ -138,7 +138,7 @@ Once all the wizard pages have been created, it's time to wrap it inside an actu
 	        this.AddPage<ComponentsWizardPage>();
 	        this.AddPage<SummaryWizardPage>();
 	    }
-    }
+	}
 
 # Using the wizard
 
