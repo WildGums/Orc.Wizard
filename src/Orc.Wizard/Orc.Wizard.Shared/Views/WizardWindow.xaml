@@ -60,7 +60,7 @@
         <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" Margin="10,0,10,0" Height="1" Fill="LightGray" />
 
         <ScrollViewer Grid.Row="3" Margin="10,4,10,4" VerticalScrollBarVisibility="Auto">
-            <ContentControl>
+            <ContentControl Focusable="False">
                 <i:Interaction.Behaviors>
                     <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
                 </i:Interaction.Behaviors>
@@ -72,7 +72,7 @@
         </Label>
 
         <Grid Grid.Row="5" Background="#F5F5F5">
-            <WrapPanel Grid.Row="5" Style="{StaticResource DataWindowButtonContainerStyle}">
+            <WrapPanel Style="{StaticResource DataWindowButtonContainerStyle}">
                 <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 
