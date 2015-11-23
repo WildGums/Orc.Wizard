@@ -30,6 +30,8 @@ namespace Orc.Wizard
 
         int Number { get; set; }
 
+        bool IsOptional { get; }
+
         Task CancelAsync();
         Task SaveAsync();
     }

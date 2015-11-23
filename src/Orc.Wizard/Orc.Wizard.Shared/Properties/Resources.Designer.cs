@@ -97,6 +97,15 @@ namespace Orc.Wizard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This step is optional, feel free to skip this page by going to the next page.
+        /// </summary>
+        internal static string OptionalWizardStep {
+            get {
+                return ResourceManager.GetString("OptionalWizardStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Below is a summary of the wizard..
         /// </summary>
         internal static string SummaryDescription {

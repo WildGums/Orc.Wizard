@@ -50,7 +50,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            
+
             <TextBlock Grid.Row="1" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18"
                        Margin="18 15 18 8" />
             <TextBlock Grid.Row="2" Text="{Binding PageDescription}" FontSize="15"
@@ -59,13 +59,19 @@
 
         <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" Margin="10,0,10,0" Height="1" Fill="LightGray" />
 
-        <ContentControl Grid.Row="3" Margin="10,4,10,4">
-            <i:Interaction.Behaviors>
-                <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
-            </i:Interaction.Behaviors>
-        </ContentControl>
+        <ScrollViewer Grid.Row="3" Margin="10,4,10,4" VerticalScrollBarVisibility="Auto">
+            <ContentControl>
+                <i:Interaction.Behaviors>
+                    <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
+                </i:Interaction.Behaviors>
+            </ContentControl>
+        </ScrollViewer>
 
-        <Grid Grid.Row="4" Background="#F5F5F5">
+        <Label Grid.Row="4" Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}">
+            <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding OptionalWizardStep}" />
+        </Label>
+
+        <Grid Grid.Row="5" Background="#F5F5F5">
             <WrapPanel Grid.Row="5" Style="{StaticResource DataWindowButtonContainerStyle}">
                 <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />

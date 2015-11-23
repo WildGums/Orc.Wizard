@@ -102,12 +102,17 @@
     <Compile Include="Logging\TextBoxLogListener.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\Component.cs" />
+    <Compile Include="Wizard\Models\AgeWizardPage.cs" />
     <Compile Include="Wizard\Models\PersonWizardPage.cs" />
     <Compile Include="Wizard\Models\SkillsWizardPage.cs" />
     <Compile Include="Wizard\Models\ComponentsWizardPage.cs" />
+    <Compile Include="Wizard\ViewModels\AgeWizardPageViewModel.cs" />
     <Compile Include="Wizard\ViewModels\ComponentsWizardPageViewModel.cs" />
     <Compile Include="Wizard\ViewModels\PersonWizardPageViewModel.cs" />
     <Compile Include="Wizard\ViewModels\SkillsWizardPageViewModel.cs" />
+    <Compile Include="Wizard\Views\AgeWizardPageView.xaml.cs">
+      <DependentUpon>AgeWizardPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Wizard\Views\ComponentsWizardPageView.xaml.cs">
       <DependentUpon>ComponentsWizardPageView.xaml</DependentUpon>
     </Compile>
@@ -134,6 +139,10 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Wizard\Views\AgeWizardPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Wizard\Views\ComponentsWizardPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

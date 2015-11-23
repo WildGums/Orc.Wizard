@@ -129,6 +129,9 @@
   <data name="Next" xml:space="preserve">
     <value>Next &gt;</value>
   </data>
+  <data name="OptionalWizardStep" xml:space="preserve">
+    <value>This step is optional, feel free to skip this page by going to the next page</value>
+  </data>
   <data name="SummaryDescription" xml:space="preserve">
     <value>Below is a summary of the wizard.</value>
   </data>

@@ -54,6 +54,8 @@ namespace Orc.Wizard.ViewModels
 
         public string PageDescription { get; private set; }
 
+        public bool IsPageOptional { get; private set; }
+
         public bool IsFirstPage { get; private set; }
 
         public bool IsLastPage { get; private set; }
@@ -144,6 +146,7 @@ namespace Orc.Wizard.ViewModels
 
             PageTitle = (page != null) ? page.Title : string.Empty;
             PageDescription = (page != null) ? page.Description : string.Empty;
+            IsPageOptional = (page != null) ? page.IsOptional : false;
 
             // Allow breadcrumb to update
             WizardPages = new List<IWizardPage>(Wizard.Pages);

@@ -44,6 +44,7 @@ namespace Orc.Wizard
         public string BreadcrumbTitle { get; set; }
         public string Description { get; set; }
         public int Number { get; set; }
+        public bool IsOptional { get; protected set; }
 
         public virtual Task CancelAsync()
         {
