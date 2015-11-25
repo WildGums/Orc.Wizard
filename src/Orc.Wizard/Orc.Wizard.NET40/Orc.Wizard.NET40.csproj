@@ -103,18 +103,33 @@
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Orc.Wizard.Shared\Properties\Resources.Designer.cs">
-      <Link>Properties\Resources.Designer.cs</Link>
+    <Compile Include="..\Orc.Wizard.Shared\Properties\Resources.NET40.Designer.cs">
+      <Link>Properties\Resources.NET40.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.de.resx">
+      <Link>Properties\Resources.de.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.es.resx">
+      <Link>Properties\Resources.es.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.fr.resx">
+      <Link>Properties\Resources.fr.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.nl.resx">
+      <Link>Properties\Resources.nl.resx</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
       <Generator>ResxFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.NET40.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.ru.resx">
+      <Link>Properties\Resources.ru.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems" Label="Shared" Condition="Exists('..\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems')" />
