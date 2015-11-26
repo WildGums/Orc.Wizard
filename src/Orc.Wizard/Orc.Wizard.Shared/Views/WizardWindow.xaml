@@ -68,21 +68,21 @@
         </ScrollViewer>
 
         <Label Grid.Row="4" Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}">
-            <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding OptionalWizardStep}" />
+            <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding Wizard_OptionalWizardStep}" />
         </Label>
 
         <Grid Grid.Row="5" Background="#F5F5F5">
             <WrapPanel Style="{StaticResource DataWindowButtonContainerStyle}">
-                <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Back}" Style="{StaticResource DataWindowButtonStyle}" 
+                <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 
-                <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Next}" Style="{StaticResource DataWindowButtonStyle}" 
+                <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Wizard_Next}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 
-                <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Finish}" Style="{StaticResource DataWindowButtonStyle}" 
+                <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Wizard_Finish}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
 
-                <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
+                <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Wizard_Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
             </WrapPanel>
         </Grid>
     </Grid>

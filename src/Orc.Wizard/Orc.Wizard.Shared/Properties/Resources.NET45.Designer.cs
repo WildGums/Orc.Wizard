@@ -63,63 +63,72 @@ namespace Orc.Wizard.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to cancel the wizard?.
         /// </summary>
-        internal static string AreYouSureYouWantToCancelWizard {
+        internal static string Wizard_AreYouSureYouWantToCancelWizard {
             get {
-                return ResourceManager.GetString("AreYouSureYouWantToCancelWizard", resourceCulture);
+                return ResourceManager.GetString("Wizard_AreYouSureYouWantToCancelWizard", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &lt; Back.
         /// </summary>
-        internal static string Back {
+        internal static string Wizard_Back {
             get {
-                return ResourceManager.GetString("Back", resourceCulture);
+                return ResourceManager.GetString("Wizard_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Wizard_Cancel {
+            get {
+                return ResourceManager.GetString("Wizard_Cancel", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Finish.
         /// </summary>
-        internal static string Finish {
+        internal static string Wizard_Finish {
             get {
-                return ResourceManager.GetString("Finish", resourceCulture);
+                return ResourceManager.GetString("Wizard_Finish", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Next &gt;.
         /// </summary>
-        internal static string Next {
+        internal static string Wizard_Next {
             get {
-                return ResourceManager.GetString("Next", resourceCulture);
+                return ResourceManager.GetString("Wizard_Next", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to This step is optional, feel free to skip this page by going to the next page.
         /// </summary>
-        internal static string OptionalWizardStep {
+        internal static string Wizard_OptionalWizardStep {
             get {
-                return ResourceManager.GetString("OptionalWizardStep", resourceCulture);
+                return ResourceManager.GetString("Wizard_OptionalWizardStep", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Below is a summary of the wizard..
         /// </summary>
-        internal static string SummaryDescription {
+        internal static string Wizard_SummaryDescription {
             get {
-                return ResourceManager.GetString("SummaryDescription", resourceCulture);
+                return ResourceManager.GetString("Wizard_SummaryDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Summary.
         /// </summary>
-        internal static string SummaryTitle {
+        internal static string Wizard_SummaryTitle {
             get {
-                return ResourceManager.GetString("SummaryTitle", resourceCulture);
+                return ResourceManager.GetString("Wizard_SummaryTitle", resourceCulture);
             }
         }
     }

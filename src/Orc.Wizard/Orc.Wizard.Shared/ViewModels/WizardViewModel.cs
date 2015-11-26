@@ -111,7 +111,7 @@ namespace Orc.Wizard.ViewModels
 
         private async Task OnCancelExecuteAsync()
         {
-            if (await _messageService.ShowAsync(_languageService.GetString("AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+            if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
             {
                 return;
             }

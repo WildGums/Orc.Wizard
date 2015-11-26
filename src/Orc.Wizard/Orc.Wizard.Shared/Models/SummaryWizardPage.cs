@@ -20,8 +20,8 @@ namespace Orc.Wizard
 
             _languageService = languageService;
 
-            Title = _languageService.GetString("SummaryTitle");
-            Description = _languageService.GetString("SummaryDescription");
+            Title = _languageService.GetString("Wizard_SummaryTitle");
+            Description = _languageService.GetString("Wizard_SummaryDescription");
         }
     }
 }
