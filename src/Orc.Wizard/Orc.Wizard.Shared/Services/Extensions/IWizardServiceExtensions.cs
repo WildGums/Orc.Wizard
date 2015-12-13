@@ -1,0 +1,45 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IWizardServiceExtensions.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Wizard
+{
+    using System.Threading.Tasks;
+    using Catel;
+    using Catel.IoC;
+    using Catel.Logging;
+    using Catel.Reflection;
+
+    public static class IWizardServiceExtensions
+    {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+        public static Task ShowWizardAsync<TWizard>(this IWizardService wizardService, object model = null)
+            where TWizard : IWizard
+        {
+            Argument.IsNotNull(() => wizardService);
+
+            var typeFactory = wizardService.GetTypeFactory();
+
+            IWizard wizard = null;
+
+            if (model != null)
+            {
+                Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
+
+                wizard = typeFactory.CreateInstanceWithParametersAndAutoCompletion<TWizard>(model);
+            }
+            else
+            {
+                Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
+
+                wizard = typeFactory.CreateInstance<TWizard>();
+            }
+
+            return wizardService.ShowWizardAsync(wizard);
+        }
+    }
+}
