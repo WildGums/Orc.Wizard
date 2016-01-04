@@ -7,9 +7,14 @@
 
 namespace Orc.Wizard.Views
 {
+    using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Controls;
+    using System.Windows.Media;
+    using Catel.Threading;
     using Catel.Windows;
+    using Catel.Windows.Threading;
     using ViewModels;
 
     /// <summary>
@@ -29,18 +34,57 @@ namespace Orc.Wizard.Views
             InitializeComponent();
         }
 
+        protected override void OnLoaded(EventArgs e)
+        {
+            base.OnLoaded(e);
+
+            Dispatcher.BeginInvoke(async () =>
+            {
+                UpdateOpacityMask();
+            });
+        }
+
         protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnViewModelPropertyChanged(e);
 
             if (e.HasPropertyChanged("CurrentPage"))
             {
-                var scrollviewer = breadcrumb.FindLogicalOrVisualAncestorByType<ScrollViewer>();
-                if (scrollviewer != null)
+                Dispatcher.BeginInvoke(async () =>
                 {
-                    // TODO: scroll somehow
-                }
+                    breadcrumb.CenterSelectedItem();
+
+                    // We need to await the animation
+                    await TaskShim.Delay(WizardConfiguration.AnimationDuration);
+
+                    UpdateOpacityMask();
+                });
             }
+        }
+
+        private void UpdateOpacityMask()
+        {
+            var scrollViewer = breadcrumb.FindVisualDescendantByType<ScrollViewer>();
+            if (scrollViewer == null)
+            {
+                return;
+            }
+
+            var opacityMask = new LinearGradientBrush();
+            if (scrollViewer.HorizontalOffset > 0d)
+            {
+                opacityMask.GradientStops.Add(new GradientStop(Colors.Transparent, 0d));
+                opacityMask.GradientStops.Add(new GradientStop(Colors.Black, 0.05d));
+            }
+
+            var scrollableWidth = scrollViewer.ScrollableWidth;
+            if (scrollableWidth > scrollViewer.HorizontalOffset)
+            {
+                opacityMask.GradientStops.Add(new GradientStop(Colors.Black, 0.95d));
+                opacityMask.GradientStops.Add(new GradientStop(Colors.Transparent, 1d));
+            }
+
+            breadcrumb.OpacityMask = opacityMask.GradientStops.Count > 0 ? opacityMask : null;
         }
         #endregion
     }

@@ -16,7 +16,7 @@ namespace Orc.Wizard.Converters
         {
             if (value == null)
             {
-                return null;
+                return false;
             }
 
             var wizard = value.Wizard;

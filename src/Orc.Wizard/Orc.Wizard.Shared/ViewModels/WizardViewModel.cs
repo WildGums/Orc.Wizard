@@ -10,6 +10,7 @@ namespace Orc.Wizard.ViewModels
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Catel;
+    using Catel.Fody;
     using Catel.MVVM;
     using Catel.Services;
     using Catel.Windows;
@@ -29,6 +30,7 @@ namespace Orc.Wizard.ViewModels
             DeferValidationUntilFirstSaveCall = true;
 
             Wizard = wizard;
+            WizardPages = new List<IWizardPage>(wizard.Pages);
             _messageService = messageService;
             _languageService = languageService;
 
@@ -46,6 +48,7 @@ namespace Orc.Wizard.ViewModels
         }
 
         [Model(SupportIEditableObject = false)]
+        [Expose("CurrentPage")]
         public IWizard Wizard { get; set; }
 
         public IEnumerable<IWizardPage> WizardPages { get; private set; } 
@@ -147,9 +150,6 @@ namespace Orc.Wizard.ViewModels
             PageTitle = (page != null) ? page.Title : string.Empty;
             PageDescription = (page != null) ? page.Description : string.Empty;
             IsPageOptional = (page != null) ? page.IsOptional : false;
-
-            // Allow breadcrumb to update
-            WizardPages = new List<IWizardPage>(Wizard.Pages);
         }
         #endregion
     }

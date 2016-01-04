@@ -6,7 +6,6 @@
                   xmlns:catel="http://catel.codeplex.com"
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   xmlns:wizard="clr-namespace:Orc.Wizard"
-                  xmlns:converters="clr-namespace:Orc.Wizard.Converters"
                   xmlns:controls="clr-namespace:Orc.Wizard.Controls"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="#F5F5F5">
 
@@ -33,22 +32,40 @@
             </Grid.RowDefinitions>
 
             <Grid Background="#F5F5F5">
-                <ItemsControl x:Name="breadcrumb" ItemsSource="{Binding WizardPages}" Focusable="False" 
-                              HorizontalAlignment="Center" Margin="0 0 0 5">
+                <ListBox x:Name="breadcrumb" ItemsSource="{Binding WizardPages}" SelectedItem="{Binding CurrentPage, Mode=OneWay}"
+                         Focusable="False" HorizontalAlignment="Center" Margin="0 0 0 5">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" CanContentScroll="False">
+                                <ItemsPresenter Margin="6,0,6,0" />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <controls:BreadcrumbItem Title="{Binding Converter={converters:BreadcrumbTitleConverter}}" 
-                                                     Description="{Binding Description}" Number="{Binding Number}"
-                                                     IsSelected="{Binding Converter={converters:WizardPageToIsSelectedConverter}}" />
+                            <controls:BreadcrumbItem Page="{Binding}" CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </ListBox>
             </Grid>
 
             <TextBlock Grid.Row="1" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18"
