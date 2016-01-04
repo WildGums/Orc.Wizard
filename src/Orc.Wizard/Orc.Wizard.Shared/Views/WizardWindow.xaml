@@ -33,11 +33,11 @@
             </Grid.RowDefinitions>
 
             <Grid Background="#F5F5F5">
-                <ItemsControl ItemsSource="{Binding WizardPages}" Focusable="False" 
+                <ItemsControl x:Name="breadcrumb" ItemsSource="{Binding WizardPages}" Focusable="False" 
                               HorizontalAlignment="Center" Margin="0 0 0 5">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
+                            <StackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 

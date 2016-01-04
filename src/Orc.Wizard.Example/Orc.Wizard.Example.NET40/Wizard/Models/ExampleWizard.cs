@@ -19,6 +19,7 @@ namespace Orc.Wizard.Example.Wizard.Models
             this.AddPage<PersonWizardPage>();
             this.AddPage<AgeWizardPage>();
             this.AddPage<SkillsWizardPage>();
+            this.AddPage<GadgetsWizardPage>();
             this.AddPage<ComponentsWizardPage>();
             this.AddPage<SummaryWizardPage>();
         }

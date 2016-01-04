@@ -202,6 +202,8 @@ namespace Orc.Wizard
             _currentPage = null;
             _currentIndex = newIndex;
 
+            RaisePropertyChanged("CurrentPage");
+
             var newPage = CurrentPage;
             if (newPage != null)
             {
