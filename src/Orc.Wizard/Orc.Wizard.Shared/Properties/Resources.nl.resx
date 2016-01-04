@@ -141,4 +141,7 @@
   <data name="Wizard_SummaryTitle" xml:space="preserve">
     <value>Samenvatting</value>
   </data>
+  <data name="Wizard_XofY" xml:space="preserve">
+    <value>{0} van de {1}</value>
+  </data>
 </root>

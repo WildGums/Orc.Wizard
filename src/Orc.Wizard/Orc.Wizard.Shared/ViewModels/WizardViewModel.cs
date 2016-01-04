@@ -8,6 +8,7 @@
 namespace Orc.Wizard.ViewModels
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Fody;
@@ -42,11 +43,6 @@ namespace Orc.Wizard.ViewModels
         #endregion
 
         #region Properties
-        public override string Title
-        {
-            get { return Wizard.Title; }
-        }
-
         [Model(SupportIEditableObject = false)]
         [Expose("CurrentPage")]
         public IWizard Wizard { get; set; }
@@ -150,6 +146,12 @@ namespace Orc.Wizard.ViewModels
             PageTitle = (page != null) ? page.Title : string.Empty;
             PageDescription = (page != null) ? page.Description : string.Empty;
             IsPageOptional = (page != null) ? page.IsOptional : false;
+
+            var currentIndex = Wizard.Pages.TakeWhile(wizardPage => !ReferenceEquals(wizardPage, page)).Count() + 1;
+            var totalPages = Wizard.Pages.Count();
+
+            var title = string.Format("{0} - {1}", Wizard.Title, string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages));
+            Title = title;
         }
         #endregion
     }

@@ -131,5 +131,14 @@ namespace Orc.Wizard.Properties {
                 return ResourceManager.GetString("Wizard_SummaryTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1}.
+        /// </summary>
+        internal static string Wizard_XofY {
+            get {
+                return ResourceManager.GetString("Wizard_XofY", resourceCulture);
+            }
+        }
     }
 }

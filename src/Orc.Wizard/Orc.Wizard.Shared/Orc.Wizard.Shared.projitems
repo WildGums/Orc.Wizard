@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsSelectedToForegroundBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\WizardPageToIsSelectedConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListBoxExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ProgressBarExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GeneralInformationWizardPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\Interfaces\IWizardPageViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\WizardPageViewModelLocator.cs" />

@@ -52,7 +52,10 @@ namespace Orc.Wizard.Views
             {
                 Dispatcher.BeginInvoke(async () =>
                 {
+                    var vm = (WizardViewModel) ViewModel;
+
                     breadcrumb.CenterSelectedItem();
+                    breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
 
                     // We need to await the animation
                     await TaskShim.Delay(WizardConfiguration.AnimationDuration);

@@ -141,4 +141,7 @@
   <data name="Wizard_SummaryTitle" xml:space="preserve">
     <value>Summary</value>
   </data>
+  <data name="Wizard_XofY" xml:space="preserve">
+    <value>{0} of {1}</value>
+  </data>
 </root>
