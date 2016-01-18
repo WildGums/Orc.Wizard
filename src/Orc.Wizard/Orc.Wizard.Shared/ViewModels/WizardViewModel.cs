@@ -150,7 +150,13 @@ namespace Orc.Wizard.ViewModels
             var currentIndex = Wizard.Pages.TakeWhile(wizardPage => !ReferenceEquals(wizardPage, page)).Count() + 1;
             var totalPages = Wizard.Pages.Count();
 
-            var title = string.Format("{0} - {1}", Wizard.Title, string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages));
+            var title = Wizard.Title;
+            if (!string.IsNullOrEmpty(title))
+            {
+                title += " - ";
+            }
+
+            title += string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages);
             Title = title;
         }
         #endregion
