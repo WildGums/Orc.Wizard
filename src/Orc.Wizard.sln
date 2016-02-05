@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.NET40", "Orc.Wizard\Orc.Wizard.NET40\Orc.Wizard.NET40.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
 EndProject
@@ -12,11 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{3CC711D4-F
 		nuget.config = nuget.config
 		Orc.Wizard.sln.DotSettings = Orc.Wizard.sln.DotSettings
 		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{199C8479-5A41-4318-8129-FB56773099B9}"
-	ProjectSection(SolutionItems) = preProject
-		..\lib\repositories.config = ..\lib\repositories.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Tests.NET40", "Orc.Wizard.Tests\Orc.Wizard.Tests.NET40\Orc.Wizard.Tests.NET40.csproj", "{A226D12E-9802-4364-B4F3-2CAAAE059DD4}"

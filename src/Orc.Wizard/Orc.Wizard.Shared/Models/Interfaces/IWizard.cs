@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizard.cs" company="Wild Gums">
-//   Copyright (c) 2013 - 2015 Wild Gums. All rights reserved.
+// <copyright file="IWizard.cs" company="WildGums">
+//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
