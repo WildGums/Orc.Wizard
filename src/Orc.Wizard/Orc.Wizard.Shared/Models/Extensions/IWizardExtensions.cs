@@ -31,10 +31,18 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => wizard);
 
+            return wizard.InsertPage<TWizardPage>(wizard.Pages.Count());
+        }
+
+        public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, int index)
+            where TWizardPage : IWizardPage
+        {
+            Argument.IsNotNull(() => wizard);
+
             var typeFactory = wizard.GetTypeFactory();
             var page = typeFactory.CreateInstance<TWizardPage>();
 
-            wizard.AddPage(page);
+            wizard.InsertPage(index, page);
 
             return page;
         }

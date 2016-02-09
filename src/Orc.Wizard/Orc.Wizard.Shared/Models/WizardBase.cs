@@ -32,6 +32,7 @@ namespace Orc.Wizard
         private IWizardPage _currentPage;
         #endregion
 
+        // Note: we can't remove this constructor, it would be a breaking change
         protected WizardBase(ITypeFactory typeFactory)
         {
             Argument.IsNotNull(() => typeFactory);
@@ -96,6 +97,11 @@ namespace Orc.Wizard
         }
         #endregion
 
+        #region Events
+        public event EventHandler MovedForward;
+        public event EventHandler MovedBack;
+        #endregion
+
         #region Methods
         public void InsertPage(int index, IWizardPage page)
         {
@@ -104,9 +110,10 @@ namespace Orc.Wizard
             Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
 
             page.Wizard = this;
-            page.Number = index + 1;
 
             _pages.Insert(index, page);
+
+            UpdatePageNumbers();
         }
 
         public void RemovePage(IWizardPage page)
@@ -123,6 +130,8 @@ namespace Orc.Wizard
                     _pages.RemoveAt(i--);
                 }
             }
+
+            UpdatePageNumbers();
         }
 
         public virtual async Task SaveAsync()
@@ -242,8 +251,15 @@ namespace Orc.Wizard
             RaisePropertyChanged(() => CanCancel);
         }
 
-        public event EventHandler MovedForward;
-        public event EventHandler MovedBack;
+        private void UpdatePageNumbers()
+        {
+            var counter = 1;
+
+            foreach (var page in _pages)
+            {
+                page.Number = counter++;
+            }
+        }
         #endregion
     }
 }
