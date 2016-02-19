@@ -25,7 +25,7 @@ namespace Orc.Wizard.Controls
             set { SetValue(PageProperty, value); }
         }
 
-        public static readonly DependencyProperty PageProperty = DependencyProperty.Register("Page", typeof(IWizardPage), 
+        public static readonly DependencyProperty PageProperty = DependencyProperty.Register("Page", typeof(IWizardPage),
             typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnPageChanged()));
 
 
@@ -35,7 +35,7 @@ namespace Orc.Wizard.Controls
             set { SetValue(CurrentPageProperty, value); }
         }
 
-        public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register("CurrentPage", typeof(IWizardPage), 
+        public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register("CurrentPage", typeof(IWizardPage),
             typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnCurrentPageChanged()));
 
 
@@ -82,7 +82,7 @@ namespace Orc.Wizard.Controls
         private void OnCurrentPageChanged()
         {
             var isSelected = ReferenceEquals(CurrentPage, Page);
-            
+
             UpdateSelection(isSelected);
         }
 
@@ -92,17 +92,18 @@ namespace Orc.Wizard.Controls
 
             var colorName = isSelected ? "AccentColor" : "AccentColor4";
 
-            var fromColor = ((SolidColorBrush) ellipse.Fill).Color;
+            var fromColor = ((SolidColorBrush)ellipse.Fill).Color;
             var targetColor = this.TryFindResource(colorName);
             if (targetColor is Color)
             {
-                var colorAnimation = new ColorAnimation(fromColor, (Color) targetColor, WizardConfiguration.AnimationDuration);
+                var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
                 Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)"));
 
                 storyboard.Children.Add(colorAnimation);
             }
 
             storyboard.Begin(ellipse);
+            this.txtTitle.Foreground = isSelected ? Brushes.Black : Brushes.DimGray;
         }
     }
 }
