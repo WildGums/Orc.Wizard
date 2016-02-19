@@ -109,6 +109,9 @@
     <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.ru.resx">
       <Link>Properties\Resources.ru.resx</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Wizard.Shared\Properties\Resources.zh-Hans.resx">
+      <Link>Properties\Resources.ru.resx</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems" Label="Shared" Condition="Exists('..\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
