@@ -149,3 +149,17 @@ Using the wizard can be done via the `IWizardService`. Below is an example on ho
 # Enjoying the wizard
 
 ![Wizard page](doc/images/wizard.gif)
+
+# Troubleshooting
+
+## How to solve TypeNotRegisteredException
+
+When you obtain a service object from the service locator, you will write code such as the following:
+
+	var myService = serviceLocator.ResolveType<IMyService>();
+
+If this causes a `TypeNotRegisteredException` to be thrown in your project, then the simplest and best solution is to add the Fody add-in [LoadAssembliesOnStartup](https://github.com/Fody/LoadAssembliesOnStartup) to your project, preferrably via NuGet.
+
+Background information: The reason for the `TypeNotRegisteredException` probably is that you are only using interfaces from this component or Catel.MVVM at this stage. For the .NET runtime, using an interface is not sufficient to load an assembly (such as this component or any of the Catel libraries) into the AppDomain. This means that the assemblies don't get a chance to register their services into the service locator.
+
+If for some reason you don't want to use Fody, an alternative solution to achieve the same result is to make sure to use at least one type from this component or Catel.MVVM in your code prior to resolving a service from the service locator. You should be aware, though, that other assemblies may need the same pre-loading as Catel.MVVM, so an automated solution that uses Fody is really the best approach.
