@@ -35,6 +35,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\WizardBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\WizardPageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationStrategy\Interfaces\INavigationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationStrategy\DefaultNavigationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Extensions\IWizardServiceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IWizardService.cs" />

@@ -30,6 +30,7 @@ namespace Orc.Wizard
 
         private int _currentIndex = 0;
         private IWizardPage _currentPage;
+        private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
         #endregion
 
         // Note: we can't remove this constructor, it would be a breaking change
@@ -57,6 +58,12 @@ namespace Orc.Wizard
         public IEnumerable<IWizardPage> Pages
         {
             get { return _pages.AsEnumerable(); }
+        }
+
+        public INavigationStrategy NavigationStrategy
+        {
+            get { return _navigationStrategy; }
+            protected set { _navigationStrategy = value; }
         }
 
         public string Title { get; protected set; }
@@ -87,13 +94,18 @@ namespace Orc.Wizard
                     }
                 }
 
-                return _pages.Any() && _currentIndex + 1 < _pages.Count;
+                int indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+                return (indexOfNextPage != WizardConfiguration.CannotNavigate);
             }
         }
 
         public virtual bool CanMoveBack
         {
-            get { return _pages.Any() && _currentIndex - 1 >= 0; }
+            get
+            {
+                int indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
+                return (indexOfPreviousPage != WizardConfiguration.CannotNavigate);
+            }
         }
         #endregion
 
@@ -175,7 +187,8 @@ namespace Orc.Wizard
                 }
             }
 
-            SetCurrentPage(_currentIndex + 1);
+            int indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+            SetCurrentPage(indexOfNextPage);
 
             MovedForward.SafeInvoke(this);
         }
@@ -187,7 +200,8 @@ namespace Orc.Wizard
                 return;
             }
 
-            SetCurrentPage(_currentIndex - 1);
+            int indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
+            SetCurrentPage(indexOfPreviousPage);
 
             MovedBack.SafeInvoke(this);
         }

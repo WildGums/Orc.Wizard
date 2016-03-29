@@ -12,5 +12,6 @@ namespace Orc.Wizard
     public static class WizardConfiguration
     {
         public static TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(300);
+        public static readonly int CannotNavigate = -1;
     }
 }
