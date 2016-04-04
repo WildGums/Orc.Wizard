@@ -16,6 +16,7 @@ namespace Orc.Wizard
         #region Properties
         IWizardPage CurrentPage { get; }
         IEnumerable<IWizardPage> Pages { get; }
+        INavigationStrategy NavigationStrategy { get; }
         string Title { get; }
         bool CanResume { get; }
         bool CanCancel { get; }
