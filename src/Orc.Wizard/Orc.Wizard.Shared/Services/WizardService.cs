@@ -36,7 +36,7 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => wizard);
 
-            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
+            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName(false));
 
             return _uiVisualizerService.ShowDialogAsync<WizardViewModel>(wizard);
         }

@@ -119,7 +119,7 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => page);
 
-            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
+            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(false), index);
 
             page.Wizard = this;
 
@@ -136,7 +136,7 @@ namespace Orc.Wizard
             {
                 if (ReferenceEquals(page, _pages[i]))
                 {
-                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
+                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(false), i);
 
                     page.Wizard = null;
                     _pages.RemoveAt(i--);
@@ -148,7 +148,7 @@ namespace Orc.Wizard
 
         public virtual async Task SaveAsync()
         {
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
 
             foreach (var page in _pages)
             {
@@ -158,7 +158,7 @@ namespace Orc.Wizard
 
         public virtual async Task CancelAsync()
         {
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
 
             foreach (var page in _pages)
             {

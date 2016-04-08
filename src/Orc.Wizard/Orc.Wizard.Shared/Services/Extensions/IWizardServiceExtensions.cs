@@ -28,13 +28,13 @@ namespace Orc.Wizard
 
             if (model != null)
             {
-                Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
+                Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(false), ObjectToStringHelper.ToFullTypeString(model));
 
                 wizard = typeFactory.CreateInstanceWithParametersAndAutoCompletion<TWizard>(model);
             }
             else
             {
-                Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
+                Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName(false));
 
                 wizard = typeFactory.CreateInstance<TWizard>();
             }
