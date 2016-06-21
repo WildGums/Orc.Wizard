@@ -45,6 +45,10 @@ namespace Orc.Wizard.ViewModels
         #region Properties
         [Model(SupportIEditableObject = false)]
         [Expose("CurrentPage")]
+        [Expose("ResizeMode")]
+        [Expose("MinSize")]
+        [Expose("MaxSize")]
+
         public IWizard Wizard { get; set; }
 
         public IEnumerable<IWizardPage> WizardPages { get; private set; } 

@@ -39,6 +39,10 @@ namespace Orc.Wizard
             Argument.IsNotNull(() => typeFactory);
 
             _typeFactory = typeFactory;
+
+            ResizeMode = System.Windows.ResizeMode.NoResize;
+            MinSize = new System.Windows.Size(650.0, 500.0);
+            MaxSize = new System.Windows.Size(650.0, 500.0);
         }
 
         #region Properties
@@ -67,6 +71,12 @@ namespace Orc.Wizard
         }
 
         public string Title { get; protected set; }
+
+        public System.Windows.ResizeMode ResizeMode { get; protected set; }
+
+        public System.Windows.Size MinSize { get; protected set; }
+
+        public System.Windows.Size MaxSize { get; protected set; }
 
         public virtual bool CanResume
         {
