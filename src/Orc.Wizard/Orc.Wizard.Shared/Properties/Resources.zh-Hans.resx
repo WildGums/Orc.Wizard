@@ -129,6 +129,9 @@
   <data name="Wizard_Finish" xml:space="preserve">
     <value>Завершить</value>
   </data>
+  <data name="Wizard_Help" xml:space="preserve">
+    <value>Справка</value>
+  </data>
   <data name="Wizard_Next" xml:space="preserve">
     <value>Далее &gt;</value>
   </data>

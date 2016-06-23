@@ -140,7 +140,18 @@
         </Label>
 
         <Grid Grid.Row="5" Background="#F5F5F5">
-            <WrapPanel Style="{StaticResource DataWindowButtonContainerStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <WrapPanel Grid.Column="0" Style="{StaticResource DataWindowButtonContainerStyle}">
+                <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" Style="{StaticResource DataWindowButtonStyle}" 
+                    Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
+            </WrapPanel>
+
+            <WrapPanel Grid.Column="2" Style="{StaticResource DataWindowButtonContainerStyle}">
                 <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" Style="{StaticResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
 
