@@ -135,9 +135,9 @@ namespace Orc.Wizard.ViewModels
 
         public TaskCommand ShowHelp { get; set; }
 
-        private async Task OnShowHelpExecuteAsync()
+        private Task OnShowHelpExecuteAsync()
         {
-            await Wizard.ShowHelpAsync();
+            return Wizard.ShowHelpAsync();
         }
 
         private bool OnShowHelpCanExecute()
