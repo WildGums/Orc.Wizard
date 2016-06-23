@@ -18,6 +18,9 @@ namespace Orc.Wizard
         IEnumerable<IWizardPage> Pages { get; }
         INavigationStrategy NavigationStrategy { get; }
         string Title { get; }
+        System.Windows.ResizeMode ResizeMode { get; }
+        System.Windows.Size MinSize { get; }
+        System.Windows.Size MaxSize { get; }
         bool CanResume { get; }
         bool CanCancel { get; }
         bool CanMoveForward { get; }
