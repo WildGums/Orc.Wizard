@@ -7,11 +7,11 @@
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   xmlns:controls="clr-namespace:Orc.Wizard.Controls"
-                  ResizeMode="{Binding ResizeMode}"
-                  MinWidth="{Binding MinSize.Width}"
-                  MinHeight="{Binding MinSize.Height}"
-                  MaxWidth="{Binding MaxSize.Width}"
-                  MaxHeight="{Binding MaxSize.Height}"
+                  ResizeMode="{Binding ResizeMode, Mode=OneWay}"
+                  MinWidth="{Binding MinSize.Width, Mode=OneWay}"
+                  MinHeight="{Binding MinSize.Height, Mode=OneWay}"
+                  MaxWidth="{Binding MaxSize.Width, Mode=OneWay}"
+                  MaxHeight="{Binding MaxSize.Height, Mode=OneWay}"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="#F5F5F5">
 
     <Grid x:Name="layoutRoot" Background="White">

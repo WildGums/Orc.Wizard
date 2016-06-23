@@ -41,8 +41,8 @@ namespace Orc.Wizard
             _typeFactory = typeFactory;
 
             ResizeMode = System.Windows.ResizeMode.NoResize;
-            MinSize = new System.Windows.Size(650.0, 500.0);
-            MaxSize = new System.Windows.Size(650.0, 500.0);
+            MinSize = new System.Windows.Size(650d, 500d);
+            MaxSize = new System.Windows.Size(650d, 500d);
         }
 
         #region Properties
