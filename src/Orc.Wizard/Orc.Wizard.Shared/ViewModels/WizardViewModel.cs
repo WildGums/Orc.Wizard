@@ -39,6 +39,7 @@ namespace Orc.Wizard.ViewModels
             Cancel = new TaskCommand(OnCancelExecuteAsync, OnCancelCanExecuteAsync);
             GoToNext = new TaskCommand(OnGoToNextExecuteAsync, OnGoToNextCanExecute);
             GoToPrevious = new TaskCommand(OnGoToPreviousExecuteAsync, OnGoToPreviousCanExecute);
+            ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
         }
         #endregion
 
@@ -48,6 +49,7 @@ namespace Orc.Wizard.ViewModels
         [Expose("ResizeMode")]
         [Expose("MinSize")]
         [Expose("MaxSize")]
+        [Expose("IsHelpVisible")]
 
         public IWizard Wizard { get; set; }
 
@@ -129,6 +131,18 @@ namespace Orc.Wizard.ViewModels
         private bool OnCancelCanExecuteAsync()
         {
             return Wizard.CanCancel;
+        }
+
+        public TaskCommand ShowHelp { get; set; }
+
+        private async Task OnShowHelpExecuteAsync()
+        {
+            await Wizard.ShowHelpAsync();
+        }
+
+        private bool OnShowHelpCanExecute()
+        {
+            return Wizard.CanShowHelp;
         }
         #endregion
 

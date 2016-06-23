@@ -25,15 +25,20 @@ namespace Orc.Wizard
         bool CanCancel { get; }
         bool CanMoveForward { get; }
         bool CanMoveBack { get; }
+        bool IsHelpVisible { get; }
+        bool CanShowHelp { get; }
         #endregion
 
         Task SaveAsync();
         Task CancelAsync();
         Task MoveForwardAsync();
         Task MoveBackAsync();
+        Task ShowHelpAsync();
 
         event EventHandler MovedForward;
         event EventHandler MovedBack;
+        event EventHandler HelpShown;
+
         void InsertPage(int index, IWizardPage page);
         void RemovePage(IWizardPage page);
     }

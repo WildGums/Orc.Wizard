@@ -43,6 +43,9 @@ namespace Orc.Wizard
             ResizeMode = System.Windows.ResizeMode.NoResize;
             MinSize = new System.Windows.Size(650d, 500d);
             MaxSize = new System.Windows.Size(650d, 500d);
+
+            IsHelpVisible = false;
+            CanShowHelp = true;
         }
 
         #region Properties
@@ -117,11 +120,15 @@ namespace Orc.Wizard
                 return (indexOfPreviousPage != WizardConfiguration.CannotNavigate);
             }
         }
+
+        public bool IsHelpVisible { get; protected set; }
+        public bool CanShowHelp { get; protected set; }
         #endregion
 
         #region Events
         public event EventHandler MovedForward;
         public event EventHandler MovedBack;
+        public event EventHandler HelpShown;
         #endregion
 
         #region Methods
@@ -214,6 +221,16 @@ namespace Orc.Wizard
             SetCurrentPage(indexOfPreviousPage);
 
             MovedBack.SafeInvoke(this);
+        }
+
+        public virtual async Task ShowHelpAsync()
+        {
+            if (!CanShowHelp)
+            {
+                return;
+            }
+
+            HelpShown.SafeInvoke(this);
         }
 
         protected virtual IWizardPage SetCurrentPage(int newIndex)
