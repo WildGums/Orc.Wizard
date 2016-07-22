@@ -25,5 +25,11 @@ namespace Orc.Wizard.Example.Wizard.Models
             // Test for numbers being updated correctly
             this.InsertPage<GadgetsWizardPage>(3);
         }
+
+        public bool ShowInTaskbarWrapper
+        {
+            get {  return ShowInTaskbar; }
+            set { ShowInTaskbar = value; }
+        }
     }
 }

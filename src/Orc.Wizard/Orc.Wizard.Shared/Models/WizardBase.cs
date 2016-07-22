@@ -44,6 +44,7 @@ namespace Orc.Wizard
             MinSize = new System.Windows.Size(650d, 500d);
             MaxSize = new System.Windows.Size(650d, 500d);
 
+            ShowInTaskbar = false;
             IsHelpVisible = false;
             CanShowHelp = true;
         }
@@ -122,13 +123,16 @@ namespace Orc.Wizard
         }
 
         public bool IsHelpVisible { get; protected set; }
+
         public bool CanShowHelp { get; protected set; }
+
+        public bool ShowInTaskbar { get; protected set; }
         #endregion
 
         #region Events
-        public event EventHandler MovedForward;
-        public event EventHandler MovedBack;
-        public event EventHandler HelpShown;
+        public event EventHandler<EventArgs> MovedForward;
+        public event EventHandler<EventArgs> MovedBack;
+        public event EventHandler<EventArgs> HelpShown;
         #endregion
 
         #region Methods

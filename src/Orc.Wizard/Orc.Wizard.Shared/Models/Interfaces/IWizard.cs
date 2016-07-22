@@ -27,6 +27,7 @@ namespace Orc.Wizard
         bool CanMoveBack { get; }
         bool IsHelpVisible { get; }
         bool CanShowHelp { get; }
+        bool ShowInTaskbar { get; }
         #endregion
 
         Task SaveAsync();
@@ -35,9 +36,9 @@ namespace Orc.Wizard
         Task MoveBackAsync();
         Task ShowHelpAsync();
 
-        event EventHandler MovedForward;
-        event EventHandler MovedBack;
-        event EventHandler HelpShown;
+        event EventHandler<EventArgs> MovedForward;
+        event EventHandler<EventArgs> MovedBack;
+        event EventHandler<EventArgs> HelpShown;
 
         void InsertPage(int index, IWizardPage page);
         void RemovePage(IWizardPage page);

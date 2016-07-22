@@ -12,6 +12,7 @@
                   MinHeight="{Binding MinSize.Height, Mode=OneWay}"
                   MaxWidth="{Binding MaxSize.Width, Mode=OneWay}"
                   MaxHeight="{Binding MaxSize.Height, Mode=OneWay}"
+                  ShowInTaskbar="{Binding ElementName=layoutRoot, Path=DataContext.ShowInTaskbar, Mode=OneWay}"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="#F5F5F5">
 
     <Grid x:Name="layoutRoot" Background="White">

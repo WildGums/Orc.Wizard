@@ -50,6 +50,7 @@ namespace Orc.Wizard.ViewModels
         [Expose("MinSize")]
         [Expose("MaxSize")]
         [Expose("IsHelpVisible")]
+        [Expose("ShowInTaskbar")]
 
         public IWizard Wizard { get; set; }
 
