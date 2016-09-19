@@ -17,7 +17,7 @@ namespace Orc.Wizard
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        public static Task ShowWizardAsync<TWizard>(this IWizardService wizardService, object model = null)
+        public static Task<bool?> ShowWizardAsync<TWizard>(this IWizardService wizardService, object model = null)
             where TWizard : IWizard
         {
             Argument.IsNotNull(() => wizardService);
