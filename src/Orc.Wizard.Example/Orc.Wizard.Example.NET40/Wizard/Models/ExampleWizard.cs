@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExampleWizard.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="ExampleWizard.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -21,6 +21,15 @@ namespace Orc.Wizard.Example.Wizard.Models
             this.AddPage<SkillsWizardPage>();
             this.AddPage<ComponentsWizardPage>();
             this.AddPage<SummaryWizardPage>();
+
+            // Test for numbers being updated correctly
+            this.InsertPage<GadgetsWizardPage>(3);
+        }
+
+        public bool ShowInTaskbarWrapper
+        {
+            get {  return ShowInTaskbar; }
+            set { ShowInTaskbar = value; }
         }
     }
 }

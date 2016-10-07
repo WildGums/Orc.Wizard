@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardBase.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="WizardBase.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -30,13 +30,23 @@ namespace Orc.Wizard
 
         private int _currentIndex = 0;
         private IWizardPage _currentPage;
+        private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
         #endregion
 
+        // Note: we can't remove this constructor, it would be a breaking change
         protected WizardBase(ITypeFactory typeFactory)
         {
             Argument.IsNotNull(() => typeFactory);
 
             _typeFactory = typeFactory;
+
+            ResizeMode = System.Windows.ResizeMode.NoResize;
+            MinSize = new System.Windows.Size(650d, 500d);
+            MaxSize = new System.Windows.Size(650d, 500d);
+
+            ShowInTaskbar = false;
+            IsHelpVisible = false;
+            CanShowHelp = true;
         }
 
         #region Properties
@@ -58,7 +68,19 @@ namespace Orc.Wizard
             get { return _pages.AsEnumerable(); }
         }
 
+        public INavigationStrategy NavigationStrategy
+        {
+            get { return _navigationStrategy; }
+            protected set { _navigationStrategy = value; }
+        }
+
         public string Title { get; protected set; }
+
+        public System.Windows.ResizeMode ResizeMode { get; protected set; }
+
+        public System.Windows.Size MinSize { get; protected set; }
+
+        public System.Windows.Size MaxSize { get; protected set; }
 
         public virtual bool CanResume
         {
@@ -86,14 +108,31 @@ namespace Orc.Wizard
                     }
                 }
 
-                return _pages.Any() && _currentIndex + 1 < _pages.Count;
+                int indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+                return (indexOfNextPage != WizardConfiguration.CannotNavigate);
             }
         }
 
         public virtual bool CanMoveBack
         {
-            get { return _pages.Any() && _currentIndex - 1 >= 0; }
+            get
+            {
+                int indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
+                return (indexOfPreviousPage != WizardConfiguration.CannotNavigate);
+            }
         }
+
+        public bool IsHelpVisible { get; protected set; }
+
+        public bool CanShowHelp { get; protected set; }
+
+        public bool ShowInTaskbar { get; protected set; }
+        #endregion
+
+        #region Events
+        public event EventHandler<EventArgs> MovedForward;
+        public event EventHandler<EventArgs> MovedBack;
+        public event EventHandler<EventArgs> HelpShown;
         #endregion
 
         #region Methods
@@ -101,12 +140,13 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => page);
 
-            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
+            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(false), index);
 
             page.Wizard = this;
-            page.Number = index + 1;
 
             _pages.Insert(index, page);
+
+            UpdatePageNumbers();
         }
 
         public void RemovePage(IWizardPage page)
@@ -117,17 +157,19 @@ namespace Orc.Wizard
             {
                 if (ReferenceEquals(page, _pages[i]))
                 {
-                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
+                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(false), i);
 
                     page.Wizard = null;
                     _pages.RemoveAt(i--);
                 }
             }
+
+            UpdatePageNumbers();
         }
 
         public virtual async Task SaveAsync()
         {
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
 
             foreach (var page in _pages)
             {
@@ -137,7 +179,7 @@ namespace Orc.Wizard
 
         public virtual async Task CancelAsync()
         {
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
 
             foreach (var page in _pages)
             {
@@ -166,7 +208,8 @@ namespace Orc.Wizard
                 }
             }
 
-            SetCurrentPage(_currentIndex + 1);
+            int indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+            SetCurrentPage(indexOfNextPage);
 
             MovedForward.SafeInvoke(this);
         }
@@ -178,9 +221,20 @@ namespace Orc.Wizard
                 return;
             }
 
-            SetCurrentPage(_currentIndex - 1);
+            int indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
+            SetCurrentPage(indexOfPreviousPage);
 
             MovedBack.SafeInvoke(this);
+        }
+
+        public virtual async Task ShowHelpAsync()
+        {
+            if (!CanShowHelp)
+            {
+                return;
+            }
+
+            HelpShown.SafeInvoke(this);
         }
 
         protected virtual IWizardPage SetCurrentPage(int newIndex)
@@ -201,6 +255,8 @@ namespace Orc.Wizard
 
             _currentPage = null;
             _currentIndex = newIndex;
+
+            RaisePropertyChanged("CurrentPage");
 
             var newPage = CurrentPage;
             if (newPage != null)
@@ -240,8 +296,15 @@ namespace Orc.Wizard
             RaisePropertyChanged(() => CanCancel);
         }
 
-        public event EventHandler MovedForward;
-        public event EventHandler MovedBack;
+        private void UpdatePageNumbers()
+        {
+            var counter = 1;
+
+            foreach (var page in _pages)
+            {
+                page.Number = counter++;
+            }
+        }
         #endregion
     }
 }

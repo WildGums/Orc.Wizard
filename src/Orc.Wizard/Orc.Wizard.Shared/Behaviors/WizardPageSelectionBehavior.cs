@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardPageSelectionBehavior.cs" company="Wild Gums">
-//   Copyright (c) 2013 - 2015 Wild Gums. All rights reserved.
+// <copyright file="WizardPageSelectionBehavior.cs" company="WildGums">
+//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -129,7 +129,7 @@ namespace Orc.Wizard
 
             // TODO: Consider setting the data context to a model instead of manually creating a vm
             var viewModelFactory = serviceLocator.ResolveType<IViewModelFactory>();
-            var viewModel = viewModelFactory.CreateViewModel(pageViewModelType, wizard.CurrentPage);
+            var viewModel = viewModelFactory.CreateViewModel(pageViewModelType, wizard.CurrentPage, null);
 
             _lastPage.ViewModel = viewModel;
 

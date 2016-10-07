@@ -2,11 +2,11 @@
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://catel.codeplex.com"
-              xmlns:views="clr-namespace:Orc.Wizard.Example.Views"
               Height="600" Width="800">
 
     <catel:StackGrid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -23,7 +23,8 @@
                 - Easy to code, seriously, check it out for yourself!<LineBreak />
             </TextBlock>
         </Label>
-        
+
+        <CheckBox Content="Show in taskbar" IsChecked="{Binding ShowInTaskbar}" />
         <Button Command="{Binding ShowWizard}" Content="Show wizard..." />
         
         <TextBox x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />

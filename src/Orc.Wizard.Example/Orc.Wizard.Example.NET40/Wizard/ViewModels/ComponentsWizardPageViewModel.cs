@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ComponentsWizardPageViewModel.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="ComponentsWizardPageViewModel.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -43,7 +43,7 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
             var components = Components;
             if (components != null)
             {
-                if (!Components.Any(x => x.IsSelected))
+                if (!components.Any(x => x.IsSelected))
                 {
                     validationResults.Add(BusinessRuleValidationResult.CreateError("Select at least 1 component"));
                 }

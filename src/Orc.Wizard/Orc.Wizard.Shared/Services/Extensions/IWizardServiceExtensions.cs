@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizardServiceExtensions.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="IWizardServiceExtensions.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ namespace Orc.Wizard
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        public static Task ShowWizardAsync<TWizard>(this IWizardService wizardService, object model = null)
+        public static Task<bool?> ShowWizardAsync<TWizard>(this IWizardService wizardService, object model = null)
             where TWizard : IWizard
         {
             Argument.IsNotNull(() => wizardService);
@@ -28,13 +28,13 @@ namespace Orc.Wizard
 
             if (model != null)
             {
-                Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
+                Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(false), ObjectToStringHelper.ToFullTypeString(model));
 
                 wizard = typeFactory.CreateInstanceWithParametersAndAutoCompletion<TWizard>(model);
             }
             else
             {
-                Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
+                Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName(false));
 
                 wizard = typeFactory.CreateInstance<TWizard>();
             }

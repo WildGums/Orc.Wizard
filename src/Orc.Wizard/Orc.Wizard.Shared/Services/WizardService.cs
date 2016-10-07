@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardService.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="WizardService.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => wizard);
 
-            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
+            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName(false));
 
             return _uiVisualizerService.ShowDialogAsync<WizardViewModel>(wizard);
         }

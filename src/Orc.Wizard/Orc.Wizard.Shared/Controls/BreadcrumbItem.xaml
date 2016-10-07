@@ -7,25 +7,27 @@
              xmlns:converters="clr-namespace:Orc.Wizard.Converters"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
 
-    <UserControl.Resources>
-        <SolidColorBrush x:Key="StrokeBrush" Color="LightGray" />
-    </UserControl.Resources>
+  <UserControl.Resources>
+    <SolidColorBrush x:Key="StrokeBrush" Color="LightGray" />
+  </UserControl.Resources>
 
-    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">
+  <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">
 
-        <Grid ToolTip="{Binding Description}" MinWidth="100" Margin="0 0 0 8">
-            <StackPanel Grid.Column="1">
-                <Grid Margin="5">
-                    <Ellipse Width="25" Height="25" StrokeThickness="0"
-                                Fill="{Binding IsSelected, Converter={converters:IsSelectedToBrushConverter}}"/>
-                    <TextBlock Text="{Binding Number}" HorizontalAlignment="Center" Foreground="White"
-                                VerticalAlignment="Center" FontWeight="Medium" FontSize="13" />
-                </Grid>
-                <TextBlock Text="{Binding Title}" FontSize="14" HorizontalAlignment="Center"
-                           VerticalAlignment="Center" FontWeight="Medium"
-                           Foreground="{Binding IsSelected, Converter={converters:IsSelectedToForegroundBrushConverter}}"/>
-            </StackPanel>
+    <Grid ToolTip="{Binding Description}" MinWidth="100" MaxWidth="100" Margin="0 0 0 8">
+      <StackPanel>
+        <Grid Margin="5">
+          <Ellipse x:Name="ellipse" Width="26" Height="26" StrokeThickness="0" Fill="{StaticResource AccentColorBrush4}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+          <TextBlock Text="{Binding Number}" HorizontalAlignment="Center" Foreground="White"
+                   VerticalAlignment="Center" FontWeight="Medium" FontSize="13" Margin="0,-2,0,0" />
         </Grid>
+
+        <TextBlock Name="txtTitle" Text="{Binding Title}" FontSize="14" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" FontWeight="Medium"
+                   Foreground="DimGray"/>
+      </StackPanel>
     </Grid>
+
+  </Grid>
 
 </UserControl>

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardViewModel.cs" company="Wild Gums">
-//   Copyright (c) 2013 - 2015 Wild Gums. All rights reserved.
+// <copyright file="WizardViewModel.cs" company="WildGums">
+//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,8 +8,10 @@
 namespace Orc.Wizard.ViewModels
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
+    using Catel.Fody;
     using Catel.MVVM;
     using Catel.Services;
     using Catel.Windows;
@@ -29,6 +31,7 @@ namespace Orc.Wizard.ViewModels
             DeferValidationUntilFirstSaveCall = true;
 
             Wizard = wizard;
+            WizardPages = new List<IWizardPage>(wizard.Pages);
             _messageService = messageService;
             _languageService = languageService;
 
@@ -36,16 +39,19 @@ namespace Orc.Wizard.ViewModels
             Cancel = new TaskCommand(OnCancelExecuteAsync, OnCancelCanExecuteAsync);
             GoToNext = new TaskCommand(OnGoToNextExecuteAsync, OnGoToNextCanExecute);
             GoToPrevious = new TaskCommand(OnGoToPreviousExecuteAsync, OnGoToPreviousCanExecute);
+            ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
         }
         #endregion
 
         #region Properties
-        public override string Title
-        {
-            get { return Wizard.Title; }
-        }
-
         [Model(SupportIEditableObject = false)]
+        [Expose("CurrentPage")]
+        [Expose("ResizeMode")]
+        [Expose("MinSize")]
+        [Expose("MaxSize")]
+        [Expose("IsHelpVisible")]
+        [Expose("ShowInTaskbar")]
+
         public IWizard Wizard { get; set; }
 
         public IEnumerable<IWizardPage> WizardPages { get; private set; } 
@@ -127,6 +133,18 @@ namespace Orc.Wizard.ViewModels
         {
             return Wizard.CanCancel;
         }
+
+        public TaskCommand ShowHelp { get; set; }
+
+        private Task OnShowHelpExecuteAsync()
+        {
+            return Wizard.ShowHelpAsync();
+        }
+
+        private bool OnShowHelpCanExecute()
+        {
+            return Wizard.CanShowHelp;
+        }
         #endregion
 
         #region Methods
@@ -148,8 +166,17 @@ namespace Orc.Wizard.ViewModels
             PageDescription = (page != null) ? page.Description : string.Empty;
             IsPageOptional = (page != null) ? page.IsOptional : false;
 
-            // Allow breadcrumb to update
-            WizardPages = new List<IWizardPage>(Wizard.Pages);
+            var currentIndex = Wizard.Pages.TakeWhile(wizardPage => !ReferenceEquals(wizardPage, page)).Count() + 1;
+            var totalPages = Wizard.Pages.Count();
+
+            var title = Wizard.Title;
+            if (!string.IsNullOrEmpty(title))
+            {
+                title += " - ";
+            }
+
+            title += string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages);
+            Title = title;
         }
         #endregion
     }

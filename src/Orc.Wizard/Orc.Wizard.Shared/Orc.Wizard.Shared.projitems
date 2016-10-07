@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\WizardPageSelectionBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BreadcrumbItem.xaml.cs">
       <DependentUpon>BreadcrumbItem.xaml</DependentUpon>
     </Compile>
@@ -18,6 +19,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsSelectedToBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsSelectedToForegroundBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\WizardPageToIsSelectedConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListBoxExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ProgressBarExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GeneralInformationWizardPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\Interfaces\IWizardPageViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Locators\WizardPageViewModelLocator.cs" />
@@ -32,6 +35,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\WizardBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\WizardPageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationStrategy\Interfaces\INavigationStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationStrategy\DefaultNavigationStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Extensions\IWizardServiceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IWizardService.cs" />
@@ -47,7 +52,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Locators\Extensions\" />
   </ItemGroup>
   <ItemGroup>
