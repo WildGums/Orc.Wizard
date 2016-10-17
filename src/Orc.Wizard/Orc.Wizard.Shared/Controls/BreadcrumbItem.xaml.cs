@@ -73,9 +73,9 @@ namespace Orc.Wizard.Controls
             var page = Page;
             if (page != null)
             {
-                Number = page.Number;
-                Title = page.BreadcrumbTitle ?? page.Title;
-                Description = page.Description;
+                SetCurrentValue(NumberProperty, page.Number);
+                SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
+                SetCurrentValue(DescriptionProperty, page.Description);
             }
         }
 
@@ -103,7 +103,8 @@ namespace Orc.Wizard.Controls
             }
 
             storyboard.Begin(ellipse);
-            this.txtTitle.Foreground = isSelected ? Brushes.Black : Brushes.DimGray;
+
+            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ? Brushes.Black : Brushes.DimGray);
         }
     }
 }

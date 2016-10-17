@@ -9,6 +9,7 @@ namespace Orc.Wizard
 {
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Media.Animation;
 
     public static class ProgressBarExtensions
@@ -16,7 +17,7 @@ namespace Orc.Wizard
         public static readonly DependencyProperty SmoothProgressProperty = DependencyProperty.RegisterAttached("SmoothProgress",
             typeof(double), typeof(ProgressBarExtensions), new UIPropertyMetadata(0.0, OnSmoothProgressChanged));
 
-        public static void SetSmoothProgressOffset(FrameworkElement target, double value)
+        public static void SetSmoothProgress(FrameworkElement target, double value)
         {
             target.SetValue(SmoothProgressProperty, value);
         }
@@ -31,14 +32,14 @@ namespace Orc.Wizard
             var progressBar = target as ProgressBar;
             if (progressBar != null)
             {
-                progressBar.Value = (double) e.NewValue;
+                progressBar.SetCurrentValue(RangeBase.ValueProperty, (double) e.NewValue);
             }
         }
 
         public static void UpdateProgress(this ProgressBar progressBar, int currentItem, int totalItems)
         {
-            progressBar.Minimum = 0;
-            progressBar.Maximum = totalItems;
+            progressBar.SetCurrentValue(RangeBase.MinimumProperty, (double)0);
+            progressBar.SetCurrentValue(RangeBase.MaximumProperty, (double)totalItems);
 
             var progressAnimation = new DoubleAnimation();
             progressAnimation.From = progressBar.Value;

@@ -79,7 +79,7 @@ namespace Orc.Wizard
             wizard.MovedBack -= OnMovedBack;
             wizard.MovedForward -= OnMovedForward;
 
-            Wizard = null;
+            SetCurrentValue(WizardProperty, null);
         }
 
         private void OnMovedForward(object sender, EventArgs e)
@@ -134,7 +134,7 @@ namespace Orc.Wizard
             _lastPage.ViewModel = viewModel;
 
             view.DataContext = viewModel;
-            AssociatedObject.Content = view;
+            AssociatedObject.SetCurrentValue(ContentControl.ContentProperty, view);
         }
     }
 }
