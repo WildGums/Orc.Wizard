@@ -4,6 +4,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+// We use shared change notifications in this class
+#pragma warning disable WPF1012
 
 namespace Orc.Wizard
 {
@@ -57,6 +59,7 @@ namespace Orc.Wizard
                 if (_currentPage == null)
                 {
                     _currentPage = _pages[_currentIndex];
+                    RaisePropertyChanged(nameof(CurrentPage));
                 }
 
                 return _currentPage;
@@ -208,7 +211,7 @@ namespace Orc.Wizard
                 }
             }
 
-            int indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+            var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
             SetCurrentPage(indexOfNextPage);
 
             MovedForward.SafeInvoke(this);
@@ -221,7 +224,7 @@ namespace Orc.Wizard
                 return;
             }
 
-            int indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
+            var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
             SetCurrentPage(indexOfPreviousPage);
 
             MovedBack.SafeInvoke(this);
@@ -254,6 +257,8 @@ namespace Orc.Wizard
             }
 
             _currentPage = null;
+            RaisePropertyChanged(nameof(CurrentPage));
+
             _currentIndex = newIndex;
 
             RaisePropertyChanged("CurrentPage");
@@ -290,10 +295,10 @@ namespace Orc.Wizard
 
         private void OnPageViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            RaisePropertyChanged(() => CanMoveBack);
-            RaisePropertyChanged(() => CanMoveForward);
-            RaisePropertyChanged(() => CanResume);
-            RaisePropertyChanged(() => CanCancel);
+            RaisePropertyChanged(nameof(CanMoveBack));
+            RaisePropertyChanged(nameof(CanMoveForward));
+            RaisePropertyChanged(nameof(CanResume));
+            RaisePropertyChanged(nameof(CanCancel));
         }
 
         private void UpdatePageNumbers()

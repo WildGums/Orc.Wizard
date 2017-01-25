@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.NET40", "Orc.Wizard\Orc.Wizard.NET40\Orc.Wizard.NET40.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
 EndProject
@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E426EAD0-F37
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{3CC711D4-F114-4399-A440-711E40600B3B}"
 	ProjectSection(SolutionItems) = preProject
+		GlobalSuppressions.cs = GlobalSuppressions.cs
 		nuget.config = nuget.config
 		Orc.Wizard.sln.DotSettings = Orc.Wizard.sln.DotSettings
 		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
@@ -38,14 +39,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Tests.NET46", "O
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{7008fbaf-246a-476e-b3a5-dad9ae4a3a62}*SharedItemsImports = 4
-		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{ecd8c885-72af-4558-9816-06a329fd1112}*SharedItemsImports = 4
 		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{030359b5-7f76-42ef-bf49-bd06222b212c}*SharedItemsImports = 4
-		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{722fb1b8-8295-457d-9616-3b7b8693e3b1}*SharedItemsImports = 13
+		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{31ce78ce-896e-43b5-ae7e-a6a4b9944aa4}*SharedItemsImports = 4
 		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{5349bfbe-a3c7-4e49-b235-2a7447269c33}*SharedItemsImports = 4
+		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{7008fbaf-246a-476e-b3a5-dad9ae4a3a62}*SharedItemsImports = 4
+		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{722fb1b8-8295-457d-9616-3b7b8693e3b1}*SharedItemsImports = 13
 		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{a14d7911-d25c-4d2b-81df-af03560ad9ca}*SharedItemsImports = 13
 		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{a226d12e-9802-4364-b4f3-2caaae059dd4}*SharedItemsImports = 4
-		Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.projitems*{31ce78ce-896e-43b5-ae7e-a6a4b9944aa4}*SharedItemsImports = 4
+		Orc.Wizard.Tests\Orc.Wizard.Tests.Shared\Orc.Wizard.Tests.Shared.projitems*{ecd8c885-72af-4558-9816-06a329fd1112}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

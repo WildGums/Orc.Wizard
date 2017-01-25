@@ -48,7 +48,9 @@ namespace Orc.Wizard.Views
         {
             base.OnViewModelPropertyChanged(e);
 
+#pragma warning disable WPF1014
             if (e.HasPropertyChanged("CurrentPage"))
+#pragma warning restore WPF1014
             {
 #pragma warning disable AvoidAsyncVoid
                 Dispatcher.BeginInvoke(async () =>
