@@ -172,7 +172,7 @@ namespace Orc.Wizard
 
         public virtual async Task SaveAsync()
         {
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
+            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName(false));
 
             foreach (var page in _pages)
             {
