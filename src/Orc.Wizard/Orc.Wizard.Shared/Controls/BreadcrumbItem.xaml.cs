@@ -94,7 +94,9 @@ namespace Orc.Wizard.Controls
 
             if (ellipse != null && ellipse.Fill == null)
             {
+#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 ellipse.Fill = (SolidColorBrush)TryFindResource(DefaultColorNames.AccentColorBrush4) ?? new SolidColorBrush(DefaultColors.AccentColor4);
+#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
             
             var fromColor = ((SolidColorBrush)ellipse?.Fill)?.Color ?? DefaultColors.AccentColor4;
