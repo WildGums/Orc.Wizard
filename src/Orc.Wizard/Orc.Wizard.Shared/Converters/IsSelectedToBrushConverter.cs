@@ -21,8 +21,8 @@ namespace Orc.Wizard.Converters
             var application = System.Windows.Application.Current;
             if (application != null)
             {
-                SelectedBrush = application.FindResource("AccentColorBrush") as Brush;
-                NotSelectedBrush = application.FindResource("AccentColorBrush4") as Brush;
+                SelectedBrush = application.FindResource(DefaultColorNames.AccentColorBrush) as Brush ?? new SolidColorBrush(DefaultColors.AccentColor);
+                NotSelectedBrush = application.FindResource(DefaultColorNames.AccentColorBrush) as Brush ?? new SolidColorBrush(DefaultColors.AccentColor4);
             }
         }
 
