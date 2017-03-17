@@ -90,13 +90,18 @@ namespace Orc.Wizard.Controls
         {
             var storyboard = new Storyboard();
 
-            var colorName = isSelected ? "AccentColor" : "AccentColor4";
+            var colorName = isSelected ? DefaultColorNames.AccentColor : DefaultColorNames.AccentColor4;
 
-            var fromColor = ((SolidColorBrush)ellipse?.Fill)?.Color;
-            var targetColor = TryFindResource(colorName);
-            if (fromColor != null && targetColor is Color)
+            if (ellipse != null && ellipse.Fill == null)
             {
-                var colorAnimation = new ColorAnimation(fromColor.Value, (Color)targetColor, WizardConfiguration.AnimationDuration);
+                ellipse.Fill = (SolidColorBrush)TryFindResource(DefaultColorNames.AccentColorBrush4) ?? new SolidColorBrush(DefaultColors.AccentColor4);
+            }
+            
+            var fromColor = ((SolidColorBrush)ellipse?.Fill)?.Color ?? DefaultColors.AccentColor4;
+            var targetColor = TryFindResource(colorName) ?? DefaultColors.AccentColor;
+            if (targetColor is Color)
+            {
+                var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
                 Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)"));
 
                 storyboard.Children.Add(colorAnimation);
