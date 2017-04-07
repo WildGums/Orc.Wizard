@@ -22,7 +22,7 @@ namespace Orc.Wizard.Converters
             if (application != null)
             {
                 SelectedBrush = application.FindResource(DefaultColorNames.AccentColorBrush) as Brush ?? new SolidColorBrush(DefaultColors.AccentColor);
-                NotSelectedBrush = application.FindResource(DefaultColorNames.AccentColorBrush) as Brush ?? new SolidColorBrush(DefaultColors.AccentColor4);
+                NotSelectedBrush = application.FindResource(DefaultColorNames.AccentColorBrush4) as Brush ?? new SolidColorBrush(DefaultColors.AccentColor4);
             }
         }
 

@@ -36,7 +36,7 @@ namespace Orc.Wizard.ViewModels
             _languageService = languageService;
 
             Finish = new TaskCommand(OnFinishExecuteAsync, OnFinishCanExecute);
-            Cancel = new TaskCommand(OnCancelExecuteAsync, OnCancelCanExecuteAsync);
+            Cancel = new TaskCommand(OnCancelExecuteAsync, OnCancelCanExecute);
             GoToNext = new TaskCommand(OnGoToNextExecuteAsync, OnGoToNextCanExecute);
             GoToPrevious = new TaskCommand(OnGoToPreviousExecuteAsync, OnGoToPreviousCanExecute);
             ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
@@ -70,6 +70,11 @@ namespace Orc.Wizard.ViewModels
         #region Commands
         public TaskCommand GoToPrevious { get; set; }
 
+        private bool OnGoToPreviousCanExecute()
+        {
+            return Wizard.CanMoveBack;
+        }
+
         private async Task OnGoToPreviousExecuteAsync()
         {
             await Wizard.MoveBackAsync();
@@ -77,12 +82,13 @@ namespace Orc.Wizard.ViewModels
             UpdateState();
         }
 
-        private bool OnGoToPreviousCanExecute()
-        {
-            return Wizard.CanMoveBack;
-        }
 
         public TaskCommand GoToNext { get; set; }
+
+        private bool OnGoToNextCanExecute()
+        {
+            return Wizard.CanMoveForward;
+        }
 
         private async Task OnGoToNextExecuteAsync()
         {
@@ -91,12 +97,14 @@ namespace Orc.Wizard.ViewModels
             UpdateState();
         }
 
-        private bool OnGoToNextCanExecute()
-        {
-            return Wizard.CanMoveForward;
-        }
 
         public TaskCommand Finish { get; set; }
+
+        private bool OnFinishCanExecute()
+        {
+            var validationSummary = this.GetValidationSummary(true);
+            return !validationSummary.HasErrors && !validationSummary.HasWarnings && Wizard.CanResume;
+        }
 
         private async Task OnFinishExecuteAsync()
         {
@@ -107,13 +115,13 @@ namespace Orc.Wizard.ViewModels
             }
         }
 
-        private bool OnFinishCanExecute()
-        {
-            var validationSummary = this.GetValidationSummary(true);
-            return !validationSummary.HasErrors && !validationSummary.HasWarnings && Wizard.CanResume;
-        }
 
         public new TaskCommand Cancel { get; set; }
+
+        private bool OnCancelCanExecute()
+        {
+            return Wizard.CanCancel;
+        }
 
         private async Task OnCancelExecuteAsync()
         {
@@ -129,22 +137,19 @@ namespace Orc.Wizard.ViewModels
             }
         }
 
-        private bool OnCancelCanExecuteAsync()
-        {
-            return Wizard.CanCancel;
-        }
 
         public TaskCommand ShowHelp { get; set; }
+
+        private bool OnShowHelpCanExecute()
+        {
+            return Wizard.CanShowHelp;
+        }
 
         private Task OnShowHelpExecuteAsync()
         {
             return Wizard.ShowHelpAsync();
         }
 
-        private bool OnShowHelpCanExecute()
-        {
-            return Wizard.CanShowHelp;
-        }
         #endregion
 
         #region Methods

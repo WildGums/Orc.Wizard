@@ -24,10 +24,14 @@ namespace Orc.Wizard
             get { return _viewModel; }
             set
             {
-                var oldVm = _viewModel;
-                _viewModel = value;
+                if (!ObjectHelper.AreEqual(_viewModel, value))
+                {
+                    var oldVm = _viewModel;
+                    _viewModel = value;
 
-                ViewModelChanged.SafeInvoke(this, new ViewModelChangedEventArgs(oldVm, value));
+                    RaisePropertyChanged(nameof(ViewModel));
+                    ViewModelChanged.SafeInvoke(this, new ViewModelChangedEventArgs(oldVm, value));
+                }
             }
         }
 

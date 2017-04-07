@@ -38,7 +38,7 @@ namespace Orc.Wizard.Views
         {
             base.OnLoaded(e);
 
-            Dispatcher.BeginInvoke(async () =>
+            Dispatcher.BeginInvoke(() =>
             {
                 UpdateOpacityMask();
             });
@@ -48,10 +48,14 @@ namespace Orc.Wizard.Views
         {
             base.OnViewModelPropertyChanged(e);
 
+#pragma warning disable WPF1014
             if (e.HasPropertyChanged("CurrentPage"))
+#pragma warning restore WPF1014
             {
+#pragma warning disable AvoidAsyncVoid
                 Dispatcher.BeginInvoke(async () =>
                 {
+#pragma warning restore AvoidAsyncVoid
                     var vm = (WizardViewModel) ViewModel;
 
                     breadcrumb.CenterSelectedItem();
@@ -87,7 +91,7 @@ namespace Orc.Wizard.Views
                 opacityMask.GradientStops.Add(new GradientStop(Colors.Transparent, 1d));
             }
 
-            breadcrumb.OpacityMask = opacityMask.GradientStops.Count > 0 ? opacityMask : null;
+            breadcrumb.SetCurrentValue(OpacityMaskProperty, opacityMask.GradientStops.Count > 0 ? opacityMask : null);
         }
         #endregion
     }
