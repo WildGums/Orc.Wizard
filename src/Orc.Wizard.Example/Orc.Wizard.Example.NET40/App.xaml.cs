@@ -13,6 +13,7 @@ namespace Orc.Wizard.Example
     using Catel.Logging;
     using Catel.Services;
     using Catel.Windows;
+    using Orchestra;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -35,7 +36,7 @@ namespace Orc.Wizard.Example
 
             base.OnStartup(e);
 
-            StyleHelper.CreateStyleForwardersForDefaultStyles();
+            this.ApplyTheme();
         }
     }
 }

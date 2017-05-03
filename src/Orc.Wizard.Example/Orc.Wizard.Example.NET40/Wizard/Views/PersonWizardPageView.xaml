@@ -4,9 +4,10 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://catel.codeplex.com"
+                   xmlns:orc="http://www.wildgums.net.au/orc"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
-    <catel:StackGrid>
+    <orc:StackGrid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -36,6 +37,7 @@
         <Label Content="Last name" />
         <TextBox Text="{Binding LastName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
         
-    </catel:StackGrid>
+    </orc:StackGrid>
     
 </catel:UserControl>
+
