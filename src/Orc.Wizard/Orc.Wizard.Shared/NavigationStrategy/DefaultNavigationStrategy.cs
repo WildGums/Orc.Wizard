@@ -18,69 +18,59 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => wizard);
 
-            IEnumerable<IWizardPage> pages = wizard.Pages;
-            IWizardPage currentPage = wizard.CurrentPage;
+            var pages = wizard.Pages.ToList();
+            var currentPage = wizard.CurrentPage;
             if (currentPage == null)
             {
-                IWizardPage firstPage = pages.FirstOrDefault();
+                var firstPage = pages.FirstOrDefault();
                 if (firstPage == null)
                 {
                     return WizardConfiguration.CannotNavigate;
                 }
-                else
-                {
-                    return 0;
-                }
+
+                return 0;
             }
-            else
+
+            var lastPage = pages.LastOrDefault();
+            if (currentPage == lastPage)
             {
-                IWizardPage lastPage = pages.LastOrDefault();
-                if (currentPage == lastPage)
-                {
-                    return WizardConfiguration.CannotNavigate;
-                }
-                else
-                {
-                    int indexOfCurrentPage = pages.ToList().IndexOf(currentPage);
-                    int indexOfNextPage = indexOfCurrentPage + 1;
-                    return indexOfNextPage;
-                }
+                return WizardConfiguration.CannotNavigate;
             }
+
+            var indexOfCurrentPage = pages.IndexOf(currentPage);
+            var indexOfNextPage = indexOfCurrentPage + 1;
+
+            return indexOfNextPage;
         }
 
         public int GetIndexOfPreviousPage(IWizard wizard)
         {
             Argument.IsNotNull(() => wizard);
 
-            IEnumerable<IWizardPage> pages = wizard.Pages;
-            IWizardPage currentPage = wizard.CurrentPage;
+            var pages = wizard.Pages.ToList();
+            var currentPage = wizard.CurrentPage;
             if (currentPage == null)
             {
-                IWizardPage lastPage = pages.LastOrDefault();
+                var lastPage = pages.LastOrDefault();
                 if (lastPage == null)
                 {
                     return WizardConfiguration.CannotNavigate;
                 }
-                else
-                {
-                    int indexOfLastPage = pages.Count() - 1;
-                    return indexOfLastPage;
-                }
+
+                var indexOfLastPage = pages.Count() - 1;
+                return indexOfLastPage;
             }
-            else
+
+            var firstPage = pages.FirstOrDefault();
+            if (currentPage == firstPage)
             {
-                IWizardPage firstPage = pages.FirstOrDefault();
-                if (currentPage == firstPage)
-                {
-                    return WizardConfiguration.CannotNavigate;
-                }
-                else
-                {
-                    int indexOfCurrentPage = pages.ToList().IndexOf(currentPage);
-                    int indexOfPreviousPage = indexOfCurrentPage - 1;
-                    return indexOfPreviousPage;
-                }
+                return WizardConfiguration.CannotNavigate;
             }
+
+            var indexOfCurrentPage = pages.IndexOf(currentPage);
+            var indexOfPreviousPage = indexOfCurrentPage - 1;
+
+            return indexOfPreviousPage;
         }
         #endregion
     }

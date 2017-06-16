@@ -59,7 +59,10 @@ namespace Orc.Wizard
                 if (_currentPage == null)
                 {
                     _currentPage = _pages[_currentIndex];
-                    RaisePropertyChanged(nameof(CurrentPage));
+                    if (_currentPage != null)
+                    {
+                        RaisePropertyChanged(nameof(CurrentPage));
+                    }
                 }
 
                 return _currentPage;
@@ -257,11 +260,8 @@ namespace Orc.Wizard
             }
 
             _currentPage = null;
-            RaisePropertyChanged(nameof(CurrentPage));
-
             _currentIndex = newIndex;
-
-            RaisePropertyChanged("CurrentPage");
+            RaisePropertyChanged(nameof(CurrentPage));
 
             var newPage = CurrentPage;
             if (newPage != null)
