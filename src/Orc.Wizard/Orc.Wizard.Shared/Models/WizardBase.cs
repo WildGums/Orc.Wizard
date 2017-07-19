@@ -107,7 +107,8 @@ namespace Orc.Wizard
                     var vm = _currentPage.ViewModel;
                     if (vm != null)
                     {
-                        if (!vm.ValidateViewModel())
+                        vm.Validate();
+                        if (vm.ValidationContext.HasErrors)
                         {
                             return false;
                         }

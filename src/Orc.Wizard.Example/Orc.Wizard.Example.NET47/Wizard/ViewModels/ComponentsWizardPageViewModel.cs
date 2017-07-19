@@ -9,12 +9,14 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
+    using System.Threading.Tasks;
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
-    using Example.Models;
     using Models;
+    using Component = Example.Models.Component;
 
     public class ComponentsWizardPageViewModel : WizardPageViewModelBase<ComponentsWizardPage>
     {
@@ -35,6 +37,25 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
             Components.ForEach(x => x.IsSelected = true);
         }
         #endregion
+
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            Components.ForEach(x => x.PropertyChanged += OnComponentPropertyChanged);
+        }
+
+        protected override async Task CloseAsync()
+        {
+            Components.ForEach(x => x.PropertyChanged -= OnComponentPropertyChanged);
+
+            await base.CloseAsync();
+        }
+
+        private void OnComponentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Validate(true);
+        }
 
         protected override void ValidateBusinessRules(List<IBusinessRuleValidationResult> validationResults)
         {

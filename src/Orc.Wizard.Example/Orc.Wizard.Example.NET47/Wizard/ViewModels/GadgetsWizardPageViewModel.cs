@@ -9,7 +9,9 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
+    using System.Threading.Tasks;
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
@@ -26,6 +28,26 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
 
         [ViewModelToModel]
         public ObservableCollection<Gadget> Gadgets { get; private set; }
+
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            Gadgets.ForEach(x => x.PropertyChanged += OnGadgetPropertyChanged);
+        }
+
+        protected override async Task CloseAsync()
+        {
+            Gadgets.ForEach(x => x.PropertyChanged -= OnGadgetPropertyChanged);
+
+            await base.CloseAsync();
+        }
+
+        private void OnGadgetPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Validate(true);
+        }
+
 
         protected override void ValidateBusinessRules(List<IBusinessRuleValidationResult> validationResults)
         {
