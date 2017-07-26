@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.NET40", "Orc.Wizard\Orc.Wizard.NET40\Orc.Wizard.NET40.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.NET47", "Orc.Wizard\Orc.Wizard.NET47\Orc.Wizard.NET47.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}"
 EndProject
@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{3CC711D4-F
 		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Tests.NET40", "Orc.Wizard.Tests\Orc.Wizard.Tests.NET40\Orc.Wizard.Tests.NET40.csproj", "{A226D12E-9802-4364-B4F3-2CAAAE059DD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Tests.NET47", "Orc.Wizard.Tests\Orc.Wizard.Tests.NET47\Orc.Wizard.Tests.NET47.csproj", "{A226D12E-9802-4364-B4F3-2CAAAE059DD4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E58A59BA-FFA8-4D75-A2B9-F6FEFD848E94}"
 EndProject
@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{EFD371A0-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{AA1FD81A-33B7-4561-AE49-E375A73C2037}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Example.NET40", "Orc.Wizard.Example\Orc.Wizard.Example.NET40\Orc.Wizard.Example.NET40.csproj", "{2832C49C-CA0C-46DF-9EED-EDD53BC48541}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Wizard.Example.NET47", "Orc.Wizard.Example\Orc.Wizard.Example.NET47\Orc.Wizard.Example.NET47.csproj", "{2832C49C-CA0C-46DF-9EED-EDD53BC48541}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Orc.Wizard.Shared", "Orc.Wizard\Orc.Wizard.Shared\Orc.Wizard.Shared.shproj", "{A14D7911-D25C-4D2B-81DF-AF03560AD9CA}"
 EndProject

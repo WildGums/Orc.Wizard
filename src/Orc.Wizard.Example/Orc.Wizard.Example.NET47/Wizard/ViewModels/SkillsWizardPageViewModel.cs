@@ -9,7 +9,9 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
+    using System.Threading.Tasks;
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
@@ -35,6 +37,25 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
             Skills.ForEach(x => x.IsSelected = true);
         }
         #endregion
+
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            Skills.ForEach(x => x.PropertyChanged += OnSkillPropertyChanged);
+        }
+
+        protected override async Task CloseAsync()
+        {
+            Skills.ForEach(x => x.PropertyChanged -= OnSkillPropertyChanged);
+
+            await base.CloseAsync();
+        }
+
+        private void OnSkillPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Validate(true);
+        }
 
         protected override void ValidateBusinessRules(List<IBusinessRuleValidationResult> validationResults)
         {

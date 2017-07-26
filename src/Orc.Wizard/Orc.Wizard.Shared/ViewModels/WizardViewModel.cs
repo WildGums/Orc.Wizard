@@ -116,7 +116,7 @@ namespace Orc.Wizard.ViewModels
         }
 
 
-        public new TaskCommand Cancel { get; set; }
+        public TaskCommand Cancel { get; set; }
 
         private bool OnCancelCanExecute()
         {
