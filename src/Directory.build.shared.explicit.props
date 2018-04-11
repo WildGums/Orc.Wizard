@@ -5,6 +5,11 @@
     <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
   -->
 
+  <!-- Explicit additional project properties that require stuff set before -->
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Compile Remove="Platforms\**\*.cs;Resources\**\*.cs" />
     <Page Remove="Platforms\**\*.xaml" />
