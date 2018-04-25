@@ -4,11 +4,11 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://schemas.catelproject.com"
-                   xmlns:orc="http://www.wildgums.net.au/orc"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     
-    <orc:StackGrid>
+    <orccontrols:StackGrid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -32,7 +32,7 @@
         </ScrollViewer>
         
         <Button Command="{Binding SelectAll}" Content="Select all" />
-    </orc:StackGrid>
+    </orccontrols:StackGrid>
     
 </catel:UserControl>
 

@@ -2,10 +2,10 @@
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://schemas.catelproject.com"
-              xmlns:orc="http://www.wildgums.net.au/orc"
+              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
               Height="600" Width="800">
 
-    <orc:StackGrid>
+    <orccontrols:StackGrid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -29,7 +29,7 @@
         <Button Command="{Binding ShowWizard}" Content="Show wizard..." />
         
         <TextBox x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />
-    </orc:StackGrid>
+    </orccontrols:StackGrid>
     
 </catel:Window>
 
