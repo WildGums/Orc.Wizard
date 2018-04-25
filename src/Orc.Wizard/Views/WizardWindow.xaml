@@ -149,18 +149,18 @@
 
             <WrapPanel Grid.Column="0" Style="{StaticResource DataWindowButtonContainerStyle}">
                 <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" Style="{StaticResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
+                    Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
             </WrapPanel>
 
             <WrapPanel Grid.Column="2" Style="{StaticResource DataWindowButtonContainerStyle}">
                 <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" Style="{StaticResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
+                    Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
 
                 <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Wizard_Next}" Style="{StaticResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=False}" />
+                    Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
 
                 <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Wizard_Finish}" Style="{StaticResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
+                    Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
 
                 <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Wizard_Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
             </WrapPanel>
