@@ -136,7 +136,7 @@
             </ContentControl>
         </ScrollViewer>
 
-        <Label Grid.Row="4" Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}">
+        <Label Grid.Row="4" Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
             <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding Wizard_OptionalWizardStep}" />
         </Label>
 
