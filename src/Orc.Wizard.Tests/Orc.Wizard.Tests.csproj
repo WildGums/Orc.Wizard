@@ -1,30 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462</TargetFrameworks>
-    <AssemblyName>Orc.Wizard.Example.NET</AssemblyName>
-    <RootNamespace>Orc.Wizard.Example</RootNamespace>
+    <TargetFrameworks>net46</TargetFrameworks>
+    <AssemblyName>Orc.Wizard.Tests</AssemblyName>
+    <RootNamespace>Orc.Wizard.Tests</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <StartupObject />
-    <NoWarn>$(NoWarn);SA1652</NoWarn>
+    <PackageId>Orc.Wizard.Tests</PackageId>
+    <PackageVersion>1.0.0-alpha0001</PackageVersion>
+    <Description></Description>
+    <PackageTags></PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.2" PrivateAssets="All" />
+    <PackageReference Include="ApiApprover" Version="7.0.0" PrivateAssets="all" />
+    <PackageReference Include="ApprovalTests" Version="3.0.13" PrivateAssets="all" />
+    <PackageReference Include="ApprovalUtilities" Version="3.0.13" PrivateAssets="all" />
     <PackageReference Include="Catel.Core" Version="5.4.0" />
-    <PackageReference Include="Catel.MVVM" Version="5.4.0" />
     <PackageReference Include="Catel.Fody" Version="3.3.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="3.0.3" PrivateAssets="all" />
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="2.1.0" PrivateAssets="all" />
+    <PackageReference Include="MethodTimer.Fody" Version="2.1.0" PrivateAssets="all" />
     <PackageReference Include="ModuleInit.Fody" Version="1.8.0" PrivateAssets="all" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.0" PrivateAssets="all" />
+    <PackageReference Include="NUnit" Version="3.10.1" PrivateAssets="all" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.2" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="4.4.0" PrivateAssets="all" />
-    <PackageReference Include="Orc.SystemInfo" Version="3.0.0-alpha0009" />
-    <PackageReference Include="Orchestra.Core" Version="5.0.0-alpha0008" />
+    <PackageReference Include="PublicApiGenerator" Version="7.0.0" PrivateAssets="all" />    
     <PackageReference Include="WpfAnalyzers" Version="2.1.2.1" PrivateAssets="all" />
-    <PackageReference Include="Orc.Controls" Version="3.0.0-alpha0025" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orc.Wizard\Orc.Wizard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="*.approved.cs;*.received.cs" />
   </ItemGroup>
 
   <ItemGroup>
