@@ -58,8 +58,8 @@ namespace Orc.Wizard
     }
     public class static DefaultColors
     {
-        public static System.Windows.Media.Color AccentColor;
-        public static System.Windows.Media.Color AccentColor4;
+        public static System.Windows.Media.Color AccentColor { get; set; }
+        public static System.Windows.Media.Color AccentColor4 { get; set; }
     }
     public class DefaultNavigationStrategy : Orc.Wizard.INavigationStrategy
     {
@@ -193,6 +193,7 @@ namespace Orc.Wizard
     }
     public abstract class WizardBase : Catel.Data.ModelBase, Orc.Wizard.IWizard
     {
+        protected readonly Catel.IoC.ITypeFactory _typeFactory;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData IsHelpVisibleProperty;
         public static readonly Catel.Data.PropertyData MaxSizeProperty;
@@ -230,8 +231,8 @@ namespace Orc.Wizard
     }
     public class static WizardConfiguration
     {
-        public static System.TimeSpan AnimationDuration;
         public static readonly int CannotNavigate;
+        public static System.TimeSpan AnimationDuration { get; set; }
     }
     public abstract class WizardPageBase : Catel.Data.ModelBase, Orc.Wizard.IWizardPage
     {

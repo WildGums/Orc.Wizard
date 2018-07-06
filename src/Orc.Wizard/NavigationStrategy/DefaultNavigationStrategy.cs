@@ -57,7 +57,7 @@ namespace Orc.Wizard
                     return WizardConfiguration.CannotNavigate;
                 }
 
-                var indexOfLastPage = pages.Count() - 1;
+                var indexOfLastPage = pages.Count - 1;
                 return indexOfLastPage;
             }
 

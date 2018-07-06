@@ -12,7 +12,8 @@ namespace Orc.Wizard
 
     public static class WizardConfiguration
     {
-        public static TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(300);
+        public static TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(300);
+
         public static readonly int CannotNavigate = -1;
     }
 
@@ -26,7 +27,7 @@ namespace Orc.Wizard
 
     public static class DefaultColors
     {
-        public static Color AccentColor = Colors.Orange;
-        public static Color AccentColor4 = Colors.Bisque;
+        public static Color AccentColor { get; set; } = Colors.Orange;
+        public static Color AccentColor4 { get; set; } = Colors.Bisque;
     }
 }

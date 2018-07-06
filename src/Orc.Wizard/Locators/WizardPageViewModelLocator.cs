@@ -13,16 +13,9 @@ namespace Orc.Wizard
 
     public class WizardPageViewModelLocator : ViewModelLocator, IWizardPageViewModelLocator
     {
-        #region Fields
-        private readonly IDictionary<Type, Type> _cache = new Dictionary<Type, Type>();
-        #endregion
-
         public WizardPageViewModelLocator()
         {
             
         }
-
-        #region Methods
-        #endregion
     }
 }

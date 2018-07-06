@@ -127,7 +127,6 @@ namespace Orc.Wizard
                 return;
             }
 
-            // TODO: Consider setting the data context to a model instead of manually creating a vm
             var viewModelFactory = serviceLocator.ResolveType<IViewModelFactory>();
             var viewModel = viewModelFactory.CreateViewModel(pageViewModelType, wizard.CurrentPage, null);
 

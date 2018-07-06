@@ -167,9 +167,9 @@ namespace Orc.Wizard.ViewModels
 
             var page = Wizard.CurrentPage;
 
-            PageTitle = (page != null) ? page.Title : string.Empty;
-            PageDescription = (page != null) ? page.Description : string.Empty;
-            IsPageOptional = (page != null) ? page.IsOptional : false;
+            PageTitle = page?.Title ?? string.Empty;
+            PageDescription = page?.Description ?? string.Empty;
+            IsPageOptional = page?.IsOptional ?? false;
 
             var currentIndex = Wizard.Pages.TakeWhile(wizardPage => !ReferenceEquals(wizardPage, page)).Count() + 1;
             var totalPages = Wizard.Pages.Count();

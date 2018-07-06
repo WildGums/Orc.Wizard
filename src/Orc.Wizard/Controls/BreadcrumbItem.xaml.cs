@@ -11,6 +11,7 @@ namespace Orc.Wizard.Controls
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
+    using Catel.Collections;
 
     public sealed partial class BreadcrumbItem
     {
@@ -104,7 +105,7 @@ namespace Orc.Wizard.Controls
             if (targetColor is Color)
             {
                 var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
-                Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)"));
+                Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
 
                 storyboard.Children.Add(colorAnimation);
             }

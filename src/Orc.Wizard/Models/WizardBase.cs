@@ -28,7 +28,7 @@ namespace Orc.Wizard
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly IList<IWizardPage> _pages = new List<IWizardPage>();
-        private readonly ITypeFactory _typeFactory;
+        protected readonly ITypeFactory _typeFactory;
 
         private int _currentIndex = 0;
         private IWizardPage _currentPage;

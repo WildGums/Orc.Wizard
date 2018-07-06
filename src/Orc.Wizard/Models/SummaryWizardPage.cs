@@ -12,16 +12,12 @@ namespace Orc.Wizard
 
     public class SummaryWizardPage : WizardPageBase
     {
-        private readonly ILanguageService _languageService;
-
         public SummaryWizardPage(ILanguageService languageService)
         {
             Argument.IsNotNull(() => languageService);
 
-            _languageService = languageService;
-
-            Title = _languageService.GetString("Wizard_SummaryTitle");
-            Description = _languageService.GetString("Wizard_SummaryDescription");
+            Title = languageService.GetString("Wizard_SummaryTitle");
+            Description = languageService.GetString("Wizard_SummaryDescription");
         }
     }
 }
