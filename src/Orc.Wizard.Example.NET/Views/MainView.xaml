@@ -1,0 +1,35 @@
+﻿<catel:Window x:Class="Orc.Wizard.Example.Views.MainView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:catel="http://schemas.catelproject.com"
+              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+              Height="600" Width="800">
+
+    <orccontrols:StackGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label>
+            <TextBlock TextWrapping="Wrap">
+                This example will show you how to use the wizard elements in Orc.Wizard. The code is fairly easy to understand. Even though 
+                this demo isn't very meaningful it illustrates the real power of the wizard in combination with Catel:
+                <LineBreak /><LineBreak />
+                - State management (remember values when navigating between views)<LineBreak />
+                - Views can be used inside and outside of the wizard<LineBreak />
+                - Validation per view model or model<LineBreak />
+                - Easy to code, seriously, check it out for yourself!<LineBreak />
+            </TextBlock>
+        </Label>
+
+        <CheckBox Content="Show in taskbar" IsChecked="{Binding ShowInTaskbar}" />
+        <Button Command="{Binding ShowWizard}" Content="Show wizard..." />
+        
+        <TextBox x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />
+    </orccontrols:StackGrid>
+    
+</catel:Window>
+

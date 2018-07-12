@@ -1,0 +1,43 @@
+﻿<catel:UserControl x:Class="Orc.Wizard.Example.Wizard.Views.PersonWizardPageView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+    <orccontrols:StackGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Label Grid.ColumnSpan="2">
+            <TextBlock TextWrapping="Wrap">
+                This wizard page shows you how to map textbox elements to a model and validate them. Notice that you cannot
+                move to the next page while the fields are not yet valid. When navigating forward and back, you will see the values are
+                automatically restored.
+                <LineBreak /><LineBreak />
+                The cool thing is that the view model for this page only has 28 (!) lines of code. This means your pages
+                stay small and are easily maintainable.
+            </TextBlock>
+        </Label>
+        
+        <Label Content="First name" />
+        <TextBox Text="{Binding FirstName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+        
+        <Label Content="Last name" />
+        <TextBox Text="{Binding LastName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+        
+    </orccontrols:StackGrid>
+    
+</catel:UserControl>
+

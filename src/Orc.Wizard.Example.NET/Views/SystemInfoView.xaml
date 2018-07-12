@@ -1,0 +1,17 @@
+﻿<catel:UserControl x:Class="Orc.SystemInfo.Example.Views.SystemInfoView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                   xmlns:catel="http://schemas.catelproject.com"
+                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+        <Label Content="Working on it..." HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Visibility="{Binding IsBusy, Converter={catel:BooleanToHidingVisibilityConverter}}" />
+
+        <TextBox Text="{Binding SystemInfo}" VerticalScrollBarVisibility="Auto" IsReadOnly="True"
+                  Visibility="{Binding IsBusy, Converter={catel:BooleanToHidingVisibilityConverter}, ConverterParameter=False}" />
+    </Grid>
+
+</catel:UserControl>
