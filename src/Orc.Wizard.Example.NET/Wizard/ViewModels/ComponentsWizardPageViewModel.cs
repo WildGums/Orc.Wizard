@@ -15,8 +15,7 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
-    using Models;
-    using Component = Example.Models.Component;
+    using Component = Example.Component;
 
     public class ComponentsWizardPageViewModel : WizardPageViewModelBase<ComponentsWizardPage>
     {

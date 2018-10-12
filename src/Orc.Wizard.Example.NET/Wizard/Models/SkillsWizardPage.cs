@@ -5,11 +5,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.Example.Wizard.Models
+namespace Orc.Wizard.Example.Wizard
 {
     using System.Collections.ObjectModel;
     using System.Text;
-    using Example.Models;
 
     public class SkillsWizardPage : WizardPageBase
     {
