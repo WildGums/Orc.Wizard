@@ -11,7 +11,7 @@ namespace Orc.Wizard.Example.ViewModels
     using Catel;
     using Catel.IoC;
     using Catel.MVVM;
-    using Wizard.Models;
+    using Orc.Wizard.Example.Wizard;
 
     public class MainViewModel : ViewModelBase
     {

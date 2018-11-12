@@ -15,7 +15,8 @@ namespace Orc.Wizard
     {
         public WizardPageViewModelLocator()
         {
-            
+            NamingConventions.Add("[CURRENT].ViewModels.[VW]PageViewModel");
+            NamingConventions.Add("[CURRENT].ViewModels.[VW]ViewModel");
         }
     }
 }

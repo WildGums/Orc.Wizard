@@ -8,7 +8,6 @@
 namespace Orc.Wizard.Example.Wizard.ViewModels
 {
     using Catel.MVVM;
-    using Models;
 
     public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
     {

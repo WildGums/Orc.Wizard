@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.Example.Wizard.Models
+namespace Orc.Wizard.Example.Wizard
 {
     public class PersonWizardPage : WizardPageBase
     {

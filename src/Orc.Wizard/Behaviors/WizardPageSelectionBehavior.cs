@@ -92,7 +92,9 @@ namespace Orc.Wizard
             UpdatePage();
         }
 
+#pragma warning disable WPF0005 // Name of PropertyChangedCallback should match registered name.
         private void UpdatePage()
+#pragma warning restore WPF0005 // Name of PropertyChangedCallback should match registered name.
         {
             if (AssociatedObject == null)
             {

@@ -15,8 +15,6 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
-    using Example.Models;
-    using Models;
 
     public class GadgetsWizardPageViewModel : WizardPageViewModelBase<GadgetsWizardPage>
     {

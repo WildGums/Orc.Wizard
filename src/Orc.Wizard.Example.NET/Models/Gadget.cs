@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.Example.Models
+namespace Orc.Wizard.Example
 {
     using Catel.Data;
 

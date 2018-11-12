@@ -10,7 +10,6 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
     using System.Collections.Generic;
     using Catel.Data;
     using Catel.MVVM;
-    using Models;
 
     public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPage>
     {
