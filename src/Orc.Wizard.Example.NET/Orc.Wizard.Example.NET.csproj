@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <AssemblyName>Orc.Wizard.Example.NET</AssemblyName>
     <RootNamespace>Orc.Wizard.Example</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -8,15 +8,15 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <UseWpf>true</UseWpf>
     <OutputType>WinExe</OutputType>
     <StartupObject />
     <NoWarn>$(NoWarn);SA1652</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.5.4" PrivateAssets="All" />
-    <PackageReference Include="Catel.Core" Version="5.8.0" />
-    <PackageReference Include="Catel.MVVM" Version="5.8.0" />
+    <PackageReference Include="Catel.Core" Version="5.9.0-alpha0015" />
+    <PackageReference Include="Catel.MVVM" Version="5.9.0-alpha0015" />
     <PackageReference Include="Catel.Fody" Version="3.5.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="3.2.17" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -53,6 +53,5 @@
     </EmbeddedResource>
   </ItemGroup>
   
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
 </Project>
