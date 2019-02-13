@@ -30,7 +30,7 @@ namespace Orc.Wizard
                     _viewModel = value;
 
                     RaisePropertyChanged(nameof(ViewModel));
-                    ViewModelChanged.SafeInvoke(this, new ViewModelChangedEventArgs(oldVm, value));
+                    ViewModelChanged?.Invoke(this, new ViewModelChangedEventArgs(oldVm, value));
                 }
             }
         }
