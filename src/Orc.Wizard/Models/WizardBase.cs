@@ -218,7 +218,7 @@ namespace Orc.Wizard
             var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
             SetCurrentPage(indexOfNextPage);
 
-            MovedForward.SafeInvoke(this);
+            MovedForward?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual async Task MoveBackAsync()
@@ -231,7 +231,7 @@ namespace Orc.Wizard
             var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
             SetCurrentPage(indexOfPreviousPage);
 
-            MovedBack.SafeInvoke(this);
+            MovedBack?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual async Task ShowHelpAsync()
@@ -241,7 +241,7 @@ namespace Orc.Wizard
                 return;
             }
 
-            HelpShown.SafeInvoke(this);
+            HelpShown?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual IWizardPage SetCurrentPage(int newIndex)
