@@ -10,6 +10,7 @@ namespace Orc.Wizard
     using System;
     using System.Windows;
     using System.Windows.Controls;
+    using Catel;
     using Catel.IoC;
     using Catel.MVVM;
     using Catel.MVVM.Views;
@@ -38,11 +39,6 @@ namespace Orc.Wizard
             var behavior = d as WizardPageSelectionBehavior;
             if (behavior != null)
             {
-                if (e.NewValue is null)
-                {
-                    return;
-                }
-
                 behavior.UpdatePage();
 
                 var oldWizard = e.OldValue as IWizard;
@@ -52,7 +48,7 @@ namespace Orc.Wizard
                     oldWizard.MovedForward -= behavior.OnMovedForward;
                 }
 
-                var wizard = behavior.Wizard;
+                var wizard = e.NewValue as IWizard;
                 if (wizard != null)
                 {
                     wizard.MovedBack += behavior.OnMovedBack;
