@@ -27,7 +27,7 @@ namespace Orc.Wizard.ViewModels
             await base.InitializeAsync();
 
             var wizard = Wizard;
-            if (wizard == null)
+            if (wizard is null)
             {
                 return;
             }

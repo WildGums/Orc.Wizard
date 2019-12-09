@@ -56,7 +56,7 @@ namespace Orc.Wizard
         {
             get
             {
-                if (_currentPage == null)
+                if (_currentPage is null)
                 {
                     _currentPage = _pages[_currentIndex];
                     if (_currentPage != null)

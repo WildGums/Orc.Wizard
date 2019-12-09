@@ -43,13 +43,13 @@ namespace Orc.Wizard
             Argument.IsNotNull(() => listBox);
 
             var scrollViewer = listBox.FindVisualDescendantByType<ScrollViewer>();
-            if (scrollViewer == null)
+            if (scrollViewer is null)
             {
                 return;
             }
 
             var selectedItem = listBox.SelectedItem;
-            if (selectedItem == null)
+            if (selectedItem is null)
             {
                 return;
             }
@@ -67,7 +67,7 @@ namespace Orc.Wizard
                 }
 
                 var container = listBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as FrameworkElement;
-                if (container == null)
+                if (container is null)
                 {
                     return;
                 }

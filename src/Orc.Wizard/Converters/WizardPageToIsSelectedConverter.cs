@@ -14,7 +14,7 @@ namespace Orc.Wizard.Converters
     {
         protected override object Convert(IWizardPage value, Type targetType, object parameter)
         {
-            if (value == null)
+            if (value is null)
             {
                 return false;
             }

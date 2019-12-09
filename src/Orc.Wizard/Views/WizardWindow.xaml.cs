@@ -72,7 +72,7 @@ namespace Orc.Wizard.Views
         private void UpdateOpacityMask()
         {
             var scrollViewer = breadcrumb.FindVisualDescendantByType<ScrollViewer>();
-            if (scrollViewer == null)
+            if (scrollViewer is null)
             {
                 return;
             }
