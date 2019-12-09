@@ -77,38 +77,54 @@ namespace Orc.Wizard.Controls
                 SetCurrentValue(NumberProperty, page.Number);
                 SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
                 SetCurrentValue(DescriptionProperty, page.Description);
+
+                pathline.SetCurrentValue(VisibilityProperty, page.Wizard.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
         private void OnCurrentPageChanged()
         {
             var isSelected = ReferenceEquals(CurrentPage, Page);
+            var isCompleted = Page.Number < CurrentPage.Number;
 
-            UpdateSelection(isSelected);
+            UpdateContent(isCompleted);
+            UpdateSelection(isSelected, isCompleted);
         }
 
-        private void UpdateSelection(bool isSelected)
+        private void UpdateSelection(bool isSelected, bool isCompleted)
+        {
+            UpdateShapeColor(pathline, isSelected, isCompleted);
+            UpdateShapeColor(ellipse, isSelected, isCompleted);
+
+            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ? Brushes.Black : Brushes.DimGray);
+        }
+
+        private void UpdateContent(bool isCompleted)
+        {
+            ellipseText.SetCurrentValue(VisibilityProperty, isCompleted ? Visibility.Hidden : Visibility.Visible);
+            ellipseCheck.SetCurrentValue(VisibilityProperty, isCompleted ? Visibility.Visible : Visibility.Hidden);
+        }
+
+        private void UpdateShapeColor(Shape shape, bool isSelected, bool isCompleted)
         {
             var storyboard = new Storyboard();
 
-            if (ellipse != null && ellipse.Fill is null)
+            if (shape != null && shape.Fill is null)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                ellipse.Fill = (SolidColorBrush)TryFindResource(DefaultColorNames.AccentColorBrush4) ?? new SolidColorBrush(DefaultColors.AccentColor4);
+                shape.Fill = (SolidColorBrush)TryFindResource(DefaultColorNames.AccentColorBrush4) ?? new SolidColorBrush(DefaultColors.AccentColor4);
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
 
-            var fromColor = ((SolidColorBrush)ellipse?.Fill)?.Color ?? DefaultColors.AccentColor4;
-            var targetColor = this.GetAccentColorBrush(isSelected).Color;
+            var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? DefaultColors.AccentColor4;
+            var targetColor = this.GetAccentColorBrush(isSelected || isCompleted).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
             Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
 
             storyboard.Children.Add(colorAnimation);
 
-            storyboard.Begin(ellipse);
-
-            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ? Brushes.Black : Brushes.DimGray);
+            storyboard.Begin(shape);
         }
     }
 }
