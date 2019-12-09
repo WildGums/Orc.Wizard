@@ -26,7 +26,7 @@ namespace Orc.Wizard.Controls
             set { SetValue(PageProperty, value); }
         }
 
-        public static readonly DependencyProperty PageProperty = DependencyProperty.Register("Page", typeof(IWizardPage),
+        public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(IWizardPage),
             typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnPageChanged()));
 
 
@@ -36,7 +36,7 @@ namespace Orc.Wizard.Controls
             set { SetValue(CurrentPageProperty, value); }
         }
 
-        public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register("CurrentPage", typeof(IWizardPage),
+        public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register(nameof(CurrentPage), typeof(IWizardPage),
             typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnCurrentPageChanged()));
 
 
@@ -46,7 +46,7 @@ namespace Orc.Wizard.Controls
             set { SetValue(TitleProperty, value); }
         }
 
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string),
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string),
             typeof(BreadcrumbItem), new PropertyMetadata(string.Empty));
 
 
@@ -56,7 +56,7 @@ namespace Orc.Wizard.Controls
             set { SetValue(DescriptionProperty, value); }
         }
 
-        public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string),
+        public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string),
             typeof(BreadcrumbItem), new PropertyMetadata(string.Empty));
 
 
@@ -66,7 +66,7 @@ namespace Orc.Wizard.Controls
             set { SetValue(NumberProperty, value); }
         }
 
-        public static readonly DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int),
+        public static readonly DependencyProperty NumberProperty = DependencyProperty.Register(nameof(Number), typeof(int),
             typeof(BreadcrumbItem), new PropertyMetadata(0));
 
         private void OnPageChanged()
@@ -91,24 +91,20 @@ namespace Orc.Wizard.Controls
         {
             var storyboard = new Storyboard();
 
-            var colorName = isSelected ? DefaultColorNames.AccentColor : DefaultColorNames.AccentColor4;
-
             if (ellipse != null && ellipse.Fill is null)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 ellipse.Fill = (SolidColorBrush)TryFindResource(DefaultColorNames.AccentColorBrush4) ?? new SolidColorBrush(DefaultColors.AccentColor4);
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
-            
-            var fromColor = ((SolidColorBrush)ellipse?.Fill)?.Color ?? DefaultColors.AccentColor4;
-            var targetColor = TryFindResource(colorName) ?? DefaultColors.AccentColor;
-            if (targetColor is Color)
-            {
-                var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
-                Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
 
-                storyboard.Children.Add(colorAnimation);
-            }
+            var fromColor = ((SolidColorBrush)ellipse?.Fill)?.Color ?? DefaultColors.AccentColor4;
+            var targetColor = this.GetAccentColorBrush(isSelected).Color;
+
+            var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
+            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
+
+            storyboard.Children.Add(colorAnimation);
 
             storyboard.Begin(ellipse);
 
