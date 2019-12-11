@@ -29,7 +29,8 @@
                            VerticalAlignment="Center" FontWeight="Medium" FontSize="13" Margin="0,-2,0,0"/>
                 <Viewbox x:Name="ellipseCheck" Width="24" Height="24" Visibility="Hidden">
                     <Canvas Width="24" Height="24">
-                        <Path Data="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"  RenderTransformOrigin="0.5, 0.5" Fill="White">
+                        <Path Data="M 5.01,14.44 C 5.01,14.44 12.03,21.39 12.03,21.39 12.03,21.39 26.88,6.66 26.88,6.66" Stroke="White" 
+                              StrokeThickness="4" RenderTransformOrigin="0.5, 0.5" Margin="-3 -1 0 0">
                             <Path.RenderTransform>
                                 <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
                             </Path.RenderTransform>

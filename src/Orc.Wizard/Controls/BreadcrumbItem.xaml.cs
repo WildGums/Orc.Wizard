@@ -93,8 +93,8 @@ namespace Orc.Wizard.Controls
 
         private void UpdateSelection(bool isSelected, bool isCompleted)
         {
-            UpdateShapeColor(pathline, isSelected, isCompleted);
-            UpdateShapeColor(ellipse, isSelected, isCompleted);
+            UpdateShapeColor(pathline, isCompleted && !isSelected);
+            UpdateShapeColor(ellipse, isSelected || isCompleted);
 
             txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ? Brushes.Black : Brushes.DimGray);
         }
@@ -105,7 +105,7 @@ namespace Orc.Wizard.Controls
             ellipseCheck.SetCurrentValue(VisibilityProperty, isCompleted ? Visibility.Visible : Visibility.Hidden);
         }
 
-        private void UpdateShapeColor(Shape shape, bool isSelected, bool isCompleted)
+        private void UpdateShapeColor(Shape shape, bool isSelected)
         {
             var storyboard = new Storyboard();
 
@@ -117,7 +117,7 @@ namespace Orc.Wizard.Controls
             }
 
             var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? DefaultColors.AccentColor4;
-            var targetColor = this.GetAccentColorBrush(isSelected || isCompleted).Color;
+            var targetColor = this.GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
             Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
