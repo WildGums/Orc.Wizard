@@ -355,8 +355,10 @@ namespace Orc.Wizard.Views
     }
     public class WizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
+        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public WizardWindow() { }
         public WizardWindow(Orc.Wizard.ViewModels.WizardViewModel viewModel) { }
+        public System.Windows.Media.SolidColorBrush AccentColorBrush { get; set; }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }

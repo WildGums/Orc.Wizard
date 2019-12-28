@@ -10,6 +10,7 @@ namespace Orc.Wizard
     using System;
     using System.Windows;
     using System.Windows.Controls;
+    using Catel;
     using Catel.IoC;
     using Catel.MVVM;
     using Catel.MVVM.Views;
@@ -38,11 +39,6 @@ namespace Orc.Wizard
             var behavior = d as WizardPageSelectionBehavior;
             if (behavior != null)
             {
-                if (e.NewValue == null)
-                {
-                    return;
-                }
-
                 behavior.UpdatePage();
 
                 var oldWizard = e.OldValue as IWizard;
@@ -52,7 +48,7 @@ namespace Orc.Wizard
                     oldWizard.MovedForward -= behavior.OnMovedForward;
                 }
 
-                var wizard = behavior.Wizard;
+                var wizard = e.NewValue as IWizard;
                 if (wizard != null)
                 {
                     wizard.MovedBack += behavior.OnMovedBack;
@@ -71,7 +67,7 @@ namespace Orc.Wizard
             base.OnAssociatedObjectUnloaded();
 
             var wizard = Wizard;
-            if (wizard == null)
+            if (wizard is null)
             {
                 return;
             }
@@ -96,13 +92,13 @@ namespace Orc.Wizard
         private void UpdatePage()
 #pragma warning restore WPF0005 // Name of PropertyChangedCallback should match registered name.
         {
-            if (AssociatedObject == null)
+            if (AssociatedObject is null)
             {
                 return;
             }
 
             var wizard = Wizard;
-            if (wizard == null)
+            if (wizard is null)
             {
                 return;
             }
@@ -124,7 +120,7 @@ namespace Orc.Wizard
 
             var typeFactory = serviceLocator.ResolveType<ITypeFactory>();
             var view = typeFactory.CreateInstance(viewType) as IView;
-            if (view == null)
+            if (view is null)
             {
                 return;
             }

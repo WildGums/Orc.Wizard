@@ -81,7 +81,7 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => wizard);
 
-            if (wizardPage == null)
+            if (wizardPage is null)
             {
                 wizardPage = wizard.CurrentPage;
             }

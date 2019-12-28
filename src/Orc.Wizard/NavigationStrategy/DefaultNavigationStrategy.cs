@@ -19,10 +19,10 @@ namespace Orc.Wizard
 
             var pages = wizard.Pages.ToList();
             var currentPage = wizard.CurrentPage;
-            if (currentPage == null)
+            if (currentPage is null)
             {
                 var firstPage = pages.FirstOrDefault();
-                if (firstPage == null)
+                if (firstPage is null)
                 {
                     return WizardConfiguration.CannotNavigate;
                 }
@@ -48,10 +48,10 @@ namespace Orc.Wizard
 
             var pages = wizard.Pages.ToList();
             var currentPage = wizard.CurrentPage;
-            if (currentPage == null)
+            if (currentPage is null)
             {
                 var lastPage = pages.LastOrDefault();
-                if (lastPage == null)
+                if (lastPage is null)
                 {
                     return WizardConfiguration.CannotNavigate;
                 }

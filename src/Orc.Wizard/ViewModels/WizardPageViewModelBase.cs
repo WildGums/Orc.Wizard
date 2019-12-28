@@ -34,7 +34,7 @@ namespace Orc.Wizard
             get
             {
                 var wizardPage = WizardPage;
-                if (wizardPage == null)
+                if (wizardPage is null)
                 {
                     return null;
                 }

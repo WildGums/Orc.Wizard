@@ -10,6 +10,7 @@ namespace Orc.Wizard.Views
     using System;
     using System.ComponentModel;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using Catel.Threading;
@@ -34,9 +35,25 @@ namespace Orc.Wizard.Views
             InitializeComponent();
         }
 
+
+        public SolidColorBrush AccentColorBrush
+        {
+            get { return (SolidColorBrush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), 
+            typeof(SolidColorBrush), typeof(WizardWindow), new PropertyMetadata(null));
+
+
         protected override void OnLoaded(EventArgs e)
         {
             base.OnLoaded(e);
+
+            if (AccentColorBrush is null)
+            {
+                SetCurrentValue(AccentColorBrushProperty, this.GetAccentColorBrush());
+            }
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -72,7 +89,7 @@ namespace Orc.Wizard.Views
         private void UpdateOpacityMask()
         {
             var scrollViewer = breadcrumb.FindVisualDescendantByType<ScrollViewer>();
-            if (scrollViewer == null)
+            if (scrollViewer is null)
             {
                 return;
             }
