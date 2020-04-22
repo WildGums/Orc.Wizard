@@ -125,10 +125,14 @@ namespace Orc.Wizard
         public static Orc.Wizard.IWizardPage AddPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage page) { }
         public static TWizardPage AddPage<TWizardPage>(this Orc.Wizard.IWizard wizard)
             where TWizardPage : Orc.Wizard.IWizardPage { }
+        public static TWizardPage AddPage<TWizardPage>(this Orc.Wizard.IWizard wizard, object model)
+            where TWizardPage : Orc.Wizard.IWizardPage { }
         public static Orc.Wizard.IWizardPage FindPage(this Orc.Wizard.IWizard wizard, System.Func<Orc.Wizard.IWizardPage, bool> predicate) { }
         public static TWizardPage FindPageByType<TWizardPage>(this Orc.Wizard.IWizard wizard)
             where TWizardPage : Orc.Wizard.IWizardPage { }
         public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, int index)
+            where TWizardPage : Orc.Wizard.IWizardPage { }
+        public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, int index, object model)
             where TWizardPage : Orc.Wizard.IWizardPage { }
         public static bool IsFirstPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
         public static bool IsLastPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }

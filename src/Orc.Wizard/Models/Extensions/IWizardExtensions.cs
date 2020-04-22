@@ -47,6 +47,27 @@ namespace Orc.Wizard
             return page;
         }
 
+        public static TWizardPage AddPage<TWizardPage>(this IWizard wizard, object model)
+            where TWizardPage : IWizardPage
+        {
+            Argument.IsNotNull(() => wizard);
+
+            return wizard.InsertPage<TWizardPage>(wizard.Pages.Count(), model);
+        }
+
+        public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, int index, object model)
+            where TWizardPage : IWizardPage
+        {
+            Argument.IsNotNull(() => wizard);
+
+            var typeFactory = wizard.GetTypeFactory();
+            var page = typeFactory.CreateInstanceWithParametersAndAutoCompletion<TWizardPage>(model);
+
+            wizard.InsertPage(index, page);
+
+            return page;
+        }
+
         public static TWizardPage FindPageByType<TWizardPage>(this IWizard wizard)
             where TWizardPage : IWizardPage
         {
