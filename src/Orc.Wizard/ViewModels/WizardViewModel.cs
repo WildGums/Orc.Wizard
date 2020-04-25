@@ -7,6 +7,7 @@
 
 namespace Orc.Wizard.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace Orc.Wizard.ViewModels
 
         public IWizard Wizard { get; set; }
 
-        public IEnumerable<IWizardPage> WizardPages { get; private set; } 
+        public IEnumerable<IWizardPage> WizardPages { get; private set; }
 
         public string PageTitle { get; private set; }
 
@@ -78,8 +79,6 @@ namespace Orc.Wizard.ViewModels
         private async Task OnGoToPreviousExecuteAsync()
         {
             await Wizard.MoveBackAsync();
-
-            UpdateState();
         }
 
 
@@ -93,8 +92,6 @@ namespace Orc.Wizard.ViewModels
         private async Task OnGoToNextExecuteAsync()
         {
             await Wizard.MoveForwardAsync();
-
-            UpdateState();
         }
 
 
@@ -157,6 +154,27 @@ namespace Orc.Wizard.ViewModels
         {
             await base.InitializeAsync();
 
+            Wizard.MovedBack += OnWizardMovedBack;
+            Wizard.MovedBack += OnWizardMovedForward;
+
+            UpdateState();
+        }
+
+        protected override async Task CloseAsync()
+        {
+            Wizard.MovedBack -= OnWizardMovedBack;
+            Wizard.MovedBack -= OnWizardMovedForward;
+
+            await base.CloseAsync();
+        }
+
+        private void OnWizardMovedBack(object sender, EventArgs e)
+        {
+            UpdateState();
+        }
+
+        private void OnWizardMovedForward(object sender, EventArgs e)
+        {
             UpdateState();
         }
 
