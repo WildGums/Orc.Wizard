@@ -335,6 +335,7 @@ namespace Orc.Wizard.ViewModels
         [Catel.MVVM.ModelAttribute(SupportIEditableObject=false)]
         public Orc.Wizard.IWizard Wizard { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> WizardPages { get; }
+        protected override System.Threading.Tasks.Task CloseAsync() { }
         public Orc.Wizard.IWizardPage get_CurrentPage() { }
         public bool get_IsHelpVisible() { }
         public System.Windows.Size get_MaxSize() { }
