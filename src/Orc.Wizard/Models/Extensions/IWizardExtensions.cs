@@ -13,26 +13,34 @@ namespace Orc.Wizard
     using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
+    using Catel.Logging;
     using Catel.Reflection;
 
     public static class IWizardExtensions
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         public static async Task MoveNextOrResumeAsync(this IWizard wizard)
         {
             Argument.IsNotNull(() => wizard);
 
             if (wizard.CanMoveForward)
             {
+                Log.Debug("Moving forward from MoveNextOrResumeAsync()");
+
                 await wizard.MoveForwardAsync();
                 return;
             }
 
             if (wizard.CanResume)
             {
-                // Save and finish
+                Log.Debug("Resuming from MoveNextOrResumeAsync()");
+
                 await wizard.ResumeAsync();
                 return;
             }
+
+            Log.Debug("Could not move forward or resume from MoveNextOrResumeAsync()");
         }
 
         public static IWizardPage AddPage(this IWizard wizard, IWizardPage page)
