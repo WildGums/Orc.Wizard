@@ -10,6 +10,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -26,6 +27,7 @@
         </Label>
 
         <CheckBox Content="Show in taskbar" IsChecked="{Binding ShowInTaskbar}" />
+        <CheckBox Content="Show summary page" IsChecked="{Binding ShowSummaryPage}" />
         <Button Command="{Binding ShowWizard}" Content="Show wizard..." />
         
         <TextBox x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />

@@ -108,7 +108,6 @@ namespace Orc.Wizard.ViewModels
             if (await SaveAsync())
             {
                 await Wizard.SaveAsync();
-                await CloseViewModelAsync(true);
             }
         }
 
@@ -130,7 +129,6 @@ namespace Orc.Wizard.ViewModels
             if (await CancelAsync())
             {
                 await Wizard.CancelAsync();
-                await CloseViewModelAsync(false);
             }
         }
 
@@ -156,6 +154,8 @@ namespace Orc.Wizard.ViewModels
 
             Wizard.MovedBack += OnWizardMovedBack;
             Wizard.MovedBack += OnWizardMovedForward;
+            Wizard.Canceled += OnWizardCanceled;
+            Wizard.Resumed += OnWizardResumed;
 
             UpdateState();
         }
@@ -164,6 +164,8 @@ namespace Orc.Wizard.ViewModels
         {
             Wizard.MovedBack -= OnWizardMovedBack;
             Wizard.MovedBack -= OnWizardMovedForward;
+            Wizard.Canceled -= OnWizardCanceled;
+            Wizard.Resumed -= OnWizardResumed;
 
             await base.CloseAsync();
         }
@@ -176,6 +178,16 @@ namespace Orc.Wizard.ViewModels
         private void OnWizardMovedForward(object sender, EventArgs e)
         {
             UpdateState();
+        }
+
+        private void OnWizardCanceled(object sender, EventArgs e)
+        {
+            CloseViewModelAsync(false);
+        }
+
+        private void OnWizardResumed(object sender, EventArgs e)
+        {
+            CloseViewModelAsync(true);
         }
 
         private void UpdateState()

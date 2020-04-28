@@ -7,6 +7,7 @@
 
 namespace Orc.Wizard.Example.ViewModels
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
@@ -27,12 +28,15 @@ namespace Orc.Wizard.Example.ViewModels
             _typeFactory = typeFactory;
 
             ShowWizard = new TaskCommand(OnShowWizardExecuteAsync);
+            ShowSummaryPage = true;
 
             Title = "Orc.Wizard example";
         }
 
         #region Properties
         public bool ShowInTaskbar { get; set; }
+
+        public bool ShowSummaryPage { get; set; }
         #endregion
 
         #region Commands
@@ -42,6 +46,12 @@ namespace Orc.Wizard.Example.ViewModels
         {
             var wizard = _typeFactory.CreateInstance<ExampleWizard>();
             wizard.ShowInTaskbarWrapper = ShowInTaskbar;
+
+            if (!ShowSummaryPage)
+            {
+                var lastPage = wizard.Pages.Last();
+                wizard.RemovePage(lastPage);
+            }
 
             return _wizardService.ShowWizardAsync(wizard);
         }

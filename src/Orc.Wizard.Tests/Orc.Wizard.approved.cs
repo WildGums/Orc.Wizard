@@ -109,14 +109,18 @@ namespace Orc.Wizard
         System.Windows.ResizeMode ResizeMode { get; }
         bool ShowInTaskbar { get; }
         string Title { get; }
+        public event System.EventHandler<System.EventArgs> Canceled;
         public event System.EventHandler<System.EventArgs> HelpShown;
         public event System.EventHandler<System.EventArgs> MovedBack;
         public event System.EventHandler<System.EventArgs> MovedForward;
+        public event System.EventHandler<System.EventArgs> Resumed;
         System.Threading.Tasks.Task CancelAsync();
         void InsertPage(int index, Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task MoveBackAsync();
         System.Threading.Tasks.Task MoveForwardAsync();
         void RemovePage(Orc.Wizard.IWizardPage page);
+        System.Threading.Tasks.Task ResumeAsync();
+        [ObsoleteExAttribute(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
         System.Threading.Tasks.Task SaveAsync();
         System.Threading.Tasks.Task ShowHelpAsync();
     }
@@ -136,6 +140,7 @@ namespace Orc.Wizard
             where TWizardPage : Orc.Wizard.IWizardPage { }
         public static bool IsFirstPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
         public static bool IsLastPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
+        public static System.Threading.Tasks.Task MoveNextOrResumeAsync(this Orc.Wizard.IWizard wizard) { }
     }
     public interface IWizardPage
     {
@@ -150,6 +155,10 @@ namespace Orc.Wizard
         System.Threading.Tasks.Task CancelAsync();
         Orc.Wizard.ISummaryItem GetSummary();
         System.Threading.Tasks.Task SaveAsync();
+    }
+    public class static IWizardPageExtensions
+    {
+        public static System.Threading.Tasks.Task MoveNextOrFinishAsync(this Orc.Wizard.IWizardPage wizardPage) { }
     }
     public interface IWizardPageViewModelLocator : Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator { }
     public interface IWizardService
@@ -220,15 +229,19 @@ namespace Orc.Wizard
         public System.Windows.ResizeMode ResizeMode { get; set; }
         public bool ShowInTaskbar { get; set; }
         public string Title { get; set; }
+        public event System.EventHandler<System.EventArgs> Canceled;
         public event System.EventHandler<System.EventArgs> HelpShown;
         public event System.EventHandler<System.EventArgs> MovedBack;
         public event System.EventHandler<System.EventArgs> MovedForward;
+        public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public void InsertPage(int index, Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task MoveBackAsync() { }
         public virtual System.Threading.Tasks.Task MoveForwardAsync() { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         public void RemovePage(Orc.Wizard.IWizardPage page) { }
+        public virtual System.Threading.Tasks.Task ResumeAsync() { }
+        [ObsoleteExAttribute(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
         public virtual System.Threading.Tasks.Task SaveAsync() { }
         protected virtual Orc.Wizard.IWizardPage SetCurrentPage(int newIndex) { }
         public virtual System.Threading.Tasks.Task ShowHelpAsync() { }

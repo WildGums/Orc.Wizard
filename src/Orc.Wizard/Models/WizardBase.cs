@@ -139,6 +139,8 @@ namespace Orc.Wizard
         #region Events
         public event EventHandler<EventArgs> MovedForward;
         public event EventHandler<EventArgs> MovedBack;
+        public event EventHandler<EventArgs> Canceled;
+        public event EventHandler<EventArgs> Resumed;
         public event EventHandler<EventArgs> HelpShown;
         #endregion
 
@@ -172,26 +174,6 @@ namespace Orc.Wizard
             }
 
             UpdatePageNumbers();
-        }
-
-        public virtual async Task SaveAsync()
-        {
-            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName(false));
-
-            foreach (var page in _pages)
-            {
-                await page.SaveAsync();
-            }
-        }
-
-        public virtual async Task CancelAsync()
-        {
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
-
-            foreach (var page in _pages)
-            {
-                await page.CancelAsync();
-            }
         }
 
         public virtual async Task MoveForwardAsync()
@@ -232,6 +214,46 @@ namespace Orc.Wizard
             SetCurrentPage(indexOfPreviousPage);
 
             MovedBack?.Invoke(this, EventArgs.Empty);
+        }
+
+        [ObsoleteEx(ReplacementTypeOrMember = "ResumeAsync", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
+        public virtual Task SaveAsync()
+        {
+            return ResumeAsync();
+        }
+
+        public virtual async Task ResumeAsync()
+        {
+            if (!CanResume)
+            {
+                return;
+            }
+
+            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName(false));
+
+            foreach (var page in _pages)
+            {
+                await page.SaveAsync();
+            }
+
+            Resumed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual async Task CancelAsync()
+        {
+            if (!CanCancel)
+            {
+                return;
+            }
+
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
+
+            foreach (var page in _pages)
+            {
+                await page.CancelAsync();
+            }
+
+            Canceled?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual async Task ShowHelpAsync()

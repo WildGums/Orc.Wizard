@@ -10,12 +10,31 @@ namespace Orc.Wizard
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
     using Catel.Reflection;
 
     public static class IWizardExtensions
     {
+        public static async Task MoveNextOrResumeAsync(this IWizard wizard)
+        {
+            Argument.IsNotNull(() => wizard);
+
+            if (wizard.CanMoveForward)
+            {
+                await wizard.MoveForwardAsync();
+                return;
+            }
+
+            if (wizard.CanResume)
+            {
+                // Save and finish
+                await wizard.ResumeAsync();
+                return;
+            }
+        }
+
         public static IWizardPage AddPage(this IWizard wizard, IWizardPage page)
         {
             Argument.IsNotNull(() => wizard);
