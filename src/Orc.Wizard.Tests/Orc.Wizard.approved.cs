@@ -140,7 +140,7 @@ namespace Orc.Wizard
             where TWizardPage : Orc.Wizard.IWizardPage { }
         public static bool IsFirstPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
         public static bool IsLastPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
-        public static System.Threading.Tasks.Task MoveNextOrResumeAsync(this Orc.Wizard.IWizard wizard) { }
+        public static System.Threading.Tasks.Task MoveForwardOrResumeAsync(this Orc.Wizard.IWizard wizard) { }
     }
     public interface IWizardPage
     {
@@ -158,7 +158,7 @@ namespace Orc.Wizard
     }
     public class static IWizardPageExtensions
     {
-        public static System.Threading.Tasks.Task MoveNextOrFinishAsync(this Orc.Wizard.IWizardPage wizardPage) { }
+        public static System.Threading.Tasks.Task MoveForwardOrResumeAsync(this Orc.Wizard.IWizardPage wizardPage) { }
     }
     public interface IWizardPageViewModelLocator : Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator { }
     public interface IWizardService

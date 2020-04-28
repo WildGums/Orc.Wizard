@@ -20,7 +20,7 @@ namespace Orc.Wizard
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        public static async Task MoveNextOrResumeAsync(this IWizard wizard)
+        public static async Task MoveForwardOrResumeAsync(this IWizard wizard)
         {
             Argument.IsNotNull(() => wizard);
 

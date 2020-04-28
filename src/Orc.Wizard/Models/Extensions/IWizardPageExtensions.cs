@@ -5,11 +5,11 @@
 
     public static class IWizardPageExtensions
     {
-        public static Task MoveNextOrFinishAsync(this IWizardPage wizardPage)
+        public static Task MoveForwardOrResumeAsync(this IWizardPage wizardPage)
         {
             Argument.IsNotNull(() => wizardPage);
 
-            return wizardPage.Wizard.MoveNextOrResumeAsync();
+            return wizardPage.Wizard.MoveForwardOrResumeAsync();
         }
     }
 }

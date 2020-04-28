@@ -65,7 +65,7 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
 
         private async Task OnResumeViaCodeExecuteAsync()
         {
-            await Wizard.MoveNextOrResumeAsync();
+            await Wizard.MoveForwardOrResumeAsync();
         }
         #endregion
 
