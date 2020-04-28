@@ -153,7 +153,7 @@ namespace Orc.Wizard.ViewModels
             await base.InitializeAsync();
 
             Wizard.MovedBack += OnWizardMovedBack;
-            Wizard.MovedBack += OnWizardMovedForward;
+            Wizard.MovedForward += OnWizardMovedForward;
             Wizard.Canceled += OnWizardCanceled;
             Wizard.Resumed += OnWizardResumed;
 
@@ -163,7 +163,7 @@ namespace Orc.Wizard.ViewModels
         protected override async Task CloseAsync()
         {
             Wizard.MovedBack -= OnWizardMovedBack;
-            Wizard.MovedBack -= OnWizardMovedForward;
+            Wizard.MovedForward -= OnWizardMovedForward;
             Wizard.Canceled -= OnWizardCanceled;
             Wizard.Resumed -= OnWizardResumed;
 

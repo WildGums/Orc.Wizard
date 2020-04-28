@@ -7,10 +7,14 @@
 
 namespace Orc.Wizard.Example.Wizard
 {
+    using System.Threading.Tasks;
     using Catel.IoC;
+    using Catel.Logging;
 
     public class ExampleWizard : WizardBase
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         public ExampleWizard(ITypeFactory typeFactory)
             : base(typeFactory)
         {
@@ -30,6 +34,20 @@ namespace Orc.Wizard.Example.Wizard
         {
             get {  return ShowInTaskbar; }
             set { ShowInTaskbar = value; }
+        }
+
+        public override async Task ResumeAsync()
+        {
+            Log.Info("Resuming wizard");
+
+            await base.ResumeAsync();
+        }
+
+        public override async Task SaveAsync()
+        {
+            Log.Info("Saving wizard");
+
+            await base.SaveAsync();
         }
     }
 }
