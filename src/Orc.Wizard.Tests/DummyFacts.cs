@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.AutomaticSupport.Tests
+namespace Orc.Wizard.Tests
 {
     using NUnit.Framework;
 
