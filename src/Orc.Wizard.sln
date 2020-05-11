@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{AA1F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Wizard", "Orc.Wizard\Orc.Wizard.csproj", "{B5BF9F67-3CA7-4728-AB3E-08A54BDB33DC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Wizard.Example.NET", "Orc.Wizard.Example.NET\Orc.Wizard.Example.NET.csproj", "{4EAF5292-3A1E-4A0D-AFF1-F7723CB53544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Wizard.Example", "Orc.Wizard.Example\Orc.Wizard.Example.csproj", "{4EAF5292-3A1E-4A0D-AFF1-F7723CB53544}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Wizard.Tests", "Orc.Wizard.Tests\Orc.Wizard.Tests.csproj", "{D264208D-3103-40E3-ACDA-0EDC7F994A9B}"
 EndProject

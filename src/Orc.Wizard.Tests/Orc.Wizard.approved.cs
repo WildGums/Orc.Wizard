@@ -1,11 +1,11 @@
-﻿[assembly: System.Resources.NeutralResourcesLanguageAttribute("en-US")]
-[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.6", FrameworkDisplayName=".NET Framework 4.6")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard.Controls")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard.Converters")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard.Views")]
-[assembly: System.Windows.Markup.XmlnsPrefixAttribute("http://schemas.wildgums.com/orc/wizard", "orcwizard")]
-[assembly: System.Windows.ThemeInfoAttribute(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.1", FrameworkDisplayName="")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard.Controls")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard.Converters")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard.Views")]
+[assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/wizard", "orcwizard")]
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
 namespace Orc.Wizard.Controls
 {
     public sealed class BreadcrumbItem : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
@@ -49,14 +49,14 @@ namespace Orc.Wizard.Converters
 }
 namespace Orc.Wizard
 {
-    public class static DefaultColorNames
+    public static class DefaultColorNames
     {
         public const string AccentColor = "AccentColor";
         public const string AccentColor4 = "AccentColor4";
         public const string AccentColorBrush = "AccentColorBrush";
         public const string AccentColorBrush4 = "AccentColorBrush4";
     }
-    public class static DefaultColors
+    public static class DefaultColors
     {
         public static System.Windows.Media.Color AccentColor { get; set; }
         public static System.Windows.Media.Color AccentColor4 { get; set; }
@@ -109,22 +109,22 @@ namespace Orc.Wizard
         System.Windows.ResizeMode ResizeMode { get; }
         bool ShowInTaskbar { get; }
         string Title { get; }
-        public event System.EventHandler<System.EventArgs> Canceled;
-        public event System.EventHandler<System.EventArgs> HelpShown;
-        public event System.EventHandler<System.EventArgs> MovedBack;
-        public event System.EventHandler<System.EventArgs> MovedForward;
-        public event System.EventHandler<System.EventArgs> Resumed;
+        event System.EventHandler<System.EventArgs> Canceled;
+        event System.EventHandler<System.EventArgs> HelpShown;
+        event System.EventHandler<System.EventArgs> MovedBack;
+        event System.EventHandler<System.EventArgs> MovedForward;
+        event System.EventHandler<System.EventArgs> Resumed;
         System.Threading.Tasks.Task CancelAsync();
         void InsertPage(int index, Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task MoveBackAsync();
         System.Threading.Tasks.Task MoveForwardAsync();
         void RemovePage(Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task ResumeAsync();
-        [ObsoleteExAttribute(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
+        [ObsoleteEx(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
         System.Threading.Tasks.Task SaveAsync();
         System.Threading.Tasks.Task ShowHelpAsync();
     }
-    public class static IWizardExtensions
+    public static class IWizardExtensions
     {
         public static Orc.Wizard.IWizardPage AddPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage page) { }
         public static TWizardPage AddPage<TWizardPage>(this Orc.Wizard.IWizard wizard)
@@ -151,37 +151,37 @@ namespace Orc.Wizard
         string Title { get; set; }
         Catel.MVVM.IViewModel ViewModel { get; set; }
         Orc.Wizard.IWizard Wizard { get; set; }
-        public event System.EventHandler<Orc.Wizard.ViewModelChangedEventArgs> ViewModelChanged;
+        event System.EventHandler<Orc.Wizard.ViewModelChangedEventArgs> ViewModelChanged;
         System.Threading.Tasks.Task CancelAsync();
         Orc.Wizard.ISummaryItem GetSummary();
         System.Threading.Tasks.Task SaveAsync();
     }
-    public class static IWizardPageExtensions
+    public static class IWizardPageExtensions
     {
         public static System.Threading.Tasks.Task MoveForwardOrResumeAsync(this Orc.Wizard.IWizardPage wizardPage) { }
     }
     public interface IWizardPageViewModelLocator : Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator { }
     public interface IWizardService
     {
-        System.Threading.Tasks.Task<System.Nullable<bool>> ShowWizardAsync(Orc.Wizard.IWizard wizard);
+        System.Threading.Tasks.Task<bool?> ShowWizardAsync(Orc.Wizard.IWizard wizard);
     }
-    public class static IWizardServiceExtensions
+    public static class IWizardServiceExtensions
     {
-        public static System.Threading.Tasks.Task<System.Nullable<bool>> ShowWizardAsync<TWizard>(this Orc.Wizard.IWizardService wizardService, object model = null)
+        public static System.Threading.Tasks.Task<bool?> ShowWizardAsync<TWizard>(this Orc.Wizard.IWizardService wizardService, object model = null)
             where TWizard : Orc.Wizard.IWizard { }
     }
-    public class static ListBoxExtensions
+    public static class ListBoxExtensions
     {
         public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
         public static void CenterSelectedItem(this System.Windows.Controls.ListBox listBox) { }
         public static double GetHorizontalOffset(System.Windows.FrameworkElement target) { }
         public static void SetHorizontalOffset(System.Windows.FrameworkElement target, double value) { }
     }
-    public class static ModuleInitializer
+    public static class ModuleInitializer
     {
         public static void Initialize() { }
     }
-    public class static ProgressBarExtensions
+    public static class ProgressBarExtensions
     {
         public static readonly System.Windows.DependencyProperty SmoothProgressProperty;
         public static double GetSmoothProgress(System.Windows.FrameworkElement target) { }
@@ -241,12 +241,12 @@ namespace Orc.Wizard
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         public void RemovePage(Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task ResumeAsync() { }
-        [ObsoleteExAttribute(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
+        [ObsoleteEx(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
         public virtual System.Threading.Tasks.Task SaveAsync() { }
         protected virtual Orc.Wizard.IWizardPage SetCurrentPage(int newIndex) { }
         public virtual System.Threading.Tasks.Task ShowHelpAsync() { }
     }
-    public class static WizardConfiguration
+    public static class WizardConfiguration
     {
         public static readonly int CannotNavigate;
         public static System.TimeSpan AnimationDuration { get; set; }
@@ -285,7 +285,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData WizardPageProperty;
         public WizardPageViewModelBase(TWizardPage wizardPage) { }
         public Orc.Wizard.IWizard Wizard { get; }
-        [Catel.MVVM.ModelAttribute()]
+        [Catel.MVVM.Model]
         public TWizardPage WizardPage { get; }
     }
     public class WizardPageViewModelLocator : Catel.MVVM.ViewModelLocator, Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator, Orc.Wizard.IWizardPageViewModelLocator
@@ -295,7 +295,7 @@ namespace Orc.Wizard
     public class WizardService : Orc.Wizard.IWizardService
     {
         public WizardService(Catel.Services.IUIVisualizerService uiVisualizerService) { }
-        public System.Threading.Tasks.Task<System.Nullable<bool>> ShowWizardAsync(Orc.Wizard.IWizard wizard) { }
+        public System.Threading.Tasks.Task<bool?> ShowWizardAsync(Orc.Wizard.IWizard wizard) { }
     }
 }
 namespace Orc.Wizard.ViewModels
@@ -324,38 +324,38 @@ namespace Orc.Wizard.ViewModels
         public static readonly Catel.Data.PropertyData WizardProperty;
         public WizardViewModel(Orc.Wizard.IWizard wizard, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
         public Catel.MVVM.TaskCommand Cancel { get; set; }
-        [Catel.MVVM.ViewModelToModelAttribute("Wizard", "CurrentPage")]
+        [Catel.MVVM.ViewModelToModel("Wizard", "CurrentPage")]
         public Orc.Wizard.IWizardPage CurrentPage { get; set; }
         public Catel.MVVM.TaskCommand Finish { get; set; }
         public Catel.MVVM.TaskCommand GoToNext { get; set; }
         public Catel.MVVM.TaskCommand GoToPrevious { get; set; }
         public bool IsFirstPage { get; }
-        [Catel.MVVM.ViewModelToModelAttribute("Wizard", "IsHelpVisible")]
+        [Catel.MVVM.ViewModelToModel("Wizard", "IsHelpVisible")]
         public bool IsHelpVisible { get; set; }
         public bool IsLastPage { get; }
         public bool IsPageOptional { get; }
-        [Catel.MVVM.ViewModelToModelAttribute("Wizard", "MaxSize")]
+        [Catel.MVVM.ViewModelToModel("Wizard", "MaxSize")]
         public System.Windows.Size MaxSize { get; set; }
-        [Catel.MVVM.ViewModelToModelAttribute("Wizard", "MinSize")]
+        [Catel.MVVM.ViewModelToModel("Wizard", "MinSize")]
         public System.Windows.Size MinSize { get; set; }
         public string PageDescription { get; }
         public string PageTitle { get; }
-        [Catel.MVVM.ViewModelToModelAttribute("Wizard", "ResizeMode")]
+        [Catel.MVVM.ViewModelToModel("Wizard", "ResizeMode")]
         public System.Windows.ResizeMode ResizeMode { get; set; }
         public Catel.MVVM.TaskCommand ShowHelp { get; set; }
-        [Catel.MVVM.ViewModelToModelAttribute("Wizard", "ShowInTaskbar")]
+        [Catel.MVVM.ViewModelToModel("Wizard", "ShowInTaskbar")]
         public bool ShowInTaskbar { get; set; }
-        [Catel.MVVM.ModelAttribute(SupportIEditableObject=false)]
+        [Catel.MVVM.Model(SupportIEditableObject=false)]
         public Orc.Wizard.IWizard Wizard { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> WizardPages { get; }
         protected override System.Threading.Tasks.Task CloseAsync() { }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
         public Orc.Wizard.IWizardPage get_CurrentPage() { }
         public bool get_IsHelpVisible() { }
         public System.Windows.Size get_MaxSize() { }
         public System.Windows.Size get_MinSize() { }
         public System.Windows.ResizeMode get_ResizeMode() { }
         public bool get_ShowInTaskbar() { }
-        protected override System.Threading.Tasks.Task InitializeAsync() { }
         public void set_CurrentPage(Orc.Wizard.IWizardPage ) { }
         public void set_IsHelpVisible(bool ) { }
         public void set_MaxSize(System.Windows.Size ) { }

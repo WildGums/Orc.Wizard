@@ -30,7 +30,7 @@ namespace Orc.Wizard
             set { SetValue(WizardProperty, value); }
         }
 
-        public static readonly DependencyProperty WizardProperty = DependencyProperty.Register("Wizard", typeof(IWizard),
+        public static readonly DependencyProperty WizardProperty = DependencyProperty.Register(nameof(Wizard), typeof(IWizard),
             typeof(WizardPageSelectionBehavior), new PropertyMetadata(OnWizardChanged));
         #endregion
 
