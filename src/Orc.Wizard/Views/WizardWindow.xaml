@@ -154,13 +154,17 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <WrapPanel Grid.Column="0" Style="{DynamicResource DataWindowButtonContainerStyle}">
+            <WrapPanel Grid.Column="0" 
+                       Style="{DynamicResource DataWindowButtonContainerStyle}"
+                       Margin="-6,0,0,6">
                 <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" 
                         Style="{DynamicResource DataWindowButtonStyle}" 
                         Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
             </WrapPanel>
 
-            <WrapPanel Grid.Column="2" Style="{DynamicResource DataWindowButtonContainerStyle}">
+            <WrapPanel Grid.Column="2" 
+                       Style="{DynamicResource DataWindowButtonContainerStyle}"
+                       Margin="0,0,6,6">
                 <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" 
                         Style="{DynamicResource DataWindowButtonStyle}" 
                         Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />

@@ -49,18 +49,6 @@ namespace Orc.Wizard.Converters
 }
 namespace Orc.Wizard
 {
-    public static class DefaultColorNames
-    {
-        public const string AccentColor = "AccentColor";
-        public const string AccentColor4 = "AccentColor4";
-        public const string AccentColorBrush = "AccentColorBrush";
-        public const string AccentColorBrush4 = "AccentColorBrush4";
-    }
-    public static class DefaultColors
-    {
-        public static System.Windows.Media.Color AccentColor { get; set; }
-        public static System.Windows.Media.Color AccentColor4 { get; set; }
-    }
     public class DefaultNavigationStrategy : Orc.Wizard.INavigationStrategy
     {
         public DefaultNavigationStrategy() { }
@@ -170,6 +158,11 @@ namespace Orc.Wizard
         public static System.Threading.Tasks.Task<bool?> ShowWizardAsync<TWizard>(this Orc.Wizard.IWizardService wizardService, object model = null)
             where TWizard : Orc.Wizard.IWizard { }
     }
+    public class LibraryThemeProvider : ControlzEx.Theming.LibraryThemeProvider
+    {
+        public LibraryThemeProvider() { }
+        public override void FillColorSchemeValues(System.Collections.Generic.Dictionary<string, string> values, ControlzEx.Theming.RuntimeThemeColorValues colorValues) { }
+    }
     public static class ListBoxExtensions
     {
         public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
@@ -197,6 +190,13 @@ namespace Orc.Wizard
     public class SummaryWizardPage : Orc.Wizard.WizardPageBase
     {
         public SummaryWizardPage(Catel.Services.ILanguageService languageService) { }
+    }
+    public static class ThemingKeys
+    {
+        public const string AccentColor = "Orc.Colors.AccentColor";
+        public const string AccentColor40 = "Orc.Colors.AccentColor40";
+        public const string AccentColorBrush = "Orc.Brushes.AccentColorBrush";
+        public const string AccentColorBrush40 = "Orc.Brushes.AccentColorBrush40";
     }
     public class ViewModelChangedEventArgs : System.EventArgs
     {
@@ -373,10 +373,8 @@ namespace Orc.Wizard.Views
     }
     public class WizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public WizardWindow() { }
         public WizardWindow(Orc.Wizard.ViewModels.WizardViewModel viewModel) { }
-        public System.Windows.Media.SolidColorBrush AccentColorBrush { get; set; }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
