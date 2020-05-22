@@ -4,7 +4,7 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:catel="http://schemas.catelproject.com"
-                  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                  xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   xmlns:controls="clr-namespace:Orc.Wizard.Controls"
                   ResizeMode="{Binding ResizeMode, Mode=OneWay}"
@@ -137,9 +137,9 @@
 
         <ScrollViewer Grid.Row="3" Margin="10,4,10,4" VerticalScrollBarVisibility="Disabled">
             <ContentControl Focusable="False">
-                <i:Interaction.Behaviors>
+                <xamlbehaviors:Interaction.Behaviors>
                     <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
-                </i:Interaction.Behaviors>
+                </xamlbehaviors:Interaction.Behaviors>
             </ContentControl>
         </ScrollViewer>
 
