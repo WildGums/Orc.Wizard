@@ -1,16 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardPageViewModelBase.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using Catel;
     using Catel.MVVM;
 
-    public class WizardPageViewModelBase<TWizardPage> : ViewModelBase
+    public class WizardPageViewModelBase<TWizardPage> : ViewModelBase, IWizardPageViewModel
         where TWizardPage : class, IWizardPage
     {
         #region Constructors
@@ -41,6 +34,12 @@ namespace Orc.Wizard
 
                 return wizardPage.Wizard;
             }
+        }
+
+        public virtual void EnableValidationExposure()
+        {
+            DeferValidationUntilFirstSaveCall = false;
+            Validate(true);
         }
         #endregion
     }

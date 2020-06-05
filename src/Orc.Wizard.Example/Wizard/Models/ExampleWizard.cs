@@ -40,6 +40,12 @@ namespace Orc.Wizard.Example.Wizard
             set { ShowInTaskbar = value; }
         }
 
+        public bool HandleNavigationStatesWrapper
+        {
+            get {  return HandleNavigationStates; }
+            set { HandleNavigationStates = value; }
+        }
+
         public override async Task ResumeAsync()
         {
             Log.Info("Resuming wizard");

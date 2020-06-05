@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardViewModel.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.ViewModels
+﻿namespace Orc.Wizard.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +8,6 @@ namespace Orc.Wizard.ViewModels
     using Catel.Fody;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Windows;
 
     public class WizardViewModel : ViewModelBase
     {
@@ -46,13 +38,12 @@ namespace Orc.Wizard.ViewModels
 
         #region Properties
         [Model(SupportIEditableObject = false)]
-        [Expose("CurrentPage")]
-        [Expose("ResizeMode")]
-        [Expose("MinSize")]
-        [Expose("MaxSize")]
-        [Expose("IsHelpVisible")]
-        [Expose("ShowInTaskbar")]
-
+        [Expose(nameof(IWizard.CurrentPage))]
+        [Expose(nameof(IWizard.ResizeMode))]
+        [Expose(nameof(IWizard.MinSize))]
+        [Expose(nameof(IWizard.MaxSize))]
+        [Expose(nameof(IWizard.IsHelpVisible))]
+        [Expose(nameof(IWizard.ShowInTaskbar))]
         public IWizard Wizard { get; set; }
 
         public IEnumerable<IWizardPage> WizardPages { get; private set; }
@@ -73,6 +64,11 @@ namespace Orc.Wizard.ViewModels
 
         private bool OnGoToPreviousCanExecute()
         {
+            if (!Wizard.HandleNavigationStates)
+            {
+                return true;
+            }
+
             return Wizard.CanMoveBack;
         }
 
@@ -86,6 +82,11 @@ namespace Orc.Wizard.ViewModels
 
         private bool OnGoToNextCanExecute()
         {
+            if (!Wizard.HandleNavigationStates)
+            {
+                return true;
+            }
+
             return Wizard.CanMoveForward;
         }
 

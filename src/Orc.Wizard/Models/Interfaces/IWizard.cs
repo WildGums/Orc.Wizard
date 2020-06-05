@@ -21,6 +21,7 @@ namespace Orc.Wizard
         System.Windows.ResizeMode ResizeMode { get; }
         System.Windows.Size MinSize { get; }
         System.Windows.Size MaxSize { get; }
+        bool HandleNavigationStates { get; }
         bool CanResume { get; }
         bool CanCancel { get; }
         bool CanMoveForward { get; }

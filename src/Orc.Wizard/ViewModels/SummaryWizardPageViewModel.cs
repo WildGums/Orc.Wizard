@@ -1,16 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SummaryWizardPageViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.ViewModels
+﻿namespace Orc.Wizard.ViewModels
 {
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Catel.Collections;
 
     public class SummaryWizardPageViewModel : WizardPageViewModelBase<SummaryWizardPage>
     {

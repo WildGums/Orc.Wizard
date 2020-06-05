@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-// We use shared change notifications in this class
+﻿// We use shared change notifications in this class
 #pragma warning disable WPF1012
 
 namespace Orc.Wizard
@@ -49,6 +43,7 @@ namespace Orc.Wizard
             ShowInTaskbar = false;
             IsHelpVisible = false;
             CanShowHelp = true;
+            HandleNavigationStates = true;
         }
 
         #region Properties
@@ -59,6 +54,7 @@ namespace Orc.Wizard
                 if (_currentPage is null)
                 {
                     _currentPage = _pages[_currentIndex];
+
                     if (_currentPage != null)
                     {
                         RaisePropertyChanged(nameof(CurrentPage));
@@ -82,11 +78,13 @@ namespace Orc.Wizard
 
         public string Title { get; protected set; }
 
-        public System.Windows.ResizeMode ResizeMode { get; protected set; }
+        public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
 
-        public System.Windows.Size MinSize { get; protected set; }
+        public virtual System.Windows.Size MinSize { get; protected set; }
 
-        public System.Windows.Size MaxSize { get; protected set; }
+        public virtual System.Windows.Size MaxSize { get; protected set; }
+
+        public virtual bool HandleNavigationStates { get; protected set; }
 
         public virtual bool CanResume
         {
@@ -107,7 +105,8 @@ namespace Orc.Wizard
                     var vm = _currentPage.ViewModel;
                     if (vm != null)
                     {
-                        vm.Validate();
+                        vm.Validate(true);
+
                         if (vm.ValidationContext.HasErrors)
                         {
                             return false;
@@ -180,6 +179,11 @@ namespace Orc.Wizard
         {
             if (!CanMoveForward)
             {
+                if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+                {
+                    wizardPageViewModel.EnableValidationExposure();
+                }
+
                 return;
             }
 

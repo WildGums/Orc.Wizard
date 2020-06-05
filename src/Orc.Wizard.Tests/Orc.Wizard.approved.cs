@@ -89,6 +89,7 @@ namespace Orc.Wizard
         bool CanResume { get; }
         bool CanShowHelp { get; }
         Orc.Wizard.IWizardPage CurrentPage { get; }
+        bool HandleNavigationStates { get; }
         bool IsHelpVisible { get; }
         System.Windows.Size MaxSize { get; }
         System.Windows.Size MinSize { get; }
@@ -147,6 +148,10 @@ namespace Orc.Wizard
     public static class IWizardPageExtensions
     {
         public static System.Threading.Tasks.Task MoveForwardOrResumeAsync(this Orc.Wizard.IWizardPage wizardPage) { }
+    }
+    public interface IWizardPageViewModel : Catel.Data.IValidatable, Catel.MVVM.IViewModel, System.ComponentModel.IDataErrorInfo, System.ComponentModel.IDataWarningInfo, System.ComponentModel.INotifyDataErrorInfo, System.ComponentModel.INotifyDataWarningInfo, System.ComponentModel.INotifyPropertyChanged
+    {
+        void EnableValidationExposure();
     }
     public interface IWizardPageViewModelLocator : Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator { }
     public interface IWizardService
@@ -208,6 +213,7 @@ namespace Orc.Wizard
     {
         protected readonly Catel.IoC.ITypeFactory _typeFactory;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
+        public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
         public static readonly Catel.Data.PropertyData IsHelpVisibleProperty;
         public static readonly Catel.Data.PropertyData MaxSizeProperty;
         public static readonly Catel.Data.PropertyData MinSizeProperty;
@@ -221,12 +227,13 @@ namespace Orc.Wizard
         public virtual bool CanResume { get; }
         public bool CanShowHelp { get; set; }
         public Orc.Wizard.IWizardPage CurrentPage { get; }
+        public virtual bool HandleNavigationStates { get; set; }
         public bool IsHelpVisible { get; set; }
-        public System.Windows.Size MaxSize { get; set; }
-        public System.Windows.Size MinSize { get; set; }
+        public virtual System.Windows.Size MaxSize { get; set; }
+        public virtual System.Windows.Size MinSize { get; set; }
         public Orc.Wizard.INavigationStrategy NavigationStrategy { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
-        public System.Windows.ResizeMode ResizeMode { get; set; }
+        public virtual System.Windows.ResizeMode ResizeMode { get; set; }
         public bool ShowInTaskbar { get; set; }
         public string Title { get; set; }
         public event System.EventHandler<System.EventArgs> Canceled;
@@ -279,7 +286,7 @@ namespace Orc.Wizard
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }
-    public class WizardPageViewModelBase<TWizardPage> : Catel.MVVM.ViewModelBase
+    public class WizardPageViewModelBase<TWizardPage> : Catel.MVVM.ViewModelBase, Catel.Data.IValidatable, Catel.MVVM.IViewModel, Orc.Wizard.IWizardPageViewModel, System.ComponentModel.IDataErrorInfo, System.ComponentModel.IDataWarningInfo, System.ComponentModel.INotifyDataErrorInfo, System.ComponentModel.INotifyDataWarningInfo, System.ComponentModel.INotifyPropertyChanged
         where TWizardPage :  class, Orc.Wizard.IWizardPage
     {
         public static readonly Catel.Data.PropertyData WizardPageProperty;
@@ -287,6 +294,7 @@ namespace Orc.Wizard
         public Orc.Wizard.IWizard Wizard { get; }
         [Catel.MVVM.Model]
         public TWizardPage WizardPage { get; }
+        public virtual void EnableValidationExposure() { }
     }
     public class WizardPageViewModelLocator : Catel.MVVM.ViewModelLocator, Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator, Orc.Wizard.IWizardPageViewModelLocator
     {
