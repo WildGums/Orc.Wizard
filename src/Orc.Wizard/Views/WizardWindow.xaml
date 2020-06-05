@@ -7,6 +7,7 @@
                   xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   xmlns:controls="clr-namespace:Orc.Wizard.Controls"
+                  SizeToContent="Manual"
                   ResizeMode="{Binding ResizeMode, Mode=OneWay}"
                   MinWidth="{Binding MinSize.Width, Mode=OneWay}"
                   MinHeight="{Binding MinSize.Height, Mode=OneWay}"

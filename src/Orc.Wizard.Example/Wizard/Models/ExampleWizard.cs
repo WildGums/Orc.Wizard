@@ -28,6 +28,10 @@ namespace Orc.Wizard.Example.Wizard
 
             // Test for numbers being updated correctly
             this.InsertPage<GadgetsWizardPage>(3);
+
+            MinSize = new System.Windows.Size(800, 600);
+            MaxSize = new System.Windows.Size(1000, 800);
+            ResizeMode = System.Windows.ResizeMode.CanResize;
         }
 
         public bool ShowInTaskbarWrapper
