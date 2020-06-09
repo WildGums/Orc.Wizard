@@ -220,6 +220,11 @@ namespace Orc.Wizard
             MovedBack?.Invoke(this, EventArgs.Empty);
         }
 
+        public virtual Task InitializeAsync()
+        {
+            return TaskHelper.Completed;
+        }
+
         [ObsoleteEx(ReplacementTypeOrMember = "ResumeAsync", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
         public virtual Task SaveAsync()
         {
@@ -258,6 +263,11 @@ namespace Orc.Wizard
             }
 
             Canceled?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual Task CloseAsync()
+        {
+            return TaskHelper.Completed;
         }
 
         public virtual async Task ShowHelpAsync()

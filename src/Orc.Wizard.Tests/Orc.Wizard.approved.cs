@@ -104,6 +104,8 @@ namespace Orc.Wizard
         event System.EventHandler<System.EventArgs> MovedForward;
         event System.EventHandler<System.EventArgs> Resumed;
         System.Threading.Tasks.Task CancelAsync();
+        System.Threading.Tasks.Task CloseAsync();
+        System.Threading.Tasks.Task InitializeAsync();
         void InsertPage(int index, Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task MoveBackAsync();
         System.Threading.Tasks.Task MoveForwardAsync();
@@ -242,6 +244,8 @@ namespace Orc.Wizard
         public event System.EventHandler<System.EventArgs> MovedForward;
         public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
+        public virtual System.Threading.Tasks.Task CloseAsync() { }
+        public virtual System.Threading.Tasks.Task InitializeAsync() { }
         public void InsertPage(int index, Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task MoveBackAsync() { }
         public virtual System.Threading.Tasks.Task MoveForwardAsync() { }

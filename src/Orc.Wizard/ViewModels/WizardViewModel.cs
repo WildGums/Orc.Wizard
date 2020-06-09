@@ -158,6 +158,8 @@
             Wizard.Canceled += OnWizardCanceled;
             Wizard.Resumed += OnWizardResumed;
 
+            await Wizard.InitializeAsync();
+
             UpdateState();
         }
 
@@ -167,6 +169,8 @@
             Wizard.MovedForward -= OnWizardMovedForward;
             Wizard.Canceled -= OnWizardCanceled;
             Wizard.Resumed -= OnWizardResumed;
+
+            await Wizard.CloseAsync();
 
             await base.CloseAsync();
         }

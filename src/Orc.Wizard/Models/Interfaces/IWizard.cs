@@ -35,6 +35,10 @@ namespace Orc.Wizard
         Task SaveAsync();
         Task CancelAsync();
         Task ResumeAsync();
+
+        Task InitializeAsync();
+        Task CloseAsync();
+
         Task MoveForwardAsync();
         Task MoveBackAsync();
         Task ShowHelpAsync();
