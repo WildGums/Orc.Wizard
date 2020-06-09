@@ -43,6 +43,7 @@ namespace Orc.Wizard
         Task MoveBackAsync();
         Task ShowHelpAsync();
 
+        event EventHandler<EventArgs> CurrentPageChanged;
         event EventHandler<EventArgs> MovedForward;
         event EventHandler<EventArgs> MovedBack;
         event EventHandler<EventArgs> Resumed;

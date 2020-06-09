@@ -99,6 +99,7 @@ namespace Orc.Wizard
         bool ShowInTaskbar { get; }
         string Title { get; }
         event System.EventHandler<System.EventArgs> Canceled;
+        event System.EventHandler<System.EventArgs> CurrentPageChanged;
         event System.EventHandler<System.EventArgs> HelpShown;
         event System.EventHandler<System.EventArgs> MovedBack;
         event System.EventHandler<System.EventArgs> MovedForward;
@@ -239,6 +240,7 @@ namespace Orc.Wizard
         public bool ShowInTaskbar { get; set; }
         public string Title { get; set; }
         public event System.EventHandler<System.EventArgs> Canceled;
+        public event System.EventHandler<System.EventArgs> CurrentPageChanged;
         public event System.EventHandler<System.EventArgs> HelpShown;
         public event System.EventHandler<System.EventArgs> MovedBack;
         public event System.EventHandler<System.EventArgs> MovedForward;

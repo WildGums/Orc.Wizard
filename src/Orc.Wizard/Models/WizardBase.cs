@@ -136,6 +136,7 @@ namespace Orc.Wizard
         #endregion
 
         #region Events
+        public event EventHandler<EventArgs> CurrentPageChanged;
         public event EventHandler<EventArgs> MovedForward;
         public event EventHandler<EventArgs> MovedBack;
         public event EventHandler<EventArgs> Canceled;
@@ -299,6 +300,7 @@ namespace Orc.Wizard
             _currentPage = null;
             _currentIndex = newIndex;
             RaisePropertyChanged(nameof(CurrentPage));
+            CurrentPageChanged?.Invoke(this, EventArgs.Empty);
 
             var newPage = CurrentPage;
             if (newPage != null)
