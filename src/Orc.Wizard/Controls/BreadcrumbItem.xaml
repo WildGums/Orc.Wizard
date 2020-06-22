@@ -41,9 +41,14 @@
                 </Viewbox>
             </Grid>
 
-            <TextBlock Name="txtTitle" Text="{Binding Title}" 
-                       FontSize="14" HorizontalAlignment="Center" 
-                       VerticalAlignment="Center" FontWeight="Medium"
+            <TextBlock Name="txtTitle" 
+                       Text="{Binding Title}" 
+                       FontSize="14" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       FontWeight="Medium"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
                        Grid.Row="1"
                        Foreground="{DynamicResource Orc.Brushes.GrayBrush1}"/>
         </Grid>
