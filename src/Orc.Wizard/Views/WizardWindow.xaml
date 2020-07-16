@@ -4,9 +4,10 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:catel="http://schemas.catelproject.com"
-                  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                  xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
                   xmlns:wizard="clr-namespace:Orc.Wizard"
                   xmlns:controls="clr-namespace:Orc.Wizard.Controls"
+                  SizeToContent="Manual"
                   ResizeMode="{Binding ResizeMode, Mode=OneWay}"
                   MinWidth="{Binding MinSize.Width, Mode=OneWay}"
                   MinHeight="{Binding MinSize.Height, Mode=OneWay}"
@@ -16,7 +17,7 @@
                   x:Name="wizardWindow"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="#F5F5F5">
 
-    <Grid x:Name="layoutRoot" Background="White">
+    <Grid x:Name="layoutRoot" Background="{DynamicResource White}">
         <Grid.RowDefinitions>
             <!-- First row is for InfoBarMessageControl -->
             <RowDefinition Height="Auto" />
@@ -39,9 +40,11 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid Background="#F5F5F5">
-                <ListBox x:Name="breadcrumb" ItemsSource="{Binding WizardPages}" SelectedItem="{Binding CurrentPage, Mode=OneWay}"
-                         Focusable="False" HorizontalAlignment="Center" Margin="0 0 0 5">
+            <Grid Background="{DynamicResource Orc.Brushes.GrayBrush10}">
+                <ListBox x:Name="breadcrumb" 
+                         ItemsSource="{Binding WizardPages}" 
+                         SelectedItem="{Binding CurrentPage, Mode=OneWay}"
+                         Focusable="False" HorizontalAlignment="Center" Margin="0 5 0 5">
                     <ItemsControl.Template>
                         <ControlTemplate>
                             <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" CanContentScroll="False">
@@ -70,7 +73,8 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <controls:BreadcrumbItem Page="{Binding}" CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
+                            <controls:BreadcrumbItem Page="{Binding}" 
+                                                     CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ListBox>
@@ -80,7 +84,7 @@
                 <ProgressBar.Style>
                     <Style TargetType="{x:Type ProgressBar}">
                         <Setter Property="Margin" Value="0"/>
-                        <Setter Property="Foreground" Value="{Binding ElementName=wizardWindow, Path=AccentColorBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Template">
@@ -109,14 +113,15 @@
                                             </Grid>
                                         </Decorator>
 
-                                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"/>
+                                        <Border BorderThickness="{TemplateBinding BorderThickness}" 
+                                                BorderBrush="{TemplateBinding BorderBrush}"/>
                                     </Grid>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Foreground" Value="{DynamicResource White}" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -127,13 +132,15 @@
             <TextBlock Grid.Row="3" Text="{Binding PageDescription}" FontSize="15" HorizontalAlignment="Stretch" Margin="18 0 18 8"/>
         </Grid>
 
-        <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" Margin="10,0,10,0" Height="1" Fill="LightGray" />
+        <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" 
+                   Margin="10,0,10,0" Height="1" 
+                   Fill="{DynamicResource Orc.Brushes.GrayBrush3}" />
 
         <ScrollViewer Grid.Row="3" Margin="10,4,10,4" VerticalScrollBarVisibility="Disabled">
             <ContentControl Focusable="False">
-                <i:Interaction.Behaviors>
+                <xamlbehaviors:Interaction.Behaviors>
                     <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
-                </i:Interaction.Behaviors>
+                </xamlbehaviors:Interaction.Behaviors>
             </ContentControl>
         </ScrollViewer>
 
@@ -141,29 +148,38 @@
             <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding Wizard_OptionalWizardStep}" />
         </Label>
 
-        <Grid Grid.Row="5" Background="#F5F5F5">
+        <Grid Grid.Row="5" Background="{DynamicResource Orc.Brushes.Control.Background}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <WrapPanel Grid.Column="0" Style="{StaticResource DataWindowButtonContainerStyle}">
-                <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" Style="{StaticResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+            <WrapPanel Grid.Column="0" 
+                       Style="{DynamicResource DataWindowButtonContainerStyle}"
+                       Margin="-6,0,0,6">
+                <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" 
+                        Style="{DynamicResource DataWindowButtonStyle}" 
+                        Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
             </WrapPanel>
 
-            <WrapPanel Grid.Column="2" Style="{StaticResource DataWindowButtonContainerStyle}">
-                <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" Style="{StaticResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
+            <WrapPanel Grid.Column="2" 
+                       Style="{DynamicResource DataWindowButtonContainerStyle}"
+                       Margin="0,0,6,6">
+                <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" 
+                        Style="{DynamicResource DataWindowButtonStyle}" 
+                        Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
 
-                <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Wizard_Next}" Style="{StaticResource DataWindowButtonStyle}" 
+                <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Wizard_Next}" 
+                        Style="{DynamicResource DataWindowButtonStyle}" 
                     Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
 
-                <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Wizard_Finish}" Style="{StaticResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Wizard_Finish}" 
+                        Style="{DynamicResource DataWindowButtonStyle}" 
+                        Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
 
-                <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Wizard_Cancel}" Style="{StaticResource DataWindowButtonStyle}" />
+                <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Wizard_Cancel}" 
+                        Style="{DynamicResource DataWindowButtonStyle}" />
             </WrapPanel>
         </Grid>
     </Grid>

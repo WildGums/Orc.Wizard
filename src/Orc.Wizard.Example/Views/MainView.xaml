@@ -2,11 +2,15 @@
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://schemas.catelproject.com"
-              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls" 
+              xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
               Height="600" Width="800">
 
     <orccontrols:StackGrid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -25,7 +29,11 @@
             </TextBlock>
         </Label>
 
+        <orctheming:ThemeSwitcherView />
+
         <CheckBox Content="Show in taskbar" IsChecked="{Binding ShowInTaskbar}" />
+        <CheckBox Content="Show summary page" IsChecked="{Binding ShowSummaryPage}" />
+        <CheckBox Content="Handle navigation states" IsChecked="{Binding HandleNavigationStates}" />
         <Button Command="{Binding ShowWizard}" Content="Show wizard..." />
         
         <TextBox x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />

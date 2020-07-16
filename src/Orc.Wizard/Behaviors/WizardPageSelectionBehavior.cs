@@ -30,7 +30,7 @@ namespace Orc.Wizard
             set { SetValue(WizardProperty, value); }
         }
 
-        public static readonly DependencyProperty WizardProperty = DependencyProperty.Register("Wizard", typeof(IWizard),
+        public static readonly DependencyProperty WizardProperty = DependencyProperty.Register(nameof(Wizard), typeof(IWizard),
             typeof(WizardPageSelectionBehavior), new PropertyMetadata(OnWizardChanged));
         #endregion
 
@@ -44,6 +44,7 @@ namespace Orc.Wizard
                 var oldWizard = e.OldValue as IWizard;
                 if (oldWizard != null)
                 {
+                    oldWizard.CurrentPageChanged -= behavior.OnCurrentPageChanged;
                     oldWizard.MovedBack -= behavior.OnMovedBack;
                     oldWizard.MovedForward -= behavior.OnMovedForward;
                 }
@@ -51,6 +52,7 @@ namespace Orc.Wizard
                 var wizard = e.NewValue as IWizard;
                 if (wizard != null)
                 {
+                    wizard.CurrentPageChanged += behavior.OnCurrentPageChanged;
                     wizard.MovedBack += behavior.OnMovedBack;
                     wizard.MovedForward += behavior.OnMovedForward;
                 }
@@ -72,10 +74,16 @@ namespace Orc.Wizard
                 return;
             }
 
+            wizard.CurrentPageChanged -= OnCurrentPageChanged;
             wizard.MovedBack -= OnMovedBack;
             wizard.MovedForward -= OnMovedForward;
 
             SetCurrentValue(WizardProperty, null);
+        }
+
+        private void OnCurrentPageChanged(object sender, EventArgs e)
+        {
+            UpdatePage();
         }
 
         private void OnMovedForward(object sender, EventArgs e)
@@ -105,6 +113,12 @@ namespace Orc.Wizard
 
             if (_lastPage != null)
             {
+                if (ReferenceEquals(_lastPage, wizard.CurrentPage))
+                {
+                    // Nothing has really changed
+                    return;
+                }
+
                 _lastPage.ViewModel = null;
                 _lastPage = null;
             }

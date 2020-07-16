@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ModuleInitializer.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using Catel.IoC;
     using Catel.Services;
@@ -24,6 +17,9 @@ namespace Orc.Wizard
 
             serviceLocator.RegisterType<IWizardService, WizardService>();
             serviceLocator.RegisterType<IWizardPageViewModelLocator, WizardPageViewModelLocator>();
+
+            var themeManager = ControlzEx.Theming.ThemeManager.Current;
+            themeManager.RegisterLibraryThemeProvider(new LibraryThemeProvider());
 
             var languageService = serviceLocator.ResolveType<ILanguageService>();
             languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Wizard", "Orc.Wizard.Properties", "Resources"));

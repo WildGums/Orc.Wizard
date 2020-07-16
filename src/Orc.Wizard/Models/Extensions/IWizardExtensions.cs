@@ -10,12 +10,39 @@ namespace Orc.Wizard
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
+    using Catel.Logging;
     using Catel.Reflection;
 
     public static class IWizardExtensions
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+        public static async Task MoveForwardOrResumeAsync(this IWizard wizard)
+        {
+            Argument.IsNotNull(() => wizard);
+
+            if (wizard.CanMoveForward)
+            {
+                Log.Debug("Moving forward from MoveNextOrResumeAsync()");
+
+                await wizard.MoveForwardAsync();
+                return;
+            }
+
+            if (wizard.CanResume)
+            {
+                Log.Debug("Resuming from MoveNextOrResumeAsync()");
+
+                await wizard.ResumeAsync();
+                return;
+            }
+
+            Log.Debug("Could not move forward or resume from MoveNextOrResumeAsync()");
+        }
+
         public static IWizardPage AddPage(this IWizard wizard, IWizardPage page)
         {
             Argument.IsNotNull(() => wizard);
@@ -41,6 +68,27 @@ namespace Orc.Wizard
 
             var typeFactory = wizard.GetTypeFactory();
             var page = typeFactory.CreateInstance<TWizardPage>();
+
+            wizard.InsertPage(index, page);
+
+            return page;
+        }
+
+        public static TWizardPage AddPage<TWizardPage>(this IWizard wizard, object model)
+            where TWizardPage : IWizardPage
+        {
+            Argument.IsNotNull(() => wizard);
+
+            return wizard.InsertPage<TWizardPage>(wizard.Pages.Count(), model);
+        }
+
+        public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, int index, object model)
+            where TWizardPage : IWizardPage
+        {
+            Argument.IsNotNull(() => wizard);
+
+            var typeFactory = wizard.GetTypeFactory();
+            var page = typeFactory.CreateInstanceWithParametersAndAutoCompletion<TWizardPage>(model);
 
             wizard.InsertPage(index, page);
 

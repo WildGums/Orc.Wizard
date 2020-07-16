@@ -23,6 +23,10 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
             : base(wizardPage)
         {
             SelectAll = new Command(OnSelectAllExecute);
+            MoveBackViaCode = new TaskCommand(OnMoveBackViaCodeExecuteAsync);
+            MoveForwardViaCode = new TaskCommand(OnMoveForwardViaCodeExecuteAsync);
+            CancelViaCode = new TaskCommand(OnCancelViaCodeExecuteAsync);
+            ResumeViaCode = new TaskCommand(OnResumeViaCodeExecuteAsync);
         }
 
         [ViewModelToModel]
@@ -34,6 +38,34 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
         private void OnSelectAllExecute()
         {
             Components.ForEach(x => x.IsSelected = true);
+        }
+
+        public TaskCommand MoveBackViaCode { get; private set; }
+
+        private async Task OnMoveBackViaCodeExecuteAsync()
+        {
+            await Wizard.MoveBackAsync();
+        }
+
+        public TaskCommand MoveForwardViaCode { get; private set; }
+
+        private async Task OnMoveForwardViaCodeExecuteAsync()
+        {
+            await Wizard.MoveForwardAsync();
+        }
+
+        public TaskCommand CancelViaCode { get; private set; }
+
+        private async Task OnCancelViaCodeExecuteAsync()
+        {
+            await Wizard.CancelAsync();
+        }
+
+        public TaskCommand ResumeViaCode { get; private set; }
+
+        private async Task OnResumeViaCodeExecuteAsync()
+        {
+            await Wizard.MoveForwardOrResumeAsync();
         }
         #endregion
 

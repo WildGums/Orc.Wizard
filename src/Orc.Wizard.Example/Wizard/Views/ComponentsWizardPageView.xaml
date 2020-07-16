@@ -13,6 +13,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label>
@@ -32,6 +36,10 @@
         </ScrollViewer>
         
         <Button Command="{Binding SelectAll}" Content="Select all" />
+        <Button Command="{Binding MoveBackViaCode}" Content="Move back via code" />
+        <Button Command="{Binding MoveForwardViaCode}" Content="Move forward via code" />
+        <Button Command="{Binding CancelViaCode}" Content="Cancel via code" />
+        <Button Command="{Binding ResumeViaCode}" Content="Move next or finish via code" />
     </orccontrols:StackGrid>
     
 </catel:UserControl>

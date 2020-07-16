@@ -21,6 +21,7 @@ namespace Orc.Wizard
         System.Windows.ResizeMode ResizeMode { get; }
         System.Windows.Size MinSize { get; }
         System.Windows.Size MaxSize { get; }
+        bool HandleNavigationStates { get; }
         bool CanResume { get; }
         bool CanCancel { get; }
         bool CanMoveForward { get; }
@@ -30,14 +31,23 @@ namespace Orc.Wizard
         bool ShowInTaskbar { get; }
         #endregion
 
+        [ObsoleteEx(ReplacementTypeOrMember = "ResumeAsync", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
         Task SaveAsync();
         Task CancelAsync();
+        Task ResumeAsync();
+
+        Task InitializeAsync();
+        Task CloseAsync();
+
         Task MoveForwardAsync();
         Task MoveBackAsync();
         Task ShowHelpAsync();
 
+        event EventHandler<EventArgs> CurrentPageChanged;
         event EventHandler<EventArgs> MovedForward;
         event EventHandler<EventArgs> MovedBack;
+        event EventHandler<EventArgs> Resumed;
+        event EventHandler<EventArgs> Canceled;
         event EventHandler<EventArgs> HelpShown;
 
         void InsertPage(int index, IWizardPage page);

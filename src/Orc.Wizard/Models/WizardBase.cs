@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-// We use shared change notifications in this class
+﻿// We use shared change notifications in this class
 #pragma warning disable WPF1012
 
 namespace Orc.Wizard
@@ -49,6 +43,7 @@ namespace Orc.Wizard
             ShowInTaskbar = false;
             IsHelpVisible = false;
             CanShowHelp = true;
+            HandleNavigationStates = true;
         }
 
         #region Properties
@@ -59,6 +54,7 @@ namespace Orc.Wizard
                 if (_currentPage is null)
                 {
                     _currentPage = _pages[_currentIndex];
+
                     if (_currentPage != null)
                     {
                         RaisePropertyChanged(nameof(CurrentPage));
@@ -82,11 +78,13 @@ namespace Orc.Wizard
 
         public string Title { get; protected set; }
 
-        public System.Windows.ResizeMode ResizeMode { get; protected set; }
+        public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
 
-        public System.Windows.Size MinSize { get; protected set; }
+        public virtual System.Windows.Size MinSize { get; protected set; }
 
-        public System.Windows.Size MaxSize { get; protected set; }
+        public virtual System.Windows.Size MaxSize { get; protected set; }
+
+        public virtual bool HandleNavigationStates { get; protected set; }
 
         public virtual bool CanResume
         {
@@ -107,7 +105,8 @@ namespace Orc.Wizard
                     var vm = _currentPage.ViewModel;
                     if (vm != null)
                     {
-                        vm.Validate();
+                        vm.Validate(true);
+
                         if (vm.ValidationContext.HasErrors)
                         {
                             return false;
@@ -137,8 +136,11 @@ namespace Orc.Wizard
         #endregion
 
         #region Events
+        public event EventHandler<EventArgs> CurrentPageChanged;
         public event EventHandler<EventArgs> MovedForward;
         public event EventHandler<EventArgs> MovedBack;
+        public event EventHandler<EventArgs> Canceled;
+        public event EventHandler<EventArgs> Resumed;
         public event EventHandler<EventArgs> HelpShown;
         #endregion
 
@@ -174,30 +176,15 @@ namespace Orc.Wizard
             UpdatePageNumbers();
         }
 
-        public virtual async Task SaveAsync()
-        {
-            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName(false));
-
-            foreach (var page in _pages)
-            {
-                await page.SaveAsync();
-            }
-        }
-
-        public virtual async Task CancelAsync()
-        {
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
-
-            foreach (var page in _pages)
-            {
-                await page.CancelAsync();
-            }
-        }
-
         public virtual async Task MoveForwardAsync()
         {
             if (!CanMoveForward)
             {
+                if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+                {
+                    wizardPageViewModel.EnableValidationExposure();
+                }
+
                 return;
             }
 
@@ -234,6 +221,56 @@ namespace Orc.Wizard
             MovedBack?.Invoke(this, EventArgs.Empty);
         }
 
+        public virtual Task InitializeAsync()
+        {
+            return TaskHelper.Completed;
+        }
+
+        [ObsoleteEx(ReplacementTypeOrMember = "ResumeAsync", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
+        public virtual Task SaveAsync()
+        {
+            return ResumeAsync();
+        }
+
+        public virtual async Task ResumeAsync()
+        {
+            if (!CanResume)
+            {
+                return;
+            }
+
+            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName(false));
+
+            foreach (var page in _pages)
+            {
+                await page.SaveAsync();
+            }
+
+            Resumed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual async Task CancelAsync()
+        {
+            if (!CanCancel)
+            {
+                return;
+            }
+
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
+
+            foreach (var page in _pages)
+            {
+                await page.CancelAsync();
+            }
+
+            Canceled?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual Task CloseAsync()
+        {
+            return TaskHelper.Completed;
+        }
+
         public virtual async Task ShowHelpAsync()
         {
             if (!CanShowHelp)
@@ -263,6 +300,7 @@ namespace Orc.Wizard
             _currentPage = null;
             _currentIndex = newIndex;
             RaisePropertyChanged(nameof(CurrentPage));
+            CurrentPageChanged?.Invoke(this, EventArgs.Empty);
 
             var newPage = CurrentPage;
             if (newPage != null)

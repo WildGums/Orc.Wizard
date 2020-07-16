@@ -17,17 +17,11 @@ namespace Orc.Wizard
         public static readonly int CannotNavigate = -1;
     }
 
-    public static class DefaultColorNames
+    public static class ThemingKeys
     {
-        public const string AccentColorBrush = "AccentColorBrush";
-        public const string AccentColorBrush4 = "AccentColorBrush4";
-        public const string AccentColor = "AccentColor";
-        public const string AccentColor4 = "AccentColor4";
-    }
-
-    public static class DefaultColors
-    {
-        public static Color AccentColor { get; set; } = Colors.Orange;
-        public static Color AccentColor4 { get; set; } = Colors.Bisque;
+        public const string AccentColorBrush = "Orc.Brushes.AccentColorBrush";
+        public const string AccentColorBrush40 = "Orc.Brushes.AccentColorBrush40";
+        public const string AccentColor = "Orc.Colors.AccentColor";
+        public const string AccentColor40 = "Orc.Colors.AccentColor40";
     }
 }

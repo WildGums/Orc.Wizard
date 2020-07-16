@@ -14,7 +14,7 @@ namespace Orc.Wizard.Example.Wizard
     {
         public ComponentsWizardPage()
         {
-            Title = "Components";
+            Title = "Components selection";
             Description = "Select the components";
 
             Components = new ObservableCollection<Component>(new []

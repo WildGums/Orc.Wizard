@@ -96,7 +96,9 @@ namespace Orc.Wizard.Controls
             UpdateShapeColor(pathline, isCompleted && !isSelected);
             UpdateShapeColor(ellipse, isSelected || isCompleted);
 
-            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ? Brushes.Black : Brushes.DimGray);
+            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ? 
+                TryFindResource("Orc.Brushes.Black") :
+                TryFindResource("Orc.Brushes.GrayBrush1"));
         }
 
         private void UpdateContent(bool isCompleted)
@@ -112,11 +114,11 @@ namespace Orc.Wizard.Controls
             if (shape != null && shape.Fill is null)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                shape.Fill = (SolidColorBrush)TryFindResource(DefaultColorNames.AccentColorBrush4) ?? new SolidColorBrush(DefaultColors.AccentColor4);
+                shape.Fill = (SolidColorBrush)TryFindResource(ThemingKeys.AccentColorBrush40);
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
 
-            var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? DefaultColors.AccentColor4;
+            var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? Colors.Transparent;
             var targetColor = this.GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);

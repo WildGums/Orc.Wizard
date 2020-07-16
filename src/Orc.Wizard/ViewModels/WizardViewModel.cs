@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardViewModel.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.ViewModels
+﻿namespace Orc.Wizard.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -14,7 +8,6 @@ namespace Orc.Wizard.ViewModels
     using Catel.Fody;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Windows;
 
     public class WizardViewModel : ViewModelBase
     {
@@ -45,16 +38,15 @@ namespace Orc.Wizard.ViewModels
 
         #region Properties
         [Model(SupportIEditableObject = false)]
-        [Expose("CurrentPage")]
-        [Expose("ResizeMode")]
-        [Expose("MinSize")]
-        [Expose("MaxSize")]
-        [Expose("IsHelpVisible")]
-        [Expose("ShowInTaskbar")]
-
+        [Expose(nameof(IWizard.CurrentPage))]
+        [Expose(nameof(IWizard.ResizeMode))]
+        [Expose(nameof(IWizard.MinSize))]
+        [Expose(nameof(IWizard.MaxSize))]
+        [Expose(nameof(IWizard.IsHelpVisible))]
+        [Expose(nameof(IWizard.ShowInTaskbar))]
         public IWizard Wizard { get; set; }
 
-        public IEnumerable<IWizardPage> WizardPages { get; private set; } 
+        public IEnumerable<IWizardPage> WizardPages { get; private set; }
 
         public string PageTitle { get; private set; }
 
@@ -72,14 +64,17 @@ namespace Orc.Wizard.ViewModels
 
         private bool OnGoToPreviousCanExecute()
         {
+            if (!Wizard.HandleNavigationStates)
+            {
+                return true;
+            }
+
             return Wizard.CanMoveBack;
         }
 
         private async Task OnGoToPreviousExecuteAsync()
         {
             await Wizard.MoveBackAsync();
-
-            UpdateState();
         }
 
 
@@ -87,14 +82,17 @@ namespace Orc.Wizard.ViewModels
 
         private bool OnGoToNextCanExecute()
         {
+            if (!Wizard.HandleNavigationStates)
+            {
+                return true;
+            }
+
             return Wizard.CanMoveForward;
         }
 
         private async Task OnGoToNextExecuteAsync()
         {
             await Wizard.MoveForwardAsync();
-
-            UpdateState();
         }
 
 
@@ -111,7 +109,6 @@ namespace Orc.Wizard.ViewModels
             if (await SaveAsync())
             {
                 await Wizard.SaveAsync();
-                await CloseViewModelAsync(true);
             }
         }
 
@@ -133,7 +130,6 @@ namespace Orc.Wizard.ViewModels
             if (await CancelAsync())
             {
                 await Wizard.CancelAsync();
-                await CloseViewModelAsync(false);
             }
         }
 
@@ -157,7 +153,46 @@ namespace Orc.Wizard.ViewModels
         {
             await base.InitializeAsync();
 
+            Wizard.MovedBack += OnWizardMovedBack;
+            Wizard.MovedForward += OnWizardMovedForward;
+            Wizard.Canceled += OnWizardCanceled;
+            Wizard.Resumed += OnWizardResumed;
+
+            await Wizard.InitializeAsync();
+
             UpdateState();
+        }
+
+        protected override async Task CloseAsync()
+        {
+            Wizard.MovedBack -= OnWizardMovedBack;
+            Wizard.MovedForward -= OnWizardMovedForward;
+            Wizard.Canceled -= OnWizardCanceled;
+            Wizard.Resumed -= OnWizardResumed;
+
+            await Wizard.CloseAsync();
+
+            await base.CloseAsync();
+        }
+
+        private void OnWizardMovedBack(object sender, EventArgs e)
+        {
+            UpdateState();
+        }
+
+        private void OnWizardMovedForward(object sender, EventArgs e)
+        {
+            UpdateState();
+        }
+
+        private void OnWizardCanceled(object sender, EventArgs e)
+        {
+            CloseViewModelAsync(false);
+        }
+
+        private void OnWizardResumed(object sender, EventArgs e)
+        {
+            CloseViewModelAsync(true);
         }
 
         private void UpdateState()
