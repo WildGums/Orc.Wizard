@@ -14,6 +14,8 @@
         private readonly IMessageService _messageService;
         private readonly ILanguageService _languageService;
 
+        private bool _isCanceling;
+
         #region Constructors
         public WizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService)
         {
@@ -122,15 +124,7 @@
 
         private async Task OnCancelExecuteAsync()
         {
-            if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
-            {
-                return;
-            }
-
-            if (await CancelAsync())
-            {
-                await Wizard.CancelAsync();
-            }
+            await CancelWizardAsync();
         }
 
 
@@ -163,6 +157,25 @@
             UpdateState();
         }
 
+        protected override async Task<bool> CancelAsync()
+        {
+            if (!_isCanceling)
+            {
+                // Special case, we need to execute the cancel command if users are using ALT + F4
+                if (!OnCancelCanExecute())
+                {
+                    return false;
+                }
+
+                if (!await CancelWizardAsync())
+                {
+                    return false;
+                }
+            }
+
+            return await base.CancelAsync();
+        }
+
         protected override async Task CloseAsync()
         {
             Wizard.MovedBack -= OnWizardMovedBack;
@@ -173,6 +186,25 @@
             await Wizard.CloseAsync();
 
             await base.CloseAsync();
+        }
+
+        private async Task<bool> CancelWizardAsync()
+        {
+            using (new DisposableToken<WizardViewModel>(this, x => x.Instance._isCanceling = true, x => x.Instance._isCanceling = false))
+            {
+                if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+                {
+                    return false;
+                }
+
+                if (!await CancelAsync())
+                {
+                    return false;
+                }
+
+                await Wizard.CancelAsync();
+                return true;
+            }
         }
 
         private void OnWizardMovedBack(object sender, EventArgs e)
