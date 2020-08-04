@@ -44,7 +44,8 @@
                 <ListBox x:Name="breadcrumb" 
                          ItemsSource="{Binding WizardPages}" 
                          SelectedItem="{Binding CurrentPage, Mode=OneWay}"
-                         Focusable="False" HorizontalAlignment="Center" Margin="0 5 0 5">
+                         Focusable="False" 
+                         HorizontalAlignment="Center" Margin="0 5 0 5">
                     <ItemsControl.Template>
                         <ControlTemplate>
                             <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" CanContentScroll="False">
@@ -61,6 +62,7 @@
 
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
+                            <Setter Property="Focusable" Value="False" />
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
