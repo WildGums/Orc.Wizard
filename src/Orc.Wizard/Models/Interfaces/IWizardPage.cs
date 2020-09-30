@@ -1,4 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IWizardPage.cs" company="WildGums">
 //   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
 // </copyright>
@@ -34,5 +34,11 @@ namespace Orc.Wizard
 
         Task CancelAsync();
         Task SaveAsync();
+
+        /// <summary>
+        /// Executes once all the pages of the wizard have been saved.
+        /// </summary>
+        /// <returns></returns>
+        Task AfterWizardPagesSavedAsync();
     }
 }

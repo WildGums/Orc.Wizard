@@ -162,7 +162,7 @@ namespace Orc.Wizard
         {
             Argument.IsNotNull(() => page);
 
-            for (int i = 0; i < _pages.Count; i++)
+            for (var i = 0; i < _pages.Count; i++)
             {
                 if (ReferenceEquals(page, _pages[i]))
                 {
@@ -205,7 +205,7 @@ namespace Orc.Wizard
             var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
             SetCurrentPage(indexOfNextPage);
 
-            MovedForward?.Invoke(this, EventArgs.Empty);
+            RaiseMovedForward();
         }
 
         public virtual async Task MoveBackAsync()
@@ -218,7 +218,7 @@ namespace Orc.Wizard
             var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
             SetCurrentPage(indexOfPreviousPage);
 
-            MovedBack?.Invoke(this, EventArgs.Empty);
+            RaiseMovedBack();
         }
 
         public virtual Task InitializeAsync()
@@ -246,7 +246,12 @@ namespace Orc.Wizard
                 await page.SaveAsync();
             }
 
-            Resumed?.Invoke(this, EventArgs.Empty);
+            foreach (var page in _pages)
+            {
+                await page.AfterWizardPagesSavedAsync();
+            }
+
+            RaiseResumed();
         }
 
         public virtual async Task CancelAsync()
@@ -263,7 +268,7 @@ namespace Orc.Wizard
                 await page.CancelAsync();
             }
 
-            Canceled?.Invoke(this, EventArgs.Empty);
+            RaiseCanceled();
         }
 
         public virtual Task CloseAsync()
@@ -348,6 +353,26 @@ namespace Orc.Wizard
             {
                 page.Number = counter++;
             }
+        }
+
+        protected void RaiseResumed()
+        {
+            Resumed?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void RaiseCanceled()
+        {
+            Canceled?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void RaiseMovedBack()
+        {
+            MovedBack?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void RaiseMovedForward()
+        {
+            MovedForward?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }
