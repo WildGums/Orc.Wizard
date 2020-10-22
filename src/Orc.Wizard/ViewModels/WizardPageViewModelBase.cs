@@ -19,7 +19,7 @@
 
         #region Properties
 
-        [Model]
+        [Model(SupportIEditableObject = false)]
         public TWizardPage WizardPage { get; private set; }
 
         public IWizard Wizard
