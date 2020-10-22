@@ -304,7 +304,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData WizardPageProperty;
         public WizardPageViewModelBase(TWizardPage wizardPage) { }
         public Orc.Wizard.IWizard Wizard { get; }
-        [Catel.MVVM.Model]
+        [Catel.MVVM.Model(SupportIEditableObject=false)]
         public TWizardPage WizardPage { get; }
         public virtual void EnableValidationExposure() { }
     }
