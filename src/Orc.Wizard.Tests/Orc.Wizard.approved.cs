@@ -144,6 +144,7 @@ namespace Orc.Wizard
         Catel.MVVM.IViewModel ViewModel { get; set; }
         Orc.Wizard.IWizard Wizard { get; set; }
         event System.EventHandler<Orc.Wizard.ViewModelChangedEventArgs> ViewModelChanged;
+        System.Threading.Tasks.Task AfterWizardPagesSavedAsync();
         System.Threading.Tasks.Task CancelAsync();
         Orc.Wizard.ISummaryItem GetSummary();
         System.Threading.Tasks.Task SaveAsync();
@@ -252,6 +253,10 @@ namespace Orc.Wizard
         public virtual System.Threading.Tasks.Task MoveBackAsync() { }
         public virtual System.Threading.Tasks.Task MoveForwardAsync() { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
+        protected void RaiseCanceled() { }
+        protected void RaiseMovedBack() { }
+        protected void RaiseMovedForward() { }
+        protected void RaiseResumed() { }
         public void RemovePage(Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task ResumeAsync() { }
         [ObsoleteEx(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
@@ -280,6 +285,7 @@ namespace Orc.Wizard
         public Catel.MVVM.IViewModel ViewModel { get; set; }
         public Orc.Wizard.IWizard Wizard { get; set; }
         public event System.EventHandler<Orc.Wizard.ViewModelChangedEventArgs> ViewModelChanged;
+        public virtual System.Threading.Tasks.Task AfterWizardPagesSavedAsync() { }
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual Orc.Wizard.ISummaryItem GetSummary() { }
         public virtual System.Threading.Tasks.Task SaveAsync() { }

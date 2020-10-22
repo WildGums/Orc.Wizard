@@ -59,5 +59,10 @@ namespace Orc.Wizard
         {
             return TaskHelper.Completed;
         }
+
+        public virtual Task AfterWizardPagesSavedAsync()
+        {
+            return Task.CompletedTask;
+        }
     }
 }
