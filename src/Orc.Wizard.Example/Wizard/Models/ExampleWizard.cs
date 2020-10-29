@@ -34,6 +34,12 @@ namespace Orc.Wizard.Example.Wizard
             ResizeMode = System.Windows.ResizeMode.CanResize;
         }
 
+        public INavigationController NavigationControllerWrapper
+        {
+            get { return NavigationController; }
+            set { NavigationController = value; }
+        }
+
         public bool ShowInTaskbarWrapper
         {
             get {  return ShowInTaskbar; }

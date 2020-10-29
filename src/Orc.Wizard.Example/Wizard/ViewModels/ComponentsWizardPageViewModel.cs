@@ -69,37 +69,37 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
         }
         #endregion
 
-        protected override async Task InitializeAsync()
-        {
-            await base.InitializeAsync();
+        //protected override async Task InitializeAsync()
+        //{
+        //    await base.InitializeAsync();
 
-            Components.ForEach(x => x.PropertyChanged += OnComponentPropertyChanged);
-        }
+        //    Components.ForEach(x => x.PropertyChanged += OnComponentPropertyChanged);
+        //}
 
-        protected override async Task CloseAsync()
-        {
-            Components.ForEach(x => x.PropertyChanged -= OnComponentPropertyChanged);
+        //protected override async Task CloseAsync()
+        //{
+        //    Components.ForEach(x => x.PropertyChanged -= OnComponentPropertyChanged);
 
-            await base.CloseAsync();
-        }
+        //    await base.CloseAsync();
+        //}
 
-        private void OnComponentPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Validate(true);
-        }
+        //private void OnComponentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    Validate(true);
+        //}
 
-        protected override void ValidateBusinessRules(List<IBusinessRuleValidationResult> validationResults)
-        {
-            base.ValidateBusinessRules(validationResults);
+        //protected override void ValidateBusinessRules(List<IBusinessRuleValidationResult> validationResults)
+        //{
+        //    base.ValidateBusinessRules(validationResults);
 
-            var components = Components;
-            if (components != null)
-            {
-                if (!components.Any(x => x.IsSelected))
-                {
-                    validationResults.Add(BusinessRuleValidationResult.CreateError("Select at least 1 component"));
-                }
-            }
-        }
+        //    var components = Components;
+        //    if (components != null)
+        //    {
+        //        if (!components.Any(x => x.IsSelected))
+        //        {
+        //            validationResults.Add(BusinessRuleValidationResult.CreateError("Select at least 1 component"));
+        //        }
+        //    }
+        //}
     }
 }
