@@ -1,10 +1,6 @@
 ﻿namespace Orc.Wizard
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
@@ -12,16 +8,19 @@
     public class DefaultNavigationController : INavigationController
     {
         protected readonly ILanguageService _languageService;
+        protected readonly IMessageService _messageService;
 
         private readonly List<IWizardNavigationButton> _wizardNavigationButtons = new List<IWizardNavigationButton>();
 
-        public DefaultNavigationController(IWizard wizard, ILanguageService languageService)
+        public DefaultNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
         {
             Argument.IsNotNull(() => wizard);
+            Argument.IsNotNull(() => languageService);
             Argument.IsNotNull(() => languageService);
 
             Wizard = wizard;
             _languageService = languageService;
+            _messageService = messageService;
         }
 
         public IWizard Wizard { get; }
@@ -58,7 +57,7 @@
 
         protected virtual WizardNavigationButton CreateBackButton(IWizard wizard)
         {
-            var button =  new WizardNavigationButton
+            var button = new WizardNavigationButton
             {
                 Content = _languageService.GetString("Wizard_Back"),
                 IsVisibleEvaluator = () => !wizard.IsFirstPage(),
@@ -139,7 +138,12 @@
                 IsVisible = true,
                 Command = new TaskCommand(async () =>
                 {
-                    await wizard.CancelAsync();
+                    if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+                    {
+                        return;
+                    }
+
+                    await Wizard.CancelAsync();
                 },
                 () =>
                 {

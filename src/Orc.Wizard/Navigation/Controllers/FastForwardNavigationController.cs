@@ -7,8 +7,8 @@
 
     public class FastForwardNavigationController : DefaultNavigationController
     {
-        public FastForwardNavigationController(IWizard wizard, ILanguageService languageService)
-            : base(wizard, languageService)
+        public FastForwardNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
+            : base(wizard, languageService, messageService)
         {
 
         }

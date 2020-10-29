@@ -52,7 +52,8 @@ namespace Orc.Wizard
     public class DefaultNavigationController : Orc.Wizard.INavigationController
     {
         protected readonly Catel.Services.ILanguageService _languageService;
-        public DefaultNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService) { }
+        protected readonly Catel.Services.IMessageService _messageService;
+        public DefaultNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
         public Orc.Wizard.IWizard Wizard { get; }
         protected virtual Orc.Wizard.WizardNavigationButton CreateBackButton(Orc.Wizard.IWizard wizard) { }
         protected virtual Orc.Wizard.WizardNavigationButton CreateCancelButton(Orc.Wizard.IWizard wizard) { }
@@ -70,7 +71,7 @@ namespace Orc.Wizard
     }
     public class FastForwardNavigationController : Orc.Wizard.DefaultNavigationController
     {
-        public FastForwardNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService) { }
+        public FastForwardNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
         protected override Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
         protected override System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
     }
