@@ -129,16 +129,21 @@
                     </Style>
                 </ProgressBar.Style>
             </ProgressBar>
-            
-            <TextBlock Grid.Row="2" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" Margin="18 15 18 8" />
-            <TextBlock Grid.Row="3" Text="{Binding PageDescription}" FontSize="15" HorizontalAlignment="Stretch" Margin="18 0 18 8"/>
+
+            <TextBlock Grid.Row="2" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" Margin="18 15 18 8" 
+	                   HorizontalAlignment="Stretch" />
+            <TextBlock Grid.Row="3" Text="{Binding PageDescription}" FontSize="15" Margin="18 0 18 8"
+	                   HorizontalAlignment="Stretch" 
+		               TextWrapping="Wrap" />
         </Grid>
 
         <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" 
+                   Focusable="False"
                    Margin="10,0,10,0" Height="1" 
                    Fill="{DynamicResource Orc.Brushes.GrayBrush3}" />
 
-        <ScrollViewer Grid.Row="3" Margin="10,4,10,4" VerticalScrollBarVisibility="Disabled">
+        <ScrollViewer Grid.Row="3" Margin="10,4,10,4" 
+		      VerticalScrollBarVisibility="Disabled">
             <ContentControl Focusable="False">
                 <xamlbehaviors:Interaction.Behaviors>
                     <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
