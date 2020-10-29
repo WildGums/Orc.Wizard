@@ -71,6 +71,7 @@ namespace Orc.Wizard
     public class FastForwardNavigationController : Orc.Wizard.DefaultNavigationController
     {
         public FastForwardNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService) { }
+        protected override Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
         protected override System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
     }
     public class GeneralInformationWizardPage : Orc.Wizard.WizardPageBase
@@ -309,9 +310,9 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData IsVisibleProperty;
         public WizardNavigationButton() { }
         public System.Windows.Input.ICommand Command { get; set; }
-        public string Content { get; }
+        public string Content { get; set; }
         public System.Func<string> ContentEvaluator { get; set; }
-        public bool IsVisible { get; }
+        public bool IsVisible { get; set; }
         public System.Func<bool> IsVisibleEvaluator { get; set; }
         public void Update() { }
     }

@@ -93,7 +93,27 @@ namespace Orc.Wizard
 
         public virtual bool CanResume
         {
-            get { return _currentIndex == _pages.Count - 1; }
+            get
+            {
+                var remainingPages = Pages.Skip(_currentIndex + 1).ToList();
+                if (remainingPages.Count == 0)
+                {
+                    return true;
+                }
+
+                // Make sure we can move next at all
+                if (!CanMoveForward)
+                {
+                    return false;
+                }
+
+                if (remainingPages.All(x => (x is SummaryWizardPage == true) || x.IsOptional))
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         public virtual bool CanCancel
@@ -291,7 +311,7 @@ namespace Orc.Wizard
             HelpShown?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual IWizardPage SetCurrentPage(int newIndex)
+        protected internal virtual IWizardPage SetCurrentPage(int newIndex)
         {
             Log.Debug("Setting current page index to '{0}'", newIndex);
 

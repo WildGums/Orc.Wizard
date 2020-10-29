@@ -14,11 +14,11 @@
 
         public Func<string> ContentEvaluator { get; set; }
 
-        public string Content { get; private set; }
+        public string Content { get; set; }
 
         public Func<bool> IsVisibleEvaluator { get; set; }
 
-        public bool IsVisible { get; private set; }
+        public bool IsVisible { get; set; }
 
         public ICommand Command { get; set; }
 

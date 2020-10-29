@@ -16,6 +16,7 @@ namespace Orc.Wizard.Example.Wizard
         {
             Title = "Gadgets";
             Description = "Select the gadgets";
+            IsOptional = true;
 
             Gadgets = new ObservableCollection<Gadget>(new[]
             {

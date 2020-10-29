@@ -60,7 +60,7 @@
         {
             var button =  new WizardNavigationButton
             {
-                ContentEvaluator = () => _languageService.GetString("Wizard_Back"),
+                Content = _languageService.GetString("Wizard_Back"),
                 IsVisibleEvaluator = () => !wizard.IsFirstPage(),
                 Command = new TaskCommand(async () =>
                 {
@@ -84,7 +84,7 @@
         {
             var button = new WizardNavigationButton
             {
-                ContentEvaluator = () => _languageService.GetString("Wizard_Next"),
+                Content = _languageService.GetString("Wizard_Next"),
                 IsVisibleEvaluator = () => !wizard.IsLastPage(),
                 Command = new TaskCommand(async () =>
                 {
@@ -108,11 +108,11 @@
         {
             var button = new WizardNavigationButton
             {
-                ContentEvaluator = () => _languageService.GetString("Wizard_Finish"),
-                IsVisibleEvaluator = () => true,
+                Content = _languageService.GetString("Wizard_Finish"),
+                IsVisibleEvaluator = () => wizard.IsLastPage(),
                 Command = new TaskCommand(async () =>
                 {
-                    await wizard.SaveAsync();
+                    await wizard.ResumeAsync();
                 },
                 () =>
                 {
@@ -135,8 +135,8 @@
         {
             var button = new WizardNavigationButton
             {
-                ContentEvaluator = () => _languageService.GetString("Wizard_Cancel"),
-                IsVisibleEvaluator = () => wizard.IsLastPage(),
+                Content = _languageService.GetString("Wizard_Cancel"),
+                IsVisible = true,
                 Command = new TaskCommand(async () =>
                 {
                     await wizard.CancelAsync();
