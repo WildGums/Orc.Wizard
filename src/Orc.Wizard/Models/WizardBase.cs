@@ -26,7 +26,9 @@ namespace Orc.Wizard
 
         private int _currentIndex = 0;
         private IWizardPage _currentPage;
+
         private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
+        private INavigationController _navigationController;
         #endregion
 
         // Note: we can't remove this constructor, it would be a breaking change
@@ -35,6 +37,7 @@ namespace Orc.Wizard
             Argument.IsNotNull(() => typeFactory);
 
             _typeFactory = typeFactory;
+            _navigationController = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<DefaultNavigationController>(this);
 
             ResizeMode = System.Windows.ResizeMode.NoResize;
             MinSize = new System.Windows.Size(650d, 500d);
@@ -53,12 +56,8 @@ namespace Orc.Wizard
             {
                 if (_currentPage is null)
                 {
-                    _currentPage = _pages[_currentIndex];
-
-                    if (_currentPage != null)
-                    {
-                        RaisePropertyChanged(nameof(CurrentPage));
-                    }
+                    // Try to set page (probably first page)
+                    SetCurrentPage(_currentIndex);
                 }
 
                 return _currentPage;
@@ -74,6 +73,12 @@ namespace Orc.Wizard
         {
             get { return _navigationStrategy; }
             protected set { _navigationStrategy = value; }
+        }
+
+        public INavigationController NavigationController
+        {
+            get { return _navigationController; }
+            protected set { _navigationController = value; }
         }
 
         public string Title { get; protected set; }
@@ -302,12 +307,7 @@ namespace Orc.Wizard
                 }
             }
 
-            _currentPage = null;
-            _currentIndex = newIndex;
-            RaisePropertyChanged(nameof(CurrentPage));
-            CurrentPageChanged?.Invoke(this, EventArgs.Empty);
-
-            var newPage = CurrentPage;
+            var newPage = _pages[newIndex];
             if (newPage != null)
             {
                 newPage.ViewModelChanged += OnPageViewModelChanged;
@@ -318,6 +318,12 @@ namespace Orc.Wizard
                     vm.PropertyChanged += OnPageViewModelPropertyChanged;
                 }
             }
+
+            _currentPage = newPage;
+            _currentIndex = newIndex;
+
+            RaisePropertyChanged(nameof(CurrentPage));
+            CurrentPageChanged?.Invoke(this, EventArgs.Empty);
 
             return newPage;
         }
@@ -343,6 +349,8 @@ namespace Orc.Wizard
             RaisePropertyChanged(nameof(CanMoveForward));
             RaisePropertyChanged(nameof(CanResume));
             RaisePropertyChanged(nameof(CanCancel));
+
+            NavigationController.EvaluateNavigationCommands();
         }
 
         private void UpdatePageNumbers()

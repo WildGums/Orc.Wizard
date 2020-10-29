@@ -32,6 +32,8 @@ namespace Orc.Wizard.Example.Wizard
             MinSize = new System.Windows.Size(800, 600);
             MaxSize = new System.Windows.Size(1000, 800);
             ResizeMode = System.Windows.ResizeMode.CanResize;
+
+            NavigationController = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<FastForwardNavigationController>(this);
         }
 
         public bool ShowInTaskbarWrapper

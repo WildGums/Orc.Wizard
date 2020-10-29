@@ -165,24 +165,26 @@
                         Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
             </WrapPanel>
 
-            <WrapPanel Grid.Column="2" 
-                       Style="{DynamicResource DataWindowButtonContainerStyle}"
-                       Margin="0,0,6,6">
-                <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" 
-                        Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
+            <ItemsControl Grid.Column="2"
+                          Focusable="False"
+                          Margin="0,0,6,6"
+                          ItemsSource="{Binding WizardButtons}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True"
+                                   Style="{DynamicResource DataWindowButtonContainerStyle}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-                <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Wizard_Next}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
-
-                <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Wizard_Finish}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" 
-                        Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-
-                <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Wizard_Cancel}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" />
-            </WrapPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding Command}" 
+                                Content="{Binding Content}" 
+                                Style="{DynamicResource DataWindowButtonStyle}" 
+                                Visibility="{Binding IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
     </Grid>
 

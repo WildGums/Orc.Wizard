@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
+    using Catel.Collections;
     using Catel.Fody;
     using Catel.MVVM;
     using Catel.Services;
@@ -30,10 +31,6 @@
             _messageService = messageService;
             _languageService = languageService;
 
-            Finish = new TaskCommand(OnFinishExecuteAsync, OnFinishCanExecute);
-            Cancel = new TaskCommand(OnCancelExecuteAsync, OnCancelCanExecute);
-            GoToNext = new TaskCommand(OnGoToNextExecuteAsync, OnGoToNextCanExecute);
-            GoToPrevious = new TaskCommand(OnGoToPreviousExecuteAsync, OnGoToPreviousCanExecute);
             ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
         }
         #endregion
@@ -50,84 +47,16 @@
 
         public IEnumerable<IWizardPage> WizardPages { get; private set; }
 
+        public IEnumerable<IWizardNavigationButton> WizardButtons { get; private set; }
+
         public string PageTitle { get; private set; }
 
         public string PageDescription { get; private set; }
 
         public bool IsPageOptional { get; private set; }
-
-        public bool IsFirstPage { get; private set; }
-
-        public bool IsLastPage { get; private set; }
         #endregion
 
         #region Commands
-        public TaskCommand GoToPrevious { get; set; }
-
-        private bool OnGoToPreviousCanExecute()
-        {
-            if (!Wizard.HandleNavigationStates)
-            {
-                return true;
-            }
-
-            return Wizard.CanMoveBack;
-        }
-
-        private async Task OnGoToPreviousExecuteAsync()
-        {
-            await Wizard.MoveBackAsync();
-        }
-
-
-        public TaskCommand GoToNext { get; set; }
-
-        private bool OnGoToNextCanExecute()
-        {
-            if (!Wizard.HandleNavigationStates)
-            {
-                return true;
-            }
-
-            return Wizard.CanMoveForward;
-        }
-
-        private async Task OnGoToNextExecuteAsync()
-        {
-            await Wizard.MoveForwardAsync();
-        }
-
-
-        public TaskCommand Finish { get; set; }
-
-        private bool OnFinishCanExecute()
-        {
-            var validationSummary = this.GetValidationSummary(true);
-            return !validationSummary.HasErrors && !validationSummary.HasWarnings && Wizard.CanResume;
-        }
-
-        private async Task OnFinishExecuteAsync()
-        {
-            if (await SaveAsync())
-            {
-                await Wizard.SaveAsync();
-            }
-        }
-
-
-        public TaskCommand Cancel { get; set; }
-
-        private bool OnCancelCanExecute()
-        {
-            return Wizard.CanCancel;
-        }
-
-        private async Task OnCancelExecuteAsync()
-        {
-            await CancelWizardAsync();
-        }
-
-
         public TaskCommand ShowHelp { get; set; }
 
         private bool OnShowHelpCanExecute()
@@ -139,7 +68,6 @@
         {
             return Wizard.ShowHelpAsync();
         }
-
         #endregion
 
         #region Methods
@@ -162,7 +90,7 @@
             if (!_isCanceling)
             {
                 // Special case, we need to execute the cancel command if users are using ALT + F4
-                if (!OnCancelCanExecute())
+                if (!Wizard.CanCancel)
                 {
                     return false;
                 }
@@ -182,6 +110,8 @@
             Wizard.MovedForward -= OnWizardMovedForward;
             Wizard.Canceled -= OnWizardCanceled;
             Wizard.Resumed -= OnWizardResumed;
+
+            WizardButtons = null;
 
             await Wizard.CloseAsync();
 
@@ -229,9 +159,6 @@
 
         private void UpdateState()
         {
-            IsFirstPage = Wizard.IsFirstPage();
-            IsLastPage = Wizard.IsLastPage();
-
             var page = Wizard.CurrentPage;
 
             PageTitle = page?.Title ?? string.Empty;
@@ -249,6 +176,8 @@
 
             title += string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages);
             Title = title;
+
+            WizardButtons = Wizard.NavigationController.GetNavigationButtons();
         }
         #endregion
     }
