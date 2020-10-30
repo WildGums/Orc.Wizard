@@ -132,10 +132,12 @@ namespace Orc.Wizard
         event System.EventHandler<System.EventArgs> Resumed;
         System.Threading.Tasks.Task CancelAsync();
         System.Threading.Tasks.Task CloseAsync();
+        Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true);
         System.Threading.Tasks.Task InitializeAsync();
         void InsertPage(int index, Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task MoveBackAsync();
         System.Threading.Tasks.Task MoveForwardAsync();
+        System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage);
         void RemovePage(Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task ResumeAsync();
         [ObsoleteEx(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
@@ -159,6 +161,7 @@ namespace Orc.Wizard
         public static bool IsFirstPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
         public static bool IsLastPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
         public static System.Threading.Tasks.Task MoveForwardOrResumeAsync(this Orc.Wizard.IWizard wizard) { }
+        public static System.Threading.Tasks.Task MoveToPageAsync(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage) { }
     }
     public interface IWizardNavigationButton
     {
@@ -282,10 +285,12 @@ namespace Orc.Wizard
         public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual System.Threading.Tasks.Task CloseAsync() { }
+        public virtual Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true) { }
         public virtual System.Threading.Tasks.Task InitializeAsync() { }
         public void InsertPage(int index, Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task MoveBackAsync() { }
         public virtual System.Threading.Tasks.Task MoveForwardAsync() { }
+        public virtual System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage) { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         protected void RaiseCanceled() { }
         protected void RaiseMovedBack() { }

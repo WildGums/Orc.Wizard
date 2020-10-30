@@ -125,21 +125,13 @@ namespace Orc.Wizard
         {
             get
             {
-                if (_currentPage != null)
+                var validationContext = GetValidationContextForCurrentPage(true);
+                if (validationContext.HasErrors)
                 {
-                    var vm = _currentPage.ViewModel;
-                    if (vm != null)
-                    {
-                        vm.Validate(true);
-
-                        if (vm.ValidationContext.HasErrors)
-                        {
-                            return false;
-                        }
-                    }
+                    return false;
                 }
 
-                int indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+                var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
                 return (indexOfNextPage != WizardConfiguration.CannotNavigate);
             }
         }
@@ -201,6 +193,25 @@ namespace Orc.Wizard
             UpdatePageNumbers();
         }
 
+        public virtual IValidationContext GetValidationContextForCurrentPage(bool validate = true)
+        {
+            if (_currentPage != null)
+            {
+                var vm = _currentPage.ViewModel;
+                if (vm != null)
+                {
+                    if (validate)
+                    {
+                        vm.Validate(true);
+                    }
+
+                    return vm.ValidationContext;
+                }
+            }
+
+            return new ValidationContext();
+        }
+
         public virtual async Task MoveForwardAsync()
         {
             if (!CanMoveForward)
@@ -244,6 +255,43 @@ namespace Orc.Wizard
             SetCurrentPage(indexOfPreviousPage);
 
             RaiseMovedBack();
+        }
+
+        public virtual async Task MoveToPageAsync(int indexOfNextPage)
+        {
+            // Note: we skip the navigation strategy when going directly to another page
+
+            // Note: for now make a *big* assumption that a lower index is backward navigation
+            var isForward = indexOfNextPage > _currentIndex;
+            if (isForward)
+            {
+                var validationContext = GetValidationContextForCurrentPage(true);
+                if (validationContext.HasErrors)
+                {
+                    if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+                    {
+                        wizardPageViewModel.EnableValidationExposure();
+                    }
+
+                    return;
+                }
+
+                var currentPage = _currentPage;
+                if (currentPage != null)
+                {
+                    var vm = currentPage.ViewModel;
+                    if (vm != null)
+                    {
+                        var result = await vm.SaveAndCloseViewModelAsync();
+                        if (!result)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+
+            SetCurrentPage(indexOfNextPage);
         }
 
         public virtual Task InitializeAsync()
@@ -344,6 +392,8 @@ namespace Orc.Wizard
 
             RaisePropertyChanged(nameof(CurrentPage));
             CurrentPageChanged?.Invoke(this, EventArgs.Empty);
+
+            NavigationController.EvaluateNavigationCommands();
 
             return newPage;
         }

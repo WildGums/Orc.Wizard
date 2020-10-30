@@ -10,6 +10,7 @@ namespace Orc.Wizard
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Catel.Data;
 
     public interface IWizard
     {
@@ -43,6 +44,7 @@ namespace Orc.Wizard
 
         Task MoveForwardAsync();
         Task MoveBackAsync();
+        Task MoveToPageAsync(int indexOfNextPage);
         Task ShowHelpAsync();
 
         event EventHandler<EventArgs> CurrentPageChanged;
@@ -54,5 +56,7 @@ namespace Orc.Wizard
 
         void InsertPage(int index, IWizardPage page);
         void RemovePage(IWizardPage page);
+
+        IValidationContext GetValidationContextForCurrentPage(bool validate = true);
     }
 }

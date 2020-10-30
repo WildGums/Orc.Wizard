@@ -1,6 +1,7 @@
 ﻿namespace Orc.Wizard
 {
     using System.Collections.Generic;
+    using System.Net;
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
@@ -120,10 +121,19 @@
                         return true;
                     }
 
-                    //var validationSummary = this.GetValidationSummary(true);
-                    //return !validationSummary.HasErrors && !validationSummary.HasWarnings && Wizard.CanResume;
+                    if (!Wizard.CanResume)
+                    {
+                        return false;
+                    }
 
-                    return wizard.CanResume;
+                    // Don't validate
+                    var validationSummary = wizard.GetValidationContextForCurrentPage(false);
+                    if (!validationSummary.HasErrors)
+                    {
+                        return true;
+                    }
+
+                    return false;
                 })
             };
 

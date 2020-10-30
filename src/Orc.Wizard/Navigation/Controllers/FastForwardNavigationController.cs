@@ -70,7 +70,7 @@
                             return;
                         }
 
-                        typedWizard.SetCurrentPage(wizardPages.IndexOf(summaryPage));
+                        await typedWizard.MoveToPageAsync(summaryPage);
                         return;
                     }
 
