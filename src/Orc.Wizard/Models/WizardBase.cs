@@ -26,7 +26,9 @@ namespace Orc.Wizard
 
         private int _currentIndex = 0;
         private IWizardPage _currentPage;
+
         private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
+        private INavigationController _navigationController;
         #endregion
 
         // Note: we can't remove this constructor, it would be a breaking change
@@ -35,6 +37,7 @@ namespace Orc.Wizard
             Argument.IsNotNull(() => typeFactory);
 
             _typeFactory = typeFactory;
+            _navigationController = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<DefaultNavigationController>(this);
 
             ResizeMode = System.Windows.ResizeMode.NoResize;
             MinSize = new System.Windows.Size(650d, 500d);
@@ -53,12 +56,8 @@ namespace Orc.Wizard
             {
                 if (_currentPage is null)
                 {
-                    _currentPage = _pages[_currentIndex];
-
-                    if (_currentPage != null)
-                    {
-                        RaisePropertyChanged(nameof(CurrentPage));
-                    }
+                    // Try to set page (probably first page)
+                    SetCurrentPage(_currentIndex);
                 }
 
                 return _currentPage;
@@ -76,6 +75,12 @@ namespace Orc.Wizard
             protected set { _navigationStrategy = value; }
         }
 
+        public INavigationController NavigationController
+        {
+            get { return _navigationController; }
+            protected set { _navigationController = value; }
+        }
+
         public string Title { get; protected set; }
 
         public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
@@ -88,7 +93,27 @@ namespace Orc.Wizard
 
         public virtual bool CanResume
         {
-            get { return _currentIndex == _pages.Count - 1; }
+            get
+            {
+                var remainingPages = Pages.Skip(_currentIndex + 1).ToList();
+                if (remainingPages.Count == 0)
+                {
+                    return true;
+                }
+
+                // Make sure we can move next at all
+                if (!CanMoveForward)
+                {
+                    return false;
+                }
+
+                if (remainingPages.All(x => (x is SummaryWizardPage == true) || x.IsOptional))
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         public virtual bool CanCancel
@@ -100,21 +125,13 @@ namespace Orc.Wizard
         {
             get
             {
-                if (_currentPage != null)
+                var validationContext = GetValidationContextForCurrentPage(true);
+                if (validationContext.HasErrors)
                 {
-                    var vm = _currentPage.ViewModel;
-                    if (vm != null)
-                    {
-                        vm.Validate(true);
-
-                        if (vm.ValidationContext.HasErrors)
-                        {
-                            return false;
-                        }
-                    }
+                    return false;
                 }
 
-                int indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+                var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
                 return (indexOfNextPage != WizardConfiguration.CannotNavigate);
             }
         }
@@ -176,6 +193,25 @@ namespace Orc.Wizard
             UpdatePageNumbers();
         }
 
+        public virtual IValidationContext GetValidationContextForCurrentPage(bool validate = true)
+        {
+            if (_currentPage != null)
+            {
+                var vm = _currentPage.ViewModel;
+                if (vm != null)
+                {
+                    if (validate)
+                    {
+                        vm.Validate(true);
+                    }
+
+                    return vm.ValidationContext;
+                }
+            }
+
+            return new ValidationContext();
+        }
+
         public virtual async Task MoveForwardAsync()
         {
             if (!CanMoveForward)
@@ -219,6 +255,43 @@ namespace Orc.Wizard
             SetCurrentPage(indexOfPreviousPage);
 
             RaiseMovedBack();
+        }
+
+        public virtual async Task MoveToPageAsync(int indexOfNextPage)
+        {
+            // Note: we skip the navigation strategy when going directly to another page
+
+            // Note: for now make a *big* assumption that a lower index is backward navigation
+            var isForward = indexOfNextPage > _currentIndex;
+            if (isForward)
+            {
+                var validationContext = GetValidationContextForCurrentPage(true);
+                if (validationContext.HasErrors)
+                {
+                    if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+                    {
+                        wizardPageViewModel.EnableValidationExposure();
+                    }
+
+                    return;
+                }
+
+                var currentPage = _currentPage;
+                if (currentPage != null)
+                {
+                    var vm = currentPage.ViewModel;
+                    if (vm != null)
+                    {
+                        var result = await vm.SaveAndCloseViewModelAsync();
+                        if (!result)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+
+            SetCurrentPage(indexOfNextPage);
         }
 
         public virtual Task InitializeAsync()
@@ -286,7 +359,7 @@ namespace Orc.Wizard
             HelpShown?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual IWizardPage SetCurrentPage(int newIndex)
+        protected internal virtual IWizardPage SetCurrentPage(int newIndex)
         {
             Log.Debug("Setting current page index to '{0}'", newIndex);
 
@@ -302,12 +375,7 @@ namespace Orc.Wizard
                 }
             }
 
-            _currentPage = null;
-            _currentIndex = newIndex;
-            RaisePropertyChanged(nameof(CurrentPage));
-            CurrentPageChanged?.Invoke(this, EventArgs.Empty);
-
-            var newPage = CurrentPage;
+            var newPage = _pages[newIndex];
             if (newPage != null)
             {
                 newPage.ViewModelChanged += OnPageViewModelChanged;
@@ -318,6 +386,14 @@ namespace Orc.Wizard
                     vm.PropertyChanged += OnPageViewModelPropertyChanged;
                 }
             }
+
+            _currentPage = newPage;
+            _currentIndex = newIndex;
+
+            RaisePropertyChanged(nameof(CurrentPage));
+            CurrentPageChanged?.Invoke(this, EventArgs.Empty);
+
+            NavigationController.EvaluateNavigationCommands();
 
             return newPage;
         }
@@ -343,6 +419,8 @@ namespace Orc.Wizard
             RaisePropertyChanged(nameof(CanMoveForward));
             RaisePropertyChanged(nameof(CanResume));
             RaisePropertyChanged(nameof(CanCancel));
+
+            NavigationController.EvaluateNavigationCommands();
         }
 
         private void UpdatePageNumbers()

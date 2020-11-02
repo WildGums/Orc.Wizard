@@ -15,6 +15,7 @@ namespace Orc.Wizard
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Reflection;
+    using Catel.Threading;
 
     public static class IWizardExtensions
     {
@@ -41,6 +42,17 @@ namespace Orc.Wizard
             }
 
             Log.Debug("Could not move forward or resume from MoveNextOrResumeAsync()");
+        }
+
+        public static Task MoveToPageAsync(this IWizard wizard, IWizardPage wizardPage)
+        {
+            var index = wizard.Pages.ToList().IndexOf(wizardPage);
+            if (index < 0)
+            {
+                return TaskHelper.Completed;
+            }
+
+            return wizard.MoveToPageAsync(index);
         }
 
         public static IWizardPage AddPage(this IWizard wizard, IWizardPage page)

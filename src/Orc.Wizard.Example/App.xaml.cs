@@ -12,7 +12,6 @@ namespace Orc.Wizard.Example
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
-    using Catel.Windows;
     using Orchestra;
 
     /// <summary>

@@ -49,11 +49,31 @@ namespace Orc.Wizard.Converters
 }
 namespace Orc.Wizard
 {
+    public class DefaultNavigationController : Orc.Wizard.INavigationController
+    {
+        protected readonly Catel.Services.ILanguageService _languageService;
+        protected readonly Catel.Services.IMessageService _messageService;
+        public DefaultNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
+        public Orc.Wizard.IWizard Wizard { get; }
+        protected virtual Orc.Wizard.WizardNavigationButton CreateBackButton(Orc.Wizard.IWizard wizard) { }
+        protected virtual Orc.Wizard.WizardNavigationButton CreateCancelButton(Orc.Wizard.IWizard wizard) { }
+        protected virtual Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
+        protected virtual Orc.Wizard.WizardNavigationButton CreateForwardButton(Orc.Wizard.IWizard wizard) { }
+        protected virtual System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
+        public void EvaluateNavigationCommands() { }
+        public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> GetNavigationButtons() { }
+    }
     public class DefaultNavigationStrategy : Orc.Wizard.INavigationStrategy
     {
         public DefaultNavigationStrategy() { }
         public int GetIndexOfNextPage(Orc.Wizard.IWizard wizard) { }
         public int GetIndexOfPreviousPage(Orc.Wizard.IWizard wizard) { }
+    }
+    public class FastForwardNavigationController : Orc.Wizard.DefaultNavigationController
+    {
+        public FastForwardNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
+        protected override Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
+        protected override System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
     }
     public class GeneralInformationWizardPage : Orc.Wizard.WizardPageBase
     {
@@ -70,6 +90,11 @@ namespace Orc.Wizard
         public string Name { get; set; }
         public string ShortTimeFormat { get; set; }
         public System.DateTime StartDate { get; set; }
+    }
+    public interface INavigationController
+    {
+        void EvaluateNavigationCommands();
+        System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> GetNavigationButtons();
     }
     public interface INavigationStrategy
     {
@@ -93,6 +118,7 @@ namespace Orc.Wizard
         bool IsHelpVisible { get; }
         System.Windows.Size MaxSize { get; }
         System.Windows.Size MinSize { get; }
+        Orc.Wizard.INavigationController NavigationController { get; }
         Orc.Wizard.INavigationStrategy NavigationStrategy { get; }
         System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
         System.Windows.ResizeMode ResizeMode { get; }
@@ -106,10 +132,12 @@ namespace Orc.Wizard
         event System.EventHandler<System.EventArgs> Resumed;
         System.Threading.Tasks.Task CancelAsync();
         System.Threading.Tasks.Task CloseAsync();
+        Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true);
         System.Threading.Tasks.Task InitializeAsync();
         void InsertPage(int index, Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task MoveBackAsync();
         System.Threading.Tasks.Task MoveForwardAsync();
+        System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage);
         void RemovePage(Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task ResumeAsync();
         [ObsoleteEx(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
@@ -133,6 +161,14 @@ namespace Orc.Wizard
         public static bool IsFirstPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
         public static bool IsLastPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage = null) { }
         public static System.Threading.Tasks.Task MoveForwardOrResumeAsync(this Orc.Wizard.IWizard wizard) { }
+        public static System.Threading.Tasks.Task MoveToPageAsync(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage wizardPage) { }
+    }
+    public interface IWizardNavigationButton
+    {
+        System.Windows.Input.ICommand Command { get; }
+        string Content { get; }
+        bool IsVisible { get; }
+        void Update();
     }
     public interface IWizardPage
     {
@@ -235,6 +271,7 @@ namespace Orc.Wizard
         public bool IsHelpVisible { get; set; }
         public virtual System.Windows.Size MaxSize { get; set; }
         public virtual System.Windows.Size MinSize { get; set; }
+        public Orc.Wizard.INavigationController NavigationController { get; set; }
         public Orc.Wizard.INavigationStrategy NavigationStrategy { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
         public virtual System.Windows.ResizeMode ResizeMode { get; set; }
@@ -248,10 +285,12 @@ namespace Orc.Wizard
         public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual System.Threading.Tasks.Task CloseAsync() { }
+        public virtual Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true) { }
         public virtual System.Threading.Tasks.Task InitializeAsync() { }
         public void InsertPage(int index, Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task MoveBackAsync() { }
         public virtual System.Threading.Tasks.Task MoveForwardAsync() { }
+        public virtual System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage) { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         protected void RaiseCanceled() { }
         protected void RaiseMovedBack() { }
@@ -268,6 +307,20 @@ namespace Orc.Wizard
     {
         public static readonly int CannotNavigate;
         public static System.TimeSpan AnimationDuration { get; set; }
+    }
+    public class WizardNavigationButton : Catel.Data.ModelBase, Orc.Wizard.IWizardNavigationButton
+    {
+        public static readonly Catel.Data.PropertyData ContentEvaluatorProperty;
+        public static readonly Catel.Data.PropertyData ContentProperty;
+        public static readonly Catel.Data.PropertyData IsVisibleEvaluatorProperty;
+        public static readonly Catel.Data.PropertyData IsVisibleProperty;
+        public WizardNavigationButton() { }
+        public System.Windows.Input.ICommand Command { get; set; }
+        public string Content { get; set; }
+        public System.Func<string> ContentEvaluator { get; set; }
+        public bool IsVisible { get; set; }
+        public System.Func<bool> IsVisibleEvaluator { get; set; }
+        public void Update() { }
     }
     public abstract class WizardPageBase : Catel.Data.ModelBase, Orc.Wizard.IWizardPage
     {
@@ -330,9 +383,7 @@ namespace Orc.Wizard.ViewModels
     public class WizardViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData CurrentPageProperty;
-        public static readonly Catel.Data.PropertyData IsFirstPageProperty;
         public static readonly Catel.Data.PropertyData IsHelpVisibleProperty;
-        public static readonly Catel.Data.PropertyData IsLastPageProperty;
         public static readonly Catel.Data.PropertyData IsPageOptionalProperty;
         public static readonly Catel.Data.PropertyData MaxSizeProperty;
         public static readonly Catel.Data.PropertyData MinSizeProperty;
@@ -340,19 +391,14 @@ namespace Orc.Wizard.ViewModels
         public static readonly Catel.Data.PropertyData PageTitleProperty;
         public static readonly Catel.Data.PropertyData ResizeModeProperty;
         public static readonly Catel.Data.PropertyData ShowInTaskbarProperty;
+        public static readonly Catel.Data.PropertyData WizardButtonsProperty;
         public static readonly Catel.Data.PropertyData WizardPagesProperty;
         public static readonly Catel.Data.PropertyData WizardProperty;
         public WizardViewModel(Orc.Wizard.IWizard wizard, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
-        public Catel.MVVM.TaskCommand Cancel { get; set; }
         [Catel.MVVM.ViewModelToModel("Wizard", "CurrentPage")]
         public Orc.Wizard.IWizardPage CurrentPage { get; set; }
-        public Catel.MVVM.TaskCommand Finish { get; set; }
-        public Catel.MVVM.TaskCommand GoToNext { get; set; }
-        public Catel.MVVM.TaskCommand GoToPrevious { get; set; }
-        public bool IsFirstPage { get; }
         [Catel.MVVM.ViewModelToModel("Wizard", "IsHelpVisible")]
         public bool IsHelpVisible { get; set; }
-        public bool IsLastPage { get; }
         public bool IsPageOptional { get; }
         [Catel.MVVM.ViewModelToModel("Wizard", "MaxSize")]
         public System.Windows.Size MaxSize { get; set; }
@@ -367,6 +413,7 @@ namespace Orc.Wizard.ViewModels
         public bool ShowInTaskbar { get; set; }
         [Catel.MVVM.Model(SupportIEditableObject=false)]
         public Orc.Wizard.IWizard Wizard { get; set; }
+        public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> WizardButtons { get; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> WizardPages { get; }
         protected override System.Threading.Tasks.Task<bool> CancelAsync() { }
         protected override System.Threading.Tasks.Task CloseAsync() { }

@@ -22,6 +22,7 @@
             _typeFactory = typeFactory;
 
             ShowWizard = new TaskCommand(OnShowWizardExecuteAsync);
+            UseFastForwardNavigationController = true;
             ShowSummaryPage = true;
             HandleNavigationStates = true;
 
@@ -30,6 +31,8 @@
 
         #region Properties
         public bool ShowInTaskbar { get; set; }
+
+        public bool UseFastForwardNavigationController { get; set; }
 
         public bool ShowSummaryPage { get; set; }
 
@@ -42,8 +45,14 @@
         private Task OnShowWizardExecuteAsync()
         {
             var wizard = _typeFactory.CreateInstance<ExampleWizard>();
+
             wizard.ShowInTaskbarWrapper = ShowInTaskbar;
             wizard.HandleNavigationStatesWrapper = HandleNavigationStates;
+
+            if (UseFastForwardNavigationController)
+            {
+                wizard.NavigationControllerWrapper = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<FastForwardNavigationController>(wizard);
+            }
 
             if (!ShowSummaryPage)
             {

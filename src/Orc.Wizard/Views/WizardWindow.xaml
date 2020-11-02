@@ -129,16 +129,21 @@
                     </Style>
                 </ProgressBar.Style>
             </ProgressBar>
-            
-            <TextBlock Grid.Row="2" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" Margin="18 15 18 8" />
-            <TextBlock Grid.Row="3" Text="{Binding PageDescription}" FontSize="15" HorizontalAlignment="Stretch" Margin="18 0 18 8"/>
+
+            <TextBlock Grid.Row="2" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" Margin="18 15 18 8" 
+	                   HorizontalAlignment="Stretch" />
+            <TextBlock Grid.Row="3" Text="{Binding PageDescription}" FontSize="15" Margin="18 0 18 8"
+	                   HorizontalAlignment="Stretch" 
+		               TextWrapping="Wrap" />
         </Grid>
 
         <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" 
+                   Focusable="False"
                    Margin="10,0,10,0" Height="1" 
                    Fill="{DynamicResource Orc.Brushes.GrayBrush3}" />
 
-        <ScrollViewer Grid.Row="3" Margin="10,4,10,4" VerticalScrollBarVisibility="Disabled">
+        <ScrollViewer Grid.Row="3" Margin="10,4,10,4" 
+		      VerticalScrollBarVisibility="Disabled">
             <ContentControl Focusable="False">
                 <xamlbehaviors:Interaction.Behaviors>
                     <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
@@ -165,24 +170,26 @@
                         Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
             </WrapPanel>
 
-            <WrapPanel Grid.Column="2" 
-                       Style="{DynamicResource DataWindowButtonContainerStyle}"
-                       Margin="0,0,6,6">
-                <Button Command="{Binding GoToPrevious}" Content="{catel:LanguageBinding Wizard_Back}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" 
-                        Visibility="{Binding IsFirstPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
+            <ItemsControl Grid.Column="2"
+                          Focusable="False"
+                          Margin="0,0,6,6"
+                          ItemsSource="{Binding WizardButtons}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True"
+                                   Style="{DynamicResource DataWindowButtonContainerStyle}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-                <Button Command="{Binding GoToNext}" Content="{catel:LanguageBinding Wizard_Next}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" 
-                    Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}" />
-
-                <Button Command="{Binding Finish}" Content="{catel:LanguageBinding Wizard_Finish}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" 
-                        Visibility="{Binding IsLastPage, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-
-                <Button Command="{Binding Cancel}" Content="{catel:LanguageBinding Wizard_Cancel}" 
-                        Style="{DynamicResource DataWindowButtonStyle}" />
-            </WrapPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding Command}" 
+                                Content="{Binding Content}" 
+                                Style="{DynamicResource DataWindowButtonStyle}" 
+                                Visibility="{Binding IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
     </Grid>
 
