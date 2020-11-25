@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
     <AssemblyName>Orc.Wizard.Example</AssemblyName>
     <RootNamespace>Orc.Wizard.Example</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -26,6 +26,7 @@
     <PackageReference Include="Orc.Controls" Version="4.1.1" />
     <PackageReference Include="Orc.SystemInfo" Version="4.0.0" />
     <PackageReference Include="Orchestra.Core" Version="6.1.1" />
+    <PackageReference Include="System.Security.Permissions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
