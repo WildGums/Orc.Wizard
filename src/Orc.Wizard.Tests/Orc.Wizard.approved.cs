@@ -302,6 +302,7 @@ namespace Orc.Wizard
         public virtual System.Threading.Tasks.Task SaveAsync() { }
         protected virtual Orc.Wizard.IWizardPage SetCurrentPage(int newIndex) { }
         public virtual System.Threading.Tasks.Task ShowHelpAsync() { }
+        protected virtual System.Threading.Tasks.Task<bool> ValidateAndSaveCurrentPageAsync() { }
     }
     public static class WizardConfiguration
     {

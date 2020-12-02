@@ -265,33 +265,43 @@ namespace Orc.Wizard
             var isForward = indexOfNextPage > _currentIndex;
             if (isForward)
             {
-                var validationContext = GetValidationContextForCurrentPage(true);
-                if (validationContext.HasErrors)
+                if (!await ValidateAndSaveCurrentPageAsync())
                 {
-                    if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
-                    {
-                        wizardPageViewModel.EnableValidationExposure();
-                    }
-
                     return;
-                }
-
-                var currentPage = _currentPage;
-                if (currentPage != null)
-                {
-                    var vm = currentPage.ViewModel;
-                    if (vm != null)
-                    {
-                        var result = await vm.SaveAndCloseViewModelAsync();
-                        if (!result)
-                        {
-                            return;
-                        }
-                    }
                 }
             }
 
             SetCurrentPage(indexOfNextPage);
+        }
+
+        protected virtual async Task<bool> ValidateAndSaveCurrentPageAsync()
+        {
+            var validationContext = GetValidationContextForCurrentPage(true);
+            if (validationContext.HasErrors)
+            {
+                if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+                {
+                    wizardPageViewModel.EnableValidationExposure();
+                }
+
+                return false;
+            }
+
+            var currentPage = _currentPage;
+            if (currentPage != null)
+            {
+                var vm = currentPage.ViewModel;
+                if (vm != null)
+                {
+                    var result = await vm.SaveAndCloseViewModelAsync();
+                    if (!result)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         public virtual Task InitializeAsync()
@@ -313,6 +323,12 @@ namespace Orc.Wizard
             }
 
             Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName(false));
+
+            // ORCOMP-590: Fix for final view model
+            if (!await ValidateAndSaveCurrentPageAsync())
+            {
+                return;
+            }
 
             foreach (var page in _pages)
             {
