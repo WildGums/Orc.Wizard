@@ -1,7 +1,6 @@
 ﻿namespace Orc.Wizard.Example.ViewModels
 {
     using System.Linq;
-    using System.Reflection.Metadata;
     using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
@@ -24,6 +23,7 @@
             ShowWizard = new TaskCommand(OnShowWizardExecuteAsync);
             UseFastForwardNavigationController = true;
             ShowSummaryPage = true;
+            ShowHelp = true;
             HandleNavigationStates = true;
 
             Title = "Orc.Wizard example";
@@ -31,6 +31,8 @@
 
         #region Properties
         public bool ShowInTaskbar { get; set; }
+
+        public bool ShowHelp { get; set; }
 
         public bool UseFastForwardNavigationController { get; set; }
 
@@ -47,6 +49,7 @@
             var wizard = _typeFactory.CreateInstance<ExampleWizard>();
 
             wizard.ShowInTaskbarWrapper = ShowInTaskbar;
+            wizard.ShowHelpWrapper = ShowHelp;
             wizard.HandleNavigationStatesWrapper = HandleNavigationStates;
 
             if (UseFastForwardNavigationController)
