@@ -12,6 +12,7 @@ namespace Orc.Wizard.Example
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
+    using Orc.Theming;
     using Orchestra;
 
     /// <summary>
@@ -32,6 +33,8 @@ namespace Orc.Wizard.Example
             // we use .CurrentCulture for the sake of the demo
             languageService.PreferredCulture = CultureInfo.CurrentCulture;
             languageService.FallbackCulture = new CultureInfo("en-US");
+
+            StyleHelper.CreateStyleForwardersForDefaultStyles();
 
             this.ApplyTheme();
 

@@ -8,16 +8,24 @@
 namespace Orc.Wizard.Example.Wizard
 {
     using System.Threading.Tasks;
+    using Catel;
     using Catel.IoC;
     using Catel.Logging;
+    using Catel.Services;
 
     public class ExampleWizard : WizardBase
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        public ExampleWizard(ITypeFactory typeFactory)
+        private readonly IMessageService _messageService;
+
+        public ExampleWizard(ITypeFactory typeFactory, IMessageService messageService)
             : base(typeFactory)
         {
+            Argument.IsNotNull(() => messageService);
+
+            _messageService = messageService;
+
             Title = "Orc.Wizard example"; 
 
             this.AddPage<PersonWizardPage>();
@@ -46,10 +54,21 @@ namespace Orc.Wizard.Example.Wizard
             set { ShowInTaskbar = value; }
         }
 
+        public bool ShowHelpWrapper
+        {
+            get { return IsHelpVisible; }
+            set { IsHelpVisible = value; }
+        }
+
         public bool HandleNavigationStatesWrapper
         {
             get {  return HandleNavigationStates; }
             set { HandleNavigationStates = value; }
+        }
+
+        public override Task ShowHelpAsync()
+        {
+            return _messageService.ShowAsync("HELP HANDLER");
         }
 
         public override async Task ResumeAsync()
