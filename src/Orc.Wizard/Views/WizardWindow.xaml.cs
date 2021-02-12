@@ -50,7 +50,7 @@ namespace Orc.Wizard.Views
             base.OnViewModelPropertyChanged(e);
 
 #pragma warning disable WPF1014
-            if (e.HasPropertyChanged("CurrentPage"))
+            if (e.HasPropertyChanged(nameof(IWizard.CurrentPage)))
 #pragma warning restore WPF1014
             {
 #pragma warning disable AvoidAsyncVoid

@@ -130,9 +130,14 @@
                 </ProgressBar.Style>
             </ProgressBar>
 
-            <TextBlock Grid.Row="2" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" Margin="18 15 18 8" 
+            <TextBlock Grid.Row="2" Text="{Binding PageTitle}" 
+                       FontWeight="SemiBold" 
+                       FontSize="18" 
+                       Margin="18 15 18 8" 
 	                   HorizontalAlignment="Stretch" />
-            <TextBlock Grid.Row="3" Text="{Binding PageDescription}" FontSize="15" Margin="18 0 18 8"
+            <TextBlock Grid.Row="3" Text="{Binding PageDescription}" 
+                       FontSize="15" 
+                       Margin="18 0 18 8"
 	                   HorizontalAlignment="Stretch" 
 		               TextWrapping="Wrap" />
         </Grid>
@@ -155,7 +160,9 @@
             <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding Wizard_OptionalWizardStep}" />
         </Label>
 
-        <Grid Grid.Row="5" Background="{DynamicResource Orc.Brushes.Control.Background}">
+        <Grid Grid.Row="5" 
+              Background="{DynamicResource Orc.Brushes.Control.Background}"
+              Margin="6,0,6,6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -164,19 +171,20 @@
 
             <WrapPanel Grid.Column="0" 
                        Style="{DynamicResource DataWindowButtonContainerStyle}"
-                       Margin="-6,0,0,6">
-                <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" 
+                       Margin="-2,0,4,4">
+                <Button Command="{Binding ShowHelp}" 
+                        Content="{catel:LanguageBinding Wizard_Help}" 
                         Style="{DynamicResource DataWindowButtonStyle}" 
                         Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
             </WrapPanel>
 
             <ItemsControl Grid.Column="2"
                           Focusable="False"
-                          Margin="0,0,6,6"
                           ItemsSource="{Binding WizardButtons}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True"
+                                   Margin="0,0,4,4"
                                    Style="{DynamicResource DataWindowButtonContainerStyle}" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
