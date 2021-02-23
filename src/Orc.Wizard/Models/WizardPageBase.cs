@@ -17,11 +17,6 @@ namespace Orc.Wizard
 
     public abstract class WizardPageBase : ModelBase, IWizardPage
     {
-        public WizardPageBase()
-        {
-            BreadcrumbMouseDown = new TaskCommand(BreadcrumbMouseDownExecuteAsync, BreadcrumbMouseDownCanExecute);
-        }
-
         private IViewModel _viewModel;
 
         public IViewModel ViewModel
@@ -70,22 +65,5 @@ namespace Orc.Wizard
         {
             return Task.CompletedTask;
         }
-
-        #region Commands
-        public TaskCommand BreadcrumbMouseDown { get; set; }
-
-        private bool BreadcrumbMouseDownCanExecute()
-            => true;
-
-        private async Task BreadcrumbMouseDownExecuteAsync()
-        {
-            if (Wizard.AllowQuickNavigation && IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
-            {
-                var list = Wizard.Pages as System.Collections.Generic.List<IWizardPage>;
-                var idx = list.IndexOf(this);
-                await Wizard.MoveToPageAsync(idx);
-            }
-        }
-        #endregion
     }
 }

@@ -12,8 +12,8 @@
             Argument.IsNotNull(() => wizardPage);
 
             DeferValidationUntilFirstSaveCall = true;
-
             WizardPage = wizardPage;
+            BreadcrumbMouseDown = new Command<object, object>(BreadcrumbMouseDownExecuteAsync, BreadcrumbMouseDownCanExecute);
         }
         #endregion
 
@@ -40,6 +40,25 @@
         {
             DeferValidationUntilFirstSaveCall = false;
             Validate(true);
+        }
+        #endregion
+
+        #region Commands
+
+        public Command<object, object> BreadcrumbMouseDown { get; set; }
+
+        public bool BreadcrumbMouseDownCanExecute(object parameter)
+            => Wizard.AllowQuickNavigation;
+
+        public void BreadcrumbMouseDownExecuteAsync(object parameter)
+        {
+            var page = parameter as IWizardPage;
+            if (page != null && page.IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
+            {
+                var list = Wizard.Pages as System.Collections.Generic.List<IWizardPage>;
+                var idx = list.IndexOf(page);
+                Wizard.MoveToPageAsync(idx);
+            }
         }
         #endregion
     }
