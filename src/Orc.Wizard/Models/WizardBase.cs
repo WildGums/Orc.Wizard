@@ -158,6 +158,7 @@ namespace Orc.Wizard
         public event EventHandler<EventArgs> CurrentPageChanged;
         public event EventHandler<EventArgs> MovedForward;
         public event EventHandler<EventArgs> MovedBack;
+        public event EventHandler<EventArgs> MovedToPageNum;
         public event EventHandler<EventArgs> Canceled;
         public event EventHandler<EventArgs> Resumed;
         public event EventHandler<EventArgs> HelpShown;
@@ -274,6 +275,8 @@ namespace Orc.Wizard
             }
 
             SetCurrentPage(indexOfNextPage);
+
+            RaiseMovedToPageNum();
         }
 
         protected virtual async Task<bool> ValidateAndSaveCurrentPageAsync()
@@ -471,6 +474,11 @@ namespace Orc.Wizard
         protected void RaiseMovedForward()
         {
             MovedForward?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void RaiseMovedToPageNum()
+        {
+            MovedToPageNum?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }
