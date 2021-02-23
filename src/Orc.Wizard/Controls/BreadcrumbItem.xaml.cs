@@ -90,17 +90,18 @@ namespace Orc.Wizard.Controls
 
             SetCurrentValue(CursorProperty, (isVisited || isSelected) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
-            UpdateSelection(isSelected, isVisited);
+            UpdateSelection(isSelected, isCompleted, isVisited);
         }
 
-        private void UpdateSelection(bool isSelected, bool isVisited)
+        private void UpdateSelection(bool isSelected, bool isCompleted, bool isVisited)
         {
-            UpdateShapeColor(pathline, isVisited && !isSelected);
+            UpdateShapeColor(pathline, isCompleted && !isSelected);
             UpdateShapeColor(ellipse, isSelected || isVisited);
 
-            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isVisited ? 
-                TryFindResource("Orc.Brushes.Black") :
-                TryFindResource("Orc.Brushes.GrayBrush1"));
+            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ?
+                TryFindResource("Orc.Brushes.Black") : (isVisited ?
+                TryFindResource("Orc.Brushes.GrayBrush2") :
+                TryFindResource("Orc.Brushes.GrayBrush1")));
         }
 
         private void UpdateContent(bool isCompleted)
@@ -129,22 +130,6 @@ namespace Orc.Wizard.Controls
             storyboard.Children.Add(colorAnimation);
 
             storyboard.Begin(shape);
-        }
-
-        private void BreadCrumbItem_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (!(sender is BreadcrumbItem))
-                return;
-
-            var page = ((BreadcrumbItem)sender).Page;
-            var wizard = page.Wizard;
-
-            if (page.IsVisited && wizard.Pages is System.Collections.Generic.List<IWizardPage>)
-            {
-                var list = wizard.Pages as System.Collections.Generic.List<IWizardPage>;
-                var idx = list.IndexOf(page);
-                Page.Wizard.MoveToPageAsync(idx);
-            }
         }
     }
 }
