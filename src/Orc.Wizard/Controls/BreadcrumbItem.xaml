@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Orc.Wizard.Controls"
              xmlns:converters="clr-namespace:Orc.Wizard.Converters"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400"
+             MouseDown="BreadCrumbItem_MouseDown">
 
   <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">
         <Grid ToolTip="{Binding Description}" MinWidth="100" MaxWidth="100" Margin="0 0 0 8">
