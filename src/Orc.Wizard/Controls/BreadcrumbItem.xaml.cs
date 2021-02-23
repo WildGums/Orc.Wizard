@@ -88,7 +88,8 @@ namespace Orc.Wizard.Controls
             var isCompleted = Page.Number < CurrentPage.Number;
             var isVisited = Page.IsVisited;
 
-            SetCurrentValue(CursorProperty, (isVisited || isSelected) ? System.Windows.Input.Cursors.Hand : null);
+            SetCurrentValue(CursorProperty, Page.Wizard.AllowQuickNavigation && (isVisited || isSelected) ?
+                System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
         }

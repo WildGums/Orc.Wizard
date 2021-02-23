@@ -79,7 +79,7 @@ namespace Orc.Wizard
 
         private async Task BreadcrumbMouseDownExecuteAsync()
         {
-            if (IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
+            if (Wizard.AllowQuickNavigation && IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
             {
                 var list = Wizard.Pages as System.Collections.Generic.List<IWizardPage>;
                 var idx = list.IndexOf(this);

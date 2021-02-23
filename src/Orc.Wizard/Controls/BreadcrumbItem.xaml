@@ -10,7 +10,7 @@
 
   <b:Interaction.Triggers>
       <b:EventTrigger EventName="MouseDown">
-          <b:InvokeCommandAction Command="{Binding MouseDownClick}"/>
+          <b:InvokeCommandAction Command="{Binding BreadcrumbMouseDown}"/>
       </b:EventTrigger>
   </b:Interaction.Triggers>
   <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">

@@ -150,6 +150,8 @@ namespace Orc.Wizard
         public bool CanShowHelp { get; protected set; }
 
         public bool ShowInTaskbar { get; protected set; }
+
+        public bool AllowQuickNavigation { get; protected set; } = true;
         #endregion
 
         #region Events
