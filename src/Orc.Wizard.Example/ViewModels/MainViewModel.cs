@@ -34,6 +34,8 @@
 
         public bool ShowHelp { get; set; }
 
+        public bool AllowQuickNavigation { get; set; }
+
         public bool UseFastForwardNavigationController { get; set; }
 
         public bool ShowSummaryPage { get; set; }
@@ -50,6 +52,7 @@
 
             wizard.ShowInTaskbarWrapper = ShowInTaskbar;
             wizard.ShowHelpWrapper = ShowHelp;
+            wizard.AllowQuickNavigationWrapper = AllowQuickNavigation;
             wizard.HandleNavigationStatesWrapper = HandleNavigationStates;
 
             if (UseFastForwardNavigationController)

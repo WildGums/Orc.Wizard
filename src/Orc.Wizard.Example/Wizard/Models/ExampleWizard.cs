@@ -60,6 +60,12 @@ namespace Orc.Wizard.Example.Wizard
             set { IsHelpVisible = value; }
         }
 
+        public bool AllowQuickNavigationWrapper
+        {
+            get { return AllowQuickNavigation; }
+            set { AllowQuickNavigation = value; }
+        }
+
         public bool HandleNavigationStatesWrapper
         {
             get {  return HandleNavigationStates; }

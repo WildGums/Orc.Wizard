@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -37,6 +38,8 @@
                   ToolTip="Show an icon in the taskbar for the wizard" />
         <CheckBox Content="Show help button" IsChecked="{Binding ShowHelp}" 
                   ToolTip="Show the help button in the wizard" />
+        <CheckBox Content="Allow quick navigation" IsChecked="{Binding AllowQuickNavigation}" 
+                  ToolTip="Allow quick navigation to visited pages" />
         <CheckBox Content="Use fast forward navigation controller" IsChecked="{Binding UseFastForwardNavigationController}" 
                   ToolTip="The fast forward navigation controller allows to skip pages and go directly to the summary page. Or when there is no summary page, immediately resume from the wizard." />
         <CheckBox Content="Show summary page" IsChecked="{Binding ShowSummaryPage}"
