@@ -6,7 +6,6 @@
 
 namespace Orc.Wizard.Controls
 {
-    using System;
     using System.Windows;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
@@ -88,8 +87,7 @@ namespace Orc.Wizard.Controls
             var isCompleted = Page.Number < CurrentPage.Number;
             var isVisited = Page.IsVisited;
 
-            SetCurrentValue(CursorProperty, Page.Wizard.AllowQuickNavigation && (isVisited || isSelected) ?
-                System.Windows.Input.Cursors.Hand : null);
+            SetCurrentValue(CursorProperty, (Page.Wizard.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
         }

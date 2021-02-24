@@ -11,9 +11,11 @@
 
   <xamlbehaviors:Interaction.Triggers>
       <xamlbehaviors:EventTrigger EventName="MouseDown">
-            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.CurrentPage.ViewModel.BreadcrumbMouseDown, RelativeSource={RelativeSource AncestorType={x:Type catel:DataWindow}}}" CommandParameter="{Binding}"/>
+            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.CurrentPage.ViewModel.QuickNavigateToPage, RelativeSource={RelativeSource AncestorType={x:Type catel:DataWindow}}}" 
+                                               CommandParameter="{Binding}"/>
       </xamlbehaviors:EventTrigger>
   </xamlbehaviors:Interaction.Triggers>
+    
   <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">
         <Grid ToolTip="{Binding Description}" MinWidth="100" MaxWidth="100" Margin="0 0 0 8">
 

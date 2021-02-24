@@ -22,6 +22,7 @@
 
             ShowWizard = new TaskCommand(OnShowWizardExecuteAsync);
             UseFastForwardNavigationController = true;
+            AllowQuickNavigation = true;
             ShowSummaryPage = true;
             ShowHelp = true;
             HandleNavigationStates = true;

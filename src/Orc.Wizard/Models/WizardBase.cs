@@ -47,6 +47,7 @@ namespace Orc.Wizard
             IsHelpVisible = false;
             CanShowHelp = true;
             HandleNavigationStates = true;
+            AllowQuickNavigation = false;
         }
 
         #region Properties
@@ -151,7 +152,7 @@ namespace Orc.Wizard
 
         public bool ShowInTaskbar { get; protected set; }
 
-        public bool AllowQuickNavigation { get; protected set; } = true;
+        public bool AllowQuickNavigation { get; protected set; }
         #endregion
 
         #region Events

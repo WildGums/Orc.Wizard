@@ -1,5 +1,7 @@
 ﻿namespace Orc.Wizard
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.MVVM;
 
@@ -13,7 +15,7 @@
 
             DeferValidationUntilFirstSaveCall = true;
             WizardPage = wizardPage;
-            BreadcrumbMouseDown = new Command<object, object>(BreadcrumbMouseDownExecuteAsync, BreadcrumbMouseDownCanExecute);
+            QuickNavigateToPage = new TaskCommand<IWizardPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
         }
         #endregion
 
@@ -39,25 +41,44 @@
         public virtual void EnableValidationExposure()
         {
             DeferValidationUntilFirstSaveCall = false;
+
             Validate(true);
         }
         #endregion
 
         #region Commands
 
-        public Command<object, object> BreadcrumbMouseDown { get; set; }
+        public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
 
-        public bool BreadcrumbMouseDownCanExecute(object parameter)
-            => Wizard.AllowQuickNavigation;
-
-        public void BreadcrumbMouseDownExecuteAsync(object parameter)
+        public bool QuickNavigateToPageCanExecute(IWizardPage parameter)
         {
-            var page = parameter as IWizardPage;
+            if (!Wizard.AllowQuickNavigation)
+            {
+                return false;
+            }
+
+            if (!parameter.IsVisited)
+            {
+                return false;
+            }
+
+            if (Wizard.CurrentPage == parameter)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task QuickNavigateToPageExecuteAsync(IWizardPage parameter)
+        {
+            var page = parameter;
             if (page != null && page.IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
             {
-                var list = Wizard.Pages as System.Collections.Generic.List<IWizardPage>;
-                var idx = list.IndexOf(page);
-                Wizard.MoveToPageAsync(idx);
+                var list = Wizard.Pages.ToList();
+                var index = list.IndexOf(page);
+
+                await Wizard.MoveToPageAsync(index);
             }
         }
         #endregion

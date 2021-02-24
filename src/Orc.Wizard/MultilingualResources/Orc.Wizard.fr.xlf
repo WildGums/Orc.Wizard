@@ -46,6 +46,10 @@
           <source>{0} of {1}</source>
           <target state="translated">{0} de {1}</target>
         </trans-unit>
+        <trans-unit id="Wizard_NavigateToPage" translate="yes" xml:space="preserve">
+          <source>Navigate to page</source>
+          <target state="new">Navigate to page</target>
+        </trans-unit>
       </group>
     </body>
   </file>

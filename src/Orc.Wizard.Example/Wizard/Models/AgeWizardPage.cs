@@ -17,5 +17,14 @@ namespace Orc.Wizard.Example.Wizard
         }
 
         public string Age { get; set; }
+
+        public override ISummaryItem GetSummary()
+        {
+            return new SummaryItem
+            {
+                Title = "Age",
+                Summary = Age
+            };
+        }
     }
 }

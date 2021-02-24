@@ -103,11 +103,13 @@ namespace Orc.Wizard
     }
     public interface ISummaryItem
     {
+        Orc.Wizard.IWizardPage Page { get; set; }
         string Summary { get; set; }
         string Title { get; set; }
     }
     public interface IWizard
     {
+        bool AllowQuickNavigation { get; }
         bool CanCancel { get; }
         bool CanMoveBack { get; }
         bool CanMoveForward { get; }
@@ -175,6 +177,7 @@ namespace Orc.Wizard
         string BreadcrumbTitle { get; set; }
         string Description { get; set; }
         bool IsOptional { get; }
+        bool IsVisited { get; set; }
         int Number { get; set; }
         string Title { get; set; }
         Catel.MVVM.IViewModel ViewModel { get; set; }
@@ -229,6 +232,7 @@ namespace Orc.Wizard
     public class SummaryItem : Orc.Wizard.ISummaryItem
     {
         public SummaryItem() { }
+        public Orc.Wizard.IWizardPage Page { get; set; }
         public string Summary { get; set; }
         public string Title { get; set; }
     }
@@ -252,6 +256,7 @@ namespace Orc.Wizard
     public abstract class WizardBase : Catel.Data.ModelBase, Orc.Wizard.IWizard
     {
         protected readonly Catel.IoC.ITypeFactory _typeFactory;
+        public static readonly Catel.Data.PropertyData AllowQuickNavigationProperty;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
         public static readonly Catel.Data.PropertyData IsHelpVisibleProperty;
@@ -261,6 +266,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData ShowInTaskbarProperty;
         public static readonly Catel.Data.PropertyData TitleProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
+        public bool AllowQuickNavigation { get; set; }
         public virtual bool CanCancel { get; }
         public virtual bool CanMoveBack { get; }
         public virtual bool CanMoveForward { get; }
@@ -328,12 +334,14 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData BreadcrumbTitleProperty;
         public static readonly Catel.Data.PropertyData DescriptionProperty;
         public static readonly Catel.Data.PropertyData IsOptionalProperty;
+        public static readonly Catel.Data.PropertyData IsVisitedProperty;
         public static readonly Catel.Data.PropertyData NumberProperty;
         public static readonly Catel.Data.PropertyData TitleProperty;
         protected WizardPageBase() { }
         public string BreadcrumbTitle { get; set; }
         public string Description { get; set; }
         public bool IsOptional { get; set; }
+        public bool IsVisited { get; set; }
         public int Number { get; set; }
         public string Title { get; set; }
         public Catel.MVVM.IViewModel ViewModel { get; set; }
@@ -357,10 +365,13 @@ namespace Orc.Wizard
     {
         public static readonly Catel.Data.PropertyData WizardPageProperty;
         public WizardPageViewModelBase(TWizardPage wizardPage) { }
+        public Catel.MVVM.TaskCommand<Orc.Wizard.IWizardPage> QuickNavigateToPage { get; }
         public Orc.Wizard.IWizard Wizard { get; }
         [Catel.MVVM.Model(SupportIEditableObject=false)]
         public TWizardPage WizardPage { get; }
         public virtual void EnableValidationExposure() { }
+        public bool QuickNavigateToPageCanExecute(Orc.Wizard.IWizardPage parameter) { }
+        public System.Threading.Tasks.Task QuickNavigateToPageExecuteAsync(Orc.Wizard.IWizardPage parameter) { }
     }
     public class WizardPageViewModelLocator : Catel.MVVM.ViewModelLocator, Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator, Orc.Wizard.IWizardPageViewModelLocator
     {
@@ -378,7 +389,7 @@ namespace Orc.Wizard.ViewModels
     {
         public static readonly Catel.Data.PropertyData SummaryItemsProperty;
         public SummaryWizardPageViewModel(Orc.Wizard.SummaryWizardPage wizardPage) { }
-        public System.Collections.ObjectModel.ObservableCollection<Orc.Wizard.ISummaryItem> SummaryItems { get; }
+        public System.Collections.Generic.List<Orc.Wizard.ISummaryItem> SummaryItems { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
     public class WizardViewModel : Catel.MVVM.ViewModelBase
