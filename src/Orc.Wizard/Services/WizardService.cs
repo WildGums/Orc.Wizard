@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System.Threading.Tasks;
     using Catel;
@@ -16,30 +9,34 @@ namespace Orc.Wizard
 
     public class WizardService : IWizardService
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly IUIVisualizerService _uiVisualizerService;
-        #endregion
 
-        #region Constructors
         public WizardService(IUIVisualizerService uiVisualizerService)
         {
             Argument.IsNotNull(() => uiVisualizerService);
 
             _uiVisualizerService = uiVisualizerService;
         }
-        #endregion
 
-        #region Methods
         public Task<bool?> ShowWizardAsync(IWizard wizard)
         {
             Argument.IsNotNull(() => wizard);
 
             Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName(false));
 
+            if (wizard is SideNavigationWizardBase)
+            {
+                return _uiVisualizerService.ShowDialogAsync<SideNavigationWizardViewModel>(wizard);
+            }
+
+            if (wizard is FullScreenWizardBase)
+            {
+                return _uiVisualizerService.ShowDialogAsync<FullScreenWizardViewModel>(wizard);
+            }
+
             return _uiVisualizerService.ShowDialogAsync<WizardViewModel>(wizard);
         }
-        #endregion
     }
 }

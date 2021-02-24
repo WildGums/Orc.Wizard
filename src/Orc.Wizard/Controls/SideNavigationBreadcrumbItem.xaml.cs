@@ -8,9 +8,9 @@
     using Catel.Collections;
     using Orc.Wizard;
 
-    public sealed partial class BreadcrumbItem
+    public partial class SideNavigationBreadcrumbItem
     {
-        public BreadcrumbItem()
+        public SideNavigationBreadcrumbItem()
         {
             InitializeComponent();
         }
@@ -22,7 +22,7 @@
         }
 
         public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(IWizardPage),
-            typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnPageChanged()));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((SideNavigationBreadcrumbItem)sender).OnPageChanged()));
 
 
         public IWizardPage CurrentPage
@@ -32,7 +32,7 @@
         }
 
         public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register(nameof(CurrentPage), typeof(IWizardPage),
-            typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnCurrentPageChanged()));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((SideNavigationBreadcrumbItem)sender).OnCurrentPageChanged()));
 
 
         public string Title
@@ -42,7 +42,7 @@
         }
 
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string),
-            typeof(BreadcrumbItem), new PropertyMetadata(string.Empty));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(string.Empty));
 
 
         public string Description
@@ -52,7 +52,7 @@
         }
 
         public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string),
-            typeof(BreadcrumbItem), new PropertyMetadata(string.Empty));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(string.Empty));
 
 
         public int Number
@@ -62,7 +62,7 @@
         }
 
         public static readonly DependencyProperty NumberProperty = DependencyProperty.Register(nameof(Number), typeof(int),
-            typeof(BreadcrumbItem), new PropertyMetadata(0));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(0));
 
         private void OnPageChanged()
         {

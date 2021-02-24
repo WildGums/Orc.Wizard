@@ -15,7 +15,8 @@
                   MaxHeight="{Binding MaxSize.Height, Mode=OneWay}"
                   ShowInTaskbar="{Binding ElementName=layoutRoot, Path=DataContext.ShowInTaskbar, Mode=OneWay}"
                   x:Name="wizardWindow"
-                  mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="#F5F5F5">
+                  CanCloseUsingEscape="False"
+                  Background="{DynamicResource Orc.Brushes.GrayBrush10}">
 
     <Grid x:Name="layoutRoot" Background="{DynamicResource White}">
         <Grid.RowDefinitions>

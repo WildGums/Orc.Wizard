@@ -4,6 +4,7 @@
               xmlns:catel="http://schemas.catelproject.com"
               xmlns:orccontrols="http://schemas.wildgums.com/orc/controls" 
               xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+              xmlns:local="clr-namespace:Orc.Wizard.Example.Wizard"
               Height="600" Width="800">
 
     <orccontrols:StackGrid>
@@ -45,8 +46,21 @@
         <CheckBox Content="Show summary page" IsChecked="{Binding ShowSummaryPage}"
                   ToolTip="Show the summary page at the end of the wizard." />
         <CheckBox Content="Handle navigation states" IsChecked="{Binding HandleNavigationStates}" />
-        <Button Command="{Binding ShowWizard}" Content="Show wizard..." />
-        
+
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding ShowWizard}" 
+                    CommandParameter="{x:Type local:ExampleWizard}"
+                    Content="Show wizard..." />
+
+            <Button Command="{Binding ShowWizard}" 
+                    CommandParameter="{x:Type local:ExampleSideNavigationWizard}"
+                    Content="Show wizard with side navigation..." />
+
+            <Button Command="{Binding ShowWizard}" 
+                    CommandParameter="{x:Type local:ExampleFullScreenWizard}"
+                    Content="Show full screen wizard..." />
+        </StackPanel>
+
         <TextBox x:Name="loggingTextBox" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0" />
     </orccontrols:StackGrid>
     

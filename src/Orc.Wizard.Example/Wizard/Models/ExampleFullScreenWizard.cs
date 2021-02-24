@@ -13,20 +13,20 @@ namespace Orc.Wizard.Example.Wizard
     using Catel.Logging;
     using Catel.Services;
 
-    public class ExampleWizard : WizardBase, IExampleWizard
+    public class ExampleFullScreenWizard : FullScreenWizardBase, IExampleWizard
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly IMessageService _messageService;
 
-        public ExampleWizard(ITypeFactory typeFactory, IMessageService messageService)
+        public ExampleFullScreenWizard(ITypeFactory typeFactory, IMessageService messageService)
             : base(typeFactory)
         {
             Argument.IsNotNull(() => messageService);
 
             _messageService = messageService;
 
-            Title = "Orc.Wizard example"; 
+            Title = "Orc.Wizard example";
 
             this.AddPage<PersonWizardPage>();
             this.AddPage<AgeWizardPage>();
@@ -50,7 +50,7 @@ namespace Orc.Wizard.Example.Wizard
 
         public bool ShowInTaskbarWrapper
         {
-            get {  return ShowInTaskbar; }
+            get { return ShowInTaskbar; }
             set { ShowInTaskbar = value; }
         }
 
@@ -68,7 +68,7 @@ namespace Orc.Wizard.Example.Wizard
 
         public bool HandleNavigationStatesWrapper
         {
-            get {  return HandleNavigationStates; }
+            get { return HandleNavigationStates; }
             set { HandleNavigationStates = value; }
         }
 

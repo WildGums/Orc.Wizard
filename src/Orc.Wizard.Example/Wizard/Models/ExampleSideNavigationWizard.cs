@@ -13,13 +13,13 @@ namespace Orc.Wizard.Example.Wizard
     using Catel.Logging;
     using Catel.Services;
 
-    public class ExampleWizard : WizardBase, IExampleWizard
+    public class ExampleSideNavigationWizard : SideNavigationWizardBase, IExampleWizard
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly IMessageService _messageService;
 
-        public ExampleWizard(ITypeFactory typeFactory, IMessageService messageService)
+        public ExampleSideNavigationWizard(ITypeFactory typeFactory, IMessageService messageService)
             : base(typeFactory)
         {
             Argument.IsNotNull(() => messageService);

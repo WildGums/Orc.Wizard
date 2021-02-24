@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="Orc.Wizard.Controls.BreadcrumbItem"
+﻿<UserControl x:Class="Orc.Wizard.Controls.SideNavigationBreadcrumbItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Orc.Wizard.Controls"
+             xmlns:localcontrols="clr-namespace:Orc.Wizard.Controls"
              xmlns:converters="clr-namespace:Orc.Wizard.Converters"
              xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:catel="http://schemas.catelproject.com"
@@ -16,18 +16,18 @@
         </xamlbehaviors:EventTrigger>
     </xamlbehaviors:Interaction.Triggers>
 
-    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:BreadcrumbItem}}}">
-        <Grid ToolTip="{Binding Description}" MinWidth="100" MaxWidth="100" Margin="0 0 0 8">
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type localcontrols:SideNavigationBreadcrumbItem}}}">
+        <Grid ToolTip="{Binding Description}" MinWidth="240" MaxWidth="240" Margin="0 0 0 56">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Grid Margin="5" Grid.Column="0">
+            <Grid Margin="15 5 25 5" Grid.Column="0">
                 <Ellipse x:Name="ellipse" Width="26" Height="26" StrokeThickness="0"
                            HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <TextBlock x:Name="ellipseText" Text="{Binding Number}" HorizontalAlignment="Center" 
@@ -53,19 +53,19 @@
             <TextBlock Name="txtTitle" 
                        Text="{Binding Title}" 
                        FontSize="14" 
-                       HorizontalAlignment="Center" 
+                       HorizontalAlignment="Left" 
                        VerticalAlignment="Center" 
                        FontWeight="Medium"
                        TextAlignment="Center"
                        TextWrapping="Wrap"
-                       Grid.Row="1"
+                       Grid.Row="1" Grid.Column="1"
                        Foreground="{DynamicResource Orc.Brushes.GrayBrush1}"/>
         </Grid>
 
-        <Canvas HorizontalAlignment="Center" Margin="5">
-            <Rectangle x:Name="pathline" Width="48" Height="2" StrokeThickness="0" Grid.Column="1"
+        <Canvas HorizontalAlignment="Left" Margin="2">
+            <Rectangle x:Name="pathline" Width="2" Height="48" StrokeThickness="0" 
                        Canvas.Left="{Binding ElementName=ellipse, Path=ActualWidth}"
-                       Canvas.Top="13"
+                       Canvas.Top="35"
                        HorizontalAlignment="Center" VerticalAlignment="Center" ClipToBounds="False"/>
         </Canvas>
     </Grid>
