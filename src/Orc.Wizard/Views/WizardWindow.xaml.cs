@@ -59,8 +59,8 @@ namespace Orc.Wizard.Views
 #pragma warning restore AvoidAsyncVoid
                     var vm = (WizardViewModel) ViewModel;
 
-                    breadcrumb.CenterSelectedItem();
-                    breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
+                    breadcrumb.breadcrumb.CenterSelectedItem();
+                    breadcrumb.breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
 
                     // We need to await the animation
                     await TaskShim.Delay(WizardConfiguration.AnimationDuration);

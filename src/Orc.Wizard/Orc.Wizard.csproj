@@ -48,6 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\StepBar.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\StepBarItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
