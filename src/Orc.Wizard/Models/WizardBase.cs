@@ -414,7 +414,10 @@ namespace Orc.Wizard
 
             NavigationController.EvaluateNavigationCommands();
 
-            newPage.IsVisited = true;
+            if (newPage is not null)
+            {
+                newPage.IsVisited = true;
+            }
 
             return newPage;
         }
