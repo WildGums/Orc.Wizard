@@ -147,7 +147,8 @@
                        Fill="{DynamicResource Orc.Brushes.GrayBrush3}" />
 
             <ScrollViewer Grid.Row="3" Margin="10,4,10,4" 
-                          VerticalScrollBarVisibility="Disabled">
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
                 <ContentControl Focusable="False">
                     <xamlbehaviors:Interaction.Behaviors>
                         <local:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
