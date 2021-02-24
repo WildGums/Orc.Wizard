@@ -4,7 +4,7 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
                   xmlns:catel="http://schemas.catelproject.com"
-                  xmlns:localcontrols="clr-namespace:Orc.Wizard.Controls"
+                  xmlns:controls="clr-namespace:Orc.Wizard.Controls"
                   xmlns:local="clr-namespace:Orc.Wizard"
                   ResizeMode="NoResize"
                   SizeToContent="Manual"
@@ -77,7 +77,7 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <localcontrols:BreadcrumbItem Page="{Binding}" 
+                                <controls:BreadcrumbItem Page="{Binding}" 
 			                                                  CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -132,20 +132,12 @@
                     </ProgressBar.Style>
                 </ProgressBar>
 
-                <TextBlock Grid.Row="2" Text="{Binding PageTitle}" FontWeight="SemiBold" FontSize="18" Margin="18 15 18 8" 
-                           HorizontalAlignment="Stretch" 
-                           TextAlignment="Center" />
-                <TextBlock Grid.Row="3" Text="{Binding PageDescription}" FontSize="15" Margin="18 0 18 8"
-                           HorizontalAlignment="Stretch"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap" />
+                <controls:WizardPageHeader Grid.Row="2" 
+                                           Title="{Binding PageTitle}"
+                                           Description="{Binding PageDescription}"
+                                           TextAlignment="Center" />
             </Grid>
-
-            <Rectangle Grid.Row="2" HorizontalAlignment="Stretch"
-                       Focusable="False"
-	                   Margin="10,0,10,0" Height="1"
-                       Fill="{DynamicResource Orc.Brushes.GrayBrush3}" />
-
+            
             <ScrollViewer Grid.Row="3" Margin="10,4,10,4" 
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">

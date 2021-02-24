@@ -23,7 +23,6 @@
             <!-- First row is for InfoBarMessageControl -->
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" MinHeight="60"/>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -35,7 +34,6 @@
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -131,24 +129,13 @@
                 </ProgressBar.Style>
             </ProgressBar>
 
-            <TextBlock Grid.Row="2" Text="{Binding PageTitle}" 
-                       FontWeight="SemiBold" 
-                       FontSize="18" 
-                       Margin="18 15 18 8" 
-	                   HorizontalAlignment="Stretch" />
-            <TextBlock Grid.Row="3" Text="{Binding PageDescription}" 
-                       FontSize="15" 
-                       Margin="18 0 18 8"
-	                   HorizontalAlignment="Stretch" 
-		               TextWrapping="Wrap" />
+            <controls:WizardPageHeader Grid.Row="2"
+                                       Margin="0,10,0,0"
+                                       Title="{Binding PageTitle}"
+                                       Description="{Binding PageDescription}" />
         </Grid>
 
-        <Rectangle Grid.Row="2" HorizontalAlignment="Stretch" 
-                   Focusable="False"
-                   Margin="10,0,10,0" Height="1" 
-                   Fill="{DynamicResource Orc.Brushes.GrayBrush3}" />
-
-        <ScrollViewer Grid.Row="3" Margin="10,4,10,4" 
+        <ScrollViewer Grid.Row="2" Margin="4,4,4,4" 
 		      VerticalScrollBarVisibility="Disabled">
             <ContentControl Focusable="False">
                 <xamlbehaviors:Interaction.Behaviors>
@@ -157,11 +144,11 @@
             </ContentControl>
         </ScrollViewer>
 
-        <Label Grid.Row="4" Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+        <Label Grid.Row="3" Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
             <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding Wizard_OptionalWizardStep}" />
         </Label>
 
-        <Grid Grid.Row="5" 
+        <Grid Grid.Row="4" 
               Background="{DynamicResource Orc.Brushes.Control.Background}"
               Margin="6,0,6,6">
             <Grid.ColumnDefinitions>

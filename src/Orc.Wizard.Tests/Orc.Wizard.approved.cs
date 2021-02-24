@@ -38,6 +38,17 @@ namespace Orc.Wizard.Controls
         public string Title { get; set; }
         public void InitializeComponent() { }
     }
+    public class WizardPageHeader : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.DependencyProperty TextAlignmentProperty;
+        public static readonly System.Windows.DependencyProperty TitleProperty;
+        public WizardPageHeader() { }
+        public string Description { get; set; }
+        public System.Windows.TextAlignment TextAlignment { get; set; }
+        public string Title { get; set; }
+        public void InitializeComponent() { }
+    }
 }
 namespace Orc.Wizard.Converters
 {
