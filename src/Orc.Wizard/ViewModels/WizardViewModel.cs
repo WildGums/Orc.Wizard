@@ -75,6 +75,7 @@
         {
             await base.InitializeAsync();
 
+            Wizard.CurrentPageChanged += OnWizardCurrentPageChanged;
             Wizard.MovedBack += OnWizardMovedBack;
             Wizard.MovedForward += OnWizardMovedForward;
             Wizard.Canceled += OnWizardCanceled;
@@ -106,6 +107,7 @@
 
         protected override async Task CloseAsync()
         {
+            Wizard.CurrentPageChanged -= OnWizardCurrentPageChanged;
             Wizard.MovedBack -= OnWizardMovedBack;
             Wizard.MovedForward -= OnWizardMovedForward;
             Wizard.Canceled -= OnWizardCanceled;
@@ -135,6 +137,11 @@
                 await Wizard.CancelAsync();
                 return true;
             }
+        }
+
+        private void OnWizardCurrentPageChanged(object sender, EventArgs e)
+        {
+            UpdateState();
         }
 
         private void OnWizardMovedBack(object sender, EventArgs e)

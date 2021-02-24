@@ -132,6 +132,9 @@
   <data name="Wizard_Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="Wizard_NavigateToPage" xml:space="preserve">
+    <value>Navigate to page</value>
+  </data>
   <data name="Wizard_Next" xml:space="preserve">
     <value>Next &gt;</value>
   </data>

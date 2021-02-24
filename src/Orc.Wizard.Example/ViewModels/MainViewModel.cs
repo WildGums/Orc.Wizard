@@ -1,5 +1,6 @@
 ﻿namespace Orc.Wizard.Example.ViewModels
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
@@ -20,8 +21,9 @@
             _wizardService = wizardService;
             _typeFactory = typeFactory;
 
-            ShowWizard = new TaskCommand(OnShowWizardExecuteAsync);
+            ShowWizard = new TaskCommand<Type>(OnShowWizardExecuteAsync);
             UseFastForwardNavigationController = true;
+            AllowQuickNavigation = true;
             ShowSummaryPage = true;
             ShowHelp = true;
             HandleNavigationStates = true;
@@ -34,6 +36,8 @@
 
         public bool ShowHelp { get; set; }
 
+        public bool AllowQuickNavigation { get; set; }
+
         public bool UseFastForwardNavigationController { get; set; }
 
         public bool ShowSummaryPage { get; set; }
@@ -42,14 +46,15 @@
         #endregion
 
         #region Commands
-        public TaskCommand ShowWizard { get; private set; }
+        public TaskCommand<Type> ShowWizard { get; private set; }
 
-        private Task OnShowWizardExecuteAsync()
+        private Task OnShowWizardExecuteAsync(Type wizardType)
         {
-            var wizard = _typeFactory.CreateInstance<ExampleWizard>();
+            var wizard = _typeFactory.CreateInstance(wizardType) as IExampleWizard;
 
             wizard.ShowInTaskbarWrapper = ShowInTaskbar;
             wizard.ShowHelpWrapper = ShowHelp;
+            wizard.AllowQuickNavigationWrapper = AllowQuickNavigation;
             wizard.HandleNavigationStatesWrapper = HandleNavigationStates;
 
             if (UseFastForwardNavigationController)

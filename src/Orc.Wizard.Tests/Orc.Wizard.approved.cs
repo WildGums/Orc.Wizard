@@ -23,6 +23,32 @@ namespace Orc.Wizard.Controls
         public string Title { get; set; }
         public void InitializeComponent() { }
     }
+    public class SideNavigationBreadcrumbItem : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty CurrentPageProperty;
+        public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.DependencyProperty NumberProperty;
+        public static readonly System.Windows.DependencyProperty PageProperty;
+        public static readonly System.Windows.DependencyProperty TitleProperty;
+        public SideNavigationBreadcrumbItem() { }
+        public Orc.Wizard.IWizardPage CurrentPage { get; set; }
+        public string Description { get; set; }
+        public int Number { get; set; }
+        public Orc.Wizard.IWizardPage Page { get; set; }
+        public string Title { get; set; }
+        public void InitializeComponent() { }
+    }
+    public class WizardPageHeader : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.DependencyProperty TextAlignmentProperty;
+        public static readonly System.Windows.DependencyProperty TitleProperty;
+        public WizardPageHeader() { }
+        public string Description { get; set; }
+        public System.Windows.TextAlignment TextAlignment { get; set; }
+        public string Title { get; set; }
+        public void InitializeComponent() { }
+    }
 }
 namespace Orc.Wizard.Converters
 {
@@ -75,6 +101,12 @@ namespace Orc.Wizard
         protected override Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
         protected override System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
     }
+    public abstract class FullScreenWizardBase : Orc.Wizard.WizardBase
+    {
+        public static readonly Catel.Data.PropertyData HideNavigationSystemProperty;
+        protected FullScreenWizardBase(Catel.IoC.ITypeFactory typeFactory) { }
+        public bool HideNavigationSystem { get; set; }
+    }
     public class GeneralInformationWizardPage : Orc.Wizard.WizardPageBase
     {
         public static readonly Catel.Data.PropertyData CultureInfoProperty;
@@ -103,11 +135,13 @@ namespace Orc.Wizard
     }
     public interface ISummaryItem
     {
+        Orc.Wizard.IWizardPage Page { get; set; }
         string Summary { get; set; }
         string Title { get; set; }
     }
     public interface IWizard
     {
+        bool AllowQuickNavigation { get; }
         bool CanCancel { get; }
         bool CanMoveBack { get; }
         bool CanMoveForward { get; }
@@ -175,6 +209,7 @@ namespace Orc.Wizard
         string BreadcrumbTitle { get; set; }
         string Description { get; set; }
         bool IsOptional { get; }
+        bool IsVisited { get; set; }
         int Number { get; set; }
         string Title { get; set; }
         Catel.MVVM.IViewModel ViewModel { get; set; }
@@ -226,9 +261,16 @@ namespace Orc.Wizard
         public static void SetSmoothProgress(System.Windows.FrameworkElement target, double value) { }
         public static void UpdateProgress(this System.Windows.Controls.ProgressBar progressBar, int currentItem, int totalItems) { }
     }
+    public abstract class SideNavigationWizardBase : Orc.Wizard.WizardBase
+    {
+        public static readonly Catel.Data.PropertyData ShowFullScreenProperty;
+        protected SideNavigationWizardBase(Catel.IoC.ITypeFactory typeFactory) { }
+        public bool ShowFullScreen { get; set; }
+    }
     public class SummaryItem : Orc.Wizard.ISummaryItem
     {
         public SummaryItem() { }
+        public Orc.Wizard.IWizardPage Page { get; set; }
         public string Summary { get; set; }
         public string Title { get; set; }
     }
@@ -252,6 +294,7 @@ namespace Orc.Wizard
     public abstract class WizardBase : Catel.Data.ModelBase, Orc.Wizard.IWizard
     {
         protected readonly Catel.IoC.ITypeFactory _typeFactory;
+        public static readonly Catel.Data.PropertyData AllowQuickNavigationProperty;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
         public static readonly Catel.Data.PropertyData IsHelpVisibleProperty;
@@ -261,6 +304,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData ShowInTaskbarProperty;
         public static readonly Catel.Data.PropertyData TitleProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
+        public bool AllowQuickNavigation { get; set; }
         public virtual bool CanCancel { get; }
         public virtual bool CanMoveBack { get; }
         public virtual bool CanMoveForward { get; }
@@ -328,12 +372,14 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData BreadcrumbTitleProperty;
         public static readonly Catel.Data.PropertyData DescriptionProperty;
         public static readonly Catel.Data.PropertyData IsOptionalProperty;
+        public static readonly Catel.Data.PropertyData IsVisitedProperty;
         public static readonly Catel.Data.PropertyData NumberProperty;
         public static readonly Catel.Data.PropertyData TitleProperty;
         protected WizardPageBase() { }
         public string BreadcrumbTitle { get; set; }
         public string Description { get; set; }
         public bool IsOptional { get; set; }
+        public bool IsVisited { get; set; }
         public int Number { get; set; }
         public string Title { get; set; }
         public Catel.MVVM.IViewModel ViewModel { get; set; }
@@ -357,10 +403,13 @@ namespace Orc.Wizard
     {
         public static readonly Catel.Data.PropertyData WizardPageProperty;
         public WizardPageViewModelBase(TWizardPage wizardPage) { }
+        public Catel.MVVM.TaskCommand<Orc.Wizard.IWizardPage> QuickNavigateToPage { get; }
         public Orc.Wizard.IWizard Wizard { get; }
         [Catel.MVVM.Model(SupportIEditableObject=false)]
         public TWizardPage WizardPage { get; }
         public virtual void EnableValidationExposure() { }
+        public bool QuickNavigateToPageCanExecute(Orc.Wizard.IWizardPage parameter) { }
+        public System.Threading.Tasks.Task QuickNavigateToPageExecuteAsync(Orc.Wizard.IWizardPage parameter) { }
     }
     public class WizardPageViewModelLocator : Catel.MVVM.ViewModelLocator, Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator, Orc.Wizard.IWizardPageViewModelLocator
     {
@@ -374,11 +423,19 @@ namespace Orc.Wizard
 }
 namespace Orc.Wizard.ViewModels
 {
+    public class FullScreenWizardViewModel : Orc.Wizard.ViewModels.WizardViewModel
+    {
+        public FullScreenWizardViewModel(Orc.Wizard.IWizard wizard, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
+    }
+    public class SideNavigationWizardViewModel : Orc.Wizard.ViewModels.WizardViewModel
+    {
+        public SideNavigationWizardViewModel(Orc.Wizard.IWizard wizard, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
+    }
     public class SummaryWizardPageViewModel : Orc.Wizard.WizardPageViewModelBase<Orc.Wizard.SummaryWizardPage>
     {
         public static readonly Catel.Data.PropertyData SummaryItemsProperty;
         public SummaryWizardPageViewModel(Orc.Wizard.SummaryWizardPage wizardPage) { }
-        public System.Collections.ObjectModel.ObservableCollection<Orc.Wizard.ISummaryItem> SummaryItems { get; }
+        public System.Collections.Generic.List<Orc.Wizard.ISummaryItem> SummaryItems { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
     public class WizardViewModel : Catel.MVVM.ViewModelBase
@@ -435,6 +492,23 @@ namespace Orc.Wizard.ViewModels
 }
 namespace Orc.Wizard.Views
 {
+    public class FullScreenWizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
+    {
+        public FullScreenWizardWindow() { }
+        public FullScreenWizardWindow(Orc.Wizard.ViewModels.FullScreenWizardViewModel viewModel) { }
+        public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
+    }
+    public class SideNavigationWizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
+    {
+        public SideNavigationWizardWindow() { }
+        public SideNavigationWizardWindow(Orc.Wizard.ViewModels.SideNavigationWizardViewModel viewModel) { }
+        public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnViewModelChanged() { }
+        protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
+    }
     public class SummaryWizardPageView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public SummaryWizardPageView() { }

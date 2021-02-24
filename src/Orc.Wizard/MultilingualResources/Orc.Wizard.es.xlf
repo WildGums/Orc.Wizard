@@ -56,6 +56,10 @@
           <target state="needs-review-translation">{0} of {1}</target>
           <note from="MultilingualUpdate" priority="2">When the XLIFF file support was added via MAT, existing resources were found and auto-imported.  This source and target string contained the same value so the resource was marked as 'Needs review' to ensure the translation could be easily reviewed.</note>
         </trans-unit>
+        <trans-unit id="Wizard_NavigateToPage" translate="yes" xml:space="preserve">
+          <source>Navigate to page</source>
+          <target state="new">Navigate to page</target>
+        </trans-unit>
       </group>
     </body>
   </file>

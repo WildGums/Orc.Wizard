@@ -47,6 +47,7 @@ namespace Orc.Wizard
             IsHelpVisible = false;
             CanShowHelp = true;
             HandleNavigationStates = true;
+            AllowQuickNavigation = false;
         }
 
         #region Properties
@@ -150,6 +151,8 @@ namespace Orc.Wizard
         public bool CanShowHelp { get; protected set; }
 
         public bool ShowInTaskbar { get; protected set; }
+
+        public bool AllowQuickNavigation { get; protected set; }
         #endregion
 
         #region Events
@@ -410,6 +413,11 @@ namespace Orc.Wizard
             CurrentPageChanged?.Invoke(this, EventArgs.Empty);
 
             NavigationController.EvaluateNavigationCommands();
+
+            if (newPage is not null)
+            {
+                newPage.IsVisited = true;
+            }
 
             return newPage;
         }

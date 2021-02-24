@@ -1,5 +1,7 @@
 ﻿namespace Orc.Wizard
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.MVVM;
 
@@ -12,8 +14,8 @@
             Argument.IsNotNull(() => wizardPage);
 
             DeferValidationUntilFirstSaveCall = true;
-
             WizardPage = wizardPage;
+            QuickNavigateToPage = new TaskCommand<IWizardPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
         }
         #endregion
 
@@ -39,7 +41,45 @@
         public virtual void EnableValidationExposure()
         {
             DeferValidationUntilFirstSaveCall = false;
+
             Validate(true);
+        }
+        #endregion
+
+        #region Commands
+
+        public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
+
+        public bool QuickNavigateToPageCanExecute(IWizardPage parameter)
+        {
+            if (!Wizard.AllowQuickNavigation)
+            {
+                return false;
+            }
+
+            if (!parameter.IsVisited)
+            {
+                return false;
+            }
+
+            if (Wizard.CurrentPage == parameter)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task QuickNavigateToPageExecuteAsync(IWizardPage parameter)
+        {
+            var page = parameter;
+            if (page != null && page.IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
+            {
+                var list = Wizard.Pages.ToList();
+                var index = list.IndexOf(page);
+
+                await Wizard.MoveToPageAsync(index);
+            }
         }
         #endregion
     }

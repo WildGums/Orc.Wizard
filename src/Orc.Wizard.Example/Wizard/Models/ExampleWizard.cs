@@ -13,7 +13,7 @@ namespace Orc.Wizard.Example.Wizard
     using Catel.Logging;
     using Catel.Services;
 
-    public class ExampleWizard : WizardBase
+    public class ExampleWizard : WizardBase, IExampleWizard
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
@@ -58,6 +58,12 @@ namespace Orc.Wizard.Example.Wizard
         {
             get { return IsHelpVisible; }
             set { IsHelpVisible = value; }
+        }
+
+        public bool AllowQuickNavigationWrapper
+        {
+            get { return AllowQuickNavigation; }
+            set { AllowQuickNavigation = value; }
         }
 
         public bool HandleNavigationStatesWrapper
