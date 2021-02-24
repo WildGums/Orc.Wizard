@@ -32,6 +32,8 @@ namespace Orc.Wizard
 
         bool IsOptional { get; }
 
+        bool IsVisited { get; set; }
+
         Task CancelAsync();
         Task SaveAsync();
 

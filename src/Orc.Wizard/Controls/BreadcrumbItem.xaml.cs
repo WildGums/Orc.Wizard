@@ -86,19 +86,23 @@ namespace Orc.Wizard.Controls
         {
             var isSelected = ReferenceEquals(CurrentPage, Page);
             var isCompleted = Page.Number < CurrentPage.Number;
+            var isVisited = Page.IsVisited;
 
+            SetCurrentValue(CursorProperty, Page.Wizard.AllowQuickNavigation && (isVisited || isSelected) ?
+                System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
-            UpdateSelection(isSelected, isCompleted);
+            UpdateSelection(isSelected, isCompleted, isVisited);
         }
 
-        private void UpdateSelection(bool isSelected, bool isCompleted)
+        private void UpdateSelection(bool isSelected, bool isCompleted, bool isVisited)
         {
             UpdateShapeColor(pathline, isCompleted && !isSelected);
-            UpdateShapeColor(ellipse, isSelected || isCompleted);
+            UpdateShapeColor(ellipse, isSelected || isVisited);
 
-            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ? 
-                TryFindResource("Orc.Brushes.Black") :
-                TryFindResource("Orc.Brushes.GrayBrush1"));
+            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ?
+                TryFindResource("Orc.Brushes.Black") : (isVisited ?
+                TryFindResource("Orc.Brushes.GrayBrush2") :
+                TryFindResource("Orc.Brushes.GrayBrush1")));
         }
 
         private void UpdateContent(bool isCompleted)

@@ -150,6 +150,8 @@ namespace Orc.Wizard
         public bool CanShowHelp { get; protected set; }
 
         public bool ShowInTaskbar { get; protected set; }
+
+        public bool AllowQuickNavigation { get; protected set; } = true;
         #endregion
 
         #region Events
@@ -410,6 +412,8 @@ namespace Orc.Wizard
             CurrentPageChanged?.Invoke(this, EventArgs.Empty);
 
             NavigationController.EvaluateNavigationCommands();
+
+            newPage.IsVisited = true;
 
             return newPage;
         }

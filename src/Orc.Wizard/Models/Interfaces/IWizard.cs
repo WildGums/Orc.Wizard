@@ -32,6 +32,7 @@ namespace Orc.Wizard
         bool IsHelpVisible { get; }
         bool CanShowHelp { get; }
         bool ShowInTaskbar { get; }
+        bool AllowQuickNavigation { get; }
         #endregion
 
         [ObsoleteEx(ReplacementTypeOrMember = "ResumeAsync", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
