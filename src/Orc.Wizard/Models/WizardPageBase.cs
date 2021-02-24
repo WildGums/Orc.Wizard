@@ -50,6 +50,7 @@ namespace Orc.Wizard
         public int Number { get; set; }
         public bool IsOptional { get; protected set; }
         public bool IsVisited { get; set; }
+        public System.Windows.Controls.Orientation Orientation { get; private set; } = System.Windows.Controls.Orientation.Vertical;
 
         public virtual Task CancelAsync()
         {

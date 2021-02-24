@@ -55,7 +55,7 @@
 
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
+                            <StackPanel Orientation="{Binding Orientation}" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
@@ -74,8 +74,9 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <controls:BreadcrumbItem Page="{Binding}" 
-                                                     CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
+                            <controls:StepBarItem Page="{Binding}"
+                                                  Orientation="{Binding Orientation}"
+                                                  CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ListBox>
