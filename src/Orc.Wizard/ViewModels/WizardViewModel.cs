@@ -77,7 +77,6 @@
 
             Wizard.MovedBack += OnWizardMovedBack;
             Wizard.MovedForward += OnWizardMovedForward;
-            Wizard.MovedToPageNum += OnWizardMovedToPageNum;
             Wizard.Canceled += OnWizardCanceled;
             Wizard.Resumed += OnWizardResumed;
 
@@ -109,7 +108,6 @@
         {
             Wizard.MovedBack -= OnWizardMovedBack;
             Wizard.MovedForward -= OnWizardMovedForward;
-            Wizard.MovedToPageNum -= OnWizardMovedToPageNum;
             Wizard.Canceled -= OnWizardCanceled;
             Wizard.Resumed -= OnWizardResumed;
 
@@ -145,11 +143,6 @@
         }
 
         private void OnWizardMovedForward(object sender, EventArgs e)
-        {
-            UpdateState();
-        }
-
-        private void OnWizardMovedToPageNum(object sender, EventArgs e)
         {
             UpdateState();
         }
