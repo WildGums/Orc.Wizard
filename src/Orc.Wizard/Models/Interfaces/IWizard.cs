@@ -51,7 +51,6 @@ namespace Orc.Wizard
         event EventHandler<EventArgs> CurrentPageChanged;
         event EventHandler<EventArgs> MovedForward;
         event EventHandler<EventArgs> MovedBack;
-        event EventHandler<EventArgs> MovedToPageNum;
         event EventHandler<EventArgs> Resumed;
         event EventHandler<EventArgs> Canceled;
         event EventHandler<EventArgs> HelpShown;
