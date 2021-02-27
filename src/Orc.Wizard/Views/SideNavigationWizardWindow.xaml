@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <controls:StepBar x:Name="breadcrumb" Grid.Row="1" Grid.RowSpan="5" Orientation="Vertical" />
+            <controls:StepBar x:Name="stepbar" Grid.Row="1" Grid.RowSpan="5" Orientation="Vertical" />
 
             <controls:WizardPageHeader Grid.Row="1" 
                                        Grid.Column="3"  

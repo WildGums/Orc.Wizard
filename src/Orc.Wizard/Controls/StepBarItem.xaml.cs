@@ -73,8 +73,6 @@
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
             typeof(StepBarItem), new PropertyMetadata(Orientation.Vertical));
 
-        public HorizontalAlignment HorizontalAlignmentValue { get => Orientation == Orientation.Vertical ? HorizontalAlignment.Left : HorizontalAlignment.Center; }
-
         private void OnPageChanged()
         {
             var page = Page;

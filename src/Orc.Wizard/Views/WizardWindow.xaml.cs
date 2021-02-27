@@ -59,8 +59,8 @@ namespace Orc.Wizard.Views
 #pragma warning restore AvoidAsyncVoid
                     var vm = (WizardViewModel) ViewModel;
 
-                    breadcrumb.breadcrumb.CenterSelectedItem();
-                    breadcrumb.breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
+                    stepbar.stepbarListBox.CenterSelectedItem();
+                    stepbar.stepbarProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
 
                     // We need to await the animation
                     await TaskShim.Delay(WizardConfiguration.AnimationDuration);
@@ -72,7 +72,7 @@ namespace Orc.Wizard.Views
 
         private void UpdateOpacityMask()
         {
-            var scrollViewer = breadcrumb.FindVisualDescendantByType<ScrollViewer>();
+            var scrollViewer = stepbar.FindVisualDescendantByType<ScrollViewer>();
             if (scrollViewer is null)
             {
                 return;
@@ -92,7 +92,7 @@ namespace Orc.Wizard.Views
                 opacityMask.GradientStops.Add(new GradientStop(Colors.Transparent, 1d));
             }
 
-            breadcrumb.SetCurrentValue(OpacityMaskProperty, opacityMask.GradientStops.Count > 0 ? opacityMask : null);
+            stepbar.SetCurrentValue(OpacityMaskProperty, opacityMask.GradientStops.Count > 0 ? opacityMask : null);
         }
         #endregion
     }

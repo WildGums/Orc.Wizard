@@ -13,11 +13,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Background="{DynamicResource Orc.Brushes.GrayBrush10}">
-            <ListBox x:Name="breadcrumb" 
+            <ListBox x:Name="stepbarListBox" 
                      ItemsSource="{Binding WizardPages}" 
                      SelectedItem="{Binding CurrentPage, Mode=OneWay}"
                      Focusable="False" 
@@ -25,7 +24,7 @@
                 <ItemsControl.Template>
                     <ControlTemplate>
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" CanContentScroll="False">
-                            <ItemsPresenter Margin="6,0,6,0" />
+                            <ItemsPresenter x:Name="stepbarItemsPresenter" Margin="6,0,6,0" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:StepBar}}}" />
                         </ScrollViewer>
                     </ControlTemplate>
                 </ItemsControl.Template>
@@ -52,14 +51,14 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <controls:StepBarItem Page="{Binding}"
-                                              Orientation="{Binding Orientation}"
-                                              CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
+                                              Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}"
+                                              CurrentPage="{Binding ElementName=stepbarListBox, Path=DataContext.CurrentPage}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListBox>
         </Grid>
 
-        <ProgressBar Grid.Row="1" x:Name="breadcrumbProgress" Height="2">
+        <ProgressBar Grid.Row="1" x:Name="stepbarProgress" Height="2">
             <ProgressBar.Style>
                 <Style TargetType="{x:Type ProgressBar}">
                     <Setter Property="Margin" Value="0"/>
