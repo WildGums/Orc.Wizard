@@ -8,6 +8,7 @@ namespace Orc.Wizard
     using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Windows.Controls;
     using Catel;
     using Catel.Data;
     using Catel.IoC;
@@ -42,6 +43,9 @@ namespace Orc.Wizard
             ResizeMode = System.Windows.ResizeMode.NoResize;
             MinSize = new System.Windows.Size(650d, 500d);
             MaxSize = new System.Windows.Size(650d, 500d);
+
+            HorizontalScrollbarVisibility = ScrollBarVisibility.Disabled;
+            VerticalScrollbarVisibility = ScrollBarVisibility.Auto;
 
             ShowInTaskbar = false;
             IsHelpVisible = false;
@@ -89,6 +93,10 @@ namespace Orc.Wizard
         public virtual System.Windows.Size MinSize { get; protected set; }
 
         public virtual System.Windows.Size MaxSize { get; protected set; }
+
+        public virtual ScrollBarVisibility VerticalScrollbarVisibility { get; protected set; }
+
+        public virtual ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
 
         public virtual bool HandleNavigationStates { get; protected set; }
 
