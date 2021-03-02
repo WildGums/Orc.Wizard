@@ -137,8 +137,8 @@
 
         <ScrollViewer Grid.Row="2" 
                       Margin="4,4,4,4" 
-                      VerticalScrollBarVisibility="{Binding VerticalScrollbarVisibility}"
-                      HorizontalScrollBarVisibility="{Binding HorizontalScrollbarVisibility}">
+                      VerticalScrollBarVisibility="{Binding Wizard.VerticalScrollbarVisibility}"
+                      HorizontalScrollBarVisibility="{Binding Wizard.HorizontalScrollbarVisibility}">
             <ContentControl Focusable="False">
                 <xamlbehaviors:Interaction.Behaviors>
                     <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
