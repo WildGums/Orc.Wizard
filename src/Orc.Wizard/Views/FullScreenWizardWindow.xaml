@@ -137,10 +137,11 @@
                                            Description="{Binding PageDescription}"
                                            TextAlignment="Center" />
             </Grid>
-            
-            <ScrollViewer Grid.Row="3" Margin="10,4,10,4" 
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
+
+            <ScrollViewer Grid.Row="3" 
+                          Margin="10,4,10,4" 
+                          VerticalScrollBarVisibility="{Binding Wizard.VerticalScrollbarVisibility}"
+                          HorizontalScrollBarVisibility="{Binding Wizard.HorizontalScrollbarVisibility}">
                 <ContentControl Focusable="False">
                     <xamlbehaviors:Interaction.Behaviors>
                         <local:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
