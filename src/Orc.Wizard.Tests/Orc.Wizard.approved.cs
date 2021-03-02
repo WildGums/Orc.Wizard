@@ -297,12 +297,14 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData AllowQuickNavigationProperty;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
+        public static readonly Catel.Data.PropertyData HorizontalScrollbarVisibilityProperty;
         public static readonly Catel.Data.PropertyData IsHelpVisibleProperty;
         public static readonly Catel.Data.PropertyData MaxSizeProperty;
         public static readonly Catel.Data.PropertyData MinSizeProperty;
         public static readonly Catel.Data.PropertyData ResizeModeProperty;
         public static readonly Catel.Data.PropertyData ShowInTaskbarProperty;
         public static readonly Catel.Data.PropertyData TitleProperty;
+        public static readonly Catel.Data.PropertyData VerticalScrollbarVisibilityProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
         public bool AllowQuickNavigation { get; set; }
         public virtual bool CanCancel { get; }
@@ -312,6 +314,7 @@ namespace Orc.Wizard
         public bool CanShowHelp { get; set; }
         public Orc.Wizard.IWizardPage CurrentPage { get; }
         public virtual bool HandleNavigationStates { get; set; }
+        public virtual System.Windows.Controls.ScrollBarVisibility HorizontalScrollbarVisibility { get; set; }
         public bool IsHelpVisible { get; set; }
         public virtual System.Windows.Size MaxSize { get; set; }
         public virtual System.Windows.Size MinSize { get; set; }
@@ -321,6 +324,7 @@ namespace Orc.Wizard
         public virtual System.Windows.ResizeMode ResizeMode { get; set; }
         public bool ShowInTaskbar { get; set; }
         public string Title { get; set; }
+        public virtual System.Windows.Controls.ScrollBarVisibility VerticalScrollbarVisibility { get; set; }
         public event System.EventHandler<System.EventArgs> Canceled;
         public event System.EventHandler<System.EventArgs> CurrentPageChanged;
         public event System.EventHandler<System.EventArgs> HelpShown;
