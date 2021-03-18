@@ -14,5 +14,6 @@ namespace Orc.Wizard.Example.Wizard
         INavigationController NavigationControllerWrapper { get; set; }
         bool ShowHelpWrapper { get; set; }
         bool ShowInTaskbarWrapper { get; set; }
+        bool CacheViewsWrapper { get; set; }
     }
 }

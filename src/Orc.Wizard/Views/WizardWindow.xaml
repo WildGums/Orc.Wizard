@@ -47,7 +47,9 @@
                          HorizontalAlignment="Center" Margin="0 5 0 5">
                     <ItemsControl.Template>
                         <ControlTemplate>
-                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" CanContentScroll="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden" 
+                                          CanContentScroll="False">
                                 <ItemsPresenter Margin="6,0,6,0" />
                             </ScrollViewer>
                         </ControlTemplate>
@@ -141,7 +143,7 @@
                       HorizontalScrollBarVisibility="{Binding Wizard.HorizontalScrollbarVisibility}">
             <ContentControl Focusable="False">
                 <xamlbehaviors:Interaction.Behaviors>
-                    <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
+                    <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}" />
                 </xamlbehaviors:Interaction.Behaviors>
             </ContentControl>
         </ScrollViewer>

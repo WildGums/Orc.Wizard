@@ -5,10 +5,11 @@
               xmlns:orccontrols="http://schemas.wildgums.com/orc/controls" 
               xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
               xmlns:local="clr-namespace:Orc.Wizard.Example.Wizard"
-              Height="600" Width="800">
+              Height="800" Width="900">
 
     <orccontrols:StackGrid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -46,6 +47,7 @@
         <CheckBox Content="Show summary page" IsChecked="{Binding ShowSummaryPage}"
                   ToolTip="Show the summary page at the end of the wizard." />
         <CheckBox Content="Handle navigation states" IsChecked="{Binding HandleNavigationStates}" />
+        <CheckBox Content="Cache views (do not recreate on each page navigation)" IsChecked="{Binding CacheViews}" />
 
         <StackPanel Orientation="Horizontal">
             <Button Command="{Binding ShowWizard}" 

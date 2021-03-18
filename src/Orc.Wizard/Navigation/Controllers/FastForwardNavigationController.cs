@@ -47,7 +47,7 @@
                     var wizardPages = wizard.Pages.ToList();
 
                     var summaryPage = wizardPages.LastOrDefault(x => x is SummaryWizardPage) as SummaryWizardPage;
-                    if (summaryPage is null == false)
+                    if (summaryPage is not null)
                     {
                         // Navigate to summary page
                         var typedWizard = wizard as WizardBase;

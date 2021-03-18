@@ -142,6 +142,7 @@ namespace Orc.Wizard
     public interface IWizard
     {
         bool AllowQuickNavigation { get; }
+        bool CacheViews { get; }
         bool CanCancel { get; }
         bool CanMoveBack { get; }
         bool CanMoveForward { get; }
@@ -156,6 +157,7 @@ namespace Orc.Wizard
         Orc.Wizard.INavigationStrategy NavigationStrategy { get; }
         System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
         System.Windows.ResizeMode ResizeMode { get; }
+        bool RestoreScrollPositionPerPage { get; }
         bool ShowInTaskbar { get; }
         string Title { get; }
         event System.EventHandler<System.EventArgs> Canceled;
@@ -295,6 +297,7 @@ namespace Orc.Wizard
     {
         protected readonly Catel.IoC.ITypeFactory _typeFactory;
         public static readonly Catel.Data.PropertyData AllowQuickNavigationProperty;
+        public static readonly Catel.Data.PropertyData CacheViewsProperty;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
         public static readonly Catel.Data.PropertyData HorizontalScrollbarVisibilityProperty;
@@ -302,11 +305,13 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData MaxSizeProperty;
         public static readonly Catel.Data.PropertyData MinSizeProperty;
         public static readonly Catel.Data.PropertyData ResizeModeProperty;
+        public static readonly Catel.Data.PropertyData RestoreScrollPositionPerPageProperty;
         public static readonly Catel.Data.PropertyData ShowInTaskbarProperty;
         public static readonly Catel.Data.PropertyData TitleProperty;
         public static readonly Catel.Data.PropertyData VerticalScrollbarVisibilityProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
         public bool AllowQuickNavigation { get; set; }
+        public virtual bool CacheViews { get; set; }
         public virtual bool CanCancel { get; }
         public virtual bool CanMoveBack { get; }
         public virtual bool CanMoveForward { get; }
@@ -322,6 +327,7 @@ namespace Orc.Wizard
         public Orc.Wizard.INavigationStrategy NavigationStrategy { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
         public virtual System.Windows.ResizeMode ResizeMode { get; set; }
+        public virtual bool RestoreScrollPositionPerPage { get; set; }
         public bool ShowInTaskbar { get; set; }
         public string Title { get; set; }
         public virtual System.Windows.Controls.ScrollBarVisibility VerticalScrollbarVisibility { get; set; }
@@ -333,6 +339,7 @@ namespace Orc.Wizard
         public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual System.Threading.Tasks.Task CloseAsync() { }
+        public virtual Catel.Data.IValidationContext GetValidationContext(Orc.Wizard.IWizardPage wizardPage, bool validate = true) { }
         public virtual Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true) { }
         public virtual System.Threading.Tasks.Task InitializeAsync() { }
         public void InsertPage(int index, Orc.Wizard.IWizardPage page) { }
