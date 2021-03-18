@@ -1,0 +1,42 @@
+﻿<catel:UserControl x:Class="Orc.Wizard.Example.Wizard.Views.Long2WizardPageView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    
+    <orccontrols:StackGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <FlowDocumentReader>
+            <FlowDocument>
+                <Paragraph>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum quam sed suscipit aliquet. Nam malesuada et eros id molestie. Phasellus lacinia eleifend nisi, vitae feugiat turpis laoreet in. Maecenas condimentum commodo metus nec tempor. Suspendisse potenti. Etiam interdum ante vitae est elementum iaculis. Mauris tempor orci ut dolor laoreet malesuada. Morbi tortor sapien, congue nec mauris ac, posuere elementum tortor. Aliquam interdum elementum risus eu egestas. Donec neque ipsum, finibus eget nisi nec, semper pellentesque dolor.
+                </Paragraph>
+
+                <Paragraph>
+                    Ut egestas lorem nec nisl accumsan fringilla. Maecenas gravida, nisl quis placerat blandit, odio ligula elementum neque, nec accumsan turpis mauris at orci. Vestibulum lorem ipsum, scelerisque eu sodales sit amet, sollicitudin vel dui. In hendrerit nulla a augue vulputate rutrum. Suspendisse facilisis justo id eros imperdiet facilisis. Nullam risus erat, ultricies non vehicula eu, congue et nulla. Pellentesque non laoreet mauris, ut mattis magna. Pellentesque porta efficitur risus, et posuere nisi mollis et. Cras id pharetra sapien. Donec pulvinar nulla eu semper bibendum. Nullam mattis sit amet est nec rhoncus. Nunc augue tellus, semper vitae porttitor vel, ornare ac dolor. Maecenas purus velit, elementum ut ipsum at, elementum viverra lorem. Nulla facilisi.
+                </Paragraph>
+
+                <Paragraph>
+                    Morbi porta lorem sit amet magna varius iaculis. Donec condimentum tortor eu dignissim lobortis. Duis ac sagittis ante, id interdum eros. Suspendisse ultricies felis urna, ac tincidunt sem dapibus sed. In hendrerit mattis urna, non convallis lectus viverra vitae. Vestibulum sit amet ex leo. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac nisi aliquet, congue tellus id, aliquet nibh. Cras vehicula est et urna condimentum pharetra. Integer ex lacus, aliquam id dui lacinia, tempor interdum massa. Aenean placerat rhoncus augue, interdum viverra massa dictum a.
+                </Paragraph>
+
+                <Paragraph>
+                    Suspendisse potenti. Suspendisse justo lectus, porta in pellentesque et, scelerisque in libero. Nulla posuere felis ut lacus dapibus, ac aliquet tortor tempor. Maecenas feugiat neque eget risus accumsan pharetra. Phasellus sed dolor lacus. Curabitur bibendum lobortis leo eleifend posuere. Phasellus tempus, ante non euismod tincidunt, leo lectus sollicitudin lectus, sed tristique mauris nisl accumsan ligula. Morbi odio velit, vulputate ut leo id, tempus finibus purus. Curabitur vestibulum urna vitae tincidunt tristique. Fusce a lacus augue. Cras aliquet diam neque, eu maximus leo vulputate non. Nulla lacinia aliquam tincidunt. Etiam molestie rutrum eros, a posuere enim venenatis et. Maecenas rutrum dolor vel ultricies tincidunt. Vivamus viverra pellentesque ipsum, sit amet venenatis ex sollicitudin vel.
+                </Paragraph>
+
+                <Paragraph>
+                    Sed fringilla, mi nec blandit ultricies, tortor nunc consequat sem, nec semper arcu justo vel nisi. Praesent scelerisque mauris eget mauris bibendum, at ultricies nunc dictum. Aliquam faucibus massa vitae sapien sollicitudin, nec dapibus tellus condimentum. Duis interdum elit et velit sollicitudin dictum. Suspendisse elementum mi quis sem molestie, a semper magna ultrices. Sed rutrum magna non metus sodales, eget mattis dui hendrerit. Quisque et nisl vehicula, varius erat facilisis, ullamcorper mauris. Mauris fermentum nunc nisi, vitae ullamcorper tortor bibendum et. Morbi malesuada suscipit orci, sed volutpat ligula aliquam et. Suspendisse rutrum vitae turpis eget auctor. Nunc eget pretium diam. Nullam commodo arcu vel tortor aliquet faucibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi finibus varius felis nec placerat.
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentReader>
+    </orccontrols:StackGrid>
+    
+</catel:UserControl>
+

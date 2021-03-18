@@ -46,7 +46,9 @@ namespace Orc.Wizard
 
             HorizontalScrollbarVisibility = ScrollBarVisibility.Disabled;
             VerticalScrollbarVisibility = ScrollBarVisibility.Auto;
+            RestoreScrollPositionPerPage = true;
 
+            CacheViews = true;
             ShowInTaskbar = false;
             IsHelpVisible = false;
             CanShowHelp = true;
@@ -98,6 +100,10 @@ namespace Orc.Wizard
 
         public virtual ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
 
+        public virtual bool CacheViews { get; protected set; }
+
+        public virtual bool RestoreScrollPositionPerPage { get; protected set; }
+
         public virtual bool HandleNavigationStates { get; protected set; }
 
         public virtual bool CanResume
@@ -116,7 +122,9 @@ namespace Orc.Wizard
                     return false;
                 }
 
-                if (remainingPages.All(x => (x is SummaryWizardPage == true) || x.IsOptional))
+                if (remainingPages.All(x => (x is SummaryWizardPage == true) || 
+                                            x.IsOptional))
+                                            //(x.IsVisited && !GetValidationContext(x).HasErrors))) // Not enabled yet since we must be sure that we validate everything
                 {
                     return true;
                 }
@@ -204,11 +212,11 @@ namespace Orc.Wizard
             UpdatePageNumbers();
         }
 
-        public virtual IValidationContext GetValidationContextForCurrentPage(bool validate = true)
+        public virtual IValidationContext GetValidationContext(IWizardPage wizardPage, bool validate = true)
         {
-            if (_currentPage != null)
+            if (wizardPage is not null)
             {
-                var vm = _currentPage.ViewModel;
+                var vm = wizardPage.ViewModel;
                 if (vm != null)
                 {
                     if (validate)
@@ -221,6 +229,11 @@ namespace Orc.Wizard
             }
 
             return new ValidationContext();
+        }
+
+        public virtual IValidationContext GetValidationContextForCurrentPage(bool validate = true)
+        {
+            return GetValidationContext(_currentPage, validate);
         }
 
         public virtual async Task MoveForwardAsync()
