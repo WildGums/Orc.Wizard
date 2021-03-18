@@ -27,6 +27,7 @@
             ShowSummaryPage = true;
             ShowHelp = true;
             HandleNavigationStates = true;
+            CacheViews = true;
 
             Title = "Orc.Wizard example";
         }
@@ -43,6 +44,8 @@
         public bool ShowSummaryPage { get; set; }
 
         public bool HandleNavigationStates { get; set; }
+
+        public bool CacheViews { get; set; }
         #endregion
 
         #region Commands
@@ -56,6 +59,7 @@
             wizard.ShowHelpWrapper = ShowHelp;
             wizard.AllowQuickNavigationWrapper = AllowQuickNavigation;
             wizard.HandleNavigationStatesWrapper = HandleNavigationStates;
+            wizard.CacheViewsWrapper = CacheViews;
 
             if (UseFastForwardNavigationController)
             {

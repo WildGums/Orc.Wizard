@@ -142,6 +142,7 @@ namespace Orc.Wizard
     public interface IWizard
     {
         bool AllowQuickNavigation { get; }
+        bool CacheViews { get; }
         bool CanCancel { get; }
         bool CanMoveBack { get; }
         bool CanMoveForward { get; }
@@ -296,6 +297,7 @@ namespace Orc.Wizard
     {
         protected readonly Catel.IoC.ITypeFactory _typeFactory;
         public static readonly Catel.Data.PropertyData AllowQuickNavigationProperty;
+        public static readonly Catel.Data.PropertyData CacheViewsProperty;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
         public static readonly Catel.Data.PropertyData HorizontalScrollbarVisibilityProperty;
@@ -309,6 +311,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData VerticalScrollbarVisibilityProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
         public bool AllowQuickNavigation { get; set; }
+        public virtual bool CacheViews { get; set; }
         public virtual bool CanCancel { get; }
         public virtual bool CanMoveBack { get; }
         public virtual bool CanMoveForward { get; }

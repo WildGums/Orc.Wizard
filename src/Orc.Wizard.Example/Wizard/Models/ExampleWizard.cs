@@ -74,6 +74,12 @@ namespace Orc.Wizard.Example.Wizard
             set { HandleNavigationStates = value; }
         }
 
+        public bool CacheViewsWrapper
+        {
+            get { return CacheViews; }
+            set { CacheViews = value; }
+        }
+
         public override Task ShowHelpAsync()
         {
             return _messageService.ShowAsync("HELP HANDLER");
