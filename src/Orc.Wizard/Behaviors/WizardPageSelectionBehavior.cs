@@ -8,20 +8,22 @@
 namespace Orc.Wizard
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
     using Catel;
     using Catel.IoC;
     using Catel.MVVM;
     using Catel.MVVM.Views;
+    using Catel.Windows;
     using Catel.Windows.Interactivity;
-
 
     public class WizardPageSelectionBehavior : BehaviorBase<ContentControl>
     {
-        #region Fields
+        private readonly ConditionalWeakTable<object, ScrollInfo> _scrollPositions = new ConditionalWeakTable<object, ScrollInfo>();
+
+        private ScrollViewer _scrollViewer;
         private IWizardPage _lastPage;
-        #endregion
 
         #region Properties
         public IWizard Wizard
@@ -61,6 +63,8 @@ namespace Orc.Wizard
 
         protected override void OnAssociatedObjectLoaded()
         {
+            _scrollViewer = AssociatedObject?.FindLogicalOrVisualAncestorByType<ScrollViewer>();
+
             UpdatePage();
         }
 
@@ -111,13 +115,20 @@ namespace Orc.Wizard
                 return;
             }
 
-            if (_lastPage != null)
+            var lastPage = _lastPage;
+            if (lastPage is not null)
             {
-                if (ReferenceEquals(_lastPage, wizard.CurrentPage))
+                if (ReferenceEquals(lastPage, wizard.CurrentPage))
                 {
                     // Nothing has really changed
                     return;
                 }
+
+                _scrollPositions.AddOrUpdate(lastPage, new ScrollInfo
+                {
+                    VerticalOffset = _scrollViewer.VerticalOffset,
+                    HorizontalOffset = _scrollViewer.HorizontalOffset
+                });
 
                 _lastPage.ViewModel = null;
                 _lastPage = null;
@@ -146,6 +157,30 @@ namespace Orc.Wizard
 
             view.DataContext = viewModel;
             AssociatedObject.SetCurrentValue(ContentControl.ContentProperty, view);
+
+            var verticalScrollViewerOffset = 0d;
+            var horizontalScrollViewerOffset = 0d;
+
+            if (_scrollPositions.TryGetValue(_lastPage, out var scrollInfo))
+            {
+                verticalScrollViewerOffset = scrollInfo.VerticalOffset;
+                horizontalScrollViewerOffset = scrollInfo.HorizontalOffset;
+            }
+
+            var scrollViewer = _scrollViewer;
+            if (scrollViewer is not null && 
+                (Wizard?.RestoreScrollPositionPerPage ?? true))
+            {
+                scrollViewer.ScrollToVerticalOffset(verticalScrollViewerOffset);
+                scrollViewer.ScrollToHorizontalOffset(horizontalScrollViewerOffset);
+            }
+        }
+
+        private class ScrollInfo
+        {
+            public double VerticalOffset { get; set; }
+
+            public double HorizontalOffset { get; set; }
         }
     }
 }

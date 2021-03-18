@@ -30,12 +30,14 @@ namespace Orc.Wizard.Example.Wizard
 
             this.AddPage<PersonWizardPage>();
             this.AddPage<AgeWizardPage>();
+            this.AddPage<Long1WizardPage>();
+            this.AddPage<Long2WizardPage>();
             this.AddPage<SkillsWizardPage>();
             this.AddPage<ComponentsWizardPage>();
             this.AddPage<SummaryWizardPage>();
 
             // Test for numbers being updated correctly
-            this.InsertPage<GadgetsWizardPage>(3);
+            this.InsertPage<GadgetsWizardPage>(4);
 
             MinSize = new System.Windows.Size(800, 600);
             MaxSize = new System.Windows.Size(1000, 800);

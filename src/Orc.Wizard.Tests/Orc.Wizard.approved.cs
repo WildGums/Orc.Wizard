@@ -156,6 +156,7 @@ namespace Orc.Wizard
         Orc.Wizard.INavigationStrategy NavigationStrategy { get; }
         System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
         System.Windows.ResizeMode ResizeMode { get; }
+        bool RestoreScrollPositionPerPage { get; }
         bool ShowInTaskbar { get; }
         string Title { get; }
         event System.EventHandler<System.EventArgs> Canceled;
@@ -302,6 +303,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData MaxSizeProperty;
         public static readonly Catel.Data.PropertyData MinSizeProperty;
         public static readonly Catel.Data.PropertyData ResizeModeProperty;
+        public static readonly Catel.Data.PropertyData RestoreScrollPositionPerPageProperty;
         public static readonly Catel.Data.PropertyData ShowInTaskbarProperty;
         public static readonly Catel.Data.PropertyData TitleProperty;
         public static readonly Catel.Data.PropertyData VerticalScrollbarVisibilityProperty;
@@ -322,6 +324,7 @@ namespace Orc.Wizard
         public Orc.Wizard.INavigationStrategy NavigationStrategy { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
         public virtual System.Windows.ResizeMode ResizeMode { get; set; }
+        public virtual bool RestoreScrollPositionPerPage { get; set; }
         public bool ShowInTaskbar { get; set; }
         public string Title { get; set; }
         public virtual System.Windows.Controls.ScrollBarVisibility VerticalScrollbarVisibility { get; set; }

@@ -46,6 +46,7 @@ namespace Orc.Wizard
 
             HorizontalScrollbarVisibility = ScrollBarVisibility.Disabled;
             VerticalScrollbarVisibility = ScrollBarVisibility.Auto;
+            RestoreScrollPositionPerPage = true;
 
             ShowInTaskbar = false;
             IsHelpVisible = false;
@@ -97,6 +98,8 @@ namespace Orc.Wizard
         public virtual ScrollBarVisibility VerticalScrollbarVisibility { get; protected set; }
 
         public virtual ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
+
+        public virtual bool RestoreScrollPositionPerPage { get; protected set; }
 
         public virtual bool HandleNavigationStates { get; protected set; }
 
