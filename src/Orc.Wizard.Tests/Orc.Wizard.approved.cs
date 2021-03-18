@@ -336,6 +336,7 @@ namespace Orc.Wizard
         public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual System.Threading.Tasks.Task CloseAsync() { }
+        public virtual Catel.Data.IValidationContext GetValidationContext(Orc.Wizard.IWizardPage wizardPage, bool validate = true) { }
         public virtual Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true) { }
         public virtual System.Threading.Tasks.Task InitializeAsync() { }
         public void InsertPage(int index, Orc.Wizard.IWizardPage page) { }
