@@ -32,7 +32,7 @@ namespace Orc.Wizard
         private static void OnHorizontalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
             var scrollViewer = target as ScrollViewer;
-            if (scrollViewer != null)
+            if (scrollViewer is not null)
             {
                 scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
             }

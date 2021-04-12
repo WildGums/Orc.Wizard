@@ -67,7 +67,7 @@
         private void OnPageChanged()
         {
             var page = Page;
-            if (page != null)
+            if (page is not null)
             {
                 SetCurrentValue(NumberProperty, page.Number);
                 SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
@@ -109,7 +109,7 @@
         {
             var storyboard = new Storyboard();
 
-            if (shape != null && shape.Fill is null)
+            if (shape is not null && shape.Fill is null)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 shape.Fill = (SolidColorBrush)TryFindResource(ThemingKeys.AccentColorBrush40);

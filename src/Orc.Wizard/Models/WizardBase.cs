@@ -217,7 +217,7 @@ namespace Orc.Wizard
             if (wizardPage is not null)
             {
                 var vm = wizardPage.ViewModel;
-                if (vm != null)
+                if (vm is not null)
                 {
                     if (validate)
                     {
@@ -249,10 +249,10 @@ namespace Orc.Wizard
             }
 
             var currentPage = _currentPage;
-            if (currentPage != null)
+            if (currentPage is not null)
             {
                 var vm = currentPage.ViewModel;
-                if (vm != null)
+                if (vm is not null)
                 {
                     var result = await vm.SaveAndCloseViewModelAsync();
                     if (!result)
@@ -312,10 +312,10 @@ namespace Orc.Wizard
             }
 
             var currentPage = _currentPage;
-            if (currentPage != null)
+            if (currentPage is not null)
             {
                 var vm = currentPage.ViewModel;
-                if (vm != null)
+                if (vm is not null)
                 {
                     var result = await vm.SaveAndCloseViewModelAsync();
                     if (!result)
@@ -404,24 +404,24 @@ namespace Orc.Wizard
             Log.Debug("Setting current page index to '{0}'", newIndex);
 
             var currentPage = _currentPage;
-            if (currentPage != null)
+            if (currentPage is not null)
             {
                 currentPage.ViewModelChanged -= OnPageViewModelChanged;
 
                 var vm = currentPage.ViewModel;
-                if (vm != null)
+                if (vm is not null)
                 {
                     vm.PropertyChanged -= OnPageViewModelPropertyChanged;
                 }
             }
 
             var newPage = _pages[newIndex];
-            if (newPage != null)
+            if (newPage is not null)
             {
                 newPage.ViewModelChanged += OnPageViewModelChanged;
 
                 var vm = newPage.ViewModel;
-                if (vm != null)
+                if (vm is not null)
                 {
                     vm.PropertyChanged += OnPageViewModelPropertyChanged;
                 }
@@ -446,13 +446,13 @@ namespace Orc.Wizard
         private void OnPageViewModelChanged(object sender, ViewModelChangedEventArgs e)
         {
             var oldVm = e.OldViewModel;
-            if (oldVm != null)
+            if (oldVm is not null)
             {
                 oldVm.PropertyChanged -= OnPageViewModelPropertyChanged;
             }
 
             var newVm = e.NewViewModel;
-            if (newVm != null)
+            if (newVm is not null)
             {
                 newVm.PropertyChanged += OnPageViewModelPropertyChanged;
             }

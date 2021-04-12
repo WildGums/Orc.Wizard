@@ -60,7 +60,7 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
             base.ValidateBusinessRules(validationResults);
 
             var skills = Skills;
-            if (skills != null)
+            if (skills is not null)
             {
                 if (!skills.Any(x => x.IsSelected))
                 {
