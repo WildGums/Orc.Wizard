@@ -116,8 +116,8 @@ namespace Orc.Wizard
                     return true;
                 }
 
-                // Make sure we can move next at all
-                if (!CanMoveForward)
+                var validationContext = GetValidationContextForCurrentPage(true);
+                if (validationContext.HasErrors)
                 {
                     return false;
                 }
