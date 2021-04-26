@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -48,7 +49,8 @@
                   ToolTip="Show the summary page at the end of the wizard." />
         <CheckBox Content="Handle navigation states" IsChecked="{Binding HandleNavigationStates}" />
         <CheckBox Content="Cache views (do not recreate on each page navigation)" IsChecked="{Binding CacheViews}" />
-
+        <CheckBox Content="Mark all pages as visited before showing wizard" IsChecked="{Binding MarkAllPagesAsVisited}" />
+        
         <StackPanel Orientation="Horizontal">
             <Button Command="{Binding ShowWizard}" 
                     CommandParameter="{x:Type local:ExampleWizard}"
