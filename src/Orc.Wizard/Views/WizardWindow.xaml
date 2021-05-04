@@ -164,7 +164,8 @@
             <WrapPanel Grid.Column="0" 
                        Style="{DynamicResource DataWindowButtonContainerStyle}"
                        Margin="-2,0,4,4">
-                <Button Command="{Binding ShowHelp}" 
+                <Button x:Name="PART_HelpButton"
+                        Command="{Binding ShowHelp}" 
                         Content="{catel:LanguageBinding Wizard_Help}" 
                         Style="{DynamicResource DataWindowButtonStyle}" 
                         Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
