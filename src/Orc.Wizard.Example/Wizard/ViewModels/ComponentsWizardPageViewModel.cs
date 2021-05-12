@@ -98,7 +98,7 @@ namespace Orc.Wizard.Example.Wizard.ViewModels
             base.ValidateBusinessRules(validationResults);
 
             var components = Components;
-            if (components != null)
+            if (components is not null)
             {
                 if (!components.Any(x => x.IsSelected))
                 {

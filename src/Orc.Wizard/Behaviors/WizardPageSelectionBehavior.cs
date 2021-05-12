@@ -48,12 +48,12 @@ namespace Orc.Wizard
         private static void OnWizardChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as WizardPageSelectionBehavior;
-            if (behavior != null)
+            if (behavior is not null)
             {
                 behavior.UpdatePage();
 
                 var oldWizard = e.OldValue as IWizard;
-                if (oldWizard != null)
+                if (oldWizard is not null)
                 {
                     oldWizard.CurrentPageChanged -= behavior.OnCurrentPageChanged;
                     oldWizard.MovedBack -= behavior.OnMovedBack;
@@ -61,7 +61,7 @@ namespace Orc.Wizard
                 }
 
                 var wizard = e.NewValue as IWizard;
-                if (wizard != null)
+                if (wizard is not null)
                 {
                     wizard.CurrentPageChanged += behavior.OnCurrentPageChanged;
                     wizard.MovedBack += behavior.OnMovedBack;

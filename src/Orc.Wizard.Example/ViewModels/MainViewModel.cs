@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
+    using Catel.Collections;
     using Catel.IoC;
     using Catel.MVVM;
     using Orc.Wizard.Example.Wizard;
@@ -27,6 +28,7 @@
             ShowSummaryPage = true;
             ShowHelp = true;
             HandleNavigationStates = true;
+            MarkAllPagesAsVisited = false;
             CacheViews = true;
 
             Title = "Orc.Wizard example";
@@ -44,6 +46,8 @@
         public bool ShowSummaryPage { get; set; }
 
         public bool HandleNavigationStates { get; set; }
+
+        public bool MarkAllPagesAsVisited { get; set; }
 
         public bool CacheViews { get; set; }
         #endregion
@@ -70,6 +74,11 @@
             {
                 var lastPage = wizard.Pages.Last();
                 wizard.RemovePage(lastPage);
+            }
+
+            if (MarkAllPagesAsVisited)
+            {
+                wizard.Pages.ForEach(x => x.IsVisited = true);
             }
 
             return _wizardService.ShowWizardAsync(wizard);
