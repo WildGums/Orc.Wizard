@@ -333,12 +333,6 @@ namespace Orc.Wizard
             return TaskHelper.Completed;
         }
 
-        [ObsoleteEx(ReplacementTypeOrMember = "ResumeAsync", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
-        public virtual Task SaveAsync()
-        {
-            return ResumeAsync();
-        }
-
         public virtual async Task ResumeAsync()
         {
             if (!CanResume)
