@@ -38,8 +38,6 @@ namespace Orc.Wizard
         bool AllowQuickNavigation { get; }
         #endregion
 
-        [ObsoleteEx(ReplacementTypeOrMember = "ResumeAsync", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
-        Task SaveAsync();
         Task CancelAsync();
         Task ResumeAsync();
 

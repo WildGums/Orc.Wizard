@@ -91,12 +91,5 @@ namespace Orc.Wizard.Example.Wizard
 
             await base.ResumeAsync();
         }
-
-        public override async Task SaveAsync()
-        {
-            Log.Info("Saving wizard");
-
-            await base.SaveAsync();
-        }
     }
 }
