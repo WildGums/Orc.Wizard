@@ -176,8 +176,6 @@ namespace Orc.Wizard
         System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage);
         void RemovePage(Orc.Wizard.IWizardPage page);
         System.Threading.Tasks.Task ResumeAsync();
-        [ObsoleteEx(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
-        System.Threading.Tasks.Task SaveAsync();
         System.Threading.Tasks.Task ShowHelpAsync();
     }
     public static class IWizardExtensions
@@ -220,6 +218,7 @@ namespace Orc.Wizard
         System.Threading.Tasks.Task AfterWizardPagesSavedAsync();
         System.Threading.Tasks.Task CancelAsync();
         Orc.Wizard.ISummaryItem GetSummary();
+        System.Threading.Tasks.Task InitializeAsync();
         System.Threading.Tasks.Task SaveAsync();
     }
     public static class IWizardPageExtensions
@@ -353,8 +352,6 @@ namespace Orc.Wizard
         protected void RaiseResumed() { }
         public void RemovePage(Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task ResumeAsync() { }
-        [ObsoleteEx(RemoveInVersion="4.0", ReplacementTypeOrMember="ResumeAsync", TreatAsErrorFromVersion="3.0")]
-        public virtual System.Threading.Tasks.Task SaveAsync() { }
         protected virtual Orc.Wizard.IWizardPage SetCurrentPage(int newIndex) { }
         public virtual System.Threading.Tasks.Task ShowHelpAsync() { }
         protected virtual System.Threading.Tasks.Task<bool> ValidateAndSaveCurrentPageAsync() { }
@@ -399,6 +396,7 @@ namespace Orc.Wizard
         public virtual System.Threading.Tasks.Task AfterWizardPagesSavedAsync() { }
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual Orc.Wizard.ISummaryItem GetSummary() { }
+        public virtual System.Threading.Tasks.Task InitializeAsync() { }
         public virtual System.Threading.Tasks.Task SaveAsync() { }
     }
     public class WizardPageSelectionBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.ContentControl>
