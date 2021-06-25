@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardPageBase.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System;
     using System.Threading.Tasks;
@@ -50,6 +43,11 @@ namespace Orc.Wizard
         public int Number { get; set; }
         public bool IsOptional { get; protected set; }
         public bool IsVisited { get; set; }
+
+        public virtual Task InitializeAsync()
+        {
+            return TaskHelper.Completed;
+        }
 
         public virtual Task CancelAsync()
         {

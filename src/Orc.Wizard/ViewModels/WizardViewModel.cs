@@ -83,6 +83,11 @@
 
             await Wizard.InitializeAsync();
 
+            foreach (var page in Wizard.Pages)
+            {
+                await page.InitializeAsync();
+            }
+
             UpdateState();
         }
 

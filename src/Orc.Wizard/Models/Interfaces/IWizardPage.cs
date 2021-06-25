@@ -1,14 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizardPage.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System;
-    using System.Security.RightsManagement;
     using System.Threading.Tasks;
     using Catel.MVVM;
 
@@ -34,6 +26,7 @@ namespace Orc.Wizard
 
         bool IsVisited { get; set; }
 
+        Task InitializeAsync();
         Task CancelAsync();
         Task SaveAsync();
 
