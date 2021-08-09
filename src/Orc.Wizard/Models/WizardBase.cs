@@ -491,7 +491,7 @@ namespace Orc.Wizard
 
         protected void RaiseMovingBack(IWizardPage fromPage, IWizardPage toPage)
         {
-            MovingBack?.Invoke(this, new NavigatingEventArgs(fromPage, toPage, false));
+            MovingBack?.Invoke(this, new NavigatingEventArgs(fromPage, toPage));
         }
 
         protected void RaiseMovedBack()
@@ -501,7 +501,7 @@ namespace Orc.Wizard
 
         protected void RaiseMovingForward(IWizardPage fromPage, IWizardPage toPage)
         {
-            MovingForward?.Invoke(this, new NavigatingEventArgs(fromPage, toPage, false));
+            MovingForward?.Invoke(this, new NavigatingEventArgs(fromPage, toPage));
         }
 
         protected void RaiseMovedForward()
