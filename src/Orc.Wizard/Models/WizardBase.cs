@@ -238,16 +238,6 @@ namespace Orc.Wizard
             return GetValidationContext(_currentPage, validate);
         }
 
-        public virtual async Task PreviewMoveForwardAsync()
-        {
-            if (!CanMoveBack)
-            {
-                return;
-            }
-
-            RaiseMovingForward();
-        }
-
         public virtual async Task MoveForwardAsync()
         {
             if (!CanMoveForward)
@@ -259,6 +249,8 @@ namespace Orc.Wizard
 
                 return;
             }
+
+            RaiseMovingForward();
 
             var currentPage = _currentPage;
             if (currentPage is not null)
@@ -281,7 +273,7 @@ namespace Orc.Wizard
             RaiseMovedForward();
         }
 
-        public virtual async Task PreviewMoveBackAsync()
+        public virtual async Task MoveBackAsync()
         {
             if (!CanMoveBack)
             {
@@ -289,14 +281,6 @@ namespace Orc.Wizard
             }
 
             RaiseMovingBack();
-        }
-
-        public virtual async Task MoveBackAsync()
-        {
-            if (!CanMoveBack)
-            {
-                return;
-            }
 
             var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
             SetCurrentPage(indexOfPreviousPage);

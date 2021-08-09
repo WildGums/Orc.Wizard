@@ -64,7 +64,6 @@
                 IsVisibleEvaluator = () => !wizard.IsFirstPage(),
                 Command = new TaskCommand(async () =>
                 {
-                    await wizard.PreviewMoveBackAsync();
                     await wizard.MoveBackAsync();
                 },
                 () =>
@@ -89,7 +88,6 @@
                 IsVisibleEvaluator = () => !wizard.IsLastPage(),
                 Command = new TaskCommand(async () =>
                 {
-                    await wizard.PreviewMoveForwardAsync();
                     await wizard.MoveForwardAsync();
                 },
                 () =>
