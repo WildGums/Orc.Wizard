@@ -122,9 +122,9 @@ namespace Orc.Wizard
                     return false;
                 }
 
-                if (remainingPages.All(x => (x is SummaryWizardPage == true) || 
+                if (remainingPages.All(x => (x is SummaryWizardPage == true) ||
                                             x.IsOptional))
-                                            //(x.IsVisited && !GetValidationContext(x).HasErrors))) // Not enabled yet since we must be sure that we validate everything
+                //(x.IsVisited && !GetValidationContext(x).HasErrors))) // Not enabled yet since we must be sure that we validate everything
                 {
                     return true;
                 }
@@ -251,7 +251,11 @@ namespace Orc.Wizard
             }
 
             var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
-            RaiseMovingForward(_currentPage, Pages.ElementAt(indexOfNextPage));
+            var cancel = RaiseMovingForward(_currentPage, Pages.ElementAt(indexOfNextPage));
+            if (cancel)
+            {
+                return;
+            }
 
             var currentPage = _currentPage;
             if (currentPage is not null)
@@ -281,7 +285,11 @@ namespace Orc.Wizard
 
             var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
 
-            RaiseMovingBack(_currentPage, Pages.ElementAt(indexOfPreviousPage));
+            var cancel = RaiseMovingBack(_currentPage, Pages.ElementAt(indexOfPreviousPage));
+            if (cancel)
+            {
+                return;
+            }
 
             SetCurrentPage(indexOfPreviousPage);
 
@@ -489,9 +497,11 @@ namespace Orc.Wizard
             Canceled?.Invoke(this, EventArgs.Empty);
         }
 
-        protected void RaiseMovingBack(IWizardPage fromPage, IWizardPage toPage)
+        protected bool RaiseMovingBack(IWizardPage fromPage, IWizardPage toPage)
         {
-            MovingBack?.Invoke(this, new NavigatingEventArgs(fromPage, toPage));
+            var eventArgs = new NavigatingEventArgs(fromPage, toPage);
+            MovingBack?.Invoke(this, eventArgs);
+            return eventArgs.Cancel;
         }
 
         protected void RaiseMovedBack()
@@ -499,9 +509,11 @@ namespace Orc.Wizard
             MovedBack?.Invoke(this, EventArgs.Empty);
         }
 
-        protected void RaiseMovingForward(IWizardPage fromPage, IWizardPage toPage)
+        protected bool RaiseMovingForward(IWizardPage fromPage, IWizardPage toPage)
         {
-            MovingForward?.Invoke(this, new NavigatingEventArgs(fromPage, toPage));
+            var eventArgs = new NavigatingEventArgs(fromPage, toPage);
+            MovingForward?.Invoke(this, eventArgs);
+            return eventArgs.Cancel;
         }
 
         protected void RaiseMovedForward()
