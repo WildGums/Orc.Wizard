@@ -35,7 +35,7 @@
 
             return _wizardNavigationButtons;
         }
-
+        
         public void EvaluateNavigationCommands()
         {
             _wizardNavigationButtons.ForEach(x =>
@@ -64,6 +64,7 @@
                 IsVisibleEvaluator = () => !wizard.IsFirstPage(),
                 Command = new TaskCommand(async () =>
                 {
+                    await wizard.PreviewMoveBackAsync();
                     await wizard.MoveBackAsync();
                 },
                 () =>
@@ -88,6 +89,7 @@
                 IsVisibleEvaluator = () => !wizard.IsLastPage(),
                 Command = new TaskCommand(async () =>
                 {
+                    await wizard.PreviewMoveForwardAsync();
                     await wizard.MoveForwardAsync();
                 },
                 () =>

@@ -173,7 +173,9 @@ namespace Orc.Wizard
 
         #region Events
         public event EventHandler<EventArgs> CurrentPageChanged;
+        public event EventHandler<EventArgs> MovingForward;
         public event EventHandler<EventArgs> MovedForward;
+        public event EventHandler<EventArgs> MovingBack;
         public event EventHandler<EventArgs> MovedBack;
         public event EventHandler<EventArgs> Canceled;
         public event EventHandler<EventArgs> Resumed;
@@ -236,6 +238,16 @@ namespace Orc.Wizard
             return GetValidationContext(_currentPage, validate);
         }
 
+        public virtual async Task PreviewMoveForwardAsync()
+        {
+            if (!CanMoveBack)
+            {
+                return;
+            }
+
+            RaiseMovingForward();
+        }
+
         public virtual async Task MoveForwardAsync()
         {
             if (!CanMoveForward)
@@ -263,9 +275,20 @@ namespace Orc.Wizard
             }
 
             var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+
             SetCurrentPage(indexOfNextPage);
 
             RaiseMovedForward();
+        }
+
+        public virtual async Task PreviewMoveBackAsync()
+        {
+            if (!CanMoveBack)
+            {
+                return;
+            }
+
+            RaiseMovingBack();
         }
 
         public virtual async Task MoveBackAsync()
@@ -482,9 +505,19 @@ namespace Orc.Wizard
             Canceled?.Invoke(this, EventArgs.Empty);
         }
 
+        protected void RaiseMovingBack()
+        {
+            MovingBack?.Invoke(this, EventArgs.Empty);
+        }
+
         protected void RaiseMovedBack()
         {
             MovedBack?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void RaiseMovingForward()
+        {
+            MovingForward?.Invoke(this, EventArgs.Empty);
         }
 
         protected void RaiseMovedForward()

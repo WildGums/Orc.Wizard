@@ -60,5 +60,7 @@ namespace Orc.Wizard
         void RemovePage(IWizardPage page);
 
         IValidationContext GetValidationContextForCurrentPage(bool validate = true);
+        Task PreviewMoveForwardAsync();
+        Task PreviewMoveBackAsync();
     }
 }
