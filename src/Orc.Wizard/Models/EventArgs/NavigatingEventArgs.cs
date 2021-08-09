@@ -4,17 +4,16 @@
 
     public class NavigatingEventArgs : EventArgs
     {
-        public NavigatingEventArgs(IWizardPage from, IWizardPage to, bool cancel)
+        public NavigatingEventArgs(IWizardPage from, IWizardPage to)
         {
             From = from;
             To = to;
-            Cancel = cancel;
         }
 
         public IWizardPage From { get; }
 
         public IWizardPage To { get; }
 
-        public bool Cancel { get; }
+        public bool Cancel { get; set; }
     }
 }
