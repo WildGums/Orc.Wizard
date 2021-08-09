@@ -251,9 +251,10 @@ namespace Orc.Wizard
             }
 
             var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
-            var cancel = RaiseMovingForward(_currentPage, Pages.ElementAt(indexOfNextPage));
-            if (cancel)
+            var isMoving = RaiseMovingForward(_currentPage, Pages.ElementAt(indexOfNextPage));
+            if (!isMoving)
             {
+                Log.Debug("Cancel move based on raised event returned arguments");
                 return;
             }
 
@@ -285,9 +286,10 @@ namespace Orc.Wizard
 
             var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
 
-            var cancel = RaiseMovingBack(_currentPage, Pages.ElementAt(indexOfPreviousPage));
-            if (cancel)
+            var isMoving = RaiseMovingBack(_currentPage, Pages.ElementAt(indexOfPreviousPage));
+            if (!isMoving)
             {
+                Log.Debug("Cancel move based on raised event returned arguments");
                 return;
             }
 
@@ -501,7 +503,7 @@ namespace Orc.Wizard
         {
             var eventArgs = new NavigatingEventArgs(fromPage, toPage);
             MovingBack?.Invoke(this, eventArgs);
-            return eventArgs.Cancel;
+            return !eventArgs.Cancel;
         }
 
         protected void RaiseMovedBack()
@@ -513,7 +515,7 @@ namespace Orc.Wizard
         {
             var eventArgs = new NavigatingEventArgs(fromPage, toPage);
             MovingForward?.Invoke(this, eventArgs);
-            return eventArgs.Cancel;
+            return !eventArgs.Cancel;
         }
 
         protected void RaiseMovedForward()
