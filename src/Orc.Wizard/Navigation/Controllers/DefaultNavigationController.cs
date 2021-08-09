@@ -35,7 +35,7 @@
 
             return _wizardNavigationButtons;
         }
-
+        
         public void EvaluateNavigationCommands()
         {
             _wizardNavigationButtons.ForEach(x =>

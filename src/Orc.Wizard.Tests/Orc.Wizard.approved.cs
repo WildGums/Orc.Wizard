@@ -165,6 +165,8 @@ namespace Orc.Wizard
         event System.EventHandler<System.EventArgs> HelpShown;
         event System.EventHandler<System.EventArgs> MovedBack;
         event System.EventHandler<System.EventArgs> MovedForward;
+        event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingBack;
+        event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingForward;
         event System.EventHandler<System.EventArgs> Resumed;
         System.Threading.Tasks.Task CancelAsync();
         System.Threading.Tasks.Task CloseAsync();
@@ -255,6 +257,13 @@ namespace Orc.Wizard
     {
         public static void Initialize() { }
     }
+    public class NavigatingEventArgs : System.EventArgs
+    {
+        public NavigatingEventArgs(Orc.Wizard.IWizardPage from, Orc.Wizard.IWizardPage to) { }
+        public bool Cancel { get; set; }
+        public Orc.Wizard.IWizardPage From { get; }
+        public Orc.Wizard.IWizardPage To { get; }
+    }
     public static class ProgressBarExtensions
     {
         public static readonly System.Windows.DependencyProperty SmoothProgressProperty;
@@ -335,6 +344,8 @@ namespace Orc.Wizard
         public event System.EventHandler<System.EventArgs> HelpShown;
         public event System.EventHandler<System.EventArgs> MovedBack;
         public event System.EventHandler<System.EventArgs> MovedForward;
+        public event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingBack;
+        public event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingForward;
         public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual System.Threading.Tasks.Task CloseAsync() { }
@@ -349,6 +360,8 @@ namespace Orc.Wizard
         protected void RaiseCanceled() { }
         protected void RaiseMovedBack() { }
         protected void RaiseMovedForward() { }
+        protected bool RaiseMovingBack(Orc.Wizard.IWizardPage fromPage, Orc.Wizard.IWizardPage toPage) { }
+        protected bool RaiseMovingForward(Orc.Wizard.IWizardPage fromPage, Orc.Wizard.IWizardPage toPage) { }
         protected void RaiseResumed() { }
         public void RemovePage(Orc.Wizard.IWizardPage page) { }
         public virtual System.Threading.Tasks.Task ResumeAsync() { }
