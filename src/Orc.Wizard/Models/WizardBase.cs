@@ -258,13 +258,15 @@ namespace Orc.Wizard
                 return;
             }
 
+            // Note: keep *after* the RaiseMovingForward. This allows any vm to handle events and 
+            // correctly unsubscribe in the CloseAsync method
             var currentPage = _currentPage;
             if (currentPage is not null)
             {
-                var vm = currentPage.ViewModel;
-                if (vm is not null)
+                var viewModel = currentPage.ViewModel;
+                if (viewModel is not null)
                 {
-                    var result = await vm.SaveAndCloseViewModelAsync();
+                    var result = await viewModel.SaveAndCloseViewModelAsync();
                     if (!result)
                     {
                         return;
@@ -272,9 +274,23 @@ namespace Orc.Wizard
                 }
             }
 
+            OnMovingForward();
+
             SetCurrentPage(indexOfNextPage);
 
+            OnMovedForward();
+
             RaiseMovedForward();
+        }
+
+        protected virtual void OnMovingForward()
+        {
+            // Empty by design
+        }
+
+        protected virtual void OnMovedForward()
+        {
+            // Empty by design
         }
 
         public virtual async Task MoveBackAsync()
@@ -293,9 +309,23 @@ namespace Orc.Wizard
                 return;
             }
 
+            OnMovingBack();
+
             SetCurrentPage(indexOfPreviousPage);
 
+            OnMovedBack();
+
             RaiseMovedBack();
+        }
+
+        protected virtual void OnMovingBack()
+        {
+            // Empty by design
+        }
+
+        protected virtual void OnMovedBack()
+        {
+            // Empty by design
         }
 
         public virtual async Task MoveToPageAsync(int indexOfNextPage)

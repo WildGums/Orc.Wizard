@@ -356,6 +356,10 @@ namespace Orc.Wizard
         public virtual System.Threading.Tasks.Task MoveBackAsync() { }
         public virtual System.Threading.Tasks.Task MoveForwardAsync() { }
         public virtual System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage) { }
+        protected virtual void OnMovedBack() { }
+        protected virtual void OnMovedForward() { }
+        protected virtual void OnMovingBack() { }
+        protected virtual void OnMovingForward() { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         protected void RaiseCanceled() { }
         protected void RaiseMovedBack() { }
