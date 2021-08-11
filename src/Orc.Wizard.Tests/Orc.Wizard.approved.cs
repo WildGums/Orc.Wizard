@@ -204,6 +204,7 @@ namespace Orc.Wizard
         System.Windows.Input.ICommand Command { get; }
         string Content { get; }
         bool IsVisible { get; }
+        System.Windows.Style Style { get; }
         void Update();
     }
     public interface IWizardPage
@@ -356,6 +357,10 @@ namespace Orc.Wizard
         public virtual System.Threading.Tasks.Task MoveBackAsync() { }
         public virtual System.Threading.Tasks.Task MoveForwardAsync() { }
         public virtual System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage) { }
+        protected virtual void OnMovedBack() { }
+        protected virtual void OnMovedForward() { }
+        protected virtual void OnMovingBack() { }
+        protected virtual void OnMovingForward() { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         protected void RaiseCanceled() { }
         protected void RaiseMovedBack() { }
@@ -380,12 +385,16 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData ContentProperty;
         public static readonly Catel.Data.PropertyData IsVisibleEvaluatorProperty;
         public static readonly Catel.Data.PropertyData IsVisibleProperty;
+        public static readonly Catel.Data.PropertyData StyleEvaluatorProperty;
+        public static readonly Catel.Data.PropertyData StyleProperty;
         public WizardNavigationButton() { }
         public System.Windows.Input.ICommand Command { get; set; }
         public string Content { get; set; }
         public System.Func<string> ContentEvaluator { get; set; }
         public bool IsVisible { get; set; }
         public System.Func<bool> IsVisibleEvaluator { get; set; }
+        public System.Windows.Style Style { get; set; }
+        public System.Func<Orc.Wizard.IWizardNavigationButton, System.Windows.Style> StyleEvaluator { get; set; }
         public void Update() { }
     }
     public abstract class WizardPageBase : Catel.Data.ModelBase, Orc.Wizard.IWizardPage

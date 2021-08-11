@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Net;
+    using System.Windows;
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
@@ -86,6 +87,13 @@
             {
                 Content = _languageService.GetString("Wizard_Next"),
                 IsVisibleEvaluator = () => !wizard.IsLastPage(),
+                StyleEvaluator = (x) =>
+                {
+                    var styleName = !wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
+
+                    var application = System.Windows.Application.Current;
+                    return application?.TryFindResource(styleName) as Style;
+                },
                 Command = new TaskCommand(async () =>
                 {
                     await wizard.MoveForwardAsync();
@@ -110,6 +118,13 @@
             {
                 Content = _languageService.GetString("Wizard_Finish"),
                 IsVisibleEvaluator = () => wizard.IsLastPage(),
+                StyleEvaluator = (x) =>
+                {
+                    var styleName = wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
+
+                    var application = System.Windows.Application.Current;
+                    return application?.TryFindResource(styleName) as Style;
+                },
                 Command = new TaskCommand(async () =>
                 {
                     await wizard.ResumeAsync();
