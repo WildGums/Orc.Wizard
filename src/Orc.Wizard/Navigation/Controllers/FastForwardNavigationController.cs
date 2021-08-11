@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows;
     using Catel.MVVM;
     using Catel.Services;
 
@@ -35,6 +36,13 @@
             {
                 Content = _languageService.GetString("Wizard_Finish"),
                 IsVisibleEvaluator = () => true,
+                StyleEvaluator = (x) =>
+                {
+                    var styleName = wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
+
+                    var application = System.Windows.Application.Current;
+                    return application?.TryFindResource(styleName) as Style;
+                },
                 Command = new TaskCommand(async () =>
                 {
                     if (wizard.IsLastPage())

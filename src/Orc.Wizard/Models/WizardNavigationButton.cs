@@ -1,6 +1,7 @@
 ﻿namespace Orc.Wizard
 {
     using System;
+    using System.Windows;
     using System.Windows.Input;
     using Catel.Data;
     using Catel.MVVM;
@@ -9,7 +10,11 @@
     {
         public WizardNavigationButton()
         {
-                
+            var application = System.Windows.Application.Current;
+            if (application is not null)
+            {
+                Style = application.TryFindResource("WizardNavigationButtonStyle") as Style;
+            }
         }
 
         public Func<string> ContentEvaluator { get; set; }
@@ -19,6 +24,10 @@
         public Func<bool> IsVisibleEvaluator { get; set; }
 
         public bool IsVisible { get; set; }
+
+        public Func<IWizardNavigationButton, Style> StyleEvaluator { get; set; }
+
+        public Style Style { get; set; }
 
         public ICommand Command { get; set; }
 
@@ -30,15 +39,21 @@
             }
 
             var contentEvaluator = ContentEvaluator;
-            if (contentEvaluator is null == false)
+            if (contentEvaluator is not null)
             {
                 Content = contentEvaluator();
             }
 
             var isVisibleEvaluator = IsVisibleEvaluator;
-            if (isVisibleEvaluator is null == false)
+            if (isVisibleEvaluator is not null)
             {
                 IsVisible = isVisibleEvaluator();
+            }
+
+            var styleEvaluator = StyleEvaluator;
+            if (styleEvaluator is not null)
+            {
+                Style = styleEvaluator(this);
             }
         }
     }

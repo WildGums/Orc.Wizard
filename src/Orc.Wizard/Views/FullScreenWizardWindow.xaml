@@ -166,8 +166,8 @@
 	                       Style="{DynamicResource DataWindowButtonContainerStyle}">
                     <Button x:Name="PART_HelpButton"
                             Command="{Binding ShowHelp}" 
-                            Content="{catel:LanguageBinding Wizard_Help}" 
-                            Style="{DynamicResource DataWindowButtonStyle}" 
+                            Content="{catel:LanguageBinding Wizard_Help}"
+                            Style="{DynamicResource WizardNavigationButtonStyle}" 
                             Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                 </WrapPanel>
 
@@ -186,7 +186,7 @@
                         <DataTemplate>
                             <Button Command="{Binding Command}" 
                                 Content="{Binding Content}" 
-                                Style="{DynamicResource DataWindowButtonStyle}" 
+                                Style="{Binding Style}" 
                                 Visibility="{Binding IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
