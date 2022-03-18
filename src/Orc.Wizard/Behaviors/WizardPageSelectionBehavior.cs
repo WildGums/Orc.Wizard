@@ -155,14 +155,14 @@ namespace Orc.Wizard
 
             _lastPage = wizard.CurrentPage;
 
-            var serviceLocator = this.GetServiceLocator();
-            var viewModelLocator = serviceLocator.ResolveType<IWizardPageViewModelLocator>();
+            var dependencyResolver = this.GetDependencyResolver();
+            var viewModelLocator = dependencyResolver.Resolve<IWizardPageViewModelLocator>();
             var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
 
-            var viewLocator = serviceLocator.ResolveType<IViewLocator>();
+            var viewLocator = dependencyResolver.Resolve<IViewLocator>();
             var viewType = viewLocator.ResolveView(pageViewModelType);
 
-            var typeFactory = serviceLocator.ResolveType<ITypeFactory>();
+            var typeFactory = dependencyResolver.Resolve<ITypeFactory>();
 
             IView view = null;
 
@@ -185,7 +185,7 @@ namespace Orc.Wizard
             IViewModel viewModel = null;
             if (viewModel is null)
             {
-                var viewModelFactory = serviceLocator.ResolveType<IViewModelFactory>();
+                var viewModelFactory = dependencyResolver.Resolve<IViewModelFactory>();
                 viewModel = viewModelFactory.CreateViewModel(pageViewModelType, wizard.CurrentPage, null);
 
                 view.DataContext = viewModel;
