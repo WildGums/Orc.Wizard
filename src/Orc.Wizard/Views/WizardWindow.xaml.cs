@@ -11,8 +11,10 @@ namespace Orc.Wizard.Views
     using System.ComponentModel;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using Automation;
     using Catel.Threading;
     using Catel.Windows;
     using Catel.Windows.Threading;
@@ -93,6 +95,11 @@ namespace Orc.Wizard.Views
             }
 
             breadcrumb.SetCurrentValue(OpacityMaskProperty, opacityMask.GradientStops.Count > 0 ? opacityMask : null);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new WizardWindowPeer(this);
         }
         #endregion
     }

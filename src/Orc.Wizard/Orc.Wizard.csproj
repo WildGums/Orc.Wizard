@@ -42,9 +42,17 @@
     <None Remove="**/GeneratorParameters.json" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Orc.Automation\src\Orc.Automation\Orc.Automation.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Automation\Serializers\" />
+    <Folder Include="Automation\Views\WizardWindow\Models\" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
