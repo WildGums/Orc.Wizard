@@ -51,6 +51,8 @@
             </Grid>
 
             <TextBlock Name="txtTitle" 
+                       Grid.Row="1"
+                       Grid.Column="1"
                        Text="{Binding Title}" 
                        FontSize="14" 
                        HorizontalAlignment="Left" 
@@ -58,7 +60,6 @@
                        FontWeight="Medium"
                        TextAlignment="Center"
                        TextWrapping="Wrap"
-                       Grid.Row="1" Grid.Column="1"
                        Foreground="{DynamicResource Orc.Brushes.GrayBrush1}"/>
         </Grid>
 
