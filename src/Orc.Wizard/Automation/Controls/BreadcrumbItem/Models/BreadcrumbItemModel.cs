@@ -2,6 +2,7 @@
 {
     using Orc.Automation;
 
+    [ActiveAutomationModel]
     public class BreadcrumbItemModel : ControlModel
     {
         public BreadcrumbItemModel(AutomationElementAccessor accessor)
