@@ -42,4 +42,7 @@
   <data name="Wizard_XofY" xml:space="preserve">
     <value>{0} de {1}</value>
   </data>
+  <data name="Wizard_NavigateToPage" xml:space="preserve">
+    <value>Navigate to page</value>
+  </data>
 </root>

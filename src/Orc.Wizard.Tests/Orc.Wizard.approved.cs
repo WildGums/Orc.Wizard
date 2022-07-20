@@ -74,14 +74,28 @@ namespace Orc.Wizard.Controls
     }
     public class SideNavigationBreadcrumbItem : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        public const double EllipseDiameter = 26D;
+        public const int NavigationGridYMargin = 5;
+        public const int NavigationItemBottomMarginDefault = 56;
+        public const int NavigationItemLineLengthDefault = 48;
+        public const int NavigationItemLineTopDefault = 35;
+        public static readonly System.Windows.Thickness CanvasLineMargin;
         public static readonly System.Windows.DependencyProperty CurrentPageProperty;
         public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.Thickness EllipseMargin;
+        public static readonly System.Windows.DependencyProperty NavigationItemLineLengthProperty;
+        public static readonly System.Windows.DependencyProperty NavigationItemLineTopProperty;
+        public static readonly System.Windows.Thickness NavigationItemMarginDefault;
+        public static readonly System.Windows.DependencyProperty NavigationItemMarginProperty;
         public static readonly System.Windows.DependencyProperty NumberProperty;
         public static readonly System.Windows.DependencyProperty PageProperty;
         public static readonly System.Windows.DependencyProperty TitleProperty;
         public SideNavigationBreadcrumbItem() { }
         public Orc.Wizard.IWizardPage CurrentPage { get; set; }
         public string Description { get; set; }
+        public int NavigationItemLineLength { get; set; }
+        public int NavigationItemLineTop { get; set; }
+        public System.Windows.Thickness NavigationItemMargin { get; set; }
         public int Number { get; set; }
         public Orc.Wizard.IWizardPage Page { get; set; }
         public string Title { get; set; }
@@ -191,6 +205,7 @@ namespace Orc.Wizard
     public interface IWizard
     {
         bool AllowQuickNavigation { get; }
+        bool AutoSizeSideNavigationPane { get; set; }
         bool CacheViews { get; }
         bool CanCancel { get; }
         bool CanMoveBack { get; }
@@ -355,6 +370,7 @@ namespace Orc.Wizard
     {
         protected readonly Catel.IoC.ITypeFactory _typeFactory;
         public static readonly Catel.Data.PropertyData AllowQuickNavigationProperty;
+        public static readonly Catel.Data.PropertyData AutoSizeSideNavigationPaneProperty;
         public static readonly Catel.Data.PropertyData CacheViewsProperty;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
@@ -369,6 +385,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData VerticalScrollbarVisibilityProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
         public bool AllowQuickNavigation { get; set; }
+        public bool AutoSizeSideNavigationPane { get; set; }
         public virtual bool CacheViews { get; set; }
         public virtual bool CanCancel { get; }
         public virtual bool CanMoveBack { get; }

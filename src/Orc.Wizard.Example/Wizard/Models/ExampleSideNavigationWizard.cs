@@ -41,7 +41,6 @@ namespace Orc.Wizard.Example.Wizard
 
             MinSize = new System.Windows.Size(800, 600);
             MaxSize = new System.Windows.Size(1000, 800);
-            AutoSizeSideNavigationPane = true;
 
             ResizeMode = System.Windows.ResizeMode.CanResize;
         }
