@@ -36,7 +36,6 @@ namespace Orc.Wizard
         bool CanShowHelp { get; }
         bool ShowInTaskbar { get; }
         bool AllowQuickNavigation { get; }
-
         bool AutoSizeSideNavigationPane { get; set; }
         #endregion
 

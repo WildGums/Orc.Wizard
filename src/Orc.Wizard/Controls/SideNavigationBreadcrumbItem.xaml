@@ -71,7 +71,7 @@
         <Canvas HorizontalAlignment="Left" Margin="{x:Static controls:SideNavigationBreadcrumbItem.CanvasLineMargin}">
             <Rectangle x:Name="pathline" Width="2" Height="{Binding Path=NavigationItemLineLength}" StrokeThickness="0" 
                        Canvas.Left="{Binding ElementName=ellipse, Path=ActualWidth}"
-                       Canvas.Top="{Binding Path= NavigationItemLineTop}"
+                       Canvas.Top="{Binding Path=NavigationItemLineTop}"
                        HorizontalAlignment="Center" VerticalAlignment="Center" ClipToBounds="False"/>
         </Canvas>
     </Grid>

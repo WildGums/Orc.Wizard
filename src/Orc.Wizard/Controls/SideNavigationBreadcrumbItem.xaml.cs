@@ -72,7 +72,7 @@
         }
 
         public static readonly DependencyProperty NavigationItemLineLengthProperty = DependencyProperty.Register(nameof(NavigationItemLineLength), typeof(int),
-            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(0));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(NavigationItemLineLengthDefault));
 
         public int NavigationItemLineTop
         {
@@ -81,7 +81,7 @@
         }
 
         public static readonly DependencyProperty NavigationItemLineTopProperty = DependencyProperty.Register(nameof(NavigationItemLineTop), typeof(int),
-            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(0));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(NavigationItemLineTopDefault));
 
         public Thickness NavigationItemMargin
         {
@@ -90,7 +90,7 @@
         }
 
         public static readonly DependencyProperty NavigationItemMarginProperty = DependencyProperty.Register(nameof(NavigationItemMargin), typeof(Thickness),
-            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(new Thickness()));
+            typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(new Thickness(0, 0, 0, NavigationItemBottomMarginDefault)));
 
 
         private void OnPageChanged()
@@ -112,6 +112,13 @@
         public static Thickness CanvasLineMargin = new Thickness(2, 2, 2, 2);
         public static Thickness EllipseMargin = new Thickness(15, NavigationGridYMargin, 25, NavigationGridYMargin);
 
+        private const int NavigationItemLineLengthDefault = 48;
+        private const int NavigationItemBottomMarginDefault = 56;
+        private const int NavigationItemLineTopDefault = 35;
+
+        // This value is from SideNavigationWizardWindow.xaml
+        private const int ParentMarginTop = 12;
+
         private void AutoSizeNavigationPane()
 		{            
             // Determine the height required for the ellipse and its margins
@@ -120,8 +127,7 @@
             // Calculate the space required for all the navigation bubbles
             int totalSpaceNeeded = EllipseHeightAndMargin * Page.Wizard.Pages.Count(); 
                        
-            // This value is from SideNavigationWizardWindow.xaml
-            const int ParentMarginTop = 12;            
+            
             int TitleBarHeight = (int)SystemParameters.WindowCaptionHeight;
 
             // Using the Wizard Minimum Height calculate the extra vertical space
@@ -136,10 +142,10 @@
             int gridMargin = spaceLeftOver / (Page.Wizard.Pages.Count());
 
             // If the grid margin exceeds the default then...
-            if (gridMargin > 56)
+            if (gridMargin > NavigationItemBottomMarginDefault)
 			{
                 // Reset the grid margin back to the default
-                gridMargin = 56;
+                gridMargin = NavigationItemBottomMarginDefault;
             }
 
             // Determine the height of one bubble and the associated line
@@ -155,13 +161,13 @@
             SetCurrentValue(NavigationItemLineLengthProperty, navigationPaneHeight - (int)EllipseDiameter - 2 * LineMargin); 
             
             // If the line length exceeds the default then...
-            if (NavigationItemLineLength > 48)
+            if (NavigationItemLineLength > NavigationItemLineLengthDefault)
 			{
                 // Reset the line length back to the default
-                SetCurrentValue(NavigationItemLineLengthProperty, 48);
+                SetCurrentValue(NavigationItemLineLengthProperty, NavigationItemLineLengthDefault);
 
                 // Reset the start point back to the default
-                SetCurrentValue(NavigationItemLineTopProperty, 35);
+                SetCurrentValue(NavigationItemLineTopProperty, NavigationItemLineTopDefault);
             }
             else
 			{
@@ -225,13 +231,7 @@
             if (Page.Wizard.AutoSizeSideNavigationPane)
             {
                 AutoSizeNavigationPane();
-            }
-            else
-            {
-                SetCurrentValue(NavigationItemMarginProperty, new Thickness(0, 0, 0, 56));
-                SetCurrentValue(NavigationItemLineLengthProperty, 48);
-                SetCurrentValue(NavigationItemLineTopProperty, 35);
-            }
+            }           
         }
 	}
 }
