@@ -80,6 +80,12 @@ namespace Orc.Wizard.Example.Wizard
             set { CacheViews = value; }
         }
 
+        public bool AutoSizeSideNavigationPaneWrapper
+        {
+            get { return AutoSizeSideNavigationPane; }
+            set { AutoSizeSideNavigationPane = value; }            
+        }
+
         public override Task ShowHelpAsync()
         {
             return _messageService.ShowAsync("HELP HANDLER");

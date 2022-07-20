@@ -41,6 +41,8 @@ namespace Orc.Wizard.Example.Wizard
 
             MinSize = new System.Windows.Size(800, 600);
             MaxSize = new System.Windows.Size(1000, 800);
+            AutoSizeSideNavigationPane = true;
+
             ResizeMode = System.Windows.ResizeMode.CanResize;
         }
 
@@ -80,6 +82,12 @@ namespace Orc.Wizard.Example.Wizard
             set { CacheViews = value; }
         }
 
+        public bool AutoSizeSideNavigationPaneWrapper
+        {
+            get { return AutoSizeSideNavigationPane; }
+            set { AutoSizeSideNavigationPane = value; }
+        }
+
         public override Task ShowHelpAsync()
         {
             return _messageService.ShowAsync("HELP HANDLER");
@@ -90,6 +98,6 @@ namespace Orc.Wizard.Example.Wizard
             Log.Info("Resuming wizard");
 
             await base.ResumeAsync();
-        }
+        }       
     }
 }
