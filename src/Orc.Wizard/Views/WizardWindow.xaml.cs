@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NewProjectWizardWindow.xaml.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.Views
+﻿namespace Orc.Wizard.Views
 {
     using System;
     using System.ComponentModel;
@@ -25,7 +18,6 @@ namespace Orc.Wizard.Views
     /// </summary>
     public partial class WizardWindow
     {
-        #region Constructors
         public WizardWindow()
             : this(null)
         {
@@ -97,10 +89,9 @@ namespace Orc.Wizard.Views
             breadcrumb.SetCurrentValue(OpacityMaskProperty, opacityMask.GradientStops.Count > 0 ? opacityMask : null);
         }
 
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new WizardWindowPeer(this);
-        }
-        #endregion
+        //protected override AutomationPeer OnCreateAutomationPeer()
+        //{
+        //    return new WizardWindowPeer(this);
+        //}
     }
 }

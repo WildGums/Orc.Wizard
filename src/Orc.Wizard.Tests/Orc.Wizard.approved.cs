@@ -39,19 +39,10 @@ namespace Orc.Wizard.Automation
     {
         public BreadcrumbItemPeer(Orc.Wizard.Controls.BreadcrumbItem owner) { }
     }
-    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Wizard.Views.WizardWindow))]
-    public class WizardWindow : Orc.Automation.Controls.Window<Orc.Automation.WindowModel, Orc.Wizard.Automation.WizardWindowMap>
-    {
-        public WizardWindow(System.Windows.Automation.AutomationElement element) { }
-    }
     public class WizardWindowMap : Orc.Automation.AutomationBase
     {
         public WizardWindowMap(System.Windows.Automation.AutomationElement element) { }
         public Orc.Automation.Controls.List BreadCrumbList { get; }
-    }
-    public class WizardWindowPeer : Orc.Automation.AutomationWindowPeerBase<Orc.Wizard.Views.WizardWindow>
-    {
-        public WizardWindowPeer(Orc.Wizard.Views.WizardWindow owner) { }
     }
 }
 namespace Orc.Wizard.Controls
@@ -616,7 +607,6 @@ namespace Orc.Wizard.Views
         public WizardWindow() { }
         public WizardWindow(Orc.Wizard.ViewModels.WizardViewModel viewModel) { }
         public void InitializeComponent() { }
-        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
