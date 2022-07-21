@@ -17,7 +17,7 @@
                   CanCloseUsingEscape="False"
                   Background="{DynamicResource Orc.Brushes.GrayBrush10}">
 
-    <controls1:AutomationInformer>
+    <!--<controls1:AutomationInformer>-->
         <Grid x:Name="layoutRoot" Background="{DynamicResource White}">
             <Grid.RowDefinitions>
                 <!-- First row is for InfoBarMessageControl -->
@@ -197,6 +197,6 @@
                 </ItemsControl>
             </Grid>
         </Grid>
-    </controls1:AutomationInformer>
+    <!--</controls1:AutomationInformer>-->
 
 </catel:DataWindow>
