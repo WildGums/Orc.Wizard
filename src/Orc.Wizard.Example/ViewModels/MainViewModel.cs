@@ -30,6 +30,7 @@
             HandleNavigationStates = true;
             MarkAllPagesAsVisited = false;
             CacheViews = true;
+            AutoSizeSideNavigationPane = false;
 
             Title = "Orc.Wizard example";
         }
@@ -50,6 +51,8 @@
         public bool MarkAllPagesAsVisited { get; set; }
 
         public bool CacheViews { get; set; }
+
+        public bool AutoSizeSideNavigationPane { get; set; }
         #endregion
 
         #region Commands
@@ -64,6 +67,7 @@
             wizard.AllowQuickNavigationWrapper = AllowQuickNavigation;
             wizard.HandleNavigationStatesWrapper = HandleNavigationStates;
             wizard.CacheViewsWrapper = CacheViews;
+            wizard.AutoSizeSideNavigationPaneWrapper = AutoSizeSideNavigationPane;  
 
             if (UseFastForwardNavigationController)
             {

@@ -118,33 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Wizard_AreYouSureYouWantToCancelWizard" xml:space="preserve">
-    <value>确认要退出吗？</value>
+    <value>Вы уверены что хотите отменить работу мастера?</value>
   </data>
   <data name="Wizard_Back" xml:space="preserve">
-    <value>&lt; 后退</value>
+    <value>&lt; Назад</value>
   </data>
   <data name="Wizard_Cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>Отмена</value>
   </data>
   <data name="Wizard_Finish" xml:space="preserve">
-    <value>完成</value>
+    <value>Завершить</value>
   </data>
   <data name="Wizard_Help" xml:space="preserve">
-    <value>帮助</value>
+    <value>Справка</value>
   </data>
   <data name="Wizard_Next" xml:space="preserve">
-    <value>前进 &gt;</value>
+    <value>Далее &gt;</value>
   </data>
   <data name="Wizard_OptionalWizardStep" xml:space="preserve">
-    <value>您可以点击"前进"跳过此步骤</value>
+    <value>Этот шаг не является обязательным, вы можете его пропустить, перейдя к  следующему</value>
   </data>
   <data name="Wizard_SummaryDescription" xml:space="preserve">
-    <value>以下是该向导的摘要。</value>
+    <value>Ниже - обобщающая информация по работе мастера.</value>
   </data>
   <data name="Wizard_SummaryTitle" xml:space="preserve">
-    <value>摘要</value>
+    <value>Итого</value>
   </data>
   <data name="Wizard_XofY" xml:space="preserve">
-    <value>{0} 从 {1}</value>
+    <value>{0} из {1}</value>
+  </data>
+  <data name="Wizard_NavigateToPage" xml:space="preserve">
+    <value>Navigate to page</value>
   </data>
 </root>

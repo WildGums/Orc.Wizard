@@ -78,7 +78,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <controls:BreadcrumbItem Page="{Binding}" 
-			                                                  CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
+			                                             CurrentPage="{Binding ElementName=breadcrumb, Path=DataContext.CurrentPage}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ListBox>

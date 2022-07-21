@@ -15,5 +15,6 @@ namespace Orc.Wizard.Example.Wizard
         bool ShowHelpWrapper { get; set; }
         bool ShowInTaskbarWrapper { get; set; }
         bool CacheViewsWrapper { get; set; }
+        bool AutoSizeSideNavigationPaneWrapper { get; set; }
     }
 }

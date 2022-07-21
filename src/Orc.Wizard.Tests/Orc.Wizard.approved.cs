@@ -6,6 +6,54 @@
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/wizard", "Orc.Wizard.Views")]
 [assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/wizard", "orcwizard")]
 [assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
+namespace Orc.Wizard.Automation
+{
+    public class BreadcrumbItem : Orc.Automation.Controls.FrameworkElement<Orc.Wizard.Automation.BreadcrumbItemModel, Orc.Wizard.Automation.BreadcrumbItemMap>
+    {
+        public BreadcrumbItem(System.Windows.Automation.AutomationElement element) { }
+        public string EllipseText { get; }
+        public string Title { get; }
+    }
+    public class BreadcrumbItemMap : Orc.Automation.AutomationBase
+    {
+        public BreadcrumbItemMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Text EllipseText { get; }
+        public Orc.Automation.Controls.Text TitleText { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class BreadcrumbItemModel : Orc.Automation.ControlModel
+    {
+        public static readonly Catel.Data.PropertyData CurrentPageProperty;
+        public static readonly Catel.Data.PropertyData DescriptionProperty;
+        public static readonly Catel.Data.PropertyData NumberProperty;
+        public static readonly Catel.Data.PropertyData PageProperty;
+        public static readonly Catel.Data.PropertyData TitleProperty;
+        public BreadcrumbItemModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public Orc.Wizard.IWizardPage CurrentPage { get; set; }
+        public string Description { get; set; }
+        public int Number { get; set; }
+        public Orc.Wizard.IWizardPage Page { get; set; }
+        public string Title { get; set; }
+    }
+    public class BreadcrumbItemPeer : Orc.Automation.AutomationControlPeerBase<Orc.Wizard.Controls.BreadcrumbItem>
+    {
+        public BreadcrumbItemPeer(Orc.Wizard.Controls.BreadcrumbItem owner) { }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Wizard.Views.WizardWindow))]
+    public class WizardWindow : Orc.Automation.Controls.Window<Orc.Automation.WindowModel, Orc.Wizard.Automation.WizardWindowMap>
+    {
+        public WizardWindow(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class WizardWindowMap : Orc.Automation.AutomationBase
+    {
+        public WizardWindowMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.List BreadCrumbList { get; }
+    }
+    public class WizardWindowPeer : Orc.Automation.AutomationWindowPeerBase<Orc.Wizard.Views.WizardWindow>
+    {
+        public WizardWindowPeer(Orc.Wizard.Views.WizardWindow owner) { }
+    }
+}
 namespace Orc.Wizard.Controls
 {
     public sealed class BreadcrumbItem : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
@@ -22,17 +70,32 @@ namespace Orc.Wizard.Controls
         public Orc.Wizard.IWizardPage Page { get; set; }
         public string Title { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class SideNavigationBreadcrumbItem : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        public const double EllipseDiameter = 26D;
+        public const int NavigationGridYMargin = 5;
+        public const int NavigationItemBottomMarginDefault = 56;
+        public const int NavigationItemLineLengthDefault = 48;
+        public const int NavigationItemLineTopDefault = 35;
+        public static readonly System.Windows.Thickness CanvasLineMargin;
         public static readonly System.Windows.DependencyProperty CurrentPageProperty;
         public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.Thickness EllipseMargin;
+        public static readonly System.Windows.DependencyProperty NavigationItemLineLengthProperty;
+        public static readonly System.Windows.DependencyProperty NavigationItemLineTopProperty;
+        public static readonly System.Windows.Thickness NavigationItemMarginDefault;
+        public static readonly System.Windows.DependencyProperty NavigationItemMarginProperty;
         public static readonly System.Windows.DependencyProperty NumberProperty;
         public static readonly System.Windows.DependencyProperty PageProperty;
         public static readonly System.Windows.DependencyProperty TitleProperty;
         public SideNavigationBreadcrumbItem() { }
         public Orc.Wizard.IWizardPage CurrentPage { get; set; }
         public string Description { get; set; }
+        public int NavigationItemLineLength { get; set; }
+        public int NavigationItemLineTop { get; set; }
+        public System.Windows.Thickness NavigationItemMargin { get; set; }
         public int Number { get; set; }
         public Orc.Wizard.IWizardPage Page { get; set; }
         public string Title { get; set; }
@@ -142,6 +205,7 @@ namespace Orc.Wizard
     public interface IWizard
     {
         bool AllowQuickNavigation { get; }
+        bool AutoSizeSideNavigationPane { get; set; }
         bool CacheViews { get; }
         bool CanCancel { get; }
         bool CanMoveBack { get; }
@@ -306,6 +370,7 @@ namespace Orc.Wizard
     {
         protected readonly Catel.IoC.ITypeFactory _typeFactory;
         public static readonly Catel.Data.PropertyData AllowQuickNavigationProperty;
+        public static readonly Catel.Data.PropertyData AutoSizeSideNavigationPaneProperty;
         public static readonly Catel.Data.PropertyData CacheViewsProperty;
         public static readonly Catel.Data.PropertyData CanShowHelpProperty;
         public static readonly Catel.Data.PropertyData HandleNavigationStatesProperty;
@@ -320,6 +385,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.PropertyData VerticalScrollbarVisibilityProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
         public bool AllowQuickNavigation { get; set; }
+        public bool AutoSizeSideNavigationPane { get; set; }
         public virtual bool CacheViews { get; set; }
         public virtual bool CanCancel { get; }
         public virtual bool CanMoveBack { get; }
@@ -550,6 +616,7 @@ namespace Orc.Wizard.Views
         public WizardWindow() { }
         public WizardWindow(Orc.Wizard.ViewModels.WizardViewModel viewModel) { }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
