@@ -27,9 +27,10 @@
             DeferValidationUntilFirstSaveCall = true;
 
             Wizard = wizard;
-            WizardPages = new List<IWizardPage>(wizard.Pages);
             _messageService = messageService;
             _languageService = languageService;
+
+            UpdatePages();
 
             ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
         }
@@ -80,6 +81,8 @@
             Wizard.MovedForward += OnWizardMovedForward;
             Wizard.Canceled += OnWizardCanceled;
             Wizard.Resumed += OnWizardResumed;
+            Wizard.PageAdded += OnWizardPageAdded;
+            Wizard.PageRemoved += OnWizardPageRemoved;
 
             await Wizard.InitializeAsync();
 
@@ -117,6 +120,8 @@
             Wizard.MovedForward -= OnWizardMovedForward;
             Wizard.Canceled -= OnWizardCanceled;
             Wizard.Resumed -= OnWizardResumed;
+            Wizard.PageAdded -= OnWizardPageAdded;
+            Wizard.PageRemoved -= OnWizardPageRemoved;
 
             WizardButtons = null;
 
@@ -167,6 +172,21 @@
         private void OnWizardResumed(object sender, EventArgs e)
         {
             CloseViewModelAsync(true);
+        }
+
+        private void OnWizardPageAdded(object sender, WizardPageEventArgs e)
+        {
+            UpdatePages();
+        }
+
+        private void OnWizardPageRemoved(object sender, WizardPageEventArgs e)
+        {
+            UpdatePages();
+        }
+
+        private void UpdatePages()
+        {
+            WizardPages = new List<IWizardPage>(Wizard.Pages);
         }
 
         private void UpdateState()

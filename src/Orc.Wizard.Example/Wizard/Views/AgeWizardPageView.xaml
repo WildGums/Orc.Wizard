@@ -14,11 +14,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
         <Label Content="Age" />
         <TextBox Text="{Binding Age, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+        <Button Content="Add dynamic page"
+                Command="{Binding AddPage}" />
     </orccontrols:StackGrid>
 
 </catel:UserControl>

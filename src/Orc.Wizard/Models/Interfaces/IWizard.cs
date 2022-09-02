@@ -58,6 +58,8 @@ namespace Orc.Wizard
         event EventHandler<EventArgs> HelpShown;
         event EventHandler<NavigatingEventArgs> MovingBack;
         event EventHandler<NavigatingEventArgs> MovingForward;
+        event EventHandler<WizardPageEventArgs> PageAdded;
+        event EventHandler<WizardPageEventArgs> PageRemoved;
 
         void InsertPage(int index, IWizardPage page);
         void RemovePage(IWizardPage page);
