@@ -222,6 +222,8 @@ namespace Orc.Wizard
         event System.EventHandler<System.EventArgs> MovedForward;
         event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingBack;
         event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingForward;
+        event System.EventHandler<Orc.Wizard.WizardPageEventArgs> PageAdded;
+        event System.EventHandler<Orc.Wizard.WizardPageEventArgs> PageRemoved;
         event System.EventHandler<System.EventArgs> Resumed;
         System.Threading.Tasks.Task CancelAsync();
         System.Threading.Tasks.Task CloseAsync();
@@ -404,6 +406,8 @@ namespace Orc.Wizard
         public event System.EventHandler<System.EventArgs> MovedForward;
         public event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingBack;
         public event System.EventHandler<Orc.Wizard.NavigatingEventArgs> MovingForward;
+        public event System.EventHandler<Orc.Wizard.WizardPageEventArgs> PageAdded;
+        public event System.EventHandler<Orc.Wizard.WizardPageEventArgs> PageRemoved;
         public event System.EventHandler<System.EventArgs> Resumed;
         public virtual System.Threading.Tasks.Task CancelAsync() { }
         public virtual System.Threading.Tasks.Task CloseAsync() { }
@@ -477,6 +481,11 @@ namespace Orc.Wizard
         public virtual Orc.Wizard.ISummaryItem GetSummary() { }
         public virtual System.Threading.Tasks.Task InitializeAsync() { }
         public virtual System.Threading.Tasks.Task SaveAsync() { }
+    }
+    public class WizardPageEventArgs : System.EventArgs
+    {
+        public WizardPageEventArgs(Orc.Wizard.IWizardPage wizardPage) { }
+        public Orc.Wizard.IWizardPage WizardPage { get; }
     }
     public class WizardPageSelectionBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.ContentControl>
     {
