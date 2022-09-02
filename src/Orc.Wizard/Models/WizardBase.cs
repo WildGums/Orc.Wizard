@@ -184,6 +184,8 @@ namespace Orc.Wizard
         public event EventHandler<EventArgs> Canceled;
         public event EventHandler<EventArgs> Resumed;
         public event EventHandler<EventArgs> HelpShown;
+        public event EventHandler<WizardPageEventArgs> PageAdded;
+        public event EventHandler<WizardPageEventArgs> PageRemoved;
         #endregion
 
         #region Methods
@@ -198,6 +200,8 @@ namespace Orc.Wizard
             _pages.Insert(index, page);
 
             UpdatePageNumbers();
+
+            PageAdded?.Invoke(this, new WizardPageEventArgs(page));
         }
 
         public void RemovePage(IWizardPage page)
@@ -216,6 +220,8 @@ namespace Orc.Wizard
             }
 
             UpdatePageNumbers();
+
+            PageRemoved?.Invoke(this, new WizardPageEventArgs(page));
         }
 
         public virtual IValidationContext GetValidationContext(IWizardPage wizardPage, bool validate = true)
@@ -521,6 +527,8 @@ namespace Orc.Wizard
             {
                 page.Number = counter++;
             }
+
+            //RaisePropertyChanged(nameof(WizardPages));
         }
 
         protected void RaiseResumed()
