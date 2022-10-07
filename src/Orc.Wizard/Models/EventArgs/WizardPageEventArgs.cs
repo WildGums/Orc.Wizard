@@ -6,6 +6,8 @@
     {
         public WizardPageEventArgs(IWizardPage wizardPage)
         {
+            ArgumentNullException.ThrowIfNull(wizardPage);
+
             WizardPage = wizardPage;
         }
 

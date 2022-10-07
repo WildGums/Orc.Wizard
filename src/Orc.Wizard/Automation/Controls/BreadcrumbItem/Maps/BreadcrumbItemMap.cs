@@ -11,7 +11,7 @@
         {
         }
 
-        public Text EllipseText => By.Id("ellipseText").One<Text>();
-        public Text TitleText => By.Id("txtTitle").One<Text>();
+        public Text? EllipseText => By.Id("ellipseText").One<Text>();
+        public Text? TitleText => By.Id("txtTitle").One<Text>();
     }
 }

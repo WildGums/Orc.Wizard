@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProgressBarExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -27,7 +21,7 @@ namespace Orc.Wizard
             return (double)target.GetValue(SmoothProgressProperty);
         }
 
-        private static void OnSmoothProgressChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+        private static void OnSmoothProgressChanged(DependencyObject? target, DependencyPropertyChangedEventArgs e)
         {
             var progressBar = target as ProgressBar;
             if (progressBar is not null)
@@ -38,6 +32,8 @@ namespace Orc.Wizard
 
         public static void UpdateProgress(this ProgressBar progressBar, int currentItem, int totalItems)
         {
+            ArgumentNullException.ThrowIfNull(progressBar);
+
             progressBar.SetCurrentValue(RangeBase.MinimumProperty, (double)0);
             progressBar.SetCurrentValue(RangeBase.MaximumProperty, (double)totalItems);
 

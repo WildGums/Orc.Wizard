@@ -9,17 +9,14 @@ namespace Orc.Wizard
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Controls;
-    using Catel;
     using Catel.Data;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Reflection;
-    using Catel.Threading;
 
     public abstract class WizardBase : ModelBase, IWizard
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly IList<IWizardPage> _pages = new List<IWizardPage>();
@@ -30,15 +27,14 @@ namespace Orc.Wizard
 
         private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
         private INavigationController _navigationController;
-        #endregion
 
         // Note: we can't remove this constructor, it would be a breaking change
         protected WizardBase(ITypeFactory typeFactory)
         {
-            Argument.IsNotNull(() => typeFactory);
+            ArgumentNullException.ThrowIfNull(typeFactory);
 
             _typeFactory = typeFactory;
-            _navigationController = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<DefaultNavigationController>(this);
+            _navigationController = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<DefaultNavigationController>(this);
 
             ResizeMode = System.Windows.ResizeMode.NoResize;
             MinSize = new System.Windows.Size(650d, 500d);
@@ -57,7 +53,6 @@ namespace Orc.Wizard
             AutoSizeSideNavigationPane = false;
         }
 
-        #region Properties
         public IWizardPage CurrentPage
         {
             get
@@ -173,27 +168,22 @@ namespace Orc.Wizard
 
         public bool AutoSizeSideNavigationPane { get; set; }
 
-        #endregion
+        public event EventHandler<EventArgs>? CurrentPageChanged;
+        public event EventHandler<NavigatingEventArgs>? MovingForward;
+        public event EventHandler<EventArgs>? MovedForward;
+        public event EventHandler<NavigatingEventArgs>? MovingBack;
+        public event EventHandler<EventArgs>? MovedBack;
+        public event EventHandler<EventArgs>? Canceled;
+        public event EventHandler<EventArgs>? Resumed;
+        public event EventHandler<EventArgs>? HelpShown;
+        public event EventHandler<WizardPageEventArgs>? PageAdded;
+        public event EventHandler<WizardPageEventArgs>? PageRemoved;
 
-        #region Events
-        public event EventHandler<EventArgs> CurrentPageChanged;
-        public event EventHandler<NavigatingEventArgs> MovingForward;
-        public event EventHandler<EventArgs> MovedForward;
-        public event EventHandler<NavigatingEventArgs> MovingBack;
-        public event EventHandler<EventArgs> MovedBack;
-        public event EventHandler<EventArgs> Canceled;
-        public event EventHandler<EventArgs> Resumed;
-        public event EventHandler<EventArgs> HelpShown;
-        public event EventHandler<WizardPageEventArgs> PageAdded;
-        public event EventHandler<WizardPageEventArgs> PageRemoved;
-        #endregion
-
-        #region Methods
         public void InsertPage(int index, IWizardPage page)
         {
-            Argument.IsNotNull(() => page);
+            ArgumentNullException.ThrowIfNull(page);
 
-            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(false), index);
+            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
 
             page.Wizard = this;
 
@@ -206,13 +196,13 @@ namespace Orc.Wizard
 
         public void RemovePage(IWizardPage page)
         {
-            Argument.IsNotNull(() => page);
+            ArgumentNullException.ThrowIfNull(page);
 
             for (var i = 0; i < _pages.Count; i++)
             {
                 if (ReferenceEquals(page, _pages[i]))
                 {
-                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(false), i);
+                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
 
                     page.Wizard = null;
                     _pages.RemoveAt(i--);
@@ -387,7 +377,7 @@ namespace Orc.Wizard
 
         public virtual Task InitializeAsync()
         {
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
 
         public virtual async Task ResumeAsync()
@@ -397,7 +387,7 @@ namespace Orc.Wizard
                 return;
             }
 
-            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName(false));
+            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName());
 
             // ORCOMP-590: Fix for final view model
             if (!await ValidateAndSaveCurrentPageAsync())
@@ -425,7 +415,7 @@ namespace Orc.Wizard
                 return;
             }
 
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName(false));
+            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
 
             foreach (var page in _pages)
             {
@@ -437,7 +427,7 @@ namespace Orc.Wizard
 
         public virtual Task CloseAsync()
         {
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
 
         public virtual async Task ShowHelpAsync()
@@ -494,7 +484,7 @@ namespace Orc.Wizard
             return newPage;
         }
 
-        private void OnPageViewModelChanged(object sender, ViewModelChangedEventArgs e)
+        private void OnPageViewModelChanged(object? sender, ViewModelChangedEventArgs e)
         {
             var oldVm = e.OldViewModel;
             if (oldVm is not null)
@@ -509,7 +499,7 @@ namespace Orc.Wizard
             }
         }
 
-        private void OnPageViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPageViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(CanMoveBack));
             RaisePropertyChanged(nameof(CanMoveForward));
@@ -564,6 +554,5 @@ namespace Orc.Wizard
         {
             MovedForward?.Invoke(this, EventArgs.Empty);
         }
-        #endregion
     }
 }

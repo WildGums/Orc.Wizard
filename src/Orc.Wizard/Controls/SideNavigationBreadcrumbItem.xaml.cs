@@ -1,12 +1,11 @@
 ﻿namespace Orc.Wizard.Controls
 {
-	using System.Linq;
-	using System.Windows;
-    using System.Windows.Controls;
+    using System;
+    using System.Linq;
+    using System.Windows;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
-    using Catel.Collections;
     using Orc.Wizard;
 
     public partial class SideNavigationBreadcrumbItem
@@ -32,9 +31,9 @@
             Loaded += OnLoaded;
         }
 
-        public IWizardPage Page
+        public IWizardPage? Page
         {
-            get { return (IWizardPage)GetValue(PageProperty); }
+            get { return (IWizardPage?)GetValue(PageProperty); }
             set { SetValue(PageProperty, value); }
         }
 
@@ -42,9 +41,9 @@
             typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((SideNavigationBreadcrumbItem)sender).OnPageChanged()));
 
 
-        public IWizardPage CurrentPage
+        public IWizardPage? CurrentPage
         {
-            get { return (IWizardPage)GetValue(CurrentPageProperty); }
+            get { return (IWizardPage?)GetValue(CurrentPageProperty); }
             set { SetValue(CurrentPageProperty, value); }
         }
 
@@ -52,9 +51,9 @@
             typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((SideNavigationBreadcrumbItem)sender).OnCurrentPageChanged()));
 
 
-        public string Title
+        public string? Title
         {
-            get { return (string)GetValue(TitleProperty); }
+            get { return (string?)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
@@ -62,9 +61,9 @@
             typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(string.Empty));
 
 
-        public string Description
+        public string? Description
         {
-            get { return (string)GetValue(DescriptionProperty); }
+            get { return (string?)GetValue(DescriptionProperty); }
             set { SetValue(DescriptionProperty, value); }
         }
 
@@ -121,29 +120,30 @@
                 pathline.SetCurrentValue(VisibilityProperty, page.Wizard.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
-        private void OnLoaded(object sender, RoutedEventArgs e)
+
+        private void OnLoaded(object? sender, RoutedEventArgs e)
         {
-            if (Page.Wizard.AutoSizeSideNavigationPane)
+            if (Page?.Wizard?.AutoSizeSideNavigationPane ?? false)
             {
                 AutoSizeNavigationPane();
             }
         }
 
         private void AutoSizeNavigationPane()
-		{            
+        {
             // Determine the height required for the ellipse and its margins
             const int EllipseHeightAndMargin = (int)EllipseDiameter + (2 * NavigationGridYMargin);
 
             // Calculate the space required for all the navigation bubbles
-            var totalSpaceNeeded = EllipseHeightAndMargin * Page.Wizard.Pages.Count(); 
+            var totalSpaceNeeded = EllipseHeightAndMargin * Page.Wizard.Pages.Count();
 
             var TitleBarHeight = (int)SystemParameters.WindowCaptionHeight;
 
             // Using the Wizard Minimum Height calculate the extra vertical space
             // Note the TitleBarHeight is not really reliable so doubling should give us enough margin
             // to avoid the navigation pane needing to scroll.
-            var spaceAvailable = (int)Page.Wizard.MinSize.Height - 2 * TitleBarHeight - ParentMarginTop; 
-            
+            var spaceAvailable = (int)Page.Wizard.MinSize.Height - 2 * TitleBarHeight - ParentMarginTop;
+
             // Determine the space left over
             var spaceLeftOver = spaceAvailable - totalSpaceNeeded;
 
@@ -152,14 +152,14 @@
 
             // If the grid margin exceeds the default then...
             if (gridMargin > NavigationItemBottomMarginDefault)
-			{
+            {
                 // Reset the grid margin back to the default
                 gridMargin = NavigationItemBottomMarginDefault;
             }
 
             // Determine the height of one bubble and the associated line
-            var navigationPaneHeight = gridMargin + EllipseHeightAndMargin;    
-            
+            var navigationPaneHeight = gridMargin + EllipseHeightAndMargin;
+
             // Calculate the margin for the grid
             SetCurrentValue(NavigationItemMarginProperty, new Thickness(0, 0, 0, gridMargin));
 
@@ -167,11 +167,11 @@
             const int LineMargin = 4;
 
             // Calculate the navigation pane line length
-            SetCurrentValue(NavigationItemLineLengthProperty, navigationPaneHeight - (int)EllipseDiameter - 2 * LineMargin); 
-            
+            SetCurrentValue(NavigationItemLineLengthProperty, navigationPaneHeight - (int)EllipseDiameter - 2 * LineMargin);
+
             // If the line length exceeds the default then...
             if (NavigationItemLineLength > NavigationItemLineLengthDefault)
-			{
+            {
                 // Reset the line length back to the default
                 SetCurrentValue(NavigationItemLineLengthProperty, NavigationItemLineLengthDefault);
 
@@ -179,10 +179,10 @@
                 SetCurrentValue(NavigationItemLineTopProperty, NavigationItemLineTopDefault);
             }
             else
-			{
+            {
                 // Determine the top of the navigation line
                 SetCurrentValue(NavigationItemLineTopProperty, (int)EllipseDiameter + NavigationGridYMargin + LineMargin - (int)CanvasLineMargin.Top);
-            }            
+            }
         }
 
         private void OnCurrentPageChanged()
@@ -228,11 +228,11 @@
             var targetColor = this.GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
-            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
+            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", Array.Empty<object>()));
 
             storyboard.Children.Add(colorAnimation);
 
             storyboard.Begin(shape);
         }
-	}
+    }
 }

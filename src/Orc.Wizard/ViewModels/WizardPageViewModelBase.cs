@@ -1,25 +1,21 @@
 ﻿namespace Orc.Wizard
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.MVVM;
 
     public class WizardPageViewModelBase<TWizardPage> : ViewModelBase, IWizardPageViewModel
         where TWizardPage : class, IWizardPage
     {
-        #region Constructors
         public WizardPageViewModelBase(TWizardPage wizardPage)
         {
-            Argument.IsNotNull(() => wizardPage);
+            ArgumentNullException.ThrowIfNull(wizardPage);
 
             DeferValidationUntilFirstSaveCall = true;
             WizardPage = wizardPage;
             QuickNavigateToPage = new TaskCommand<IWizardPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
         }
-        #endregion
-
-        #region Properties
 
         [Model(SupportIEditableObject = false)]
         public TWizardPage WizardPage { get; private set; }
@@ -44,9 +40,6 @@
 
             Validate(true);
         }
-        #endregion
-
-        #region Commands
 
         public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
 
@@ -81,6 +74,5 @@
                 await Wizard.MoveToPageAsync(index);
             }
         }
-        #endregion
     }
 }

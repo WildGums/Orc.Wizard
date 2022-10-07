@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardPageSelectionBehavior.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -23,13 +16,12 @@ namespace Orc.Wizard
         private readonly ConditionalWeakTable<object, ScrollInfo> _scrollPositions = new ConditionalWeakTable<object, ScrollInfo>();
         private readonly ConditionalWeakTable<object, CachedView> _cachedViews = new ConditionalWeakTable<object, CachedView>();
 
-        private ScrollViewer _scrollViewer;
-        private IWizardPage _lastPage;
+        private ScrollViewer? _scrollViewer;
+        private IWizardPage? _lastPage;
 
-        #region Properties
-        public IWizard Wizard
+        public IWizard? Wizard
         {
-            get { return (IWizard)GetValue(WizardProperty); }
+            get { return (IWizard?)GetValue(WizardProperty); }
             set { SetValue(WizardProperty, value); }
         }
 
@@ -43,9 +35,8 @@ namespace Orc.Wizard
                 return Wizard?.CacheViews ?? true;
             }
         }
-        #endregion
 
-        private static void OnWizardChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnWizardChanged(DependencyObject? d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as WizardPageSelectionBehavior;
             if (behavior is not null)
@@ -94,17 +85,17 @@ namespace Orc.Wizard
             SetCurrentValue(WizardProperty, null);
         }
 
-        private void OnCurrentPageChanged(object sender, EventArgs e)
+        private void OnCurrentPageChanged(object? sender, EventArgs e)
         {
             UpdatePage();
         }
 
-        private void OnMovedForward(object sender, EventArgs e)
+        private void OnMovedForward(object? sender, EventArgs e)
         {
             UpdatePage();
         }
 
-        private void OnMovedBack(object sender, EventArgs e)
+        private void OnMovedBack(object? sender, EventArgs e)
         {
             UpdatePage();
         }
@@ -156,13 +147,13 @@ namespace Orc.Wizard
             _lastPage = wizard.CurrentPage;
 
             var dependencyResolver = this.GetDependencyResolver();
-            var viewModelLocator = dependencyResolver.Resolve<IWizardPageViewModelLocator>();
+            var viewModelLocator = dependencyResolver.ResolveRequired<IWizardPageViewModelLocator>();
             var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
 
-            var viewLocator = dependencyResolver.Resolve<IViewLocator>();
+            var viewLocator = dependencyResolver.ResolveRequired<IViewLocator>();
             var viewType = viewLocator.ResolveView(pageViewModelType);
 
-            var typeFactory = dependencyResolver.Resolve<ITypeFactory>();
+            var typeFactory = dependencyResolver.ResolveRequired<ITypeFactory>();
 
             IView view = null;
 

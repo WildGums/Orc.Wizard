@@ -6,19 +6,19 @@
 
     public interface IWizardPage
     {
-        ISummaryItem GetSummary();
+        ISummaryItem? GetSummary();
 
-        IWizard Wizard { get; set; }
+        IWizard? Wizard { get; set; }
 
-        IViewModel ViewModel { get; set; }
+        IViewModel? ViewModel { get; set; }
 
-        event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
+        event EventHandler<ViewModelChangedEventArgs>? ViewModelChanged;
 
-        string Title { get; set; }
+        string? Title { get; set; }
 
-        string BreadcrumbTitle { get; set; }
+        string? BreadcrumbTitle { get; set; }
 
-        string Description { get; set; }
+        string? Description { get; set; }
 
         int Number { get; set; }
 

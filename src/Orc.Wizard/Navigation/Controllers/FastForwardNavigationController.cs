@@ -1,5 +1,6 @@
 ﻿namespace Orc.Wizard
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
@@ -16,9 +17,12 @@
 
         protected override IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
         {
-            var buttons = new List<WizardNavigationButton>();
+            ArgumentNullException.ThrowIfNull(wizard);
 
-            buttons.Add(CreateBackButton(wizard));
+            var buttons = new List<WizardNavigationButton>
+            {
+                CreateBackButton(wizard)
+            };
 
             var forwardButton = CreateForwardButton(wizard);
             forwardButton.IsVisibleEvaluator = () => true;
@@ -32,15 +36,17 @@
 
         protected override WizardNavigationButton CreateFinishButton(IWizard wizard)
         {
+            ArgumentNullException.ThrowIfNull(wizard);
+
             var button = new WizardNavigationButton
             {
-                Content = _languageService.GetString("Wizard_Finish"),
+                Content = _languageService.GetRequiredString("Wizard_Finish"),
                 IsVisibleEvaluator = () => true,
                 StyleEvaluator = (x) =>
                 {
                     var styleName = wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
 
-                    var application = System.Windows.Application.Current;
+                    var application = Application.Current;
                     return application?.TryFindResource(styleName) as Style;
                 },
                 Command = new TaskCommand(async () =>

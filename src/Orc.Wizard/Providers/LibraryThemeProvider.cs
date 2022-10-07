@@ -13,7 +13,7 @@
         public override void FillColorSchemeValues(Dictionary<string, string> values, RuntimeThemeColorValues colorValues)
         {            
             // Orc / Orchestra colors
-            values.Add("Orc.Colors.AccentBaseColor", colorValues.AccentBaseColor.ToString());
+            values.Add("Orc.Colors.AccentBaseColor", colorValues.AccentBaseColor.ToString() ?? string.Empty);
 
             // Custom theming if required, see Orc.Theming for more details
         }

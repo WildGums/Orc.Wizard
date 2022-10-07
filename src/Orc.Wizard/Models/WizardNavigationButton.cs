@@ -10,26 +10,26 @@
     {
         public WizardNavigationButton()
         {
-            var application = System.Windows.Application.Current;
+            var application = Application.Current;
             if (application is not null)
             {
                 Style = application.TryFindResource("WizardNavigationButtonStyle") as Style;
             }
         }
 
-        public Func<string> ContentEvaluator { get; set; }
+        public Func<string>? ContentEvaluator { get; set; }
 
-        public string Content { get; set; }
+        public string? Content { get; set; }
 
-        public Func<bool> IsVisibleEvaluator { get; set; }
+        public Func<bool>? IsVisibleEvaluator { get; set; }
 
         public bool IsVisible { get; set; }
 
-        public Func<IWizardNavigationButton, Style> StyleEvaluator { get; set; }
+        public Func<IWizardNavigationButton, Style>? StyleEvaluator { get; set; }
 
-        public Style Style { get; set; }
+        public Style? Style { get; set; }
 
-        public ICommand Command { get; set; }
+        public ICommand? Command { get; set; }
 
         public void Update()
         {

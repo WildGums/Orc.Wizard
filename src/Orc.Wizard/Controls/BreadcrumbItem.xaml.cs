@@ -1,13 +1,12 @@
 ﻿namespace Orc.Wizard.Controls
 {
+    using System;
     using System.Windows;
     using System.Windows.Automation.Peers;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
     using Automation;
-    using Catel.Collections;
     using Orc.Wizard;
 
     public sealed partial class BreadcrumbItem
@@ -17,9 +16,9 @@
             InitializeComponent();
         }
 
-        public IWizardPage Page
+        public IWizardPage? Page
         {
-            get { return (IWizardPage)GetValue(PageProperty); }
+            get { return (IWizardPage?)GetValue(PageProperty); }
             set { SetValue(PageProperty, value); }
         }
 
@@ -27,9 +26,9 @@
             typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnPageChanged()));
 
 
-        public IWizardPage CurrentPage
+        public IWizardPage? CurrentPage
         {
-            get { return (IWizardPage)GetValue(CurrentPageProperty); }
+            get { return (IWizardPage?)GetValue(CurrentPageProperty); }
             set { SetValue(CurrentPageProperty, value); }
         }
 
@@ -37,9 +36,9 @@
             typeof(BreadcrumbItem), new PropertyMetadata(null, (sender, e) => ((BreadcrumbItem)sender).OnCurrentPageChanged()));
 
 
-        public string Title
+        public string? Title
         {
-            get { return (string)GetValue(TitleProperty); }
+            get { return (string?)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
@@ -47,9 +46,9 @@
             typeof(BreadcrumbItem), new PropertyMetadata(string.Empty));
 
 
-        public string Description
+        public string? Description
         {
-            get { return (string)GetValue(DescriptionProperty); }
+            get { return (string?)GetValue(DescriptionProperty); }
             set { SetValue(DescriptionProperty, value); }
         }
 
@@ -121,7 +120,7 @@
             var targetColor = this.GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
-            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
+            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", Array.Empty<object>()));
 
             storyboard.Children.Add(colorAnimation);
 

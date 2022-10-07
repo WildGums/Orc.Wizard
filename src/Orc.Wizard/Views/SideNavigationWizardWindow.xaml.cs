@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
@@ -72,7 +73,7 @@
                     breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
 
                     // We need to await the animation
-                    await TaskShim.Delay(WizardConfiguration.AnimationDuration);
+                    await Task.Delay(WizardConfiguration.AnimationDuration);
 
                     UpdateOpacityMask();
                 });

@@ -46,17 +46,17 @@
 
         public virtual Task InitializeAsync()
         {
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
 
         public virtual Task CancelAsync()
         {
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
 
         public virtual Task SaveAsync()
         {
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
 
         public virtual Task AfterWizardPagesSavedAsync()

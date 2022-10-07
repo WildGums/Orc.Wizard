@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ItemsControlExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System;
     using System.Windows;
@@ -40,7 +33,7 @@ namespace Orc.Wizard
 
         public static void CenterSelectedItem(this ListBox listBox)
         {
-            Argument.IsNotNull(() => listBox);
+            ArgumentNullException.ThrowIfNull(listBox);
 
             var scrollViewer = listBox.FindVisualDescendantByType<ScrollViewer>();
             if (scrollViewer is null)

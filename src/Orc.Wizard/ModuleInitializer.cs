@@ -21,7 +21,7 @@
             var themeManager = ControlzEx.Theming.ThemeManager.Current;
             themeManager.RegisterLibraryThemeProvider(new LibraryThemeProvider());
 
-            var languageService = serviceLocator.ResolveType<ILanguageService>();
+            var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
             languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Wizard", "Orc.Wizard.Properties", "Resources"));
         }
     }

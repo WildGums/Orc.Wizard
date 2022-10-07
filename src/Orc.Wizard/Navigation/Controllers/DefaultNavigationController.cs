@@ -1,5 +1,6 @@
 ﻿namespace Orc.Wizard
 {
+    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Windows;
@@ -16,9 +17,9 @@
 
         public DefaultNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
         {
-            Argument.IsNotNull(() => wizard);
-            Argument.IsNotNull(() => languageService);
-            Argument.IsNotNull(() => languageService);
+            ArgumentNullException.ThrowIfNull(wizard);
+            ArgumentNullException.ThrowIfNull(languageService);
+            ArgumentNullException.ThrowIfNull(languageService);
 
             Wizard = wizard;
             _languageService = languageService;
@@ -47,12 +48,13 @@
 
         protected virtual IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
         {
-            var buttons = new List<WizardNavigationButton>();
-
-            buttons.Add(CreateBackButton(wizard));
-            buttons.Add(CreateForwardButton(wizard));
-            buttons.Add(CreateFinishButton(wizard));
-            buttons.Add(CreateCancelButton(wizard));
+            var buttons = new List<WizardNavigationButton>
+            {
+                CreateBackButton(wizard),
+                CreateForwardButton(wizard),
+                CreateFinishButton(wizard),
+                CreateCancelButton(wizard)
+            };
 
             return buttons;
         }
@@ -61,7 +63,7 @@
         {
             var button = new WizardNavigationButton
             {
-                Content = _languageService.GetString("Wizard_Back"),
+                Content = _languageService.GetRequiredString("Wizard_Back"),
                 IsVisibleEvaluator = () => !wizard.IsFirstPage(),
                 Command = new TaskCommand(async () =>
                 {
@@ -85,7 +87,7 @@
         {
             var button = new WizardNavigationButton
             {
-                Content = _languageService.GetString("Wizard_Next"),
+                Content = _languageService.GetRequiredString("Wizard_Next"),
                 IsVisibleEvaluator = () => !wizard.IsLastPage(),
                 StyleEvaluator = (x) =>
                 {
@@ -116,7 +118,7 @@
         {
             var button = new WizardNavigationButton
             {
-                Content = _languageService.GetString("Wizard_Finish"),
+                Content = _languageService.GetRequiredString("Wizard_Finish"),
                 IsVisibleEvaluator = () => wizard.IsLastPage(),
                 StyleEvaluator = (x) =>
                 {
@@ -159,7 +161,7 @@
         {
             var button = new WizardNavigationButton
             {
-                Content = _languageService.GetString("Wizard_Cancel"),
+                Content = _languageService.GetRequiredString("Wizard_Cancel"),
                 IsVisible = true,
                 Command = new TaskCommand(async () =>
                 {

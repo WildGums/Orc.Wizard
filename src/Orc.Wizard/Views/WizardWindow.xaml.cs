@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Automation.Peers;
     using System.Windows.Controls;
@@ -13,9 +14,6 @@
     using Catel.Windows.Threading;
     using ViewModels;
 
-    /// <summary>
-    /// Interaction logic for WizardWindow.xaml
-    /// </summary>
     public partial class WizardWindow
     {
         public WizardWindow()
@@ -57,7 +55,7 @@
                     breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
 
                     // We need to await the animation
-                    await TaskShim.Delay(WizardConfiguration.AnimationDuration);
+                    await Task.Delay(WizardConfiguration.AnimationDuration);
 
                     UpdateOpacityMask();
                 });

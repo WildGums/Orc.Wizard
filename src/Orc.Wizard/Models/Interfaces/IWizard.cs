@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizard.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System;
     using System.Collections.Generic;
@@ -14,13 +7,12 @@ namespace Orc.Wizard
 
     public interface IWizard
     {
-        #region Properties
-        IWizardPage CurrentPage { get; }
+        IWizardPage? CurrentPage { get; }
         IEnumerable<IWizardPage> Pages { get; }
         INavigationStrategy NavigationStrategy { get; }
 
         INavigationController NavigationController { get; }
-        string Title { get; }
+        string? Title { get; }
         System.Windows.ResizeMode ResizeMode { get; }
         System.Windows.Size MinSize { get; }
         System.Windows.Size MaxSize { get; }
@@ -37,7 +29,6 @@ namespace Orc.Wizard
         bool ShowInTaskbar { get; }
         bool AllowQuickNavigation { get; }
         bool AutoSizeSideNavigationPane { get; set; }
-        #endregion
 
         Task CancelAsync();
         Task ResumeAsync();
@@ -50,16 +41,16 @@ namespace Orc.Wizard
         Task MoveToPageAsync(int indexOfNextPage);
         Task ShowHelpAsync();
 
-        event EventHandler<EventArgs> CurrentPageChanged;
-        event EventHandler<EventArgs> MovedForward;
-        event EventHandler<EventArgs> MovedBack;
-        event EventHandler<EventArgs> Resumed;
-        event EventHandler<EventArgs> Canceled;
-        event EventHandler<EventArgs> HelpShown;
-        event EventHandler<NavigatingEventArgs> MovingBack;
-        event EventHandler<NavigatingEventArgs> MovingForward;
-        event EventHandler<WizardPageEventArgs> PageAdded;
-        event EventHandler<WizardPageEventArgs> PageRemoved;
+        event EventHandler<EventArgs>? CurrentPageChanged;
+        event EventHandler<EventArgs>? MovedForward;
+        event EventHandler<EventArgs>? MovedBack;
+        event EventHandler<EventArgs>? Resumed;
+        event EventHandler<EventArgs>? Canceled;
+        event EventHandler<EventArgs>? HelpShown;
+        event EventHandler<NavigatingEventArgs>? MovingBack;
+        event EventHandler<NavigatingEventArgs>? MovingForward;
+        event EventHandler<WizardPageEventArgs>? PageAdded;
+        event EventHandler<WizardPageEventArgs>? PageRemoved;
 
         void InsertPage(int index, IWizardPage page);
         void RemovePage(IWizardPage page);

@@ -1,21 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Constants.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
+    using System;
     using System.Linq;
     using Catel;
 
     public class DefaultNavigationStrategy : INavigationStrategy
     {
-        #region Methods
         public int GetIndexOfNextPage(IWizard wizard)
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
             var pages = wizard.Pages.ToList();
             var currentPage = wizard.CurrentPage;
@@ -44,7 +37,7 @@ namespace Orc.Wizard
 
         public int GetIndexOfPreviousPage(IWizard wizard)
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
             var pages = wizard.Pages.ToList();
             var currentPage = wizard.CurrentPage;
@@ -71,6 +64,5 @@ namespace Orc.Wizard
 
             return indexOfPreviousPage;
         }
-        #endregion
     }
 }
