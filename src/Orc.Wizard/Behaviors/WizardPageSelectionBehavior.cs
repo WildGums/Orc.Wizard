@@ -115,6 +115,8 @@
                 return;
             }
 
+            var scrollViewer = _scrollViewer;
+
             var lastPage = _lastPage;
             if (lastPage is not null)
             {
@@ -124,11 +126,14 @@
                     return;
                 }
 
-                _scrollPositions.AddOrUpdate(lastPage, new ScrollInfo
+                if (scrollViewer is not null)
                 {
-                    VerticalOffset = _scrollViewer.VerticalOffset,
-                    HorizontalOffset = _scrollViewer.HorizontalOffset
-                });
+                    _scrollPositions.AddOrUpdate(lastPage, new ScrollInfo
+                    {
+                        VerticalOffset = scrollViewer.VerticalOffset,
+                        HorizontalOffset = scrollViewer.HorizontalOffset
+                    });
+                }
 
                 // Even though we cache views, we need to re-use the vm's since the view models will be closed when moving next
                 //_lastPage.ViewModel = null;
@@ -146,16 +151,29 @@
 
             _lastPage = wizard.CurrentPage;
 
+            if (_lastPage is null)
+            {
+                return;
+            }
+
             var dependencyResolver = this.GetDependencyResolver();
             var viewModelLocator = dependencyResolver.ResolveRequired<IWizardPageViewModelLocator>();
             var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
+            if (pageViewModelType is null)
+            {
+                throw new InvalidOperationException($"Cannot find page view model type of view '{_lastPage.GetType().Name}'");
+            }
 
             var viewLocator = dependencyResolver.ResolveRequired<IViewLocator>();
             var viewType = viewLocator.ResolveView(pageViewModelType);
+            if (viewType is null)
+            {
+                throw new InvalidOperationException($"Cannot find page view type of view model '{pageViewModelType.Name}'");
+            }
 
             var typeFactory = dependencyResolver.ResolveRequired<ITypeFactory>();
 
-            IView view = null;
+            IView? view = null;
 
             if (_cachedViews.TryGetValue(_lastPage, out var cachedView))
             {
@@ -164,23 +182,17 @@
 
             if (view is null)
             {
-                view = typeFactory.CreateInstance(viewType) as IView;
+                view = typeFactory.CreateRequiredInstance(viewType) as IView;
                 if (view is null)
                 {
                     return;
                 }
             }
 
-            // For now always recreate a vm since it could be closed (and we really don't want to mess with the lifetime of a view)
-            //var viewModel = view.DataContext as IViewModel;
-            IViewModel viewModel = null;
-            if (viewModel is null)
-            {
-                var viewModelFactory = dependencyResolver.Resolve<IViewModelFactory>();
-                viewModel = viewModelFactory.CreateViewModel(pageViewModelType, wizard.CurrentPage, null);
+            var viewModelFactory = dependencyResolver.ResolveRequired<IViewModelFactory>();
+            var viewModel = viewModelFactory.CreateRequiredViewModel(pageViewModelType, wizard.CurrentPage, null);
 
-                view.DataContext = viewModel;
-            }
+            view.DataContext = viewModel;
 
             _lastPage.ViewModel = viewModel;
 
@@ -195,7 +207,6 @@
                 horizontalScrollViewerOffset = scrollInfo.HorizontalOffset;
             }
 
-            var scrollViewer = _scrollViewer;
             if (scrollViewer is not null &&
                 (Wizard?.RestoreScrollPositionPerPage ?? true))
             {
@@ -213,7 +224,7 @@
 
         private class CachedView
         {
-            public IView View { get; set; }
+            public IView? View { get; set; }
         }
     }
 }

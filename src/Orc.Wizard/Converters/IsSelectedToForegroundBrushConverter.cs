@@ -6,8 +6,8 @@
 
     public class IsSelectedToForegroundBrushConverter : ValueConverterBase<bool>
     {
-        private static readonly Brush SelectedBrush;
-        private static readonly Brush NotSelectedBrush;
+        private static readonly Brush SelectedBrush = Brushes.Black;
+        private static readonly Brush NotSelectedBrush = Brushes.DimGray;
 
         static IsSelectedToForegroundBrushConverter()
         {
@@ -19,7 +19,7 @@
             }
         }
 
-        protected override object Convert(bool value, Type targetType, object? parameter)
+        protected override object? Convert(bool value, Type targetType, object? parameter)
         {
             return value ? SelectedBrush : NotSelectedBrush;
         }

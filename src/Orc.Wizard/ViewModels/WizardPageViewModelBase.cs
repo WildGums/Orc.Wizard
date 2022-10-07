@@ -20,7 +20,7 @@
         [Model(SupportIEditableObject = false)]
         public TWizardPage WizardPage { get; private set; }
 
-        public IWizard Wizard
+        public IWizard? Wizard
         {
             get
             {
@@ -43,9 +43,14 @@
 
         public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
 
-        public bool QuickNavigateToPageCanExecute(IWizardPage parameter)
+        public bool QuickNavigateToPageCanExecute(IWizardPage? parameter)
         {
-            if (!Wizard.AllowQuickNavigation)
+            if (parameter is null)
+            {
+                return false;
+            }
+
+            if (!Wizard?.AllowQuickNavigation ?? false)
             {
                 return false;
             }
@@ -55,7 +60,7 @@
                 return false;
             }
 
-            if (Wizard.CurrentPage == parameter)
+            if (Wizard?.CurrentPage == parameter)
             {
                 return false;
             }
@@ -63,10 +68,10 @@
             return true;
         }
 
-        public async Task QuickNavigateToPageExecuteAsync(IWizardPage parameter)
+        public async Task QuickNavigateToPageExecuteAsync(IWizardPage? parameter)
         {
             var page = parameter;
-            if (page is not null && page.IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
+            if (page is not null && page.IsVisited && Wizard?.Pages is System.Collections.Generic.List<IWizardPage>)
             {
                 var list = Wizard.Pages.ToList();
                 var index = list.IndexOf(page);

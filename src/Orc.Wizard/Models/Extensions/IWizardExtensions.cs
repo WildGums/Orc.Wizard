@@ -102,13 +102,13 @@
             return page;
         }
 
-        public static TWizardPage FindPageByType<TWizardPage>(this IWizard wizard)
+        public static TWizardPage? FindPageByType<TWizardPage>(this IWizard wizard)
             where TWizardPage : IWizardPage
         {
-            return (TWizardPage)FindPage(wizard, x => typeof(TWizardPage).IsAssignableFromEx(x.GetType()));
+            return (TWizardPage?)FindPage(wizard, x => typeof(TWizardPage).IsAssignableFromEx(x.GetType()));
         }
 
-        public static IWizardPage FindPage(this IWizard wizard, Func<IWizardPage, bool> predicate)
+        public static IWizardPage? FindPage(this IWizard wizard, Func<IWizardPage, bool> predicate)
         {
             ArgumentNullException.ThrowIfNull(wizard);
             ArgumentNullException.ThrowIfNull(predicate);
@@ -122,17 +122,17 @@
             return allPages.FirstOrDefault(predicate);
         }
 
-        public static bool IsFirstPage(this IWizard wizard, IWizardPage wizardPage = null)
+        public static bool IsFirstPage(this IWizard wizard, IWizardPage? wizardPage = null)
         {
             return IsPage(wizard, wizardPage, x => x.First());
         }
 
-        public static bool IsLastPage(this IWizard wizard, IWizardPage wizardPage = null)
+        public static bool IsLastPage(this IWizard wizard, IWizardPage? wizardPage = null)
         {
             return IsPage(wizard, wizardPage, x => x.Last());
         }
 
-        private static bool IsPage(this IWizard wizard, IWizardPage wizardPage, Func<List<IWizardPage>, IWizardPage> selector)
+        private static bool IsPage(this IWizard wizard, IWizardPage? wizardPage, Func<List<IWizardPage>, IWizardPage> selector)
         {
             ArgumentNullException.ThrowIfNull(wizard);
 

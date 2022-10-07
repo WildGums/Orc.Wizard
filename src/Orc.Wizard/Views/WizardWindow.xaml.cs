@@ -4,14 +4,9 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using Automation;
-    using Catel.Threading;
     using Catel.Windows;
-    using Catel.Windows.Threading;
     using ViewModels;
 
     public partial class WizardWindow
@@ -21,7 +16,7 @@
         {
         }
 
-        public WizardWindow(WizardViewModel viewModel)
+        public WizardWindow(WizardViewModel? viewModel)
             : base(viewModel, DataWindowMode.Custom, infoBarMessageControlGenerationMode: InfoBarMessageControlGenerationMode.Overlay)
         {
             InitializeComponent();
@@ -49,10 +44,14 @@
                 Dispatcher.BeginInvoke(async () =>
                 {
 #pragma warning restore AvoidAsyncVoid
-                    var vm = (WizardViewModel) ViewModel;
+                    var vm = (WizardViewModel?) ViewModel;
+                    if (vm is null)
+                    {
+                        return;
+                    }
 
                     breadcrumb.CenterSelectedItem();
-                    breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
+                    breadcrumbProgress.UpdateProgress(vm.Wizard?.CurrentPage?.Number ?? 0, vm.Wizard?.Pages.Count() ?? 0);
 
                     // We need to await the animation
                     await Task.Delay(WizardConfiguration.AnimationDuration);

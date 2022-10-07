@@ -12,7 +12,7 @@
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        public static Task<UIVisualizerResult> ShowWizardAsync<TWizard>(this IWizardService wizardService, object model = null)
+        public static Task<UIVisualizerResult> ShowWizardAsync<TWizard>(this IWizardService wizardService, object? model = null)
             where TWizard : IWizard
         {
             ArgumentNullException.ThrowIfNull(wizardService);

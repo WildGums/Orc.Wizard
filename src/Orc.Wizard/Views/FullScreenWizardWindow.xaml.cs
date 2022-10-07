@@ -17,7 +17,7 @@
         {
         }
 
-        public FullScreenWizardWindow(FullScreenWizardViewModel viewModel)
+        public FullScreenWizardWindow(FullScreenWizardViewModel? viewModel)
             : base(viewModel, DataWindowMode.Custom, infoBarMessageControlGenerationMode: InfoBarMessageControlGenerationMode.Overlay)
         {
             InitializeComponent();
@@ -45,10 +45,14 @@
                 Dispatcher.BeginInvoke(async () =>
                 {
 #pragma warning restore AvoidAsyncVoid
-                    var vm = (FullScreenWizardViewModel) ViewModel;
+                    var vm = (FullScreenWizardViewModel?) ViewModel;
+                    if (vm is null)
+                    {
+                        return;
+                    }
 
                     breadcrumb.CenterSelectedItem();
-                    breadcrumbProgress.UpdateProgress(vm.Wizard.CurrentPage.Number, vm.Wizard.Pages.Count());
+                    breadcrumbProgress.UpdateProgress(vm.Wizard?.CurrentPage?.Number ?? 0, vm.Wizard?.Pages.Count() ?? 0);
 
                     // We need to await the animation
                     await Task.Delay(WizardConfiguration.AnimationDuration);

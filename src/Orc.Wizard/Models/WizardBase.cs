@@ -23,7 +23,7 @@ namespace Orc.Wizard
         protected readonly ITypeFactory _typeFactory;
 
         private int _currentIndex = 0;
-        private IWizardPage _currentPage;
+        private IWizardPage? _currentPage;
 
         private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
         private INavigationController _navigationController;
@@ -53,7 +53,7 @@ namespace Orc.Wizard
             AutoSizeSideNavigationPane = false;
         }
 
-        public IWizardPage CurrentPage
+        public IWizardPage? CurrentPage
         {
             get
             {
@@ -84,7 +84,7 @@ namespace Orc.Wizard
             protected set { _navigationController = value; }
         }
 
-        public string Title { get; protected set; }
+        public string? Title { get; protected set; }
 
         public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
 
@@ -235,6 +235,11 @@ namespace Orc.Wizard
 
         public virtual IValidationContext GetValidationContextForCurrentPage(bool validate = true)
         {
+            if (_currentPage is null)
+            {
+                return new ValidationContext();
+            }
+
             return GetValidationContext(_currentPage, validate);
         }
 
@@ -440,7 +445,7 @@ namespace Orc.Wizard
             HelpShown?.Invoke(this, EventArgs.Empty);
         }
 
-        protected internal virtual IWizardPage SetCurrentPage(int newIndex)
+        protected internal virtual IWizardPage? SetCurrentPage(int newIndex)
         {
             Log.Debug("Setting current page index to '{0}'", newIndex);
 
@@ -531,7 +536,7 @@ namespace Orc.Wizard
             Canceled?.Invoke(this, EventArgs.Empty);
         }
 
-        protected bool RaiseMovingBack(IWizardPage fromPage, IWizardPage toPage)
+        protected bool RaiseMovingBack(IWizardPage? fromPage, IWizardPage? toPage)
         {
             var eventArgs = new NavigatingEventArgs(fromPage, toPage);
             MovingBack?.Invoke(this, eventArgs);
@@ -543,7 +548,7 @@ namespace Orc.Wizard
             MovedBack?.Invoke(this, EventArgs.Empty);
         }
 
-        protected bool RaiseMovingForward(IWizardPage fromPage, IWizardPage toPage)
+        protected bool RaiseMovingForward(IWizardPage? fromPage, IWizardPage? toPage)
         {
             var eventArgs = new NavigatingEventArgs(fromPage, toPage);
             MovingForward?.Invoke(this, eventArgs);

@@ -117,7 +117,7 @@
                 SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
                 SetCurrentValue(DescriptionProperty, page.Description);
 
-                pathline.SetCurrentValue(VisibilityProperty, page.Wizard.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
+                pathline.SetCurrentValue(VisibilityProperty, page.Wizard?.IsLastPage(page) ?? false ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
@@ -131,24 +131,30 @@
 
         private void AutoSizeNavigationPane()
         {
+            var pageWizard = Page?.Wizard; 
+            if (pageWizard is null)
+            {
+                return;
+            }
+
             // Determine the height required for the ellipse and its margins
             const int EllipseHeightAndMargin = (int)EllipseDiameter + (2 * NavigationGridYMargin);
 
             // Calculate the space required for all the navigation bubbles
-            var totalSpaceNeeded = EllipseHeightAndMargin * Page.Wizard.Pages.Count();
+            var totalSpaceNeeded = EllipseHeightAndMargin * pageWizard.Pages.Count();
 
             var TitleBarHeight = (int)SystemParameters.WindowCaptionHeight;
 
             // Using the Wizard Minimum Height calculate the extra vertical space
             // Note the TitleBarHeight is not really reliable so doubling should give us enough margin
             // to avoid the navigation pane needing to scroll.
-            var spaceAvailable = (int)Page.Wizard.MinSize.Height - 2 * TitleBarHeight - ParentMarginTop;
+            var spaceAvailable = (int)pageWizard.MinSize.Height - 2 * TitleBarHeight - ParentMarginTop;
 
             // Determine the space left over
             var spaceLeftOver = spaceAvailable - totalSpaceNeeded;
 
             // Divide the space left over by the number of wizard pages to determine the margin of the navigation pane grid
-            var gridMargin = spaceLeftOver / (Page.Wizard.Pages.Count());
+            var gridMargin = spaceLeftOver / (pageWizard.Pages.Count());
 
             // If the grid margin exceeds the default then...
             if (gridMargin > NavigationItemBottomMarginDefault)
@@ -188,10 +194,10 @@
         private void OnCurrentPageChanged()
         {
             var isSelected = ReferenceEquals(CurrentPage, Page);
-            var isCompleted = Page.Number < CurrentPage.Number;
-            var isVisited = Page.IsVisited;
+            var isCompleted = Page is not null && CurrentPage is not null && Page.Number < CurrentPage.Number;
+            var isVisited = Page?.IsVisited ?? false;
 
-            SetCurrentValue(CursorProperty, (Page.Wizard.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
+            SetCurrentValue(CursorProperty, (Page?.Wizard?.AllowQuickNavigation ?? false && isVisited) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
         }
@@ -224,7 +230,7 @@
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
 
-            var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? Colors.Transparent;
+            var fromColor = ((SolidColorBrush?)shape?.Fill)?.Color ?? Colors.Transparent;
             var targetColor = this.GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);

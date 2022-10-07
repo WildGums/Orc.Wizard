@@ -126,7 +126,7 @@
         {
             using (new DisposableToken<WizardViewModel>(this, x => x.Instance._isCanceling = true, x => x.Instance._isCanceling = false))
             {
-                if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+                if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
                 {
                     return false;
                 }
@@ -141,37 +141,37 @@
             }
         }
 
-        private void OnWizardCurrentPageChanged(object sender, EventArgs e)
+        private void OnWizardCurrentPageChanged(object? sender, EventArgs e)
         {
             UpdateState();
         }
 
-        private void OnWizardMovedBack(object sender, EventArgs e)
+        private void OnWizardMovedBack(object? sender, EventArgs e)
         {
             UpdateState();
         }
 
-        private void OnWizardMovedForward(object sender, EventArgs e)
+        private void OnWizardMovedForward(object? sender, EventArgs e)
         {
             UpdateState();
         }
 
-        private void OnWizardCanceled(object sender, EventArgs e)
+        private void OnWizardCanceled(object? sender, EventArgs e)
         {
             CloseViewModelAsync(false);
         }
 
-        private void OnWizardResumed(object sender, EventArgs e)
+        private void OnWizardResumed(object? sender, EventArgs e)
         {
             CloseViewModelAsync(true);
         }
 
-        private void OnWizardPageAdded(object sender, WizardPageEventArgs e)
+        private void OnWizardPageAdded(object? sender, WizardPageEventArgs e)
         {
             UpdatePages();
         }
 
-        private void OnWizardPageRemoved(object sender, WizardPageEventArgs e)
+        private void OnWizardPageRemoved(object? sender, WizardPageEventArgs e)
         {
             UpdatePages();
         }
@@ -198,7 +198,7 @@
                 title += " - ";
             }
 
-            title += string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages);
+            title += string.Format(_languageService.GetRequiredString("Wizard_XofY"), currentIndex, totalPages);
             Title = title;
 
             WizardButtons = Wizard.NavigationController.GetNavigationButtons();

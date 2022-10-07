@@ -6,16 +6,16 @@
 
     public class IsSelectedToBrushConverter : ValueConverterBase<bool>
     {
-        private static readonly Brush SelectedBrush;
-        private static readonly Brush NotSelectedBrush;
+        private static readonly Brush SelectedBrush = Brushes.Transparent;
+        private static readonly Brush NotSelectedBrush = Brushes.Transparent;
 
         static IsSelectedToBrushConverter()
         {
             var application = System.Windows.Application.Current;
             if (application is not null)
             {
-                SelectedBrush = application.FindResource(ThemingKeys.AccentColorBrush) as Brush;
-                NotSelectedBrush = application.FindResource(ThemingKeys.AccentColorBrush40) as Brush;
+                SelectedBrush = application.FindResource(ThemingKeys.AccentColorBrush) as Brush ?? SelectedBrush;
+                NotSelectedBrush = application.FindResource(ThemingKeys.AccentColorBrush40) as Brush ?? NotSelectedBrush;
             }
         }
 

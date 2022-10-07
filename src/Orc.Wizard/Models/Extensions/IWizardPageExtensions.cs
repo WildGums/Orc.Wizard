@@ -2,7 +2,6 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Catel;
 
     public static class IWizardPageExtensions
     {
@@ -10,7 +9,7 @@
         {
             ArgumentNullException.ThrowIfNull(wizardPage);
 
-            return wizardPage.Wizard.MoveForwardOrResumeAsync();
+            return wizardPage.Wizard?.MoveForwardOrResumeAsync() ?? Task.CompletedTask;
         }
     }
 }

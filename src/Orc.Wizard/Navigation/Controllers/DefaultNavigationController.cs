@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Net;
     using System.Windows;
-    using Catel;
     using Catel.MVVM;
     using Catel.Services;
 
@@ -165,7 +163,7 @@
                 IsVisible = true,
                 Command = new TaskCommand(async () =>
                 {
-                    if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+                    if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
                     {
                         return;
                     }

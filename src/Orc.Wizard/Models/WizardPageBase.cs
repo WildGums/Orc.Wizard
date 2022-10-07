@@ -6,13 +6,12 @@
     using Catel.Data;
     using Catel.Fody;
     using Catel.MVVM;
-    using Catel.Threading;
 
     public abstract class WizardPageBase : ModelBase, IWizardPage
     {
-        private IViewModel _viewModel;
+        private IViewModel? _viewModel;
 
-        public IViewModel ViewModel
+        public IViewModel? ViewModel
         {
             get { return _viewModel; }
             set
@@ -28,18 +27,18 @@
             }
         }
 
-        public virtual ISummaryItem GetSummary()
+        public virtual ISummaryItem? GetSummary()
         {
             return null;
         }
 
         [NoWeaving]
-        public IWizard Wizard { get; set; }
+        public IWizard? Wizard { get; set; }
 
-        public event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
-        public string Title { get; set; }
-        public string BreadcrumbTitle { get; set; }
-        public string Description { get; set; }
+        public event EventHandler<ViewModelChangedEventArgs>? ViewModelChanged;
+        public string? Title { get; set; }
+        public string? BreadcrumbTitle { get; set; }
+        public string? Description { get; set; }
         public int Number { get; set; }
         public bool IsOptional { get; protected set; }
         public bool IsVisited { get; set; }

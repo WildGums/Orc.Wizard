@@ -1,6 +1,7 @@
 ﻿namespace Orc.Wizard.Controls
 {
     using System;
+    using System.Net.Cache;
     using System.Windows;
     using System.Windows.Automation.Peers;
     using System.Windows.Media;
@@ -73,17 +74,20 @@
                 SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
                 SetCurrentValue(DescriptionProperty, page.Description);
 
-                pathline.SetCurrentValue(VisibilityProperty, page.Wizard.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
+                pathline.SetCurrentValue(VisibilityProperty, page.Wizard?.IsLastPage(page) ?? false ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
         private void OnCurrentPageChanged()
         {
-            var isSelected = ReferenceEquals(CurrentPage, Page);
-            var isCompleted = Page.Number < CurrentPage.Number;
-            var isVisited = Page.IsVisited;
+            var page = Page;
+            var currentPage = CurrentPage;
 
-            SetCurrentValue(CursorProperty, (Page.Wizard.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
+            var isSelected = ReferenceEquals(currentPage, page);
+            var isCompleted = page is not null && currentPage is not null && page.Number < currentPage.Number;
+            var isVisited = page?.IsVisited ?? false;
+
+            SetCurrentValue(CursorProperty, (page?.Wizard?.AllowQuickNavigation ?? false && isVisited) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
         }
@@ -116,7 +120,7 @@
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
 
-            var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? Colors.Transparent;
+            var fromColor = ((SolidColorBrush?)shape?.Fill)?.Color ?? Colors.Transparent;
             var targetColor = this.GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);

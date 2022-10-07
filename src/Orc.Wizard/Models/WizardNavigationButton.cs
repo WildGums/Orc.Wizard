@@ -17,7 +17,7 @@
             }
         }
 
-        public Func<string>? ContentEvaluator { get; set; }
+        public Func<string?>? ContentEvaluator { get; set; }
 
         public string? Content { get; set; }
 
@@ -25,7 +25,7 @@
 
         public bool IsVisible { get; set; }
 
-        public Func<IWizardNavigationButton, Style>? StyleEvaluator { get; set; }
+        public Func<IWizardNavigationButton, Style?>? StyleEvaluator { get; set; }
 
         public Style? Style { get; set; }
 
