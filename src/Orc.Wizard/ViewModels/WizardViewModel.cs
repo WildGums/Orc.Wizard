@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
-    using Catel.Collections;
     using Catel.Fody;
     using Catel.MVVM;
     using Catel.Services;
@@ -17,12 +16,11 @@
 
         private bool _isCanceling;
 
-        #region Constructors
         public WizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService)
         {
-            Argument.IsNotNull(() => wizard);
-            Argument.IsNotNull(() => messageService);
-            Argument.IsNotNull(() => languageService);
+            ArgumentNullException.ThrowIfNull(wizard);
+            ArgumentNullException.ThrowIfNull(messageService);
+            ArgumentNullException.ThrowIfNull(languageService);
 
             DeferValidationUntilFirstSaveCall = true;
 
@@ -34,9 +32,7 @@
 
             ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
         }
-        #endregion
 
-        #region Properties
         [Model(SupportIEditableObject = false)]
         [Expose(nameof(IWizard.CurrentPage))]
         [Expose(nameof(IWizard.ResizeMode))]
@@ -46,18 +42,16 @@
         [Expose(nameof(IWizard.ShowInTaskbar))]
         public IWizard Wizard { get; set; }
 
-        public IEnumerable<IWizardPage> WizardPages { get; private set; }
+        public IEnumerable<IWizardPage>? WizardPages { get; private set; }
 
-        public IEnumerable<IWizardNavigationButton> WizardButtons { get; private set; }
+        public IEnumerable<IWizardNavigationButton>? WizardButtons { get; private set; }
 
-        public string PageTitle { get; private set; }
+        public string? PageTitle { get; private set; }
 
-        public string PageDescription { get; private set; }
+        public string? PageDescription { get; private set; }
 
         public bool IsPageOptional { get; private set; }
-        #endregion
 
-        #region Commands
         public TaskCommand ShowHelp { get; set; }
 
         private bool OnShowHelpCanExecute()
@@ -69,9 +63,7 @@
         {
             return Wizard.ShowHelpAsync();
         }
-        #endregion
 
-        #region Methods
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
@@ -134,7 +126,7 @@
         {
             using (new DisposableToken<WizardViewModel>(this, x => x.Instance._isCanceling = true, x => x.Instance._isCanceling = false))
             {
-                if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+                if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
                 {
                     return false;
                 }
@@ -149,37 +141,37 @@
             }
         }
 
-        private void OnWizardCurrentPageChanged(object sender, EventArgs e)
+        private void OnWizardCurrentPageChanged(object? sender, EventArgs e)
         {
             UpdateState();
         }
 
-        private void OnWizardMovedBack(object sender, EventArgs e)
+        private void OnWizardMovedBack(object? sender, EventArgs e)
         {
             UpdateState();
         }
 
-        private void OnWizardMovedForward(object sender, EventArgs e)
+        private void OnWizardMovedForward(object? sender, EventArgs e)
         {
             UpdateState();
         }
 
-        private void OnWizardCanceled(object sender, EventArgs e)
+        private void OnWizardCanceled(object? sender, EventArgs e)
         {
             CloseViewModelAsync(false);
         }
 
-        private void OnWizardResumed(object sender, EventArgs e)
+        private void OnWizardResumed(object? sender, EventArgs e)
         {
             CloseViewModelAsync(true);
         }
 
-        private void OnWizardPageAdded(object sender, WizardPageEventArgs e)
+        private void OnWizardPageAdded(object? sender, WizardPageEventArgs e)
         {
             UpdatePages();
         }
 
-        private void OnWizardPageRemoved(object sender, WizardPageEventArgs e)
+        private void OnWizardPageRemoved(object? sender, WizardPageEventArgs e)
         {
             UpdatePages();
         }
@@ -206,11 +198,10 @@
                 title += " - ";
             }
 
-            title += string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages);
+            title += string.Format(_languageService.GetRequiredString("Wizard_XofY"), currentIndex, totalPages);
             Title = title;
 
             WizardButtons = Wizard.NavigationController.GetNavigationButtons();
         }
-        #endregion
     }
 }

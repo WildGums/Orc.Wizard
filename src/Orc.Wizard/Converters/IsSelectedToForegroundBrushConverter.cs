@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IsSelectedToForegroundBrushConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.Converters
+﻿namespace Orc.Wizard.Converters
 {
     using System;
     using System.Windows.Media;
@@ -13,8 +6,8 @@ namespace Orc.Wizard.Converters
 
     public class IsSelectedToForegroundBrushConverter : ValueConverterBase<bool>
     {
-        private static readonly Brush SelectedBrush;
-        private static readonly Brush NotSelectedBrush;
+        private static readonly Brush SelectedBrush = Brushes.Black;
+        private static readonly Brush NotSelectedBrush = Brushes.DimGray;
 
         static IsSelectedToForegroundBrushConverter()
         {
@@ -26,7 +19,7 @@ namespace Orc.Wizard.Converters
             }
         }
 
-        protected override object Convert(bool value, Type targetType, object parameter)
+        protected override object? Convert(bool value, Type targetType, object? parameter)
         {
             return value ? SelectedBrush : NotSelectedBrush;
         }

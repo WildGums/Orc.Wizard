@@ -3,7 +3,6 @@
     using System;
     using System.Windows;
     using System.Windows.Media;
-    using Catel;
     using Catel.Logging;
 
     internal static class FrameworkElementExtensions
@@ -12,7 +11,7 @@
 
         public static SolidColorBrush GetAccentColorBrush(this FrameworkElement frameworkElement, bool isSelected = true)
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             var resourceName = isSelected ? ThemingKeys.AccentColorBrush : ThemingKeys.AccentColorBrush40;
 

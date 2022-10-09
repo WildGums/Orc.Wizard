@@ -1,7 +1,7 @@
 ﻿namespace Orc.Wizard
 {
+    using System;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.Logging;
     using Catel.Reflection;
     using Catel.Services;
@@ -15,16 +15,16 @@
 
         public WizardService(IUIVisualizerService uiVisualizerService)
         {
-            Argument.IsNotNull(() => uiVisualizerService);
+            ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
             _uiVisualizerService = uiVisualizerService;
         }
 
-        public Task<bool?> ShowWizardAsync(IWizard wizard)
+        public Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard)
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
-            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName(false));
+            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
 
             if (wizard is SideNavigationWizardBase)
             {

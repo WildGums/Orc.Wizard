@@ -9,18 +9,18 @@
             InitializeComponent();
         }
 
-        public string Title
+        public string? Title
         {
-            get { return (string)GetValue(TitleProperty); }
+            get { return (string?)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(WizardPageHeader), new PropertyMetadata(null));
 
 
-        public string Description
+        public string? Description
         {
-            get { return (string)GetValue(DescriptionProperty); }
+            get { return (string?)GetValue(DescriptionProperty); }
             set { SetValue(DescriptionProperty, value); }
         }
 

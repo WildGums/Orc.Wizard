@@ -10,7 +10,7 @@
         {
         }
 
-        public string EllipseText => Map.EllipseText?.Value;
-        public string Title => Map.TitleText?.Value;
+        public string? EllipseText => Map.EllipseText?.Value;
+        public string? Title => Map.TitleText?.Value;
     }
 }

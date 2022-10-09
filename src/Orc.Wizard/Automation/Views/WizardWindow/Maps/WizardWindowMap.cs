@@ -11,6 +11,6 @@
         {
         }
 
-        public List BreadCrumbList => By.Id("breadcrumb").One<List>();
+        public List? BreadCrumbList => By.Id("breadcrumb").One<List>();
     }
 }

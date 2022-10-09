@@ -1,21 +1,12 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWizardExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Reflection;
-    using Catel.Threading;
 
     public static class IWizardExtensions
     {
@@ -23,7 +14,7 @@ namespace Orc.Wizard
 
         public static async Task MoveForwardOrResumeAsync(this IWizard wizard)
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
             if (wizard.CanMoveForward)
             {
@@ -49,7 +40,7 @@ namespace Orc.Wizard
             var index = wizard.Pages.ToList().IndexOf(wizardPage);
             if (index < 0)
             {
-                return TaskHelper.Completed;
+                return Task.CompletedTask;
             }
 
             return wizard.MoveToPageAsync(index);
@@ -57,8 +48,8 @@ namespace Orc.Wizard
 
         public static IWizardPage AddPage(this IWizard wizard, IWizardPage page)
         {
-            Argument.IsNotNull(() => wizard);
-            Argument.IsNotNull(() => page);
+            ArgumentNullException.ThrowIfNull(wizard);
+            ArgumentNullException.ThrowIfNull(page);
 
             wizard.InsertPage(wizard.Pages.Count(), page);
 
@@ -68,7 +59,7 @@ namespace Orc.Wizard
         public static TWizardPage AddPage<TWizardPage>(this IWizard wizard)
             where TWizardPage : IWizardPage
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
             return wizard.InsertPage<TWizardPage>(wizard.Pages.Count());
         }
@@ -76,10 +67,12 @@ namespace Orc.Wizard
         public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, int index)
             where TWizardPage : IWizardPage
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
+#pragma warning disable IDISP001 // Dispose created
             var typeFactory = wizard.GetTypeFactory();
-            var page = typeFactory.CreateInstance<TWizardPage>();
+#pragma warning restore IDISP001 // Dispose created
+            var page = typeFactory.CreateRequiredInstance<TWizardPage>();
 
             wizard.InsertPage(index, page);
 
@@ -89,7 +82,7 @@ namespace Orc.Wizard
         public static TWizardPage AddPage<TWizardPage>(this IWizard wizard, object model)
             where TWizardPage : IWizardPage
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
             return wizard.InsertPage<TWizardPage>(wizard.Pages.Count(), model);
         }
@@ -97,26 +90,28 @@ namespace Orc.Wizard
         public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, int index, object model)
             where TWizardPage : IWizardPage
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
+#pragma warning disable IDISP001 // Dispose created
             var typeFactory = wizard.GetTypeFactory();
-            var page = typeFactory.CreateInstanceWithParametersAndAutoCompletion<TWizardPage>(model);
+#pragma warning restore IDISP001 // Dispose created
+            var page = typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<TWizardPage>(model);
 
             wizard.InsertPage(index, page);
 
             return page;
         }
 
-        public static TWizardPage FindPageByType<TWizardPage>(this IWizard wizard)
+        public static TWizardPage? FindPageByType<TWizardPage>(this IWizard wizard)
             where TWizardPage : IWizardPage
         {
-            return (TWizardPage)FindPage(wizard, x => typeof(TWizardPage).IsAssignableFromEx(x.GetType()));
+            return (TWizardPage?)FindPage(wizard, x => typeof(TWizardPage).IsAssignableFromEx(x.GetType()));
         }
 
-        public static IWizardPage FindPage(this IWizard wizard, Func<IWizardPage, bool> predicate)
+        public static IWizardPage? FindPage(this IWizard wizard, Func<IWizardPage, bool> predicate)
         {
-            Argument.IsNotNull(() => wizard);
-            Argument.IsNotNull(() => predicate);
+            ArgumentNullException.ThrowIfNull(wizard);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var allPages = wizard.Pages.ToList();
             if (allPages.Count == 0)
@@ -127,19 +122,19 @@ namespace Orc.Wizard
             return allPages.FirstOrDefault(predicate);
         }
 
-        public static bool IsFirstPage(this IWizard wizard, IWizardPage wizardPage = null)
+        public static bool IsFirstPage(this IWizard wizard, IWizardPage? wizardPage = null)
         {
             return IsPage(wizard, wizardPage, x => x.First());
         }
 
-        public static bool IsLastPage(this IWizard wizard, IWizardPage wizardPage = null)
+        public static bool IsLastPage(this IWizard wizard, IWizardPage? wizardPage = null)
         {
             return IsPage(wizard, wizardPage, x => x.Last());
         }
 
-        private static bool IsPage(this IWizard wizard, IWizardPage wizardPage, Func<List<IWizardPage>, IWizardPage> selector)
+        private static bool IsPage(this IWizard wizard, IWizardPage? wizardPage, Func<List<IWizardPage>, IWizardPage> selector)
         {
-            Argument.IsNotNull(() => wizard);
+            ArgumentNullException.ThrowIfNull(wizard);
 
             if (wizardPage is null)
             {

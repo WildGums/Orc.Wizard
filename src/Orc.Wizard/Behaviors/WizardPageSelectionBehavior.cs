@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WizardPageSelectionBehavior.cs" company="WildGums">
-//   Copyright (c) 2013 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard
+﻿namespace Orc.Wizard
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -23,13 +16,12 @@ namespace Orc.Wizard
         private readonly ConditionalWeakTable<object, ScrollInfo> _scrollPositions = new ConditionalWeakTable<object, ScrollInfo>();
         private readonly ConditionalWeakTable<object, CachedView> _cachedViews = new ConditionalWeakTable<object, CachedView>();
 
-        private ScrollViewer _scrollViewer;
-        private IWizardPage _lastPage;
+        private ScrollViewer? _scrollViewer;
+        private IWizardPage? _lastPage;
 
-        #region Properties
-        public IWizard Wizard
+        public IWizard? Wizard
         {
-            get { return (IWizard)GetValue(WizardProperty); }
+            get { return (IWizard?)GetValue(WizardProperty); }
             set { SetValue(WizardProperty, value); }
         }
 
@@ -43,9 +35,8 @@ namespace Orc.Wizard
                 return Wizard?.CacheViews ?? true;
             }
         }
-        #endregion
 
-        private static void OnWizardChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnWizardChanged(DependencyObject? d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as WizardPageSelectionBehavior;
             if (behavior is not null)
@@ -94,17 +85,17 @@ namespace Orc.Wizard
             SetCurrentValue(WizardProperty, null);
         }
 
-        private void OnCurrentPageChanged(object sender, EventArgs e)
+        private void OnCurrentPageChanged(object? sender, EventArgs e)
         {
             UpdatePage();
         }
 
-        private void OnMovedForward(object sender, EventArgs e)
+        private void OnMovedForward(object? sender, EventArgs e)
         {
             UpdatePage();
         }
 
-        private void OnMovedBack(object sender, EventArgs e)
+        private void OnMovedBack(object? sender, EventArgs e)
         {
             UpdatePage();
         }
@@ -124,6 +115,8 @@ namespace Orc.Wizard
                 return;
             }
 
+            var scrollViewer = _scrollViewer;
+
             var lastPage = _lastPage;
             if (lastPage is not null)
             {
@@ -133,11 +126,14 @@ namespace Orc.Wizard
                     return;
                 }
 
-                _scrollPositions.AddOrUpdate(lastPage, new ScrollInfo
+                if (scrollViewer is not null)
                 {
-                    VerticalOffset = _scrollViewer.VerticalOffset,
-                    HorizontalOffset = _scrollViewer.HorizontalOffset
-                });
+                    _scrollPositions.AddOrUpdate(lastPage, new ScrollInfo
+                    {
+                        VerticalOffset = scrollViewer.VerticalOffset,
+                        HorizontalOffset = scrollViewer.HorizontalOffset
+                    });
+                }
 
                 // Even though we cache views, we need to re-use the vm's since the view models will be closed when moving next
                 //_lastPage.ViewModel = null;
@@ -155,16 +151,29 @@ namespace Orc.Wizard
 
             _lastPage = wizard.CurrentPage;
 
+            if (_lastPage is null)
+            {
+                return;
+            }
+
             var dependencyResolver = this.GetDependencyResolver();
-            var viewModelLocator = dependencyResolver.Resolve<IWizardPageViewModelLocator>();
+            var viewModelLocator = dependencyResolver.ResolveRequired<IWizardPageViewModelLocator>();
             var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
+            if (pageViewModelType is null)
+            {
+                throw new InvalidOperationException($"Cannot find page view model type of view '{_lastPage.GetType().Name}'");
+            }
 
-            var viewLocator = dependencyResolver.Resolve<IViewLocator>();
+            var viewLocator = dependencyResolver.ResolveRequired<IViewLocator>();
             var viewType = viewLocator.ResolveView(pageViewModelType);
+            if (viewType is null)
+            {
+                throw new InvalidOperationException($"Cannot find page view type of view model '{pageViewModelType.Name}'");
+            }
 
-            var typeFactory = dependencyResolver.Resolve<ITypeFactory>();
+            var typeFactory = dependencyResolver.ResolveRequired<ITypeFactory>();
 
-            IView view = null;
+            IView? view = null;
 
             if (_cachedViews.TryGetValue(_lastPage, out var cachedView))
             {
@@ -173,23 +182,17 @@ namespace Orc.Wizard
 
             if (view is null)
             {
-                view = typeFactory.CreateInstance(viewType) as IView;
+                view = typeFactory.CreateRequiredInstance(viewType) as IView;
                 if (view is null)
                 {
                     return;
                 }
             }
 
-            // For now always recreate a vm since it could be closed (and we really don't want to mess with the lifetime of a view)
-            //var viewModel = view.DataContext as IViewModel;
-            IViewModel viewModel = null;
-            if (viewModel is null)
-            {
-                var viewModelFactory = dependencyResolver.Resolve<IViewModelFactory>();
-                viewModel = viewModelFactory.CreateViewModel(pageViewModelType, wizard.CurrentPage, null);
+            var viewModelFactory = dependencyResolver.ResolveRequired<IViewModelFactory>();
+            var viewModel = viewModelFactory.CreateRequiredViewModel(pageViewModelType, wizard.CurrentPage, null);
 
-                view.DataContext = viewModel;
-            }
+            view.DataContext = viewModel;
 
             _lastPage.ViewModel = viewModel;
 
@@ -204,7 +207,6 @@ namespace Orc.Wizard
                 horizontalScrollViewerOffset = scrollInfo.HorizontalOffset;
             }
 
-            var scrollViewer = _scrollViewer;
             if (scrollViewer is not null &&
                 (Wizard?.RestoreScrollPositionPerPage ?? true))
             {
@@ -222,7 +224,7 @@ namespace Orc.Wizard
 
         private class CachedView
         {
-            public IView View { get; set; }
+            public IView? View { get; set; }
         }
     }
 }

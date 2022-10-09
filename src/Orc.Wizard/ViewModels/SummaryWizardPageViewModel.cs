@@ -10,7 +10,7 @@
         {
         }
 
-        public List<ISummaryItem> SummaryItems { get; private set; }
+        public List<ISummaryItem>? SummaryItems { get; private set; }
 
         protected override async Task InitializeAsync()
         {
