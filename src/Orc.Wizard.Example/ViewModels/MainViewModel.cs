@@ -16,8 +16,8 @@
 
         public MainViewModel(IWizardService wizardService, ITypeFactory typeFactory)
         {
-            Argument.IsNotNull(() => wizardService);
-            Argument.IsNotNull(() => typeFactory);
+            ArgumentNullException.ThrowIfNull(wizardService);
+            ArgumentNullException.ThrowIfNull(typeFactory);
 
             _wizardService = wizardService;
             _typeFactory = typeFactory;

@@ -1,5 +1,6 @@
 ﻿namespace Orc.Wizard.Example.Wizard.ViewModels
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
@@ -13,7 +14,7 @@
         public AgeWizardPageViewModel(AgeWizardPage wizardPage, IMessageService messageService)
             : base(wizardPage)
         {
-            Argument.IsNotNull(() => messageService);
+            ArgumentNullException.ThrowIfNull(messageService);
 
             _messageService = messageService;
 

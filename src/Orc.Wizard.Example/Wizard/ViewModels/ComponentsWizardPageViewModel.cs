@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ComponentsWizardPageViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.Example.Wizard.ViewModels
+﻿namespace Orc.Wizard.Example.Wizard.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

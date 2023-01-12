@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TextBoxLogListener.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.Example.Logging
+﻿namespace Orc.Wizard.Example.Logging
 {
     using System;
     using System.Windows.Controls;
@@ -22,7 +15,7 @@ namespace Orc.Wizard.Example.Logging
         #region Constructors
         public TextBoxLogListener(TextBox textBox)
         {
-            Argument.IsNotNull(() => textBox);
+            ArgumentNullException.ThrowIfNull(textBox);
 
             _textBox = textBox;
         }

@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PersonWizardPage.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.Example.Wizard
+﻿namespace Orc.Wizard.Example.Wizard
 {
     public class PersonWizardPage : WizardPageBase
     {

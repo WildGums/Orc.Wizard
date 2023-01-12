@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExampleWizard.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Wizard.Example.Wizard
+﻿namespace Orc.Wizard.Example.Wizard
 {
+    using System;
     using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
@@ -22,7 +16,7 @@ namespace Orc.Wizard.Example.Wizard
         public ExampleSideNavigationWizard(ITypeFactory typeFactory, IMessageService messageService)
             : base(typeFactory)
         {
-            Argument.IsNotNull(() => messageService);
+            ArgumentNullException.ThrowIfNull(messageService);
 
             _messageService = messageService;
 

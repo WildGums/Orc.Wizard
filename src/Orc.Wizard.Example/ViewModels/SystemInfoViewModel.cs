@@ -1,5 +1,6 @@
 ﻿namespace Orc.SystemInfo.Example.ViewModels
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
@@ -11,7 +12,7 @@
 
         public SystemInfoViewModel(ISystemInfoService systemInfoService)
         {
-            Argument.IsNotNull(() => systemInfoService);
+            ArgumentNullException.ThrowIfNull(systemInfoService);
 
             _systemInfoService = systemInfoService;
             SystemInfo = string.Empty;
