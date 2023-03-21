@@ -1,230 +1,228 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using Catel;
+using Catel.IoC;
+using Catel.MVVM;
+using Catel.MVVM.Views;
+using Catel.Windows;
+using Catel.Windows.Interactivity;
+
+public class WizardPageSelectionBehavior : BehaviorBase<ContentControl>
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Windows;
-    using System.Windows.Controls;
-    using Catel;
-    using Catel.IoC;
-    using Catel.MVVM;
-    using Catel.MVVM.Views;
-    using Catel.Windows;
-    using Catel.Windows.Interactivity;
+    private readonly ConditionalWeakTable<object, ScrollInfo> _scrollPositions = new();
+    private readonly ConditionalWeakTable<object, CachedView> _cachedViews = new();
 
-    public class WizardPageSelectionBehavior : BehaviorBase<ContentControl>
+    private ScrollViewer? _scrollViewer;
+    private IWizardPage? _lastPage;
+
+    public IWizard? Wizard
     {
-        private readonly ConditionalWeakTable<object, ScrollInfo> _scrollPositions = new ConditionalWeakTable<object, ScrollInfo>();
-        private readonly ConditionalWeakTable<object, CachedView> _cachedViews = new ConditionalWeakTable<object, CachedView>();
+        get { return (IWizard?)GetValue(WizardProperty); }
+        set { SetValue(WizardProperty, value); }
+    }
 
-        private ScrollViewer? _scrollViewer;
-        private IWizardPage? _lastPage;
+    public static readonly DependencyProperty WizardProperty = DependencyProperty.Register(nameof(Wizard), typeof(IWizard),
+        typeof(WizardPageSelectionBehavior), new PropertyMetadata(OnWizardChanged));
 
-        public IWizard? Wizard
+    private bool CacheViews
+    {
+        get
         {
-            get { return (IWizard?)GetValue(WizardProperty); }
-            set { SetValue(WizardProperty, value); }
+            return Wizard?.CacheViews ?? true;
+        }
+    }
+
+    private static void OnWizardChanged(DependencyObject? d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not WizardPageSelectionBehavior behavior)
+        {
+            return;
         }
 
-        public static readonly DependencyProperty WizardProperty = DependencyProperty.Register(nameof(Wizard), typeof(IWizard),
-            typeof(WizardPageSelectionBehavior), new PropertyMetadata(OnWizardChanged));
+        behavior.UpdatePage();
 
-        private bool CacheViews
+        if (e.OldValue is IWizard oldWizard)
         {
-            get
-            {
-                return Wizard?.CacheViews ?? true;
-            }
+            oldWizard.CurrentPageChanged -= behavior.OnCurrentPageChanged;
+            oldWizard.MovedBack -= behavior.OnMovedBack;
+            oldWizard.MovedForward -= behavior.OnMovedForward;
         }
 
-        private static void OnWizardChanged(DependencyObject? d, DependencyPropertyChangedEventArgs e)
+        if (e.NewValue is IWizard wizard)
         {
-            var behavior = d as WizardPageSelectionBehavior;
-            if (behavior is not null)
-            {
-                behavior.UpdatePage();
+            wizard.CurrentPageChanged += behavior.OnCurrentPageChanged;
+            wizard.MovedBack += behavior.OnMovedBack;
+            wizard.MovedForward += behavior.OnMovedForward;
+        }
+    }
 
-                var oldWizard = e.OldValue as IWizard;
-                if (oldWizard is not null)
-                {
-                    oldWizard.CurrentPageChanged -= behavior.OnCurrentPageChanged;
-                    oldWizard.MovedBack -= behavior.OnMovedBack;
-                    oldWizard.MovedForward -= behavior.OnMovedForward;
-                }
+    protected override void OnAssociatedObjectLoaded()
+    {
+        _scrollViewer = AssociatedObject?.FindLogicalOrVisualAncestorByType<ScrollViewer>();
 
-                var wizard = e.NewValue as IWizard;
-                if (wizard is not null)
-                {
-                    wizard.CurrentPageChanged += behavior.OnCurrentPageChanged;
-                    wizard.MovedBack += behavior.OnMovedBack;
-                    wizard.MovedForward += behavior.OnMovedForward;
-                }
-            }
+        UpdatePage();
+    }
+
+    protected override void OnAssociatedObjectUnloaded()
+    {
+        base.OnAssociatedObjectUnloaded();
+
+        var wizard = Wizard;
+        if (wizard is null)
+        {
+            return;
         }
 
-        protected override void OnAssociatedObjectLoaded()
-        {
-            _scrollViewer = AssociatedObject?.FindLogicalOrVisualAncestorByType<ScrollViewer>();
+        wizard.CurrentPageChanged -= OnCurrentPageChanged;
+        wizard.MovedBack -= OnMovedBack;
+        wizard.MovedForward -= OnMovedForward;
 
-            UpdatePage();
-        }
+        SetCurrentValue(WizardProperty, null);
+    }
 
-        protected override void OnAssociatedObjectUnloaded()
-        {
-            base.OnAssociatedObjectUnloaded();
+    private void OnCurrentPageChanged(object? sender, EventArgs e)
+    {
+        UpdatePage();
+    }
 
-            var wizard = Wizard;
-            if (wizard is null)
-            {
-                return;
-            }
+    private void OnMovedForward(object? sender, EventArgs e)
+    {
+        UpdatePage();
+    }
 
-            wizard.CurrentPageChanged -= OnCurrentPageChanged;
-            wizard.MovedBack -= OnMovedBack;
-            wizard.MovedForward -= OnMovedForward;
-
-            SetCurrentValue(WizardProperty, null);
-        }
-
-        private void OnCurrentPageChanged(object? sender, EventArgs e)
-        {
-            UpdatePage();
-        }
-
-        private void OnMovedForward(object? sender, EventArgs e)
-        {
-            UpdatePage();
-        }
-
-        private void OnMovedBack(object? sender, EventArgs e)
-        {
-            UpdatePage();
-        }
+    private void OnMovedBack(object? sender, EventArgs e)
+    {
+        UpdatePage();
+    }
 
 #pragma warning disable WPF0005 // Name of PropertyChangedCallback should match registered name.
-        private void UpdatePage()
+    private void UpdatePage()
 #pragma warning restore WPF0005 // Name of PropertyChangedCallback should match registered name.
+    {
+        if (AssociatedObject is null)
         {
-            if (AssociatedObject is null)
+            return;
+        }
+
+        var wizard = Wizard;
+        if (wizard is null)
+        {
+            return;
+        }
+
+        var scrollViewer = _scrollViewer;
+
+        var lastPage = _lastPage;
+        if (lastPage is not null)
+        {
+            if (ReferenceEquals(lastPage, wizard.CurrentPage))
             {
+                // Nothing has really changed
                 return;
             }
 
-            var wizard = Wizard;
-            if (wizard is null)
+            if (scrollViewer is not null)
             {
-                return;
-            }
-
-            var scrollViewer = _scrollViewer;
-
-            var lastPage = _lastPage;
-            if (lastPage is not null)
-            {
-                if (ReferenceEquals(lastPage, wizard.CurrentPage))
+                _scrollPositions.AddOrUpdate(lastPage, new ScrollInfo
                 {
-                    // Nothing has really changed
-                    return;
-                }
+                    VerticalOffset = scrollViewer.VerticalOffset,
+                    HorizontalOffset = scrollViewer.HorizontalOffset
+                });
+            }
 
-                if (scrollViewer is not null)
+            // Even though we cache views, we need to re-use the vm's since the view models will be closed when moving next
+            //_lastPage.ViewModel = null;
+
+            if (CacheViews)
+            {
+                _cachedViews.AddOrUpdate(lastPage, new CachedView
                 {
-                    _scrollPositions.AddOrUpdate(lastPage, new ScrollInfo
-                    {
-                        VerticalOffset = scrollViewer.VerticalOffset,
-                        HorizontalOffset = scrollViewer.HorizontalOffset
-                    });
-                }
-
-                // Even though we cache views, we need to re-use the vm's since the view models will be closed when moving next
-                //_lastPage.ViewModel = null;
-
-                if (CacheViews)
-                {
-                    _cachedViews.AddOrUpdate(lastPage, new CachedView
-                    {
-                        View = AssociatedObject.Content as IView
-                    });
-                }
-
-                _lastPage = null;
+                    View = AssociatedObject.Content as IView
+                });
             }
 
-            _lastPage = wizard.CurrentPage;
+            _lastPage = null;
+        }
 
-            if (_lastPage is null)
-            {
-                return;
-            }
+        _lastPage = wizard.CurrentPage;
 
-            var dependencyResolver = this.GetDependencyResolver();
-            var viewModelLocator = dependencyResolver.ResolveRequired<IWizardPageViewModelLocator>();
-            var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
-            if (pageViewModelType is null)
-            {
-                throw new InvalidOperationException($"Cannot find page view model type of view '{_lastPage.GetType().Name}'");
-            }
+        if (_lastPage is null)
+        {
+            return;
+        }
 
-            var viewLocator = dependencyResolver.ResolveRequired<IViewLocator>();
-            var viewType = viewLocator.ResolveView(pageViewModelType);
-            if (viewType is null)
-            {
-                throw new InvalidOperationException($"Cannot find page view type of view model '{pageViewModelType.Name}'");
-            }
+        var dependencyResolver = this.GetDependencyResolver();
+        var viewModelLocator = dependencyResolver.ResolveRequired<IWizardPageViewModelLocator>();
+        var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
+        if (pageViewModelType is null)
+        {
+            throw new InvalidOperationException($"Cannot find page view model type of view '{_lastPage.GetType().Name}'");
+        }
 
-            var typeFactory = dependencyResolver.ResolveRequired<ITypeFactory>();
+        var viewLocator = dependencyResolver.ResolveRequired<IViewLocator>();
+        var viewType = viewLocator.ResolveView(pageViewModelType);
+        if (viewType is null)
+        {
+            throw new InvalidOperationException($"Cannot find page view type of view model '{pageViewModelType.Name}'");
+        }
 
-            IView? view = null;
+        var typeFactory = dependencyResolver.ResolveRequired<ITypeFactory>();
 
-            if (_cachedViews.TryGetValue(_lastPage, out var cachedView))
-            {
-                view = cachedView.View;
-            }
+        IView? view = null;
 
+        if (_cachedViews.TryGetValue(_lastPage, out var cachedView))
+        {
+            view = cachedView.View;
+        }
+
+        if (view is null)
+        {
+            view = typeFactory.CreateRequiredInstance(viewType) as IView;
             if (view is null)
             {
-                view = typeFactory.CreateRequiredInstance(viewType) as IView;
-                if (view is null)
-                {
-                    return;
-                }
-            }
-
-            var viewModelFactory = dependencyResolver.ResolveRequired<IViewModelFactory>();
-            var viewModel = viewModelFactory.CreateRequiredViewModel(pageViewModelType, wizard.CurrentPage, null);
-
-            view.DataContext = viewModel;
-
-            _lastPage.ViewModel = viewModel;
-
-            AssociatedObject.SetCurrentValue(ContentControl.ContentProperty, view);
-
-            var verticalScrollViewerOffset = 0d;
-            var horizontalScrollViewerOffset = 0d;
-
-            if (_scrollPositions.TryGetValue(_lastPage, out var scrollInfo))
-            {
-                verticalScrollViewerOffset = scrollInfo.VerticalOffset;
-                horizontalScrollViewerOffset = scrollInfo.HorizontalOffset;
-            }
-
-            if (scrollViewer is not null &&
-                (Wizard?.RestoreScrollPositionPerPage ?? true))
-            {
-                scrollViewer.ScrollToVerticalOffset(verticalScrollViewerOffset);
-                scrollViewer.ScrollToHorizontalOffset(horizontalScrollViewerOffset);
+                return;
             }
         }
 
-        private class ScrollInfo
+        var viewModelFactory = dependencyResolver.ResolveRequired<IViewModelFactory>();
+        var viewModel = viewModelFactory.CreateRequiredViewModel(pageViewModelType, wizard.CurrentPage);
+
+        view.DataContext = viewModel;
+
+        _lastPage.ViewModel = viewModel;
+
+        AssociatedObject.SetCurrentValue(ContentControl.ContentProperty, view);
+
+        var verticalScrollViewerOffset = 0d;
+        var horizontalScrollViewerOffset = 0d;
+
+        if (_scrollPositions.TryGetValue(_lastPage, out var scrollInfo))
         {
-            public double VerticalOffset { get; set; }
-
-            public double HorizontalOffset { get; set; }
+            verticalScrollViewerOffset = scrollInfo.VerticalOffset;
+            horizontalScrollViewerOffset = scrollInfo.HorizontalOffset;
         }
 
-        private class CachedView
+        if (scrollViewer is not null &&
+            (Wizard?.RestoreScrollPositionPerPage ?? true))
         {
-            public IView? View { get; set; }
+            scrollViewer.ScrollToVerticalOffset(verticalScrollViewerOffset);
+            scrollViewer.ScrollToHorizontalOffset(horizontalScrollViewerOffset);
         }
+    }
+
+    private class ScrollInfo
+    {
+        public double VerticalOffset { get; set; }
+
+        public double HorizontalOffset { get; set; }
+    }
+
+    private class CachedView
+    {
+        public IView? View { get; set; }
     }
 }

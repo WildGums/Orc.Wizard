@@ -1,563 +1,562 @@
 ﻿// We use shared change notifications in this class
 #pragma warning disable WPF1012
 
-namespace Orc.Wizard
+namespace Orc.Wizard;
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using Catel.Data;
+using Catel.IoC;
+using Catel.Logging;
+using Catel.MVVM;
+using Catel.Reflection;
+
+public abstract class WizardBase : ModelBase, IWizard
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Windows.Controls;
-    using Catel.Data;
-    using Catel.IoC;
-    using Catel.Logging;
-    using Catel.MVVM;
-    using Catel.Reflection;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public abstract class WizardBase : ModelBase, IWizard
+    private readonly IList<IWizardPage> _pages = new List<IWizardPage>();
+    protected readonly ITypeFactory _typeFactory;
+
+    private int _currentIndex = 0;
+    private IWizardPage? _currentPage;
+
+    private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
+    private INavigationController _navigationController;
+
+    // Note: we can't remove this constructor, it would be a breaking change
+    protected WizardBase(ITypeFactory typeFactory)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        ArgumentNullException.ThrowIfNull(typeFactory);
 
-        private readonly IList<IWizardPage> _pages = new List<IWizardPage>();
-        protected readonly ITypeFactory _typeFactory;
+        _typeFactory = typeFactory;
+        _navigationController = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<DefaultNavigationController>(this);
 
-        private int _currentIndex = 0;
-        private IWizardPage? _currentPage;
+        ResizeMode = System.Windows.ResizeMode.NoResize;
+        MinSize = new System.Windows.Size(650d, 500d);
+        MaxSize = new System.Windows.Size(650d, 500d);
 
-        private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
-        private INavigationController _navigationController;
+        HorizontalScrollbarVisibility = ScrollBarVisibility.Disabled;
+        VerticalScrollbarVisibility = ScrollBarVisibility.Auto;
+        RestoreScrollPositionPerPage = true;
 
-        // Note: we can't remove this constructor, it would be a breaking change
-        protected WizardBase(ITypeFactory typeFactory)
-        {
-            ArgumentNullException.ThrowIfNull(typeFactory);
+        CacheViews = true;
+        ShowInTaskbar = false;
+        IsHelpVisible = false;
+        CanShowHelp = true;
+        HandleNavigationStates = true;
+        AllowQuickNavigation = false;
+        AutoSizeSideNavigationPane = false;
+    }
 
-            _typeFactory = typeFactory;
-            _navigationController = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<DefaultNavigationController>(this);
-
-            ResizeMode = System.Windows.ResizeMode.NoResize;
-            MinSize = new System.Windows.Size(650d, 500d);
-            MaxSize = new System.Windows.Size(650d, 500d);
-
-            HorizontalScrollbarVisibility = ScrollBarVisibility.Disabled;
-            VerticalScrollbarVisibility = ScrollBarVisibility.Auto;
-            RestoreScrollPositionPerPage = true;
-
-            CacheViews = true;
-            ShowInTaskbar = false;
-            IsHelpVisible = false;
-            CanShowHelp = true;
-            HandleNavigationStates = true;
-            AllowQuickNavigation = false;
-            AutoSizeSideNavigationPane = false;
-        }
-
-        public IWizardPage? CurrentPage
-        {
-            get
-            {
-                if (_currentPage is null)
-                {
-                    // Try to set page (probably first page)
-                    SetCurrentPage(_currentIndex);
-                }
-
-                return _currentPage;
-            }
-        }
-
-        public IEnumerable<IWizardPage> Pages
-        {
-            get { return _pages.AsEnumerable(); }
-        }
-
-        public INavigationStrategy NavigationStrategy
-        {
-            get { return _navigationStrategy; }
-            protected set { _navigationStrategy = value; }
-        }
-
-        public INavigationController NavigationController
-        {
-            get { return _navigationController; }
-            protected set { _navigationController = value; }
-        }
-
-        public string? Title { get; protected set; }
-
-        public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
-
-        public virtual System.Windows.Size MinSize { get; protected set; }
-
-        public virtual System.Windows.Size MaxSize { get; protected set; }
-
-        public virtual ScrollBarVisibility VerticalScrollbarVisibility { get; protected set; }
-
-        public virtual ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
-
-        public virtual bool CacheViews { get; protected set; }
-
-        public virtual bool RestoreScrollPositionPerPage { get; protected set; }
-
-        public virtual bool HandleNavigationStates { get; protected set; }
-
-        public virtual bool CanResume
-        {
-            get
-            {
-                var remainingPages = Pages.Skip(_currentIndex + 1).ToList();
-                if (remainingPages.Count == 0)
-                {
-                    return true;
-                }
-
-                var validationContext = GetValidationContextForCurrentPage(true);
-                if (validationContext.HasErrors)
-                {
-                    return false;
-                }
-
-                if (remainingPages.All(x => (x is SummaryWizardPage == true) ||
-                                            x.IsOptional))
-                //(x.IsVisited && !GetValidationContext(x).HasErrors))) // Not enabled yet since we must be sure that we validate everything
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        public virtual bool CanCancel
-        {
-            get { return true; }
-        }
-
-        public virtual bool CanMoveForward
-        {
-            get
-            {
-                var validationContext = GetValidationContextForCurrentPage(true);
-                if (validationContext.HasErrors)
-                {
-                    return false;
-                }
-
-                var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
-                return (indexOfNextPage != WizardConfiguration.CannotNavigate);
-            }
-        }
-
-        public virtual bool CanMoveBack
-        {
-            get
-            {
-                int indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
-                return (indexOfPreviousPage != WizardConfiguration.CannotNavigate);
-            }
-        }
-
-        public bool IsHelpVisible { get; protected set; }
-
-        public bool CanShowHelp { get; protected set; }
-
-        public bool ShowInTaskbar { get; protected set; }
-
-        public bool AllowQuickNavigation { get; protected set; }
-
-        public bool AutoSizeSideNavigationPane { get; set; }
-
-        public event EventHandler<EventArgs>? CurrentPageChanged;
-        public event EventHandler<NavigatingEventArgs>? MovingForward;
-        public event EventHandler<EventArgs>? MovedForward;
-        public event EventHandler<NavigatingEventArgs>? MovingBack;
-        public event EventHandler<EventArgs>? MovedBack;
-        public event EventHandler<EventArgs>? Canceled;
-        public event EventHandler<EventArgs>? Resumed;
-        public event EventHandler<EventArgs>? HelpShown;
-        public event EventHandler<WizardPageEventArgs>? PageAdded;
-        public event EventHandler<WizardPageEventArgs>? PageRemoved;
-
-        public void InsertPage(int index, IWizardPage page)
-        {
-            ArgumentNullException.ThrowIfNull(page);
-
-            Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
-
-            page.Wizard = this;
-
-            _pages.Insert(index, page);
-
-            UpdatePageNumbers();
-
-            PageAdded?.Invoke(this, new WizardPageEventArgs(page));
-        }
-
-        public void RemovePage(IWizardPage page)
-        {
-            ArgumentNullException.ThrowIfNull(page);
-
-            for (var i = 0; i < _pages.Count; i++)
-            {
-                if (ReferenceEquals(page, _pages[i]))
-                {
-                    Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
-
-                    page.Wizard = null;
-                    _pages.RemoveAt(i--);
-                }
-            }
-
-            UpdatePageNumbers();
-
-            PageRemoved?.Invoke(this, new WizardPageEventArgs(page));
-        }
-
-        public virtual IValidationContext GetValidationContext(IWizardPage wizardPage, bool validate = true)
-        {
-            if (wizardPage is not null)
-            {
-                var vm = wizardPage.ViewModel;
-                if (vm is not null)
-                {
-                    if (validate)
-                    {
-                        vm.Validate(true);
-                    }
-
-                    return vm.ValidationContext;
-                }
-            }
-
-            return new ValidationContext();
-        }
-
-        public virtual IValidationContext GetValidationContextForCurrentPage(bool validate = true)
+    public IWizardPage? CurrentPage
+    {
+        get
         {
             if (_currentPage is null)
             {
-                return new ValidationContext();
+                // Try to set page (probably first page)
+                SetCurrentPage(_currentIndex);
             }
 
-            return GetValidationContext(_currentPage, validate);
+            return _currentPage;
         }
+    }
 
-        public virtual async Task MoveForwardAsync()
+    public IEnumerable<IWizardPage> Pages
+    {
+        get { return _pages.AsEnumerable(); }
+    }
+
+    public INavigationStrategy NavigationStrategy
+    {
+        get { return _navigationStrategy; }
+        protected set { _navigationStrategy = value; }
+    }
+
+    public INavigationController NavigationController
+    {
+        get { return _navigationController; }
+        protected set { _navigationController = value; }
+    }
+
+    public string? Title { get; protected set; }
+
+    public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
+
+    public virtual System.Windows.Size MinSize { get; protected set; }
+
+    public virtual System.Windows.Size MaxSize { get; protected set; }
+
+    public virtual ScrollBarVisibility VerticalScrollbarVisibility { get; protected set; }
+
+    public virtual ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
+
+    public virtual bool CacheViews { get; protected set; }
+
+    public virtual bool RestoreScrollPositionPerPage { get; protected set; }
+
+    public virtual bool HandleNavigationStates { get; protected set; }
+
+    public virtual bool CanResume
+    {
+        get
         {
-            if (!CanMoveForward)
+            var remainingPages = Pages.Skip(_currentIndex + 1).ToList();
+            if (remainingPages.Count == 0)
             {
-                if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
-                {
-                    wizardPageViewModel.EnableValidationExposure();
-                }
-
-                return;
+                return true;
             }
 
-            var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
-            var isMoving = RaiseMovingForward(_currentPage, Pages.ElementAt(indexOfNextPage));
-            if (!isMoving)
+            var validationContext = GetValidationContextForCurrentPage(true);
+            if (validationContext.HasErrors)
             {
-                Log.Debug("Cancel move based on raised event returned arguments");
-                return;
+                return false;
             }
 
-            // Note: keep *after* the RaiseMovingForward. This allows any vm to handle events and 
-            // correctly unsubscribe in the CloseAsync method
-            var currentPage = _currentPage;
-            if (currentPage is not null)
+            if (remainingPages.All(x => (x is SummaryWizardPage == true) ||
+                                        x.IsOptional))
+                //(x.IsVisited && !GetValidationContext(x).HasErrors))) // Not enabled yet since we must be sure that we validate everything
             {
-                var viewModel = currentPage.ViewModel;
-                if (viewModel is not null)
-                {
-                    var result = await viewModel.SaveAndCloseViewModelAsync();
-                    if (!result)
-                    {
-                        return;
-                    }
-                }
+                return true;
             }
 
-            OnMovingForward();
-
-            SetCurrentPage(indexOfNextPage);
-
-            OnMovedForward();
-
-            RaiseMovedForward();
+            return false;
         }
+    }
 
-        protected virtual void OnMovingForward()
-        {
-            // Empty by design
-        }
+    public virtual bool CanCancel
+    {
+        get { return true; }
+    }
 
-        protected virtual void OnMovedForward()
-        {
-            // Empty by design
-        }
-
-        public virtual async Task MoveBackAsync()
-        {
-            if (!CanMoveBack)
-            {
-                return;
-            }
-
-            var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
-
-            var isMoving = RaiseMovingBack(_currentPage, Pages.ElementAt(indexOfPreviousPage));
-            if (!isMoving)
-            {
-                Log.Debug("Cancel move based on raised event returned arguments");
-                return;
-            }
-
-            OnMovingBack();
-
-            SetCurrentPage(indexOfPreviousPage);
-
-            OnMovedBack();
-
-            RaiseMovedBack();
-        }
-
-        protected virtual void OnMovingBack()
-        {
-            // Empty by design
-        }
-
-        protected virtual void OnMovedBack()
-        {
-            // Empty by design
-        }
-
-        public virtual async Task MoveToPageAsync(int indexOfNextPage)
-        {
-            // Note: we skip the navigation strategy when going directly to another page
-
-            // Note: for now make a *big* assumption that a lower index is backward navigation
-            var isForward = indexOfNextPage > _currentIndex;
-            if (isForward)
-            {
-                if (!await ValidateAndSaveCurrentPageAsync())
-                {
-                    return;
-                }
-            }
-
-            SetCurrentPage(indexOfNextPage);
-        }
-
-        protected virtual async Task<bool> ValidateAndSaveCurrentPageAsync()
+    public virtual bool CanMoveForward
+    {
+        get
         {
             var validationContext = GetValidationContextForCurrentPage(true);
             if (validationContext.HasErrors)
             {
-                if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
-                {
-                    wizardPageViewModel.EnableValidationExposure();
-                }
-
                 return false;
             }
 
-            var currentPage = _currentPage;
-            if (currentPage is not null)
+            var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+            return (indexOfNextPage != WizardConfiguration.CannotNavigate);
+        }
+    }
+
+    public virtual bool CanMoveBack
+    {
+        get
+        {
+            int indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
+            return (indexOfPreviousPage != WizardConfiguration.CannotNavigate);
+        }
+    }
+
+    public bool IsHelpVisible { get; protected set; }
+
+    public bool CanShowHelp { get; protected set; }
+
+    public bool ShowInTaskbar { get; protected set; }
+
+    public bool AllowQuickNavigation { get; protected set; }
+
+    public bool AutoSizeSideNavigationPane { get; set; }
+
+    public event EventHandler<EventArgs>? CurrentPageChanged;
+    public event EventHandler<NavigatingEventArgs>? MovingForward;
+    public event EventHandler<EventArgs>? MovedForward;
+    public event EventHandler<NavigatingEventArgs>? MovingBack;
+    public event EventHandler<EventArgs>? MovedBack;
+    public event EventHandler<EventArgs>? Canceled;
+    public event EventHandler<EventArgs>? Resumed;
+    public event EventHandler<EventArgs>? HelpShown;
+    public event EventHandler<WizardPageEventArgs>? PageAdded;
+    public event EventHandler<WizardPageEventArgs>? PageRemoved;
+
+    public void InsertPage(int index, IWizardPage page)
+    {
+        ArgumentNullException.ThrowIfNull(page);
+
+        Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
+
+        page.Wizard = this;
+
+        _pages.Insert(index, page);
+
+        UpdatePageNumbers();
+
+        PageAdded?.Invoke(this, new WizardPageEventArgs(page));
+    }
+
+    public void RemovePage(IWizardPage page)
+    {
+        ArgumentNullException.ThrowIfNull(page);
+
+        for (var i = 0; i < _pages.Count; i++)
+        {
+            if (ReferenceEquals(page, _pages[i]))
             {
-                var vm = currentPage.ViewModel;
-                if (vm is not null)
+                Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
+
+                page.Wizard = null;
+                _pages.RemoveAt(i--);
+            }
+        }
+
+        UpdatePageNumbers();
+
+        PageRemoved?.Invoke(this, new WizardPageEventArgs(page));
+    }
+
+    public virtual IValidationContext GetValidationContext(IWizardPage wizardPage, bool validate = true)
+    {
+        if (wizardPage is not null)
+        {
+            var vm = wizardPage.ViewModel;
+            if (vm is not null)
+            {
+                if (validate)
                 {
-                    var result = await vm.SaveAndCloseViewModelAsync();
-                    if (!result)
-                    {
-                        return false;
-                    }
+                    vm.Validate(true);
+                }
+
+                return vm.ValidationContext;
+            }
+        }
+
+        return new ValidationContext();
+    }
+
+    public virtual IValidationContext GetValidationContextForCurrentPage(bool validate = true)
+    {
+        if (_currentPage is null)
+        {
+            return new ValidationContext();
+        }
+
+        return GetValidationContext(_currentPage, validate);
+    }
+
+    public virtual async Task MoveForwardAsync()
+    {
+        if (!CanMoveForward)
+        {
+            if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+            {
+                wizardPageViewModel.EnableValidationExposure();
+            }
+
+            return;
+        }
+
+        var indexOfNextPage = NavigationStrategy.GetIndexOfNextPage(this);
+        var isMoving = RaiseMovingForward(_currentPage, Pages.ElementAt(indexOfNextPage));
+        if (!isMoving)
+        {
+            Log.Debug("Cancel move based on raised event returned arguments");
+            return;
+        }
+
+        // Note: keep *after* the RaiseMovingForward. This allows any vm to handle events and 
+        // correctly unsubscribe in the CloseAsync method
+        var currentPage = _currentPage;
+        if (currentPage is not null)
+        {
+            var viewModel = currentPage.ViewModel;
+            if (viewModel is not null)
+            {
+                var result = await viewModel.SaveAndCloseViewModelAsync();
+                if (!result)
+                {
+                    return;
                 }
             }
-
-            return true;
         }
 
-        public virtual Task InitializeAsync()
+        OnMovingForward();
+
+        SetCurrentPage(indexOfNextPage);
+
+        OnMovedForward();
+
+        RaiseMovedForward();
+    }
+
+    protected virtual void OnMovingForward()
+    {
+        // Empty by design
+    }
+
+    protected virtual void OnMovedForward()
+    {
+        // Empty by design
+    }
+
+    public virtual async Task MoveBackAsync()
+    {
+        if (!CanMoveBack)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        public virtual async Task ResumeAsync()
+        var indexOfPreviousPage = NavigationStrategy.GetIndexOfPreviousPage(this);
+
+        var isMoving = RaiseMovingBack(_currentPage, Pages.ElementAt(indexOfPreviousPage));
+        if (!isMoving)
         {
-            if (!CanResume)
-            {
-                return;
-            }
+            Log.Debug("Cancel move based on raised event returned arguments");
+            return;
+        }
 
-            Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName());
+        OnMovingBack();
 
-            // ORCOMP-590: Fix for final view model
+        SetCurrentPage(indexOfPreviousPage);
+
+        OnMovedBack();
+
+        RaiseMovedBack();
+    }
+
+    protected virtual void OnMovingBack()
+    {
+        // Empty by design
+    }
+
+    protected virtual void OnMovedBack()
+    {
+        // Empty by design
+    }
+
+    public virtual async Task MoveToPageAsync(int indexOfNextPage)
+    {
+        // Note: we skip the navigation strategy when going directly to another page
+
+        // Note: for now make a *big* assumption that a lower index is backward navigation
+        var isForward = indexOfNextPage > _currentIndex;
+        if (isForward)
+        {
             if (!await ValidateAndSaveCurrentPageAsync())
             {
                 return;
             }
-
-            foreach (var page in _pages)
-            {
-                await page.SaveAsync();
-            }
-
-            foreach (var page in _pages)
-            {
-                await page.AfterWizardPagesSavedAsync();
-            }
-
-            RaiseResumed();
         }
 
-        public virtual async Task CancelAsync()
+        SetCurrentPage(indexOfNextPage);
+    }
+
+    protected virtual async Task<bool> ValidateAndSaveCurrentPageAsync()
+    {
+        var validationContext = GetValidationContextForCurrentPage(true);
+        if (validationContext.HasErrors)
         {
-            if (!CanCancel)
+            if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
             {
-                return;
+                wizardPageViewModel.EnableValidationExposure();
             }
 
-            Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
-
-            foreach (var page in _pages)
-            {
-                await page.CancelAsync();
-            }
-
-            RaiseCanceled();
+            return false;
         }
 
-        public virtual Task CloseAsync()
+        var currentPage = _currentPage;
+        if (currentPage is not null)
         {
-            return Task.CompletedTask;
-        }
-
-        public virtual async Task ShowHelpAsync()
-        {
-            if (!CanShowHelp)
+            var vm = currentPage.ViewModel;
+            if (vm is not null)
             {
-                return;
-            }
-
-            HelpShown?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected internal virtual IWizardPage? SetCurrentPage(int newIndex)
-        {
-            Log.Debug("Setting current page index to '{0}'", newIndex);
-
-            var currentPage = _currentPage;
-            if (currentPage is not null)
-            {
-                currentPage.ViewModelChanged -= OnPageViewModelChanged;
-
-                var vm = currentPage.ViewModel;
-                if (vm is not null)
+                var result = await vm.SaveAndCloseViewModelAsync();
+                if (!result)
                 {
-                    vm.PropertyChanged -= OnPageViewModelPropertyChanged;
+                    return false;
                 }
             }
+        }
 
-            var newPage = _pages[newIndex];
-            if (newPage is not null)
+        return true;
+    }
+
+    public virtual Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public virtual async Task ResumeAsync()
+    {
+        if (!CanResume)
+        {
+            return;
+        }
+
+        Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName());
+
+        // ORCOMP-590: Fix for final view model
+        if (!await ValidateAndSaveCurrentPageAsync())
+        {
+            return;
+        }
+
+        foreach (var page in _pages)
+        {
+            await page.SaveAsync();
+        }
+
+        foreach (var page in _pages)
+        {
+            await page.AfterWizardPagesSavedAsync();
+        }
+
+        RaiseResumed();
+    }
+
+    public virtual async Task CancelAsync()
+    {
+        if (!CanCancel)
+        {
+            return;
+        }
+
+        Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+
+        foreach (var page in _pages)
+        {
+            await page.CancelAsync();
+        }
+
+        RaiseCanceled();
+    }
+
+    public virtual Task CloseAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public virtual async Task ShowHelpAsync()
+    {
+        if (!CanShowHelp)
+        {
+            return;
+        }
+
+        HelpShown?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected internal virtual IWizardPage? SetCurrentPage(int newIndex)
+    {
+        Log.Debug("Setting current page index to '{0}'", newIndex);
+
+        var currentPage = _currentPage;
+        if (currentPage is not null)
+        {
+            currentPage.ViewModelChanged -= OnPageViewModelChanged;
+
+            var vm = currentPage.ViewModel;
+            if (vm is not null)
             {
-                newPage.ViewModelChanged += OnPageViewModelChanged;
-
-                var vm = newPage.ViewModel;
-                if (vm is not null)
-                {
-                    vm.PropertyChanged += OnPageViewModelPropertyChanged;
-                }
+                vm.PropertyChanged -= OnPageViewModelPropertyChanged;
             }
+        }
 
-            _currentPage = newPage;
-            _currentIndex = newIndex;
+        var newPage = _pages[newIndex];
+        if (newPage is not null)
+        {
+            newPage.ViewModelChanged += OnPageViewModelChanged;
 
-            RaisePropertyChanged(nameof(CurrentPage));
-            CurrentPageChanged?.Invoke(this, EventArgs.Empty);
-
-            NavigationController.EvaluateNavigationCommands();
-
-            if (newPage is not null)
+            var vm = newPage.ViewModel;
+            if (vm is not null)
             {
-                newPage.IsVisited = true;
-            }
-
-            return newPage;
-        }
-
-        private void OnPageViewModelChanged(object? sender, ViewModelChangedEventArgs e)
-        {
-            var oldVm = e.OldViewModel;
-            if (oldVm is not null)
-            {
-                oldVm.PropertyChanged -= OnPageViewModelPropertyChanged;
-            }
-
-            var newVm = e.NewViewModel;
-            if (newVm is not null)
-            {
-                newVm.PropertyChanged += OnPageViewModelPropertyChanged;
+                vm.PropertyChanged += OnPageViewModelPropertyChanged;
             }
         }
 
-        private void OnPageViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            RaisePropertyChanged(nameof(CanMoveBack));
-            RaisePropertyChanged(nameof(CanMoveForward));
-            RaisePropertyChanged(nameof(CanResume));
-            RaisePropertyChanged(nameof(CanCancel));
+        _currentPage = newPage;
+        _currentIndex = newIndex;
 
-            NavigationController.EvaluateNavigationCommands();
+        RaisePropertyChanged(nameof(CurrentPage));
+        CurrentPageChanged?.Invoke(this, EventArgs.Empty);
+
+        NavigationController.EvaluateNavigationCommands();
+
+        if (newPage is not null)
+        {
+            newPage.IsVisited = true;
         }
 
-        private void UpdatePageNumbers()
+        return newPage;
+    }
+
+    private void OnPageViewModelChanged(object? sender, ViewModelChangedEventArgs e)
+    {
+        var oldVm = e.OldViewModel;
+        if (oldVm is not null)
         {
-            var counter = 1;
-
-            foreach (var page in _pages)
-            {
-                page.Number = counter++;
-            }
-
-            //RaisePropertyChanged(nameof(WizardPages));
+            oldVm.PropertyChanged -= OnPageViewModelPropertyChanged;
         }
 
-        protected void RaiseResumed()
+        var newVm = e.NewViewModel;
+        if (newVm is not null)
         {
-            Resumed?.Invoke(this, EventArgs.Empty);
+            newVm.PropertyChanged += OnPageViewModelPropertyChanged;
+        }
+    }
+
+    private void OnPageViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        RaisePropertyChanged(nameof(CanMoveBack));
+        RaisePropertyChanged(nameof(CanMoveForward));
+        RaisePropertyChanged(nameof(CanResume));
+        RaisePropertyChanged(nameof(CanCancel));
+
+        NavigationController.EvaluateNavigationCommands();
+    }
+
+    private void UpdatePageNumbers()
+    {
+        var counter = 1;
+
+        foreach (var page in _pages)
+        {
+            page.Number = counter++;
         }
 
-        protected void RaiseCanceled()
-        {
-            Canceled?.Invoke(this, EventArgs.Empty);
-        }
+        //RaisePropertyChanged(nameof(WizardPages));
+    }
 
-        protected bool RaiseMovingBack(IWizardPage? fromPage, IWizardPage? toPage)
-        {
-            var eventArgs = new NavigatingEventArgs(fromPage, toPage);
-            MovingBack?.Invoke(this, eventArgs);
-            return !eventArgs.Cancel;
-        }
+    protected void RaiseResumed()
+    {
+        Resumed?.Invoke(this, EventArgs.Empty);
+    }
 
-        protected void RaiseMovedBack()
-        {
-            MovedBack?.Invoke(this, EventArgs.Empty);
-        }
+    protected void RaiseCanceled()
+    {
+        Canceled?.Invoke(this, EventArgs.Empty);
+    }
 
-        protected bool RaiseMovingForward(IWizardPage? fromPage, IWizardPage? toPage)
-        {
-            var eventArgs = new NavigatingEventArgs(fromPage, toPage);
-            MovingForward?.Invoke(this, eventArgs);
-            return !eventArgs.Cancel;
-        }
+    protected bool RaiseMovingBack(IWizardPage? fromPage, IWizardPage? toPage)
+    {
+        var eventArgs = new NavigatingEventArgs(fromPage, toPage);
+        MovingBack?.Invoke(this, eventArgs);
+        return !eventArgs.Cancel;
+    }
 
-        protected void RaiseMovedForward()
-        {
-            MovedForward?.Invoke(this, EventArgs.Empty);
-        }
+    protected void RaiseMovedBack()
+    {
+        MovedBack?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected bool RaiseMovingForward(IWizardPage? fromPage, IWizardPage? toPage)
+    {
+        var eventArgs = new NavigatingEventArgs(fromPage, toPage);
+        MovingForward?.Invoke(this, eventArgs);
+        return !eventArgs.Cancel;
+    }
+
+    protected void RaiseMovedForward()
+    {
+        MovedForward?.Invoke(this, EventArgs.Empty);
     }
 }

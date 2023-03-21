@@ -1,6 +1,5 @@
-﻿namespace Orc.Wizard.Tests
+﻿namespace Orc.Wizard.Tests;
+
+public class TestWizardPage : WizardPageBase
 {
-    public class TestWizardPage : WizardPageBase
-    {
-    }
 }

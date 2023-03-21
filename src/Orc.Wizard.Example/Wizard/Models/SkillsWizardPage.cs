@@ -1,43 +1,42 @@
-﻿namespace Orc.Wizard.Example.Wizard
+﻿namespace Orc.Wizard.Example.Wizard;
+
+using System.Collections.ObjectModel;
+using System.Text;
+
+public class SkillsWizardPage : WizardPageBase
 {
-    using System.Collections.ObjectModel;
-    using System.Text;
-
-    public class SkillsWizardPage : WizardPageBase
+    public SkillsWizardPage()
     {
-        public SkillsWizardPage()
+        Title = "Skills";
+        Description = "Select the skills";
+
+        Skills = new ObservableCollection<Skill>(new[]
         {
-            Title = "Skills";
-            Description = "Select the skills";
+            new Skill { Name = "C#" },
+            new Skill { Name = "Catel" },
+            new Skill { Name = "MVVM" },
+            new Skill { Name = "WPF" },
+        });
+    }
 
-            Skills = new ObservableCollection<Skill>(new[]
-            {
-                new Skill { Name = "C#" },
-                new Skill { Name = "Catel" },
-                new Skill { Name = "MVVM" },
-                new Skill { Name = "WPF" },
-            });
-        }
+    public ObservableCollection<Skill> Skills { get; private set; }
 
-        public ObservableCollection<Skill> Skills { get; private set; }
+    public override ISummaryItem GetSummary()
+    {
+        var summary = new StringBuilder();
 
-        public override ISummaryItem GetSummary()
+        foreach (var skill in Skills)
         {
-            var summary = new StringBuilder();
-
-            foreach (var skill in Skills)
+            if (skill.IsSelected)
             {
-                if (skill.IsSelected)
-                {
-                    summary.AppendLine(skill.Name);
-                }
+                summary.AppendLine(skill.Name);
             }
-
-            return new SummaryItem
-            {
-                Title = "Skills",
-                Summary = summary.ToString()
-            };
         }
+
+        return new SummaryItem
+        {
+            Title = "Skills",
+            Summary = summary.ToString()
+        };
     }
 }

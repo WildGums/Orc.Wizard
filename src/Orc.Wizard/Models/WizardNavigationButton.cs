@@ -1,60 +1,59 @@
-﻿namespace Orc.Wizard
-{
-    using System;
-    using System.Windows;
-    using System.Windows.Input;
-    using Catel.Data;
-    using Catel.MVVM;
+﻿namespace Orc.Wizard;
 
-    public class WizardNavigationButton : ModelBase, IWizardNavigationButton
+using System;
+using System.Windows;
+using System.Windows.Input;
+using Catel.Data;
+using Catel.MVVM;
+
+public class WizardNavigationButton : ModelBase, IWizardNavigationButton
+{
+    public WizardNavigationButton()
     {
-        public WizardNavigationButton()
+        var application = Application.Current;
+        if (application is not null)
         {
-            var application = Application.Current;
-            if (application is not null)
-            {
-                Style = application.TryFindResource("WizardNavigationButtonStyle") as Style;
-            }
+            Style = application.TryFindResource("WizardNavigationButtonStyle") as Style;
+        }
+    }
+
+    public Func<string?>? ContentEvaluator { get; set; }
+
+    public string? Content { get; set; }
+
+    public Func<bool>? IsVisibleEvaluator { get; set; }
+
+    public bool IsVisible { get; set; }
+
+    public Func<IWizardNavigationButton, Style?>? StyleEvaluator { get; set; }
+
+    public Style? Style { get; set; }
+
+    public ICommand? Command { get; set; }
+
+    public void Update()
+    {
+        if (Command is ICatelCommand catelCommand)
+        {
+            catelCommand.RaiseCanExecuteChanged();
         }
 
-        public Func<string?>? ContentEvaluator { get; set; }
-
-        public string? Content { get; set; }
-
-        public Func<bool>? IsVisibleEvaluator { get; set; }
-
-        public bool IsVisible { get; set; }
-
-        public Func<IWizardNavigationButton, Style?>? StyleEvaluator { get; set; }
-
-        public Style? Style { get; set; }
-
-        public ICommand? Command { get; set; }
-
-        public void Update()
+        var contentEvaluator = ContentEvaluator;
+        if (contentEvaluator is not null)
         {
-            if (Command is ICatelCommand catelCommand)
-            {
-                catelCommand.RaiseCanExecuteChanged();
-            }
+            Content = contentEvaluator();
+        }
 
-            var contentEvaluator = ContentEvaluator;
-            if (contentEvaluator is not null)
-            {
-                Content = contentEvaluator();
-            }
+        var isVisibleEvaluator = IsVisibleEvaluator;
+        if (isVisibleEvaluator is not null)
+        {
+            IsVisible = isVisibleEvaluator();
+        }
 
-            var isVisibleEvaluator = IsVisibleEvaluator;
-            if (isVisibleEvaluator is not null)
-            {
-                IsVisible = isVisibleEvaluator();
-            }
-
-            var styleEvaluator = StyleEvaluator;
-            if (styleEvaluator is not null)
-            {
-                Style = styleEvaluator(this);
-            }
+        var styleEvaluator = StyleEvaluator;
+        if (styleEvaluator is not null)
+        {
+            Style = styleEvaluator(this);
         }
     }
 }

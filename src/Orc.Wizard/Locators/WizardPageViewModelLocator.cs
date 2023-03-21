@@ -1,13 +1,12 @@
-﻿namespace Orc.Wizard
-{
-    using Catel.MVVM;
+﻿namespace Orc.Wizard;
 
-    public class WizardPageViewModelLocator : ViewModelLocator, IWizardPageViewModelLocator
+using Catel.MVVM;
+
+public class WizardPageViewModelLocator : ViewModelLocator, IWizardPageViewModelLocator
+{
+    public WizardPageViewModelLocator()
     {
-        public WizardPageViewModelLocator()
-        {
-            NamingConventions.Add("[CURRENT].ViewModels.[VW]PageViewModel");
-            NamingConventions.Add("[CURRENT].ViewModels.[VW]ViewModel");
-        }
+        NamingConventions.Add("[CURRENT].ViewModels.[VW]PageViewModel");
+        NamingConventions.Add("[CURRENT].ViewModels.[VW]ViewModel");
     }
 }

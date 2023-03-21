@@ -1,39 +1,38 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Threading.Tasks;
+using Catel.MVVM;
+
+public interface IWizardPage
 {
-    using System;
-    using System.Threading.Tasks;
-    using Catel.MVVM;
+    ISummaryItem? GetSummary();
 
-    public interface IWizardPage
-    {
-        ISummaryItem? GetSummary();
+    IWizard? Wizard { get; set; }
 
-        IWizard? Wizard { get; set; }
+    IViewModel? ViewModel { get; set; }
 
-        IViewModel? ViewModel { get; set; }
+    event EventHandler<ViewModelChangedEventArgs>? ViewModelChanged;
 
-        event EventHandler<ViewModelChangedEventArgs>? ViewModelChanged;
+    string? Title { get; set; }
 
-        string? Title { get; set; }
+    string? BreadcrumbTitle { get; set; }
 
-        string? BreadcrumbTitle { get; set; }
+    string? Description { get; set; }
 
-        string? Description { get; set; }
+    int Number { get; set; }
 
-        int Number { get; set; }
+    bool IsOptional { get; }
 
-        bool IsOptional { get; }
+    bool IsVisited { get; set; }
 
-        bool IsVisited { get; set; }
+    Task InitializeAsync();
+    Task CancelAsync();
+    Task SaveAsync();
 
-        Task InitializeAsync();
-        Task CancelAsync();
-        Task SaveAsync();
-
-        /// <summary>
-        /// Executes once all the pages of the wizard have been saved.
-        /// </summary>
-        /// <returns></returns>
-        Task AfterWizardPagesSavedAsync();
-    }
+    /// <summary>
+    /// Executes once all the pages of the wizard have been saved.
+    /// </summary>
+    /// <returns></returns>
+    Task AfterWizardPagesSavedAsync();
 }

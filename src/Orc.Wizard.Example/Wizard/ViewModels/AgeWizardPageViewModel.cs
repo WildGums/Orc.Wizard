@@ -1,39 +1,38 @@
-﻿namespace Orc.Wizard.Example.Wizard.ViewModels
+﻿namespace Orc.Wizard.Example.Wizard.ViewModels;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Catel;
+using Catel.MVVM;
+using Catel.Services;
+
+public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.MVVM;
-    using Catel.Services;
+    private readonly IMessageService _messageService;
 
-    public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
+    public AgeWizardPageViewModel(AgeWizardPage wizardPage, IMessageService messageService)
+        : base(wizardPage)
     {
-        private readonly IMessageService _messageService;
+        ArgumentNullException.ThrowIfNull(messageService);
 
-        public AgeWizardPageViewModel(AgeWizardPage wizardPage, IMessageService messageService)
-            : base(wizardPage)
+        _messageService = messageService;
+
+        AddPage = new TaskCommand(OnAddPageExecuteAsync);
+    }
+
+    [ViewModelToModel]
+    public string Age { get; set; }
+
+    public TaskCommand AddPage { get; private set; }
+
+    private async Task OnAddPageExecuteAsync()
+    {
+        if ((await _messageService.ShowAsync("Would you like to add a new page to see the dynamic navigation pane behavior?", "Add page?", MessageButton.YesNo, MessageImage.Question)) != MessageResult.Yes)
         {
-            ArgumentNullException.ThrowIfNull(messageService);
-
-            _messageService = messageService;
-
-            AddPage = new TaskCommand(OnAddPageExecuteAsync);
+            return;
         }
 
-        [ViewModelToModel]
-        public string Age { get; set; }
-
-        public TaskCommand AddPage { get; private set; }
-
-        private async Task OnAddPageExecuteAsync()
-        {
-            if ((await _messageService.ShowAsync("Would you like to add a new page to see the dynamic navigation pane behavior?", "Add page?", MessageButton.YesNo, MessageImage.Question)) != MessageResult.Yes)
-            {
-                return;
-            }
-
-            Wizard.InsertPage<AgeWizardPage>(WizardPage.Number);
-        }
+        Wizard.InsertPage<AgeWizardPage>(WizardPage.Number);
     }
 }

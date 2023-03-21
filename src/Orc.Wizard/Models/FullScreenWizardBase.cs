@@ -1,14 +1,13 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using Catel.IoC;
+
+public abstract class FullScreenWizardBase : WizardBase
 {
-    using Catel.IoC;
-
-    public abstract class FullScreenWizardBase : WizardBase
+    protected FullScreenWizardBase(ITypeFactory typeFactory) 
+        : base(typeFactory)
     {
-        protected FullScreenWizardBase(ITypeFactory typeFactory) 
-            : base(typeFactory)
-        {
-        }
-
-        public bool HideNavigationSystem { get; protected set; }
     }
+
+    public bool HideNavigationSystem { get; protected set; }
 }
