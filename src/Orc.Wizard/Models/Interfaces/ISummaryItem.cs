@@ -1,10 +1,9 @@
-﻿namespace Orc.Wizard
-{
-    public interface ISummaryItem
-    {
-        IWizardPage? Page { get; set; }
+﻿namespace Orc.Wizard;
 
-        string? Title { get; set; }
-        string? Summary { get; set; }
-    }
+public interface ISummaryItem
+{
+    IWizardPage? Page { get; set; }
+
+    string? Title { get; set; }
+    string? Summary { get; set; }
 }

@@ -1,83 +1,82 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Catel.MVVM;
+
+public class WizardPageViewModelBase<TWizardPage> : ViewModelBase, IWizardPageViewModel
+    where TWizardPage : class, IWizardPage
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Catel.MVVM;
-
-    public class WizardPageViewModelBase<TWizardPage> : ViewModelBase, IWizardPageViewModel
-        where TWizardPage : class, IWizardPage
+    public WizardPageViewModelBase(TWizardPage wizardPage)
     {
-        public WizardPageViewModelBase(TWizardPage wizardPage)
-        {
-            ArgumentNullException.ThrowIfNull(wizardPage);
+        ArgumentNullException.ThrowIfNull(wizardPage);
 
-            DeferValidationUntilFirstSaveCall = true;
-            WizardPage = wizardPage;
-            QuickNavigateToPage = new TaskCommand<IWizardPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
+        DeferValidationUntilFirstSaveCall = true;
+        WizardPage = wizardPage;
+        QuickNavigateToPage = new TaskCommand<IWizardPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
+    }
+
+    [Model(SupportIEditableObject = false)]
+    public TWizardPage WizardPage { get; private set; }
+
+    public IWizard? Wizard
+    {
+        get
+        {
+            var wizardPage = WizardPage;
+            if (wizardPage is null)
+            {
+                return null;
+            }
+
+            return wizardPage.Wizard;
+        }
+    }
+
+    public virtual void EnableValidationExposure()
+    {
+        DeferValidationUntilFirstSaveCall = false;
+
+        Validate(true);
+    }
+
+    public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
+
+    public bool QuickNavigateToPageCanExecute(IWizardPage? parameter)
+    {
+        if (parameter is null)
+        {
+            return false;
         }
 
-        [Model(SupportIEditableObject = false)]
-        public TWizardPage WizardPage { get; private set; }
-
-        public IWizard? Wizard
+        if (!Wizard?.AllowQuickNavigation ?? false)
         {
-            get
-            {
-                var wizardPage = WizardPage;
-                if (wizardPage is null)
-                {
-                    return null;
-                }
-
-                return wizardPage.Wizard;
-            }
+            return false;
         }
 
-        public virtual void EnableValidationExposure()
+        if (!parameter.IsVisited)
         {
-            DeferValidationUntilFirstSaveCall = false;
-
-            Validate(true);
+            return false;
         }
 
-        public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
-
-        public bool QuickNavigateToPageCanExecute(IWizardPage? parameter)
+        if (Wizard?.CurrentPage == parameter)
         {
-            if (parameter is null)
-            {
-                return false;
-            }
-
-            if (!Wizard?.AllowQuickNavigation ?? false)
-            {
-                return false;
-            }
-
-            if (!parameter.IsVisited)
-            {
-                return false;
-            }
-
-            if (Wizard?.CurrentPage == parameter)
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        public async Task QuickNavigateToPageExecuteAsync(IWizardPage? parameter)
-        {
-            var page = parameter;
-            if (page is not null && page.IsVisited && Wizard?.Pages is System.Collections.Generic.List<IWizardPage>)
-            {
-                var list = Wizard.Pages.ToList();
-                var index = list.IndexOf(page);
+        return true;
+    }
 
-                await Wizard.MoveToPageAsync(index);
-            }
+    public async Task QuickNavigateToPageExecuteAsync(IWizardPage? parameter)
+    {
+        var page = parameter;
+        if (page is not null && page.IsVisited && Wizard?.Pages is System.Collections.Generic.List<IWizardPage>)
+        {
+            var list = Wizard.Pages.ToList();
+            var index = list.IndexOf(page);
+
+            await Wizard.MoveToPageAsync(index);
         }
     }
 }

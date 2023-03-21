@@ -1,13 +1,12 @@
-﻿namespace Orc.Wizard.ViewModels
-{
-    using Catel.Services;
-    using Orc.Wizard;
+﻿namespace Orc.Wizard.ViewModels;
 
-    public class SideNavigationWizardViewModel : WizardViewModel
+using Catel.Services;
+using Orc.Wizard;
+
+public class SideNavigationWizardViewModel : WizardViewModel
+{
+    public SideNavigationWizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService) 
+        : base(wizard, messageService, languageService)
     {
-        public SideNavigationWizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService) 
-            : base(wizard, messageService, languageService)
-        {
-        }
     }
 }

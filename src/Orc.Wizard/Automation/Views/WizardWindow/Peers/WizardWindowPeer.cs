@@ -1,12 +1,11 @@
-﻿namespace Orc.Wizard.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Wizard.Automation;
 
-    public class WizardWindowPeer : AutomationWindowPeerBase<Views.WizardWindow>
+using Orc.Automation;
+
+public class WizardWindowPeer : AutomationWindowPeerBase<Views.WizardWindow>
+{
+    public WizardWindowPeer(Views.WizardWindow owner)
+        : base(owner)
     {
-        public WizardWindowPeer(Views.WizardWindow owner)
-            : base(owner)
-        {
-        }
     }
 }

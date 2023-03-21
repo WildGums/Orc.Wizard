@@ -1,10 +1,9 @@
-﻿namespace Orc.Wizard.Example.Wizard.Views
+﻿namespace Orc.Wizard.Example.Wizard.Views;
+
+public partial class GadgetsWizardPageView
 {
-    public partial class GadgetsWizardPageView
+    public GadgetsWizardPageView()
     {
-        public GadgetsWizardPageView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

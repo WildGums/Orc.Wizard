@@ -1,23 +1,22 @@
-﻿namespace Orc.Wizard.Example.Wizard
+﻿namespace Orc.Wizard.Example.Wizard;
+
+public class AgeWizardPage : WizardPageBase
 {
-    public class AgeWizardPage : WizardPageBase
+    public AgeWizardPage()
     {
-        public AgeWizardPage()
-        {
-            Title = "Age";
-            Description = "Specify the age of the person";
-            IsOptional = true;
-        }
+        Title = "Age";
+        Description = "Specify the age of the person";
+        IsOptional = true;
+    }
 
-        public string Age { get; set; }
+    public string Age { get; set; }
 
-        public override ISummaryItem GetSummary()
+    public override ISummaryItem GetSummary()
+    {
+        return new SummaryItem
         {
-            return new SummaryItem
-            {
-                Title = "Age",
-                Summary = Age
-            };
-        }
+            Title = "Age",
+            Summary = Age
+        };
     }
 }

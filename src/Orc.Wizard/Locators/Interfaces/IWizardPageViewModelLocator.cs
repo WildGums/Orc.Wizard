@@ -1,8 +1,7 @@
-﻿namespace Orc.Wizard
-{
-    using Catel.MVVM;
+﻿namespace Orc.Wizard;
 
-    public interface IWizardPageViewModelLocator : IViewModelLocator
-    {
-    }
+using Catel.MVVM;
+
+public interface IWizardPageViewModelLocator : IViewModelLocator
+{
 }

@@ -1,42 +1,41 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Threading.Tasks;
+using Catel;
+using Catel.IoC;
+using Catel.Logging;
+using Catel.Reflection;
+using Catel.Services;
+
+public static class IWizardServiceExtensions
 {
-    using System;
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.IoC;
-    using Catel.Logging;
-    using Catel.Reflection;
-    using Catel.Services;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public static class IWizardServiceExtensions
+    public static Task<UIVisualizerResult> ShowWizardAsync<TWizard>(this IWizardService wizardService, object? model = null)
+        where TWizard : IWizard
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
-        public static Task<UIVisualizerResult> ShowWizardAsync<TWizard>(this IWizardService wizardService, object? model = null)
-            where TWizard : IWizard
-        {
-            ArgumentNullException.ThrowIfNull(wizardService);
+        ArgumentNullException.ThrowIfNull(wizardService);
 
 #pragma warning disable IDISP001 // Dispose created
-            var typeFactory = wizardService.GetTypeFactory();
+        var typeFactory = wizardService.GetTypeFactory();
 #pragma warning restore IDISP001 // Dispose created
 
-            IWizard wizard;
+        IWizard wizard;
 
-            if (model is not null)
-            {
-                Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
+        if (model is not null)
+        {
+            Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
 
-                wizard = typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<TWizard>(model);
-            }
-            else
-            {
-                Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
-
-                wizard = typeFactory.CreateRequiredInstance<TWizard>();
-            }
-
-            return wizardService.ShowWizardAsync(wizard);
+            wizard = typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<TWizard>(model);
         }
+        else
+        {
+            Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
+
+            wizard = typeFactory.CreateRequiredInstance<TWizard>();
+        }
+
+        return wizardService.ShowWizardAsync(wizard);
     }
 }

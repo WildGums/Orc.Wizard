@@ -1,13 +1,12 @@
-﻿namespace Orc.Wizard.ViewModels
-{
-    using Catel.Services;
-    using Orc.Wizard;
+﻿namespace Orc.Wizard.ViewModels;
 
-    public class FullScreenWizardViewModel : WizardViewModel
+using Catel.Services;
+using Orc.Wizard;
+
+public class FullScreenWizardViewModel : WizardViewModel
+{
+    public FullScreenWizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService) 
+        : base(wizard, messageService, languageService)
     {
-        public FullScreenWizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService) 
-            : base(wizard, messageService, languageService)
-        {
-        }
     }
 }

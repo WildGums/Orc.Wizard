@@ -1,10 +1,9 @@
-﻿namespace Orc.Wizard.Views
+﻿namespace Orc.Wizard.Views;
+
+public partial class SummaryWizardPageView
 {
-    public partial class SummaryWizardPageView
+    public SummaryWizardPageView()
     {
-        public SummaryWizardPageView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

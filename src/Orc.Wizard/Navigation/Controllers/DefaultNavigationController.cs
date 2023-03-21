@@ -1,69 +1,69 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using Catel.MVVM;
+using Catel.Services;
+
+public class DefaultNavigationController : INavigationController
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows;
-    using Catel.MVVM;
-    using Catel.Services;
+    protected readonly ILanguageService _languageService;
+    protected readonly IMessageService _messageService;
 
-    public class DefaultNavigationController : INavigationController
+    private readonly List<IWizardNavigationButton> _wizardNavigationButtons = new List<IWizardNavigationButton>();
+
+    public DefaultNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
     {
-        protected readonly ILanguageService _languageService;
-        protected readonly IMessageService _messageService;
+        ArgumentNullException.ThrowIfNull(wizard);
+        ArgumentNullException.ThrowIfNull(languageService);
+        ArgumentNullException.ThrowIfNull(languageService);
 
-        private readonly List<IWizardNavigationButton> _wizardNavigationButtons = new List<IWizardNavigationButton>();
+        Wizard = wizard;
+        _languageService = languageService;
+        _messageService = messageService;
+    }
 
-        public DefaultNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
+    public IWizard Wizard { get; }
+
+    public IEnumerable<IWizardNavigationButton> GetNavigationButtons()
+    {
+        if (_wizardNavigationButtons.Count == 0)
         {
-            ArgumentNullException.ThrowIfNull(wizard);
-            ArgumentNullException.ThrowIfNull(languageService);
-            ArgumentNullException.ThrowIfNull(languageService);
-
-            Wizard = wizard;
-            _languageService = languageService;
-            _messageService = messageService;
+            _wizardNavigationButtons.AddRange(CreateNavigationButtons(Wizard));
         }
 
-        public IWizard Wizard { get; }
-
-        public IEnumerable<IWizardNavigationButton> GetNavigationButtons()
-        {
-            if (_wizardNavigationButtons.Count == 0)
-            {
-                _wizardNavigationButtons.AddRange(CreateNavigationButtons(Wizard));
-            }
-
-            return _wizardNavigationButtons;
-        }
+        return _wizardNavigationButtons;
+    }
         
-        public void EvaluateNavigationCommands()
+    public void EvaluateNavigationCommands()
+    {
+        _wizardNavigationButtons.ForEach(x =>
         {
-            _wizardNavigationButtons.ForEach(x =>
-            {
-                x.Update();
-            });
-        }
+            x.Update();
+        });
+    }
 
-        protected virtual IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
+    protected virtual IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
+    {
+        var buttons = new List<WizardNavigationButton>
         {
-            var buttons = new List<WizardNavigationButton>
-            {
-                CreateBackButton(wizard),
-                CreateForwardButton(wizard),
-                CreateFinishButton(wizard),
-                CreateCancelButton(wizard)
-            };
+            CreateBackButton(wizard),
+            CreateForwardButton(wizard),
+            CreateFinishButton(wizard),
+            CreateCancelButton(wizard)
+        };
 
-            return buttons;
-        }
+        return buttons;
+    }
 
-        protected virtual WizardNavigationButton CreateBackButton(IWizard wizard)
+    protected virtual WizardNavigationButton CreateBackButton(IWizard wizard)
+    {
+        var button = new WizardNavigationButton
         {
-            var button = new WizardNavigationButton
-            {
-                Content = _languageService.GetRequiredString("Wizard_Back"),
-                IsVisibleEvaluator = () => !wizard.IsFirstPage(),
-                Command = new TaskCommand(async () =>
+            Content = _languageService.GetRequiredString("Wizard_Back"),
+            IsVisibleEvaluator = () => !wizard.IsFirstPage(),
+            Command = new TaskCommand(async () =>
                 {
                     await wizard.MoveBackAsync();
                 },
@@ -76,25 +76,25 @@
 
                     return wizard.CanMoveBack;
                 })
-            };
+        };
 
-            return button;
-        }
+        return button;
+    }
 
-        protected virtual WizardNavigationButton CreateForwardButton(IWizard wizard)
+    protected virtual WizardNavigationButton CreateForwardButton(IWizard wizard)
+    {
+        var button = new WizardNavigationButton
         {
-            var button = new WizardNavigationButton
+            Content = _languageService.GetRequiredString("Wizard_Next"),
+            IsVisibleEvaluator = () => !wizard.IsLastPage(),
+            StyleEvaluator = (x) =>
             {
-                Content = _languageService.GetRequiredString("Wizard_Next"),
-                IsVisibleEvaluator = () => !wizard.IsLastPage(),
-                StyleEvaluator = (x) =>
-                {
-                    var styleName = !wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
+                var styleName = !wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
 
-                    var application = System.Windows.Application.Current;
-                    return application?.TryFindResource(styleName) as Style;
-                },
-                Command = new TaskCommand(async () =>
+                var application = System.Windows.Application.Current;
+                return application?.TryFindResource(styleName) as Style;
+            },
+            Command = new TaskCommand(async () =>
                 {
                     await wizard.MoveForwardAsync();
                 },
@@ -107,25 +107,25 @@
 
                     return wizard.CanMoveForward;
                 })
-            };
+        };
 
-            return button;
-        }
+        return button;
+    }
 
-        protected virtual WizardNavigationButton CreateFinishButton(IWizard wizard)
+    protected virtual WizardNavigationButton CreateFinishButton(IWizard wizard)
+    {
+        var button = new WizardNavigationButton
         {
-            var button = new WizardNavigationButton
+            Content = _languageService.GetRequiredString("Wizard_Finish"),
+            IsVisibleEvaluator = () => wizard.IsLastPage(),
+            StyleEvaluator = (x) =>
             {
-                Content = _languageService.GetRequiredString("Wizard_Finish"),
-                IsVisibleEvaluator = () => wizard.IsLastPage(),
-                StyleEvaluator = (x) =>
-                {
-                    var styleName = wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
+                var styleName = wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
 
-                    var application = System.Windows.Application.Current;
-                    return application?.TryFindResource(styleName) as Style;
-                },
-                Command = new TaskCommand(async () =>
+                var application = System.Windows.Application.Current;
+                return application?.TryFindResource(styleName) as Style;
+            },
+            Command = new TaskCommand(async () =>
                 {
                     await wizard.ResumeAsync();
                 },
@@ -150,18 +150,18 @@
 
                     return false;
                 })
-            };
+        };
 
-            return button;
-        }
+        return button;
+    }
 
-        protected virtual WizardNavigationButton CreateCancelButton(IWizard wizard)
+    protected virtual WizardNavigationButton CreateCancelButton(IWizard wizard)
+    {
+        var button = new WizardNavigationButton
         {
-            var button = new WizardNavigationButton
-            {
-                Content = _languageService.GetRequiredString("Wizard_Cancel"),
-                IsVisible = true,
-                Command = new TaskCommand(async () =>
+            Content = _languageService.GetRequiredString("Wizard_Cancel"),
+            IsVisible = true,
+            Command = new TaskCommand(async () =>
                 {
                     if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
                     {
@@ -179,9 +179,8 @@
 
                     return wizard.CanCancel;
                 })
-            };
+        };
 
-            return button;
-        }
+        return button;
     }
 }

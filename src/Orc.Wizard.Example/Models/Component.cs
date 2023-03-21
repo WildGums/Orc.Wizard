@@ -1,11 +1,10 @@
-﻿namespace Orc.Wizard.Example
+﻿namespace Orc.Wizard.Example;
+
+using Catel.Data;
+
+public class Component : ModelBase
 {
-    using Catel.Data;
+    public bool IsSelected { get; set; }
 
-    public class Component : ModelBase
-    {
-        public bool IsSelected { get; set; }
-
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

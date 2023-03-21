@@ -1,15 +1,14 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System.Windows;
+using System.Windows.Input;
+
+public interface IWizardNavigationButton
 {
-    using System.Windows;
-    using System.Windows.Input;
+    string? Content { get; }
+    bool IsVisible { get; }
+    Style? Style { get; }
+    ICommand? Command { get; }
 
-    public interface IWizardNavigationButton
-    {
-        string? Content { get; }
-        bool IsVisible { get; }
-        Style? Style { get; }
-        ICommand? Command { get; }
-
-        void Update();
-    }
+    void Update();
 }

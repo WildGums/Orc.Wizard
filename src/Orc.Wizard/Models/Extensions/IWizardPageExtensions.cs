@@ -1,15 +1,14 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Threading.Tasks;
+
+public static class IWizardPageExtensions
 {
-    using System;
-    using System.Threading.Tasks;
-
-    public static class IWizardPageExtensions
+    public static Task MoveForwardOrResumeAsync(this IWizardPage wizardPage)
     {
-        public static Task MoveForwardOrResumeAsync(this IWizardPage wizardPage)
-        {
-            ArgumentNullException.ThrowIfNull(wizardPage);
+        ArgumentNullException.ThrowIfNull(wizardPage);
 
-            return wizardPage.Wizard?.MoveForwardOrResumeAsync() ?? Task.CompletedTask;
-        }
+        return wizardPage.Wizard?.MoveForwardOrResumeAsync() ?? Task.CompletedTask;
     }
 }

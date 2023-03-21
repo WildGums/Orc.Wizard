@@ -1,55 +1,55 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using Catel.MVVM;
+using Catel.Services;
+
+public class FastForwardNavigationController : DefaultNavigationController
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
-    using Catel.MVVM;
-    using Catel.Services;
-
-    public class FastForwardNavigationController : DefaultNavigationController
+    public FastForwardNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
+        : base(wizard, languageService, messageService)
     {
-        public FastForwardNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
-            : base(wizard, languageService, messageService)
+
+    }
+
+    protected override IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
+    {
+        ArgumentNullException.ThrowIfNull(wizard);
+
+        var buttons = new List<WizardNavigationButton>
         {
+            CreateBackButton(wizard)
+        };
 
-        }
+        var forwardButton = CreateForwardButton(wizard);
+        forwardButton.IsVisibleEvaluator = () => true;
+        buttons.Add(forwardButton);
 
-        protected override IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
+        buttons.Add(CreateFinishButton(wizard));
+        buttons.Add(CreateCancelButton(wizard));
+
+        return buttons;
+    }
+
+    protected override WizardNavigationButton CreateFinishButton(IWizard wizard)
+    {
+        ArgumentNullException.ThrowIfNull(wizard);
+
+        var button = new WizardNavigationButton
         {
-            ArgumentNullException.ThrowIfNull(wizard);
-
-            var buttons = new List<WizardNavigationButton>
+            Content = _languageService.GetRequiredString("Wizard_Finish"),
+            IsVisibleEvaluator = () => true,
+            StyleEvaluator = (x) =>
             {
-                CreateBackButton(wizard)
-            };
+                var styleName = wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
 
-            var forwardButton = CreateForwardButton(wizard);
-            forwardButton.IsVisibleEvaluator = () => true;
-            buttons.Add(forwardButton);
-
-            buttons.Add(CreateFinishButton(wizard));
-            buttons.Add(CreateCancelButton(wizard));
-
-            return buttons;
-        }
-
-        protected override WizardNavigationButton CreateFinishButton(IWizard wizard)
-        {
-            ArgumentNullException.ThrowIfNull(wizard);
-
-            var button = new WizardNavigationButton
-            {
-                Content = _languageService.GetRequiredString("Wizard_Finish"),
-                IsVisibleEvaluator = () => true,
-                StyleEvaluator = (x) =>
-                {
-                    var styleName = wizard.IsLastPage() ? "WizardNavigationPrimaryButtonStyle" : "WizardNavigationButtonStyle";
-
-                    var application = Application.Current;
-                    return application?.TryFindResource(styleName) as Style;
-                },
-                Command = new TaskCommand(async () =>
+                var application = Application.Current;
+                return application?.TryFindResource(styleName) as Style;
+            },
+            Command = new TaskCommand(async () =>
                 {
                     if (wizard.IsLastPage())
                     {
@@ -103,9 +103,8 @@
 
                     return wizard.CanResume;
                 })
-            };
+        };
 
-            return button;
-        }
+        return button;
     }
 }

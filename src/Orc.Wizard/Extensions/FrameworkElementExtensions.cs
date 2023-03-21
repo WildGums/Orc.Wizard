@@ -1,27 +1,25 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Windows;
+using System.Windows.Media;
+using Catel.Logging;
+
+internal static class FrameworkElementExtensions
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Media;
-    using Catel.Logging;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    internal static class FrameworkElementExtensions
+    public static SolidColorBrush GetAccentColorBrush(this FrameworkElement frameworkElement, bool isSelected = true)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        ArgumentNullException.ThrowIfNull(frameworkElement);
 
-        public static SolidColorBrush GetAccentColorBrush(this FrameworkElement frameworkElement, bool isSelected = true)
+        var resourceName = isSelected ? ThemingKeys.AccentColorBrush : ThemingKeys.AccentColorBrush40;
+
+        if (frameworkElement.TryFindResource(resourceName) is not SolidColorBrush brush)
         {
-            ArgumentNullException.ThrowIfNull(frameworkElement);
-
-            var resourceName = isSelected ? ThemingKeys.AccentColorBrush : ThemingKeys.AccentColorBrush40;
-
-            var brush = frameworkElement.TryFindResource(resourceName) as SolidColorBrush;
-            if (brush is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Theming is not yet initialized, make sure to initialize a theme via ThemeManager first");
-            }
-
-            return brush;
+            throw Log.ErrorAndCreateException<InvalidOperationException>("Theming is not yet initialized, make sure to initialize a theme via ThemeManager first");
         }
+
+        return brush;
     }
 }

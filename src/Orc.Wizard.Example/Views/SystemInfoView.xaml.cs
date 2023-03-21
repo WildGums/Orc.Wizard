@@ -1,10 +1,9 @@
-﻿namespace Orc.SystemInfo.Example.Views
+﻿namespace Orc.SystemInfo.Example.Views;
+
+public partial class SystemInfoView
 {
-    public partial class SystemInfoView
+    public SystemInfoView()
     {
-        public SystemInfoView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
