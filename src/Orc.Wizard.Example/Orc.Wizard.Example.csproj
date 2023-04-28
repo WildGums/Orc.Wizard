@@ -24,7 +24,7 @@
     <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
     <PackageReference Include="Orc.Controls" Version="5.0.0-alpha0290" />
     <PackageReference Include="Orc.SystemInfo" Version="5.0.0-alpha0229" />
-    <PackageReference Include="Orchestra.Core" Version="7.0.0-alpha0263" />
+    <PackageReference Include="Orchestra.Core" Version="7.0.0-alpha0267" />
   </ItemGroup>
 
   <ItemGroup>
