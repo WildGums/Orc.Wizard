@@ -23,14 +23,14 @@ public class WizardBaseFacts
 
             testWizard.PageAdded += (sender, e) =>
             {
-                Assert.IsTrue(ReferenceEquals(wizardPage, e.WizardPage));
+                Assert.That(ReferenceEquals(wizardPage, e.WizardPage), Is.True);
 
                 executedEvent = true;
             };
 
             testWizard.AddPage(wizardPage);
 
-            Assert.IsTrue(executedEvent);
+            Assert.That(executedEvent, Is.True);
         }
     }
 
@@ -55,14 +55,14 @@ public class WizardBaseFacts
 
             testWizard.PageRemoved += (sender, e) =>
             {
-                Assert.IsTrue(ReferenceEquals(wizardPage2, e.WizardPage));
+                Assert.That(ReferenceEquals(wizardPage2, e.WizardPage), Is.True);
 
                 executedEvent = true;
             };
 
             testWizard.RemovePage(wizardPage2);
 
-            Assert.IsTrue(executedEvent);
+            Assert.That(executedEvent, Is.True);
         }
     }
 }
