@@ -1,23 +1,16 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SummaryWizardPage.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Wizard;
 
+using System;
+using Catel;
+using Catel.Services;
 
-namespace Orc.Wizard
+public class SummaryWizardPage : WizardPageBase
 {
-    using Catel;
-    using Catel.Services;
-
-    public class SummaryWizardPage : WizardPageBase
+    public SummaryWizardPage(ILanguageService languageService)
     {
-        public SummaryWizardPage(ILanguageService languageService)
-        {
-            Argument.IsNotNull(() => languageService);
+        ArgumentNullException.ThrowIfNull(languageService);
 
-            Title = languageService.GetString("Wizard_SummaryTitle");
-            Description = languageService.GetString("Wizard_SummaryDescription");
-        }
+        Title = languageService.GetRequiredString("Wizard_SummaryTitle");
+        Description = languageService.GetRequiredString("Wizard_SummaryDescription");
     }
 }

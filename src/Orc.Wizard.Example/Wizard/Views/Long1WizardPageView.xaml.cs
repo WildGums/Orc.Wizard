@@ -1,10 +1,9 @@
-﻿namespace Orc.Wizard.Example.Wizard.Views
+﻿namespace Orc.Wizard.Example.Wizard.Views;
+
+public partial class Long1WizardPageView
 {
-    public partial class Long1WizardPageView
+    public Long1WizardPageView()
     {
-        public Long1WizardPageView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

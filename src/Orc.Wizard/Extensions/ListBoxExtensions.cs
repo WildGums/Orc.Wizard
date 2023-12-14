@@ -1,113 +1,103 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ItemsControlExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Wizard;
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using Catel;
+using Catel.Windows;
 
-namespace Orc.Wizard
+public static class ListBoxExtensions
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media.Animation;
-    using Catel;
-    using Catel.Windows;
+    public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.RegisterAttached("HorizontalOffset",
+        typeof(double), typeof(ListBoxExtensions), new UIPropertyMetadata(0.0, OnHorizontalOffsetChanged));
 
-    public static class ListBoxExtensions
+    public static void SetHorizontalOffset(FrameworkElement target, double value)
     {
-        public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.RegisterAttached("HorizontalOffset",
-            typeof(double), typeof(ListBoxExtensions), new UIPropertyMetadata(0.0, OnHorizontalOffsetChanged));
+        target.SetValue(HorizontalOffsetProperty, value);
+    }
 
-        public static void SetHorizontalOffset(FrameworkElement target, double value)
+    public static double GetHorizontalOffset(FrameworkElement target)
+    {
+        return (double)target.GetValue(HorizontalOffsetProperty);
+    }
+
+    private static void OnHorizontalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+    {
+        if (target is ScrollViewer scrollViewer)
         {
-            target.SetValue(HorizontalOffsetProperty, value);
+            scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
+        }
+    }
+
+    public static void CenterSelectedItem(this ListBox listBox)
+    {
+        ArgumentNullException.ThrowIfNull(listBox);
+
+        var scrollViewer = listBox.FindVisualDescendantByType<ScrollViewer>();
+        if (scrollViewer is null)
+        {
+            return;
         }
 
-        public static double GetHorizontalOffset(FrameworkElement target)
+        var selectedItem = listBox.SelectedItem;
+        if (selectedItem is null)
         {
-            return (double)target.GetValue(HorizontalOffsetProperty);
+            return;
         }
 
-        private static void OnHorizontalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+        var isBefore = true;
+        var beforeOffset = 0d;
+        var afterOffset = 0d;
+
+        foreach (var item in listBox.Items)
         {
-            var scrollViewer = target as ScrollViewer;
-            if (scrollViewer is not null)
+            var currentItem = ReferenceEquals(item, selectedItem);
+            if (currentItem)
             {
-                scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
+                isBefore = false;
             }
-        }
 
-        public static void CenterSelectedItem(this ListBox listBox)
-        {
-            Argument.IsNotNull(() => listBox);
-
-            var scrollViewer = listBox.FindVisualDescendantByType<ScrollViewer>();
-            if (scrollViewer is null)
+            if (listBox.ItemContainerGenerator.ContainerFromItem(selectedItem) is not FrameworkElement container)
             {
                 return;
             }
 
-            var selectedItem = listBox.SelectedItem;
-            if (selectedItem is null)
+            var width = container.ActualWidth;
+
+            if (isBefore)
             {
-                return;
+                beforeOffset += width;
             }
-
-            var isBefore = true;
-            var beforeOffset = 0d;
-            var afterOffset = 0d;
-
-            foreach (var item in listBox.Items)
+            else if (currentItem)
             {
-                var currentItem = ReferenceEquals(item, selectedItem);
-                if (currentItem)
-                {
-                    isBefore = false;
-                }
-
-                var container = listBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as FrameworkElement;
-                if (container is null)
-                {
-                    return;
-                }
-
-                var width = container.ActualWidth;
-
-                if (isBefore)
-                {
-                    beforeOffset += width;
-                }
-                else if (currentItem)
-                {
-                    beforeOffset += width / 2;
-                    afterOffset += width / 2;
-                }
-                else
-                {
-                    afterOffset += width;
-                }
+                beforeOffset += width / 2;
+                afterOffset += width / 2;
             }
-
-            // We now know the actual center, calculate based on the width
-            var scrollableArea = scrollViewer.ActualWidth;
-            var toValue = beforeOffset - (scrollableArea / 2);
-            if (toValue < 0)
+            else
             {
-                toValue = 0;
+                afterOffset += width;
             }
-
-            var horizontalAnimation = new DoubleAnimation();
-            horizontalAnimation.From = scrollViewer.HorizontalOffset;
-            horizontalAnimation.To = toValue;
-            horizontalAnimation.DecelerationRatio = .2;
-            horizontalAnimation.Duration = new Duration(WizardConfiguration.AnimationDuration);
-
-            var storyboard = new Storyboard();
-            storyboard.Children.Add(horizontalAnimation);
-            Storyboard.SetTarget(horizontalAnimation, scrollViewer);
-            Storyboard.SetTargetProperty(horizontalAnimation, new PropertyPath(HorizontalOffsetProperty));
-            storyboard.Begin();
         }
+
+        // We now know the actual center, calculate based on the width
+        var scrollableArea = scrollViewer.ActualWidth;
+        var toValue = beforeOffset - (scrollableArea / 2);
+        if (toValue < 0)
+        {
+            toValue = 0;
+        }
+
+        var horizontalAnimation = new DoubleAnimation();
+        horizontalAnimation.From = scrollViewer.HorizontalOffset;
+        horizontalAnimation.To = toValue;
+        horizontalAnimation.DecelerationRatio = .2;
+        horizontalAnimation.Duration = new Duration(WizardConfiguration.AnimationDuration);
+
+        var storyboard = new Storyboard();
+        storyboard.Children.Add(horizontalAnimation);
+        Storyboard.SetTarget(horizontalAnimation, scrollViewer);
+        Storyboard.SetTargetProperty(horizontalAnimation, new PropertyPath(HorizontalOffsetProperty));
+        storyboard.Begin();
     }
 }

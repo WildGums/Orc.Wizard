@@ -1,9 +1,8 @@
-﻿namespace Orc.Wizard
-{
-    using Catel.MVVM;
+﻿namespace Orc.Wizard;
 
-    public interface IWizardPageViewModel : IViewModel
-    {
-        void EnableValidationExposure();
-    }
+using Catel.MVVM;
+
+public interface IWizardPageViewModel : IViewModel
+{
+    void EnableValidationExposure();
 }

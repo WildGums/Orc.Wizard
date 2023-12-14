@@ -1,18 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Component.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Wizard.Example;
 
+using Catel.Data;
 
-namespace Orc.Wizard.Example
+public class Component : ModelBase
 {
-    using Catel.Data;
+    public bool IsSelected { get; set; }
 
-    public class Component : ModelBase
-    {
-        public bool IsSelected { get; set; }
-
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

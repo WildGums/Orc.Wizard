@@ -1,50 +1,49 @@
-﻿namespace Orc.Wizard.ViewModels
+﻿namespace Orc.Wizard.ViewModels;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public class SummaryWizardPageViewModel : WizardPageViewModelBase<SummaryWizardPage>
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    public class SummaryWizardPageViewModel : WizardPageViewModelBase<SummaryWizardPage>
+    public SummaryWizardPageViewModel(SummaryWizardPage wizardPage) 
+        : base(wizardPage)
     {
-        public SummaryWizardPageViewModel(SummaryWizardPage wizardPage) 
-            : base(wizardPage)
+    }
+
+    public List<ISummaryItem>? SummaryItems { get; private set; }
+
+    protected override async Task InitializeAsync()
+    {
+        await base.InitializeAsync();
+
+        var wizard = Wizard;
+        if (wizard is null)
         {
+            return;
         }
 
-        public List<ISummaryItem> SummaryItems { get; private set; }
+        var items = new List<ISummaryItem>();
 
-        protected override async Task InitializeAsync()
+        foreach (var page in wizard.Pages)
         {
-            await base.InitializeAsync();
-
-            var wizard = Wizard;
-            if (wizard is null)
+            // Skip pages that were not visited
+            if (!page.IsVisited)
             {
-                return;
+                continue;
             }
 
-            var items = new List<ISummaryItem>();
-
-            foreach (var page in wizard.Pages)
+            var summary = page.GetSummary();
+            if (summary is not null)
             {
-                // Skip pages that were not visited
-                if (!page.IsVisited)
+                if (summary.Page is null)
                 {
-                    continue;
+                    summary.Page = page;
                 }
 
-                var summary = page.GetSummary();
-                if (summary is not null)
-                {
-                    if (summary.Page is null)
-                    {
-                        summary.Page = page;
-                    }
-
-                    items.Add(summary);
-                }
+                items.Add(summary);
             }
-
-            SummaryItems = items;
         }
+
+        SummaryItems = items;
     }
 }

@@ -1,42 +1,41 @@
-﻿namespace Orc.Wizard
+﻿namespace Orc.Wizard;
+
+using System;
+using System.Threading.Tasks;
+using Catel.Logging;
+using Catel.Reflection;
+using Catel.Services;
+using ViewModels;
+
+public class WizardService : IWizardService
 {
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.Logging;
-    using Catel.Reflection;
-    using Catel.Services;
-    using ViewModels;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public class WizardService : IWizardService
+    private readonly IUIVisualizerService _uiVisualizerService;
+
+    public WizardService(IUIVisualizerService uiVisualizerService)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
-        private readonly IUIVisualizerService _uiVisualizerService;
+        _uiVisualizerService = uiVisualizerService;
+    }
 
-        public WizardService(IUIVisualizerService uiVisualizerService)
+    public Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard)
+    {
+        ArgumentNullException.ThrowIfNull(wizard);
+
+        Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
+
+        if (wizard is SideNavigationWizardBase)
         {
-            Argument.IsNotNull(() => uiVisualizerService);
-
-            _uiVisualizerService = uiVisualizerService;
+            return _uiVisualizerService.ShowDialogAsync<SideNavigationWizardViewModel>(wizard);
         }
 
-        public Task<bool?> ShowWizardAsync(IWizard wizard)
+        if (wizard is FullScreenWizardBase)
         {
-            Argument.IsNotNull(() => wizard);
-
-            Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName(false));
-
-            if (wizard is SideNavigationWizardBase)
-            {
-                return _uiVisualizerService.ShowDialogAsync<SideNavigationWizardViewModel>(wizard);
-            }
-
-            if (wizard is FullScreenWizardBase)
-            {
-                return _uiVisualizerService.ShowDialogAsync<FullScreenWizardViewModel>(wizard);
-            }
-
-            return _uiVisualizerService.ShowDialogAsync<WizardViewModel>(wizard);
+            return _uiVisualizerService.ShowDialogAsync<FullScreenWizardViewModel>(wizard);
         }
+
+        return _uiVisualizerService.ShowDialogAsync<WizardViewModel>(wizard);
     }
 }
