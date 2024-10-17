@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Orc.Wizard.Controls"
+             xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -14,15 +15,15 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" 
-                   FontWeight="SemiBold" 
-                   FontSize="18" 
+                   FontWeight="SemiBold"
+                   FontSize="{orctheming:FontSize 18}" 
                    Margin="10,0,18,8" 
 	               HorizontalAlignment="Stretch"
                    Text="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type local:WizardPageHeader}}}"
                    TextAlignment="{Binding TextAlignment, RelativeSource={RelativeSource AncestorType={x:Type local:WizardPageHeader}}}" />
 
-        <TextBlock Grid.Row="1" 
-                   FontSize="15" 
+        <TextBlock Grid.Row="1"
+                   FontSize="{orctheming:FontSize 15}" 
                    Margin="10,0,18,8"
 	               HorizontalAlignment="Stretch" 
 		           TextWrapping="Wrap"
