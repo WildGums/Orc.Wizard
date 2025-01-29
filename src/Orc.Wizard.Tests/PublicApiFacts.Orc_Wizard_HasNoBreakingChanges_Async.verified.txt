@@ -168,7 +168,7 @@ namespace Orc.Wizard
     {
         public static readonly Catel.Data.IPropertyData HideNavigationSystemProperty;
         protected FullScreenWizardBase(Catel.IoC.ITypeFactory typeFactory) { }
-        public bool HideNavigationSystem { get; set; }
+        public bool HideNavigationSystem { get; protected set; }
     }
     public interface INavigationController
     {
@@ -370,28 +370,28 @@ namespace Orc.Wizard
         public static readonly Catel.Data.IPropertyData TitleProperty;
         public static readonly Catel.Data.IPropertyData VerticalScrollbarVisibilityProperty;
         protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
-        public bool AllowQuickNavigation { get; set; }
+        public bool AllowQuickNavigation { get; protected set; }
         public bool AutoSizeSideNavigationPane { get; set; }
-        public virtual bool CacheViews { get; set; }
+        public virtual bool CacheViews { get; protected set; }
         public virtual bool CanCancel { get; }
         public virtual bool CanMoveBack { get; }
         public virtual bool CanMoveForward { get; }
         public virtual bool CanResume { get; }
-        public bool CanShowHelp { get; set; }
+        public bool CanShowHelp { get; protected set; }
         public Orc.Wizard.IWizardPage? CurrentPage { get; }
-        public virtual bool HandleNavigationStates { get; set; }
-        public virtual System.Windows.Controls.ScrollBarVisibility HorizontalScrollbarVisibility { get; set; }
-        public bool IsHelpVisible { get; set; }
-        public virtual System.Windows.Size MaxSize { get; set; }
-        public virtual System.Windows.Size MinSize { get; set; }
-        public Orc.Wizard.INavigationController NavigationController { get; set; }
-        public Orc.Wizard.INavigationStrategy NavigationStrategy { get; set; }
+        public virtual bool HandleNavigationStates { get; protected set; }
+        public virtual System.Windows.Controls.ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
+        public bool IsHelpVisible { get; protected set; }
+        public virtual System.Windows.Size MaxSize { get; protected set; }
+        public virtual System.Windows.Size MinSize { get; protected set; }
+        public Orc.Wizard.INavigationController NavigationController { get; protected set; }
+        public Orc.Wizard.INavigationStrategy NavigationStrategy { get; protected set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
-        public virtual System.Windows.ResizeMode ResizeMode { get; set; }
-        public virtual bool RestoreScrollPositionPerPage { get; set; }
-        public bool ShowInTaskbar { get; set; }
-        public string? Title { get; set; }
-        public virtual System.Windows.Controls.ScrollBarVisibility VerticalScrollbarVisibility { get; set; }
+        public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
+        public virtual bool RestoreScrollPositionPerPage { get; protected set; }
+        public bool ShowInTaskbar { get; protected set; }
+        public string? Title { get; protected set; }
+        public virtual System.Windows.Controls.ScrollBarVisibility VerticalScrollbarVisibility { get; protected set; }
         public event System.EventHandler<System.EventArgs>? Canceled;
         public event System.EventHandler<System.EventArgs>? CurrentPageChanged;
         public event System.EventHandler<System.EventArgs>? HelpShown;
@@ -462,7 +462,7 @@ namespace Orc.Wizard
         protected WizardPageBase() { }
         public string? BreadcrumbTitle { get; set; }
         public string? Description { get; set; }
-        public bool IsOptional { get; set; }
+        public bool IsOptional { get; protected set; }
         public bool IsVisited { get; set; }
         public int Number { get; set; }
         public string? Title { get; set; }
