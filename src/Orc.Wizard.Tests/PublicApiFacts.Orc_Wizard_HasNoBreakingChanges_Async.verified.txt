@@ -240,6 +240,9 @@ namespace Orc.Wizard
         public static Orc.Wizard.IWizardPage? FindPage(this Orc.Wizard.IWizard wizard, System.Func<Orc.Wizard.IWizardPage, bool> predicate) { }
         public static TWizardPage? FindPageByType<TWizardPage>(this Orc.Wizard.IWizard wizard)
             where TWizardPage : Orc.Wizard.IWizardPage { }
+        public static Orc.Wizard.IWizardPage FindRequiredPage(this Orc.Wizard.IWizard wizard, System.Func<Orc.Wizard.IWizardPage, bool> predicate) { }
+        public static TWizardPage FindRequiredPageByType<TWizardPage>(this Orc.Wizard.IWizard wizard)
+            where TWizardPage : Orc.Wizard.IWizardPage { }
         public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, int index)
             where TWizardPage : Orc.Wizard.IWizardPage { }
         public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, int index, object model)

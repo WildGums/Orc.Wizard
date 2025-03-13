@@ -108,6 +108,18 @@ public static class IWizardExtensions
         return (TWizardPage?)FindPage(wizard, x => typeof(TWizardPage).IsAssignableFromEx(x.GetType()));
     }
 
+    public static TWizardPage FindRequiredPageByType<TWizardPage>(this IWizard wizard)
+        where TWizardPage : IWizardPage
+    {
+        var page = wizard.FindPageByType<TWizardPage>();
+        if (page is null)
+        {
+            throw Log.ErrorAndCreateException<InvalidOperationException>($"Could not find required page of type '{typeof(TWizardPage).Name}'");
+        }
+
+        return page;
+    }
+
     public static IWizardPage? FindPage(this IWizard wizard, Func<IWizardPage, bool> predicate)
     {
         ArgumentNullException.ThrowIfNull(wizard);
@@ -120,6 +132,17 @@ public static class IWizardExtensions
         }
 
         return allPages.FirstOrDefault(predicate);
+    }
+
+    public static IWizardPage FindRequiredPage(this IWizard wizard, Func<IWizardPage, bool> predicate)
+    {
+        var page = wizard.FindPage(predicate);
+        if (page is null)
+        {
+            throw Log.ErrorAndCreateException<InvalidOperationException>($"Could not find required page using the specified predicate");
+        }
+
+        return page;
     }
 
     public static bool IsFirstPage(this IWizard wizard, IWizardPage? wizardPage = null)
