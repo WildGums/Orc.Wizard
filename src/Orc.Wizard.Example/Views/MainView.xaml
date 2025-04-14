@@ -21,6 +21,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -53,7 +54,10 @@
         <CheckBox Content="Mark all pages as visited before showing wizard" IsChecked="{Binding MarkAllPagesAsVisited}" />
         <CheckBox Content="Auto size side navigation pane" IsChecked="{Binding AutoSizeSideNavigationPane}" 
                   ToolTip="Auto sizing adjusts the spacing between the ellipses in navigation pane so they fit without scrolling.  The spacing is calculated from the Wizard window minimum size (MinSize)."/>
-                          
+        <CheckBox Content="Move to other screen (if possible)"
+                  IsChecked="{Binding MoveToOtherScreen}"
+                  ToolTip="Tests the auto move logic and the page initialization logic." />
+
         <StackPanel Orientation="Horizontal">
             <Button Command="{Binding ShowWizard}" 
                     CommandParameter="{x:Type local:ExampleWizard}"

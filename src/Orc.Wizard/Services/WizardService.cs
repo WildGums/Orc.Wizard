@@ -20,7 +20,7 @@ public class WizardService : IWizardService
         _uiVisualizerService = uiVisualizerService;
     }
 
-    public Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard)
+    public virtual Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard)
     {
         ArgumentNullException.ThrowIfNull(wizard);
 

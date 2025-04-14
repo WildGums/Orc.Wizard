@@ -3,6 +3,7 @@ using Catel.MVVM;
 
 using Orc.Wizard.Example.Views;
 using Orc.Wizard.Example.ViewModels;
+using Orc.Wizard.Example;
 
 /// <summary>
 /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -15,6 +16,10 @@ public static class ModuleInitializer
     public static void Initialize()
     {
         var serviceLocator = ServiceLocator.Default;
+
+        serviceLocator.RegisterType<IMonitorAwareUIVisualizerService, MonitorAwareUIVisualizerService>();
+        serviceLocator.RegisterType<IMonitorAwareWizardService, MonitorAwareWizardService>();
+
         var viewModelLocator = serviceLocator.ResolveRequiredType<IViewModelLocator>();
         viewModelLocator.Register(typeof(MainView), typeof(MainViewModel));
     }

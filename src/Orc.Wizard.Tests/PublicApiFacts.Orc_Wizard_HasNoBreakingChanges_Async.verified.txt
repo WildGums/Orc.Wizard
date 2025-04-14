@@ -511,7 +511,7 @@ namespace Orc.Wizard
     public class WizardService : Orc.Wizard.IWizardService
     {
         public WizardService(Catel.Services.IUIVisualizerService uiVisualizerService) { }
-        public System.Threading.Tasks.Task<Catel.Services.UIVisualizerResult> ShowWizardAsync(Orc.Wizard.IWizard wizard) { }
+        public virtual System.Threading.Tasks.Task<Catel.Services.UIVisualizerResult> ShowWizardAsync(Orc.Wizard.IWizard wizard) { }
     }
 }
 namespace Orc.Wizard.ViewModels
