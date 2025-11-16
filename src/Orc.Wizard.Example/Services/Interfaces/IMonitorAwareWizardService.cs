@@ -6,6 +6,6 @@
 
     public interface IMonitorAwareWizardService
     {
-        Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard, MonitorInfo monitor);
+        Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard, IMonitorInfo monitor);
     }
 }

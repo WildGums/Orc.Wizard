@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0-windows;net9.0-windows</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <AssemblyName>Orc.Wizard</AssemblyName>
     <RootNamespace>Orc.Wizard</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -30,8 +30,8 @@
     <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />
     <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
-    <PackageReference Include="Orc.Automation" Version="5.0.5" />
-    <PackageReference Include="Orc.Theming" Version="5.3.1" />
+    <PackageReference Include="Orc.Automation" Version="5.1.0-alpha0532" />
+    <PackageReference Include="Orc.Theming" Version="5.4.0-alpha0169" />
   </ItemGroup>
 
   <!-- Theming -->

@@ -12,13 +12,13 @@
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService, MonitorInfo monitor)
+        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService, IMonitorInfo monitor)
             where TViewModel : IViewModel
         {
             return ShowDialogAsync<TViewModel>(monitorAwareUiVisualizerService, null, monitor);
         }
 
-        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService, object? model, MonitorInfo monitor)
+        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService, object? model, IMonitorInfo monitor)
             where TViewModel : IViewModel
         {
             ArgumentNullException.ThrowIfNull(monitorAwareUiVisualizerService);

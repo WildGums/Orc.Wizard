@@ -10,7 +10,7 @@
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        public static void MoveToMonitor(this Window window, MonitorInfo monitor)
+        public static void MoveToMonitor(this Window window, IMonitorInfo monitor)
         {
             ArgumentNullException.ThrowIfNull(window);
             ArgumentNullException.ThrowIfNull(monitor);
@@ -35,7 +35,7 @@
             }
         }
 
-        private static void UpdateWindowState(Window window, MonitorInfo screen)
+        private static void UpdateWindowState(Window window, IMonitorInfo screen)
         {
             // TODO: Consider ignoring if the window is already on the correct screen
             //var currentMonitor = window.GetMonitor();

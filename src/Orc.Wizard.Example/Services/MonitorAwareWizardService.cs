@@ -21,7 +21,7 @@
             _monitorAwareUiVisualizerService = monitorAwareUiVisualizerService;
         }
 
-        public Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard, MonitorInfo monitor)
+        public Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard, IMonitorInfo monitor)
         {
             ArgumentNullException.ThrowIfNull(wizard);
             ArgumentNullException.ThrowIfNull(monitor);

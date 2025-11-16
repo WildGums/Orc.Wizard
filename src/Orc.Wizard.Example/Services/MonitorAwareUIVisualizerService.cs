@@ -19,7 +19,7 @@
         {
         }
 
-        public virtual Task<UIVisualizerResult> ShowDialogAsync(IViewModel viewModel, MonitorInfo monitor)
+        public virtual Task<UIVisualizerResult> ShowDialogAsync(IViewModel viewModel, IMonitorInfo monitor)
         {
             var viewModelType = viewModel.GetType();
             var viewModelTypeName = viewModelType.GetSafeFullName();
@@ -29,7 +29,7 @@
             return ShowDialogAsync(viewModelTypeName, viewModel, monitor);
         }
 
-        public virtual async Task<UIVisualizerResult> ShowDialogAsync(string name, object data, MonitorInfo monitor)
+        public virtual async Task<UIVisualizerResult> ShowDialogAsync(string name, object data, IMonitorInfo monitor)
         {
             Argument.IsNotNullOrWhitespace("name", name);
             ArgumentNullException.ThrowIfNull(monitor);

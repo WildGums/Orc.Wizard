@@ -7,6 +7,6 @@
 
     public interface IMonitorAwareUIVisualizerService
     {
-        Task<UIVisualizerResult> ShowDialogAsync(IViewModel viewModel, MonitorInfo monitor);
+        Task<UIVisualizerResult> ShowDialogAsync(IViewModel viewModel, IMonitorInfo monitor);
     }
 }
