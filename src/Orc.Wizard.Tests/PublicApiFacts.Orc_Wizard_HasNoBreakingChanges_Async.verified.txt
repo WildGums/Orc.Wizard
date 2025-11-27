@@ -309,6 +309,7 @@ namespace Orc.Wizard
     }
     public static class ModuleInitializer
     {
+        [System.Runtime.CompilerServices.ModuleInitializer]
         public static void Initialize() { }
     }
     public class NavigatingEventArgs : System.EventArgs
