@@ -16,20 +16,20 @@ jobs:
     runs-on: windows-latest # Required for some (WPF) projects
   
     steps:
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         id: checkout
         with:
           fetch-depth: 0
           
       - name: Setup .NET Core
         id: setup-dotnet
-        uses: actions/setup-dotnet@6bd8b7f7774af54e05809fcc5431931b3eb1ddee # v4.0.1
+        uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
         with:
-          dotnet-version: '8.0.x'    
+          dotnet-version: '10.0.x'    
     
       - name: Cake Action
         id: cake-action
-        uses: cake-build/cake-action@1223b6fa067ad192159f43b50cd4f953679b0934 #v2.0.0
+        uses: cake-build/cake-action@d218f1133bb74a1df0b08c89cfd8fc100c09e1a0 #v3.0.1
         with:
           target: BuildAndTest
           arguments: |
