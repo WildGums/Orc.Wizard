@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Catel.IoC;
+    using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
 
     public partial class IWizardExtensionsFacts
@@ -13,7 +13,11 @@
             [Test]
             public async Task Throws_Exception_When_Page_Not_Found_Async()
             {
-                var wizard = new TestWizard(TypeFactory.Default);
+                var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+                using var serviceProvider = serviceCollection.BuildServiceProvider();
+
+                var wizard = new TestWizard(serviceProvider);
 
                 Assert.Throws<InvalidOperationException>(() => wizard.FindRequiredPageByType<TestWizardPage>());
             }
@@ -21,8 +25,12 @@
             [Test]
             public async Task Returns_Page_Async()
             {
-                var wizard = new TestWizard(TypeFactory.Default);
-                wizard.AddPage<TestWizardPage>();
+                var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+                using var serviceProvider = serviceCollection.BuildServiceProvider();
+
+                var wizard = new TestWizard(serviceProvider);
+                wizard.AddPage<TestWizardPage>(serviceProvider);
 
                 var page = wizard.FindRequiredPageByType<TestWizardPage>();
 

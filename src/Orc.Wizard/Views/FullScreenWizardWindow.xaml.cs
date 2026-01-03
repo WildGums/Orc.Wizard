@@ -12,15 +12,10 @@ using ViewModels;
 
 public partial class FullScreenWizardWindow
 {
-    public FullScreenWizardWindow()
-        : this(null)
+    partial void OnInitializingComponent()
     {
-    }
-
-    public FullScreenWizardWindow(FullScreenWizardViewModel? viewModel)
-        : base(viewModel, DataWindowMode.Custom, infoBarMessageControlGenerationMode: InfoBarMessageControlGenerationMode.Overlay)
-    {
-        InitializeComponent();
+        Mode = DataWindowMode.Custom;
+        InfoBarMessageControlGenerationMode = InfoBarMessageControlGenerationMode.Overlay;
     }
 
     protected override void OnLoaded(EventArgs e)

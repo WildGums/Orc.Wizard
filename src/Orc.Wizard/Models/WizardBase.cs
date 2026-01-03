@@ -14,13 +14,14 @@ using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 public abstract class WizardBase : ModelBase, IWizard
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(WizardBase));
 
     private readonly IList<IWizardPage> _pages = new List<IWizardPage>();
-    protected readonly ITypeFactory _typeFactory;
 
     private int _currentIndex = 0;
     private IWizardPage? _currentPage;
@@ -28,13 +29,9 @@ public abstract class WizardBase : ModelBase, IWizard
     private INavigationStrategy _navigationStrategy = new DefaultNavigationStrategy();
     private INavigationController _navigationController;
 
-    // Note: we can't remove this constructor, it would be a breaking change
-    protected WizardBase(ITypeFactory typeFactory)
+    protected WizardBase(IServiceProvider serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(typeFactory);
-
-        _typeFactory = typeFactory;
-        _navigationController = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<DefaultNavigationController>(this);
+        _navigationController = ActivatorUtilities.CreateInstance<DefaultNavigationController>(serviceProvider, this);
 
         ResizeMode = System.Windows.ResizeMode.NoResize;
         MinSize = new System.Windows.Size(650d, 500d);
@@ -183,7 +180,7 @@ public abstract class WizardBase : ModelBase, IWizard
     {
         ArgumentNullException.ThrowIfNull(page);
 
-        Log.Debug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
+        Logger.LogDebug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
 
         page.Wizard = this;
 
@@ -202,7 +199,7 @@ public abstract class WizardBase : ModelBase, IWizard
         {
             if (ReferenceEquals(page, _pages[i]))
             {
-                Log.Debug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
+                Logger.LogDebug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
 
                 page.Wizard = null;
                 _pages.RemoveAt(i--);
@@ -259,7 +256,7 @@ public abstract class WizardBase : ModelBase, IWizard
         var isMoving = RaiseMovingForward(_currentPage, Pages.ElementAt(indexOfNextPage));
         if (!isMoving)
         {
-            Log.Debug("Cancel move based on raised event returned arguments");
+            Logger.LogDebug("Cancel move based on raised event returned arguments");
             return;
         }
 
@@ -310,7 +307,7 @@ public abstract class WizardBase : ModelBase, IWizard
         var isMoving = RaiseMovingBack(_currentPage, Pages.ElementAt(indexOfPreviousPage));
         if (!isMoving)
         {
-            Log.Debug("Cancel move based on raised event returned arguments");
+            Logger.LogDebug("Cancel move based on raised event returned arguments");
             return;
         }
 
@@ -392,7 +389,7 @@ public abstract class WizardBase : ModelBase, IWizard
             return;
         }
 
-        Log.Debug("Saving wizard '{0}'", GetType().GetSafeFullName());
+        Logger.LogDebug("Saving wizard '{0}'", GetType().GetSafeFullName());
 
         // ORCOMP-590: Fix for final view model
         if (!await ValidateAndSaveCurrentPageAsync())
@@ -420,7 +417,7 @@ public abstract class WizardBase : ModelBase, IWizard
             return;
         }
 
-        Log.Debug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+        Logger.LogDebug("Canceling wizard '{0}'", GetType().GetSafeFullName());
 
         foreach (var page in _pages)
         {
@@ -447,7 +444,7 @@ public abstract class WizardBase : ModelBase, IWizard
 
     protected internal virtual IWizardPage? SetCurrentPage(int newIndex)
     {
-        Log.Debug("Setting current page index to '{0}'", newIndex);
+        Logger.LogDebug("Setting current page index to '{0}'", newIndex);
 
         var currentPage = _currentPage;
         if (currentPage is not null)

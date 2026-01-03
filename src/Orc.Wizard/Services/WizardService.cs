@@ -5,18 +5,17 @@ using System.Threading.Tasks;
 using Catel.Logging;
 using Catel.Reflection;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 using ViewModels;
 
 public class WizardService : IWizardService
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
+    private readonly ILogger<WizardService> _logger;
     private readonly IUIVisualizerService _uiVisualizerService;
 
-    public WizardService(IUIVisualizerService uiVisualizerService)
+    public WizardService(ILogger<WizardService> logger, IUIVisualizerService uiVisualizerService)
     {
-        ArgumentNullException.ThrowIfNull(uiVisualizerService);
-
+        _logger = logger;
         _uiVisualizerService = uiVisualizerService;
     }
 
@@ -24,7 +23,7 @@ public class WizardService : IWizardService
     {
         ArgumentNullException.ThrowIfNull(wizard);
 
-        Log.Debug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
+        _logger.LogDebug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
 
         if (wizard is SideNavigationWizardBase)
         {

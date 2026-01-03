@@ -142,7 +142,8 @@ namespace Orc.Wizard
     {
         protected readonly Catel.Services.ILanguageService _languageService;
         protected readonly Catel.Services.IMessageService _messageService;
-        public DefaultNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
+        protected readonly System.IServiceProvider _serviceProvider;
+        public DefaultNavigationController(Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
         public Orc.Wizard.IWizard Wizard { get; }
         protected virtual Orc.Wizard.WizardNavigationButton CreateBackButton(Orc.Wizard.IWizard wizard) { }
         protected virtual Orc.Wizard.WizardNavigationButton CreateCancelButton(Orc.Wizard.IWizard wizard) { }
@@ -160,14 +161,14 @@ namespace Orc.Wizard
     }
     public class FastForwardNavigationController : Orc.Wizard.DefaultNavigationController
     {
-        public FastForwardNavigationController(Orc.Wizard.IWizard wizard, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
+        public FastForwardNavigationController(Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
         protected override Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
         protected override System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
     }
     public abstract class FullScreenWizardBase : Orc.Wizard.WizardBase
     {
         public static readonly Catel.Data.IPropertyData HideNavigationSystemProperty;
-        protected FullScreenWizardBase(Catel.IoC.ITypeFactory typeFactory) { }
+        protected FullScreenWizardBase(System.IServiceProvider serviceProvider) { }
         public bool HideNavigationSystem { get; protected set; }
     }
     public interface INavigationController
@@ -233,9 +234,9 @@ namespace Orc.Wizard
     public static class IWizardExtensions
     {
         public static Orc.Wizard.IWizardPage AddPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage page) { }
-        public static TWizardPage AddPage<TWizardPage>(this Orc.Wizard.IWizard wizard)
+        public static TWizardPage AddPage<TWizardPage>(this Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider)
             where TWizardPage : Orc.Wizard.IWizardPage { }
-        public static TWizardPage AddPage<TWizardPage>(this Orc.Wizard.IWizard wizard, object model)
+        public static TWizardPage AddPage<TWizardPage>(this Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, object model)
             where TWizardPage : Orc.Wizard.IWizardPage { }
         public static Orc.Wizard.IWizardPage? FindPage(this Orc.Wizard.IWizard wizard, System.Func<Orc.Wizard.IWizardPage, bool> predicate) { }
         public static TWizardPage? FindPageByType<TWizardPage>(this Orc.Wizard.IWizard wizard)
@@ -243,9 +244,9 @@ namespace Orc.Wizard
         public static Orc.Wizard.IWizardPage FindRequiredPage(this Orc.Wizard.IWizard wizard, System.Func<Orc.Wizard.IWizardPage, bool> predicate) { }
         public static TWizardPage FindRequiredPageByType<TWizardPage>(this Orc.Wizard.IWizard wizard)
             where TWizardPage : Orc.Wizard.IWizardPage { }
-        public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, int index)
+        public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, int index)
             where TWizardPage : Orc.Wizard.IWizardPage { }
-        public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, int index, object model)
+        public static TWizardPage InsertPage<TWizardPage>(this Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, int index, object model)
             where TWizardPage : Orc.Wizard.IWizardPage { }
         public static bool IsFirstPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage? wizardPage = null) { }
         public static bool IsLastPage(this Orc.Wizard.IWizard wizard, Orc.Wizard.IWizardPage? wizardPage = null) { }
@@ -319,6 +320,10 @@ namespace Orc.Wizard
         public Orc.Wizard.IWizardPage? From { get; }
         public Orc.Wizard.IWizardPage? To { get; }
     }
+    public static class OrcWizardModule
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcWizard(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
+    }
     public static class ProgressBarExtensions
     {
         public static readonly System.Windows.DependencyProperty SmoothProgressProperty;
@@ -329,7 +334,7 @@ namespace Orc.Wizard
     public abstract class SideNavigationWizardBase : Orc.Wizard.WizardBase
     {
         public static readonly Catel.Data.IPropertyData ShowFullScreenProperty;
-        protected SideNavigationWizardBase(Catel.IoC.ITypeFactory typeFactory) { }
+        protected SideNavigationWizardBase(System.IServiceProvider serviceProvider) { }
         public bool ShowFullScreen { get; set; }
     }
     public class SummaryItem : Orc.Wizard.ISummaryItem
@@ -358,7 +363,6 @@ namespace Orc.Wizard
     }
     public abstract class WizardBase : Catel.Data.ModelBase, Orc.Wizard.IWizard
     {
-        protected readonly Catel.IoC.ITypeFactory _typeFactory;
         public static readonly Catel.Data.IPropertyData AllowQuickNavigationProperty;
         public static readonly Catel.Data.IPropertyData AutoSizeSideNavigationPaneProperty;
         public static readonly Catel.Data.IPropertyData CacheViewsProperty;
@@ -373,7 +377,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.IPropertyData ShowInTaskbarProperty;
         public static readonly Catel.Data.IPropertyData TitleProperty;
         public static readonly Catel.Data.IPropertyData VerticalScrollbarVisibilityProperty;
-        protected WizardBase(Catel.IoC.ITypeFactory typeFactory) { }
+        protected WizardBase(System.IServiceProvider serviceProvider) { }
         public bool AllowQuickNavigation { get; protected set; }
         public bool AutoSizeSideNavigationPane { get; set; }
         public virtual bool CacheViews { get; protected set; }
@@ -488,15 +492,16 @@ namespace Orc.Wizard
     {
         public static readonly System.Windows.DependencyProperty WizardProperty;
         public WizardPageSelectionBehavior() { }
+        public WizardPageSelectionBehavior(Orc.Wizard.IWizardPageViewModelLocator wizardPageViewModelLocator, Catel.MVVM.IViewLocator viewLocator, Catel.MVVM.Views.IViewFactory viewFactory, Catel.MVVM.IViewModelFactory viewModelFactory) { }
         public Orc.Wizard.IWizard? Wizard { get; set; }
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }
-    public class WizardPageViewModelBase<TWizardPage> : Catel.MVVM.ViewModelBase, Catel.Data.IValidatable, Catel.MVVM.IViewModel, Orc.Wizard.IWizardPageViewModel, System.ComponentModel.IDataErrorInfo, System.ComponentModel.IDataWarningInfo, System.ComponentModel.INotifyDataErrorInfo, System.ComponentModel.INotifyDataWarningInfo, System.ComponentModel.INotifyPropertyChanged
+    public class WizardPageViewModelBase<TWizardPage> : Catel.MVVM.FeaturedViewModelBase, Catel.Data.IValidatable, Catel.MVVM.IViewModel, Orc.Wizard.IWizardPageViewModel, System.ComponentModel.IDataErrorInfo, System.ComponentModel.IDataWarningInfo, System.ComponentModel.INotifyDataErrorInfo, System.ComponentModel.INotifyDataWarningInfo, System.ComponentModel.INotifyPropertyChanged
         where TWizardPage :  class, Orc.Wizard.IWizardPage
     {
         public static readonly Catel.Data.IPropertyData WizardPageProperty;
-        public WizardPageViewModelBase(TWizardPage wizardPage) { }
+        public WizardPageViewModelBase(TWizardPage wizardPage, System.IServiceProvider serviceProvider) { }
         public Catel.MVVM.TaskCommand<Orc.Wizard.IWizardPage> QuickNavigateToPage { get; }
         public Orc.Wizard.IWizard? Wizard { get; }
         [Catel.MVVM.Model(SupportIEditableObject=false)]
@@ -507,11 +512,11 @@ namespace Orc.Wizard
     }
     public class WizardPageViewModelLocator : Catel.MVVM.ViewModelLocator, Catel.MVVM.ILocator, Catel.MVVM.IViewModelLocator, Orc.Wizard.IWizardPageViewModelLocator
     {
-        public WizardPageViewModelLocator() { }
+        public WizardPageViewModelLocator(Microsoft.Extensions.Logging.ILogger<Catel.MVVM.ViewModelLocator> logger) { }
     }
     public class WizardService : Orc.Wizard.IWizardService
     {
-        public WizardService(Catel.Services.IUIVisualizerService uiVisualizerService) { }
+        public WizardService(Microsoft.Extensions.Logging.ILogger<Orc.Wizard.WizardService> logger, Catel.Services.IUIVisualizerService uiVisualizerService) { }
         public virtual System.Threading.Tasks.Task<Catel.Services.UIVisualizerResult> ShowWizardAsync(Orc.Wizard.IWizard wizard) { }
     }
 }
@@ -519,20 +524,20 @@ namespace Orc.Wizard.ViewModels
 {
     public class FullScreenWizardViewModel : Orc.Wizard.ViewModels.WizardViewModel
     {
-        public FullScreenWizardViewModel(Orc.Wizard.IWizard wizard, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
+        public FullScreenWizardViewModel(Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
     }
     public class SideNavigationWizardViewModel : Orc.Wizard.ViewModels.WizardViewModel
     {
-        public SideNavigationWizardViewModel(Orc.Wizard.IWizard wizard, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
+        public SideNavigationWizardViewModel(Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
     }
     public class SummaryWizardPageViewModel : Orc.Wizard.WizardPageViewModelBase<Orc.Wizard.SummaryWizardPage>
     {
         public static readonly Catel.Data.IPropertyData SummaryItemsProperty;
-        public SummaryWizardPageViewModel(Orc.Wizard.SummaryWizardPage wizardPage) { }
+        public SummaryWizardPageViewModel(Orc.Wizard.SummaryWizardPage wizardPage, System.IServiceProvider serviceProvider) { }
         public System.Collections.Generic.List<Orc.Wizard.ISummaryItem>? SummaryItems { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
-    public class WizardViewModel : Catel.MVVM.ViewModelBase
+    public class WizardViewModel : Catel.MVVM.FeaturedViewModelBase
     {
         public static readonly Catel.Data.IPropertyData CurrentPageProperty;
         public static readonly Catel.Data.IPropertyData IsHelpVisibleProperty;
@@ -546,7 +551,7 @@ namespace Orc.Wizard.ViewModels
         public static readonly Catel.Data.IPropertyData WizardButtonsProperty;
         public static readonly Catel.Data.IPropertyData WizardPagesProperty;
         public static readonly Catel.Data.IPropertyData WizardProperty;
-        public WizardViewModel(Orc.Wizard.IWizard wizard, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
+        public WizardViewModel(Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, Catel.Services.IMessageService messageService, Catel.Services.ILanguageService languageService) { }
         [Catel.MVVM.ViewModelToModel("Wizard", "CurrentPage")]
         public Orc.Wizard.IWizardPage CurrentPage { get; set; }
         [Catel.MVVM.ViewModelToModel("Wizard", "IsHelpVisible")]
@@ -589,7 +594,9 @@ namespace Orc.Wizard.Views
     public class FullScreenWizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public FullScreenWizardWindow() { }
-        public FullScreenWizardWindow(Orc.Wizard.ViewModels.FullScreenWizardViewModel? viewModel) { }
+        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
+        public FullScreenWizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
+        public FullScreenWizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
@@ -597,7 +604,9 @@ namespace Orc.Wizard.Views
     public class SideNavigationWizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public SideNavigationWizardWindow() { }
-        public SideNavigationWizardWindow(Orc.Wizard.ViewModels.SideNavigationWizardViewModel? viewModel) { }
+        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
+        public SideNavigationWizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
+        public SideNavigationWizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelChanged() { }
@@ -606,12 +615,17 @@ namespace Orc.Wizard.Views
     public class SummaryWizardPageView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public SummaryWizardPageView() { }
+        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
+        public SummaryWizardPageView(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
+        public SummaryWizardPageView(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public void InitializeComponent() { }
     }
     public class WizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public WizardWindow() { }
-        public WizardWindow(Orc.Wizard.ViewModels.WizardViewModel? viewModel) { }
+        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
+        public WizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
+        public WizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }

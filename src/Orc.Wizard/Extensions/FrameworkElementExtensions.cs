@@ -7,8 +7,6 @@ using Catel.Logging;
 
 internal static class FrameworkElementExtensions
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
     public static SolidColorBrush GetAccentColorBrush(this FrameworkElement frameworkElement, bool isSelected = true)
     {
         ArgumentNullException.ThrowIfNull(frameworkElement);
@@ -17,7 +15,7 @@ internal static class FrameworkElementExtensions
 
         if (frameworkElement.TryFindResource(resourceName) is not SolidColorBrush brush)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Theming is not yet initialized, make sure to initialize a theme via ThemeManager first");
+            throw new InvalidOperationException("Theming is not yet initialized, make sure to initialize a theme via ThemeManager first");
         }
 
         return brush;

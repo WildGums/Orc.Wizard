@@ -5,16 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Catel.MVVM;
 
-public class WizardPageViewModelBase<TWizardPage> : ViewModelBase, IWizardPageViewModel
+public class WizardPageViewModelBase<TWizardPage> : FeaturedViewModelBase, IWizardPageViewModel
     where TWizardPage : class, IWizardPage
 {
-    public WizardPageViewModelBase(TWizardPage wizardPage)
+    public WizardPageViewModelBase(TWizardPage wizardPage, IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(wizardPage);
 
         DeferValidationUntilFirstSaveCall = true;
         WizardPage = wizardPage;
-        QuickNavigateToPage = new TaskCommand<IWizardPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
+        QuickNavigateToPage = new TaskCommand<IWizardPage>(serviceProvider, QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
     }
 
     [Model(SupportIEditableObject = false)]

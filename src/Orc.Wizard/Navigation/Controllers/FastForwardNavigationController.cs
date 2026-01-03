@@ -9,8 +9,9 @@ using Catel.Services;
 
 public class FastForwardNavigationController : DefaultNavigationController
 {
-    public FastForwardNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
-        : base(wizard, languageService, messageService)
+    public FastForwardNavigationController(IWizard wizard, IServiceProvider serviceProvider, 
+        ILanguageService languageService, IMessageService messageService)
+        : base(wizard, serviceProvider, languageService, messageService)
     {
 
     }
@@ -49,7 +50,7 @@ public class FastForwardNavigationController : DefaultNavigationController
                 var application = Application.Current;
                 return application?.TryFindResource(styleName) as Style;
             },
-            Command = new TaskCommand(async () =>
+            Command = new TaskCommand(_serviceProvider, async () =>
                 {
                     if (wizard.IsLastPage())
                     {

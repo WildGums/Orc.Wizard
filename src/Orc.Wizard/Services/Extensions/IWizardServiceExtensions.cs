@@ -7,33 +7,31 @@ using Catel.IoC;
 using Catel.Logging;
 using Catel.Reflection;
 using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 public static class IWizardServiceExtensions
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(IWizardServiceExtensions));
 
     public static Task<UIVisualizerResult> ShowWizardAsync<TWizard>(this IWizardService wizardService, object? model = null)
         where TWizard : IWizard
     {
         ArgumentNullException.ThrowIfNull(wizardService);
 
-#pragma warning disable IDISP001 // Dispose created
-        var typeFactory = wizardService.GetTypeFactory();
-#pragma warning restore IDISP001 // Dispose created
-
         IWizard wizard;
 
         if (model is not null)
         {
-            Log.Debug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
+            Logger.LogDebug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
 
-            wizard = typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<TWizard>(model);
+            wizard = (TWizard)ActivatorUtilities.CreateInstance(IoCContainer.ServiceProvider, typeof(TWizard), model);
         }
         else
         {
-            Log.Debug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
+            Logger.LogDebug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
 
-            wizard = typeFactory.CreateRequiredInstance<TWizard>();
+            wizard = (TWizard)ActivatorUtilities.CreateInstance(IoCContainer.ServiceProvider, typeof(TWizard));
         }
 
         return wizardService.ShowWizardAsync(wizard);

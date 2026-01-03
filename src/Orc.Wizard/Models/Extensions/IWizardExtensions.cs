@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 public static class IWizardExtensions
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(IWizardExtensions));
 
     public static async Task MoveForwardOrResumeAsync(this IWizard wizard)
     {
@@ -18,7 +20,7 @@ public static class IWizardExtensions
 
         if (wizard.CanMoveForward)
         {
-            Log.Debug("Moving forward from MoveNextOrResumeAsync()");
+            Logger.LogDebug("Moving forward from MoveNextOrResumeAsync()");
 
             await wizard.MoveForwardAsync();
             return;
@@ -26,13 +28,13 @@ public static class IWizardExtensions
 
         if (wizard.CanResume)
         {
-            Log.Debug("Resuming from MoveNextOrResumeAsync()");
+            Logger.LogDebug("Resuming from MoveNextOrResumeAsync()");
 
             await wizard.ResumeAsync();
             return;
         }
 
-        Log.Debug("Could not move forward or resume from MoveNextOrResumeAsync()");
+        Logger.LogDebug("Could not move forward or resume from MoveNextOrResumeAsync()");
     }
 
     public static Task MoveToPageAsync(this IWizard wizard, IWizardPage wizardPage)
@@ -56,46 +58,40 @@ public static class IWizardExtensions
         return page;
     }
 
-    public static TWizardPage AddPage<TWizardPage>(this IWizard wizard)
+    public static TWizardPage AddPage<TWizardPage>(this IWizard wizard, IServiceProvider serviceProvider)
         where TWizardPage : IWizardPage
     {
         ArgumentNullException.ThrowIfNull(wizard);
 
-        return wizard.InsertPage<TWizardPage>(wizard.Pages.Count());
+        return wizard.InsertPage<TWizardPage>(serviceProvider, wizard.Pages.Count());
     }
 
-    public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, int index)
+    public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, IServiceProvider serviceProvider, int index)
         where TWizardPage : IWizardPage
     {
         ArgumentNullException.ThrowIfNull(wizard);
 
-#pragma warning disable IDISP001 // Dispose created
-        var typeFactory = wizard.GetTypeFactory();
-#pragma warning restore IDISP001 // Dispose created
-        var page = typeFactory.CreateRequiredInstance<TWizardPage>();
+        var page = ActivatorUtilities.CreateInstance<TWizardPage>(serviceProvider);
 
         wizard.InsertPage(index, page);
 
         return page;
     }
 
-    public static TWizardPage AddPage<TWizardPage>(this IWizard wizard, object model)
+    public static TWizardPage AddPage<TWizardPage>(this IWizard wizard, IServiceProvider serviceProvider, object model)
         where TWizardPage : IWizardPage
     {
         ArgumentNullException.ThrowIfNull(wizard);
 
-        return wizard.InsertPage<TWizardPage>(wizard.Pages.Count(), model);
+        return wizard.InsertPage<TWizardPage>(serviceProvider, wizard.Pages.Count(), model);
     }
 
-    public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, int index, object model)
+    public static TWizardPage InsertPage<TWizardPage>(this IWizard wizard, IServiceProvider serviceProvider, int index, object model)
         where TWizardPage : IWizardPage
     {
         ArgumentNullException.ThrowIfNull(wizard);
 
-#pragma warning disable IDISP001 // Dispose created
-        var typeFactory = wizard.GetTypeFactory();
-#pragma warning restore IDISP001 // Dispose created
-        var page = typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<TWizardPage>(model);
+        var page = ActivatorUtilities.CreateInstance<TWizardPage>(serviceProvider, model);
 
         wizard.InsertPage(index, page);
 
@@ -114,7 +110,7 @@ public static class IWizardExtensions
         var page = wizard.FindPageByType<TWizardPage>();
         if (page is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>($"Could not find required page of type '{typeof(TWizardPage).Name}'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Could not find required page of type '{typeof(TWizardPage).Name}'");
         }
 
         return page;
@@ -139,7 +135,7 @@ public static class IWizardExtensions
         var page = wizard.FindPage(predicate);
         if (page is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>($"Could not find required page using the specified predicate");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Could not find required page using the specified predicate");
         }
 
         return page;

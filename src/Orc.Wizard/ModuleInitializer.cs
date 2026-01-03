@@ -1,8 +1,6 @@
-using System.Runtime.CompilerServices;
-namespace Orc.Wizard;
+﻿namespace Orc.Wizard;
 
-using Catel.IoC;
-using Catel.Services;
+using System.Runtime.CompilerServices;
 
 /// <summary>
 /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -15,15 +13,5 @@ public static class ModuleInitializer
     [ModuleInitializer]
     public static void Initialize()
     {
-        var serviceLocator = ServiceLocator.Default;
-
-        serviceLocator.RegisterType<IWizardService, WizardService>();
-        serviceLocator.RegisterType<IWizardPageViewModelLocator, WizardPageViewModelLocator>();
-
-        var themeManager = ControlzEx.Theming.ThemeManager.Current;
-        themeManager.RegisterLibraryThemeProvider(new LibraryThemeProvider());
-
-        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
-        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Wizard", "Orc.Wizard.Properties", "Resources"));
     }
 }

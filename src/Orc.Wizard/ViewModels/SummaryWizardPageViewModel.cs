@@ -1,12 +1,13 @@
 ﻿namespace Orc.Wizard.ViewModels;
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class SummaryWizardPageViewModel : WizardPageViewModelBase<SummaryWizardPage>
 {
-    public SummaryWizardPageViewModel(SummaryWizardPage wizardPage) 
-        : base(wizardPage)
+    public SummaryWizardPageViewModel(SummaryWizardPage wizardPage, IServiceProvider serviceProvider) 
+        : base(wizardPage, serviceProvider)
     {
     }
 

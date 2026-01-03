@@ -8,18 +8,17 @@ using Catel.Services;
 
 public class DefaultNavigationController : INavigationController
 {
+    protected readonly IServiceProvider _serviceProvider;
     protected readonly ILanguageService _languageService;
     protected readonly IMessageService _messageService;
 
     private readonly List<IWizardNavigationButton> _wizardNavigationButtons = new List<IWizardNavigationButton>();
 
-    public DefaultNavigationController(IWizard wizard, ILanguageService languageService, IMessageService messageService)
+    public DefaultNavigationController(IWizard wizard, IServiceProvider serviceProvider, 
+        ILanguageService languageService, IMessageService messageService)
     {
-        ArgumentNullException.ThrowIfNull(wizard);
-        ArgumentNullException.ThrowIfNull(languageService);
-        ArgumentNullException.ThrowIfNull(languageService);
-
         Wizard = wizard;
+        _serviceProvider = serviceProvider;
         _languageService = languageService;
         _messageService = messageService;
     }
@@ -63,7 +62,7 @@ public class DefaultNavigationController : INavigationController
         {
             Content = _languageService.GetRequiredString("Wizard_Back"),
             IsVisibleEvaluator = () => !wizard.IsFirstPage(),
-            Command = new TaskCommand(async () =>
+            Command = new TaskCommand(_serviceProvider, async () =>
                 {
                     await wizard.MoveBackAsync();
                 },
@@ -94,7 +93,7 @@ public class DefaultNavigationController : INavigationController
                 var application = System.Windows.Application.Current;
                 return application?.TryFindResource(styleName) as Style;
             },
-            Command = new TaskCommand(async () =>
+            Command = new TaskCommand(_serviceProvider, async () =>
                 {
                     await wizard.MoveForwardAsync();
                 },
@@ -125,7 +124,7 @@ public class DefaultNavigationController : INavigationController
                 var application = System.Windows.Application.Current;
                 return application?.TryFindResource(styleName) as Style;
             },
-            Command = new TaskCommand(async () =>
+            Command = new TaskCommand(_serviceProvider, async () =>
                 {
                     await wizard.ResumeAsync();
                 },
@@ -161,7 +160,7 @@ public class DefaultNavigationController : INavigationController
         {
             Content = _languageService.GetRequiredString("Wizard_Cancel"),
             IsVisible = true,
-            Command = new TaskCommand(async () =>
+            Command = new TaskCommand(_serviceProvider, async () =>
                 {
                     if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
                     {
