@@ -1,20 +1,16 @@
 ﻿namespace Orc.Wizard.Example.Wizard.ViewModels;
 
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Catel.Collections;
-using Catel.Data;
 using Catel.MVVM;
 
 public class GadgetsWizardPageViewModel : WizardPageViewModelBase<GadgetsWizardPage>
 {
-    public GadgetsWizardPageViewModel(GadgetsWizardPage wizardPage)
-        : base(wizardPage)
+    public GadgetsWizardPageViewModel(GadgetsWizardPage wizardPage, IServiceProvider serviceProvider)
+        : base(wizardPage, serviceProvider)
     {
-        SelectAll = new Command(OnSelectAllExecute);
+        SelectAll = new Command(serviceProvider, OnSelectAllExecute);
     }
 
     [ViewModelToModel]

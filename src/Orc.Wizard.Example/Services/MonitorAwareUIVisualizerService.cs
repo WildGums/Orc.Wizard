@@ -4,19 +4,23 @@
     using System.Threading.Tasks;
     using System.Windows;
     using Catel;
-    using Catel.Logging;
     using Catel.MVVM;
+    using Catel.MVVM.Views;
     using Catel.Reflection;
     using Catel.Services;
+    using Microsoft.Extensions.Logging;
     using Orchestra.Windows;
 
     public class MonitorAwareUIVisualizerService : UIVisualizerService, IMonitorAwareUIVisualizerService
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private readonly ILogger<UIVisualizerService> _logger;
 
-        public MonitorAwareUIVisualizerService(IViewLocator viewLocator, IDispatcherService dispatcherService) 
-            : base(viewLocator, dispatcherService)
+        public MonitorAwareUIVisualizerService(ILogger<UIVisualizerService> logger, 
+            IViewLocator viewLocator, IViewFactory viewFactory, IDispatcherService dispatcherService,
+            IViewModelFactory viewModelFactory) 
+            : base(logger, viewLocator, viewFactory, dispatcherService, viewModelFactory)
         {
+            _logger = logger;
         }
 
         public virtual Task<UIVisualizerResult> ShowDialogAsync(IViewModel viewModel, IMonitorInfo monitor)
@@ -36,7 +40,7 @@
 
             EnsureViewIsRegistered(name);
 
-            Log.Debug($"Showing modal window '{name}' on monitor '{monitor}'");
+            _logger.LogDebug($"Showing modal window '{name}' on monitor '{monitor}'");
 
             var window = await CreateWindowAsync(new UIVisualizerContext
             {

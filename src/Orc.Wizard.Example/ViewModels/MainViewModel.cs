@@ -4,32 +4,28 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Catel.Collections;
-using Catel.IoC;
 using Catel.MVVM;
+using Microsoft.Extensions.DependencyInjection;
 using Orc.Wizard.Example.Wizard;
-using Orchestra.Services;
+using Orchestra;
 
 public class MainViewModel : ViewModelBase
 {
+    private readonly IServiceProvider _serviceProvider;
     private readonly IWizardService _wizardService;
     private readonly IMonitorAwareWizardService _monitorAwareWizardService;
-    private readonly ITypeFactory _typeFactory;
     private readonly IMainWindowService _mainWindowService;
 
-    public MainViewModel(IWizardService wizardService, IMonitorAwareWizardService monitorAwareWizardService, 
-        ITypeFactory typeFactory, IMainWindowService mainWindowService)
+    public MainViewModel(IServiceProvider serviceProvider, IWizardService wizardService,
+        IMonitorAwareWizardService monitorAwareWizardService, IMainWindowService mainWindowService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(wizardService);
-        ArgumentNullException.ThrowIfNull(monitorAwareWizardService);
-        ArgumentNullException.ThrowIfNull(typeFactory);
-        ArgumentNullException.ThrowIfNull(mainWindowService);
-
+        _serviceProvider = serviceProvider;
         _wizardService = wizardService;
         _monitorAwareWizardService = monitorAwareWizardService;
-        _typeFactory = typeFactory;
         _mainWindowService = mainWindowService;
 
-        ShowWizard = new TaskCommand<Type>(OnShowWizardExecuteAsync);
+        ShowWizard = new TaskCommand<Type>(serviceProvider, OnShowWizardExecuteAsync);
         UseFastForwardNavigationController = true;
         AllowQuickNavigation = true;
         ShowSummaryPage = true;
@@ -68,7 +64,7 @@ public class MainViewModel : ViewModelBase
 
     private async Task OnShowWizardExecuteAsync(Type wizardType)
     {
-        var wizard = _typeFactory.CreateInstance(wizardType) as IExampleWizard;
+        var wizard = ActivatorUtilities.CreateInstance(_serviceProvider, wizardType) as IExampleWizard;
 
         wizard.ShowInTaskbarWrapper = ShowInTaskbar;
         wizard.ShowHelpWrapper = ShowHelp;
@@ -79,7 +75,7 @@ public class MainViewModel : ViewModelBase
 
         if (UseFastForwardNavigationController)
         {
-            wizard.NavigationControllerWrapper = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<FastForwardNavigationController>(wizard);
+            wizard.NavigationControllerWrapper = ActivatorUtilities.CreateInstance<FastForwardNavigationController>(_serviceProvider, wizard);
         }
 
         if (!ShowSummaryPage)

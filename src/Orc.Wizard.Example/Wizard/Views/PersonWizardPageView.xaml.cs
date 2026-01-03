@@ -2,8 +2,5 @@
 
 public partial class PersonWizardPageView
 {
-    public PersonWizardPageView()
-    {
-        InitializeComponent();
-    }
+
 }

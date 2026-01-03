@@ -1,5 +1,6 @@
 ﻿namespace Orc.Wizard.Example.Wizard.ViewModels;
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,14 +13,14 @@ using Component = Example.Component;
 
 public class ComponentsWizardPageViewModel : WizardPageViewModelBase<ComponentsWizardPage>
 {
-    public ComponentsWizardPageViewModel(ComponentsWizardPage wizardPage)
-        : base(wizardPage)
+    public ComponentsWizardPageViewModel(ComponentsWizardPage wizardPage, IServiceProvider serviceProvider)
+        : base(wizardPage, serviceProvider)
     {
-        SelectAll = new Command(OnSelectAllExecute);
-        MoveBackViaCode = new TaskCommand(OnMoveBackViaCodeExecuteAsync);
-        MoveForwardViaCode = new TaskCommand(OnMoveForwardViaCodeExecuteAsync);
-        CancelViaCode = new TaskCommand(OnCancelViaCodeExecuteAsync);
-        ResumeViaCode = new TaskCommand(OnResumeViaCodeExecuteAsync);
+        SelectAll = new Command(serviceProvider, OnSelectAllExecute);
+        MoveBackViaCode = new TaskCommand(serviceProvider, OnMoveBackViaCodeExecuteAsync);
+        MoveForwardViaCode = new TaskCommand(serviceProvider, OnMoveForwardViaCodeExecuteAsync);
+        CancelViaCode = new TaskCommand(serviceProvider, OnCancelViaCodeExecuteAsync);
+        ResumeViaCode = new TaskCommand(serviceProvider, OnResumeViaCodeExecuteAsync);
     }
 
     [ViewModelToModel]

@@ -2,32 +2,32 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Services;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Orchestra.Windows;
 
     public static class IMonitorAwareUIVisualizerServiceExtensions
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(IMonitorAwareUIVisualizerServiceExtensions));
 
-        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService, IMonitorInfo monitor)
+        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService,
+            IServiceProvider serviceProvider, IMonitorInfo monitor)
             where TViewModel : IViewModel
         {
-            return ShowDialogAsync<TViewModel>(monitorAwareUiVisualizerService, null, monitor);
+            return ShowDialogAsync<TViewModel>(monitorAwareUiVisualizerService, serviceProvider, null, monitor);
         }
 
-        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService, object? model, IMonitorInfo monitor)
+        public static Task<UIVisualizerResult> ShowDialogAsync<TViewModel>(this IMonitorAwareUIVisualizerService monitorAwareUiVisualizerService, 
+            IServiceProvider serviceProvider, object? model, IMonitorInfo monitor)
             where TViewModel : IViewModel
         {
             ArgumentNullException.ThrowIfNull(monitorAwareUiVisualizerService);
 
-#pragma warning disable IDISP001 // Dispose created.
-            var serviceLocator = monitorAwareUiVisualizerService.GetServiceLocator();
-#pragma warning restore IDISP001 // Dispose created.
-            var viewModelFactory = serviceLocator.ResolveRequiredType<IViewModelFactory>();
-            var vm = viewModelFactory.CreateRequiredViewModel(typeof(TViewModel), model, null);
+            var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
+            var vm = viewModelFactory.CreateRequiredViewModel(typeof(TViewModel), model);
 
             return monitorAwareUiVisualizerService.ShowDialogAsync(vm, monitor);
         }

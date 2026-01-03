@@ -6,32 +6,33 @@ using Catel;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 
 public class ExampleWizard : WizardBase, IExampleWizard
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ExampleWizard));
 
     private readonly IMessageService _messageService;
 
-    public ExampleWizard(ITypeFactory typeFactory, IMessageService messageService)
-        : base(typeFactory)
+    public ExampleWizard(IServiceProvider serviceProvider, IMessageService messageService)
+        : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(messageService);
 
         _messageService = messageService;
 
-        Title = "Orc.Wizard example"; 
+        Title = "Orc.Wizard example";
 
-        this.AddPage<PersonWizardPage>();
-        this.AddPage<AgeWizardPage>();
-        this.AddPage<Long1WizardPage>();
-        this.AddPage<Long2WizardPage>();
-        this.AddPage<SkillsWizardPage>();
-        this.AddPage<ComponentsWizardPage>();
-        this.AddPage<SummaryWizardPage>();
+        this.AddPage<PersonWizardPage>(serviceProvider);
+        this.AddPage<AgeWizardPage>(serviceProvider);
+        this.AddPage<Long1WizardPage>(serviceProvider);
+        this.AddPage<Long2WizardPage>(serviceProvider);
+        this.AddPage<SkillsWizardPage>(serviceProvider);
+        this.AddPage<ComponentsWizardPage>(serviceProvider);
+        this.AddPage<SummaryWizardPage>(serviceProvider);
 
         // Test for numbers being updated correctly
-        this.InsertPage<GadgetsWizardPage>(4);
+        this.InsertPage<GadgetsWizardPage>(serviceProvider, 4);
 
         MinSize = new System.Windows.Size(800, 600);
         MaxSize = new System.Windows.Size(1000, 800);
@@ -87,7 +88,7 @@ public class ExampleWizard : WizardBase, IExampleWizard
 
     public override async Task ResumeAsync()
     {
-        Log.Info("Resuming wizard");
+        Logger.LogInformation("Resuming wizard");
 
         await base.ResumeAsync();
     }

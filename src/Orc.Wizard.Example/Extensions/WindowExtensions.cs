@@ -4,18 +4,19 @@
     using System.Windows;
     using System.Windows.Media;
     using Catel.Logging;
+    using Microsoft.Extensions.Logging;
     using Orchestra.Windows;
 
     public static class WindowExtensions
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(WindowExtensions));
 
         public static void MoveToMonitor(this Window window, IMonitorInfo monitor)
         {
             ArgumentNullException.ThrowIfNull(window);
             ArgumentNullException.ThrowIfNull(monitor);
 
-            Log.Debug($"Moving window '{window.GetType().FullName}' to monitor '{monitor}'");
+            Logger.LogDebug($"Moving window '{window.GetType().FullName}' to monitor '{monitor}'");
 
             if (window.IsLoaded)
             {
@@ -45,7 +46,7 @@
             //    return;
             //}
 
-            Log.Debug($"Updating state of window '{window.GetType().FullName}' for screen '{screen.DeviceName}'");
+            Logger.LogDebug($"Updating state of window '{window.GetType().FullName}' for screen '{screen.DeviceName}'");
 
             var previousWindowState = window.WindowState;
             var previousWindowStartupLocation = window.WindowStartupLocation;

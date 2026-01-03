@@ -3,18 +3,17 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Catel;
 using Catel.MVVM;
 
 public class SystemInfoViewModel : ViewModelBase
 {
     private readonly ISystemInfoService _systemInfoService;
 
-    public SystemInfoViewModel(ISystemInfoService systemInfoService)
+    public SystemInfoViewModel(IServiceProvider serviceProvider, ISystemInfoService systemInfoService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(systemInfoService);
-
         _systemInfoService = systemInfoService;
+
         SystemInfo = string.Empty;
     }
 

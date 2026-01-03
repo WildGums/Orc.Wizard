@@ -2,8 +2,5 @@
 
 public partial class SkillsWizardPageView
 {
-    public SkillsWizardPageView()
-    {
-        InitializeComponent();
-    }
+
 }
