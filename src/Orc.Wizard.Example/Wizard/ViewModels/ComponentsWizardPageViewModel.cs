@@ -24,7 +24,7 @@ public class ComponentsWizardPageViewModel : WizardPageViewModelBase<ComponentsW
     }
 
     [ViewModelToModel]
-    public ObservableCollection<Component> Components { get; private set; }
+    public System.Collections.ObjectModel.ObservableCollection<Component> Components { get; private set; }
 
     #region Commands
     public Command SelectAll { get; private set; }

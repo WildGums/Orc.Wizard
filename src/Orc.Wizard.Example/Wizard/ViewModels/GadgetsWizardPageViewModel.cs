@@ -14,7 +14,7 @@ public class GadgetsWizardPageViewModel : WizardPageViewModelBase<GadgetsWizardP
     }
 
     [ViewModelToModel]
-    public ObservableCollection<Gadget> Gadgets { get; private set; }
+    public System.Collections.ObjectModel.ObservableCollection<Gadget> Gadgets { get; private set; }
 
     //protected override async Task InitializeAsync()
     //{
