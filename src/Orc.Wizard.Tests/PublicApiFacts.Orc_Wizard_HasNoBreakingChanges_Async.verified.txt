@@ -597,7 +597,6 @@ namespace Orc.Wizard.Views
     public class FullScreenWizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public FullScreenWizardWindow() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public FullScreenWizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public FullScreenWizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
@@ -607,7 +606,6 @@ namespace Orc.Wizard.Views
     public class SideNavigationWizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public SideNavigationWizardWindow() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public SideNavigationWizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public SideNavigationWizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
@@ -618,7 +616,6 @@ namespace Orc.Wizard.Views
     public class SummaryWizardPageView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public SummaryWizardPageView() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public SummaryWizardPageView(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public SummaryWizardPageView(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public void InitializeComponent() { }
@@ -626,7 +623,6 @@ namespace Orc.Wizard.Views
     public class WizardWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public WizardWindow() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public WizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public WizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
