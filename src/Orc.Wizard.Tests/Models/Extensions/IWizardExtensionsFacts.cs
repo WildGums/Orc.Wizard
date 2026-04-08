@@ -1,6 +1,5 @@
-﻿namespace Orc.Wizard.Tests
+﻿namespace Orc.Wizard.Tests;
+
+public partial class IWizardExtensionsFacts
 {
-    public partial class IWizardExtensionsFacts
-    {
-    }
 }
