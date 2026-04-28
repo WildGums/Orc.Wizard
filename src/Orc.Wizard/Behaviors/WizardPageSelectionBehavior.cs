@@ -11,13 +11,27 @@ using Catel.MVVM.Views;
 using Catel.Windows;
 using Catel.Windows.Interactivity;
 
-public class WizardPageSelectionBehavior : BehaviorBase<ContentControl>
+public partial class WizardPageSelectionBehavior : BehaviorBase<ContentControl>
 {
     private readonly ConditionalWeakTable<object, ScrollInfo> _scrollPositions = new();
     private readonly ConditionalWeakTable<object, CachedView> _cachedViews = new();
 
+    private readonly IWizardPageViewModelLocator _wizardPageViewModelLocator;
+    private readonly IViewLocator _viewLocator;
+    private readonly IViewFactory _viewFactory;
+    private readonly IViewModelFactory _viewModelFactory;
+
     private ScrollViewer? _scrollViewer;
     private IWizardPage? _lastPage;
+
+    public WizardPageSelectionBehavior(IWizardPageViewModelLocator wizardPageViewModelLocator,
+        IViewLocator viewLocator, IViewFactory viewFactory, IViewModelFactory viewModelFactory)
+    {
+        _wizardPageViewModelLocator = wizardPageViewModelLocator;
+        _viewLocator = viewLocator;
+        _viewFactory = viewFactory;
+        _viewModelFactory = viewModelFactory;
+    }
 
     public IWizard? Wizard
     {
@@ -154,23 +168,18 @@ public class WizardPageSelectionBehavior : BehaviorBase<ContentControl>
         {
             return;
         }
-
-        var dependencyResolver = this.GetDependencyResolver();
-        var viewModelLocator = dependencyResolver.ResolveRequired<IWizardPageViewModelLocator>();
-        var pageViewModelType = viewModelLocator.ResolveViewModel(_lastPage.GetType());
+        
+        var pageViewModelType = _wizardPageViewModelLocator.ResolveViewModel(_lastPage.GetType());
         if (pageViewModelType is null)
         {
             throw new InvalidOperationException($"Cannot find page view model type of view '{_lastPage.GetType().Name}'");
         }
 
-        var viewLocator = dependencyResolver.ResolveRequired<IViewLocator>();
-        var viewType = viewLocator.ResolveView(pageViewModelType);
+        var viewType = _viewLocator.ResolveView(pageViewModelType);
         if (viewType is null)
         {
             throw new InvalidOperationException($"Cannot find page view type of view model '{pageViewModelType.Name}'");
         }
-
-        var typeFactory = dependencyResolver.ResolveRequired<ITypeFactory>();
 
         IView? view = null;
 
@@ -181,15 +190,14 @@ public class WizardPageSelectionBehavior : BehaviorBase<ContentControl>
 
         if (view is null)
         {
-            view = typeFactory.CreateRequiredInstance(viewType) as IView;
+            view = _viewFactory.CreateView(viewType) as IView;
             if (view is null)
             {
                 return;
             }
         }
-
-        var viewModelFactory = dependencyResolver.ResolveRequired<IViewModelFactory>();
-        var viewModel = viewModelFactory.CreateRequiredViewModel(pageViewModelType, wizard.CurrentPage);
+        
+        var viewModel = _viewModelFactory.CreateRequiredViewModel(pageViewModelType, wizard.CurrentPage);
 
         view.DataContext = viewModel;
 

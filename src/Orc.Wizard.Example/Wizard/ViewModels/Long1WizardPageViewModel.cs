@@ -1,13 +1,11 @@
 ﻿namespace Orc.Wizard.Example.Wizard.ViewModels;
 
-using System.Collections.Generic;
-using Catel.Data;
-using Catel.MVVM;
+using System;
 
 public class Long1WizardPageViewModel : WizardPageViewModelBase<Long1WizardPage>
 {
-    public Long1WizardPageViewModel(Long1WizardPage wizardPage)
-        : base(wizardPage)
+    public Long1WizardPageViewModel(Long1WizardPage wizardPage, IServiceProvider serviceProvider)
+        : base(wizardPage, serviceProvider)
     {
     }
 }

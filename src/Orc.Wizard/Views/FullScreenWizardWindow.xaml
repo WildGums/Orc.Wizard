@@ -9,7 +9,6 @@
                   ResizeMode="NoResize"
                   SizeToContent="Manual"
                   ShowInTaskbar="{Binding ElementName=layoutRoot, Path=DataContext.ShowInTaskbar, Mode=OneWay}"
-                  x:Name="wizardWindow"
                   WindowState="Maximized"
                   WindowStyle="None"
                   BorderThickness="0"

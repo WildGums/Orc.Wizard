@@ -2,8 +2,5 @@
 
 public partial class Long1WizardPageView
 {
-    public Long1WizardPageView()
-    {
-        InitializeComponent();
-    }
+
 }

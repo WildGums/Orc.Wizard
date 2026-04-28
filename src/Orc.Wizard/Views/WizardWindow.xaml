@@ -12,7 +12,6 @@
                   MaxWidth="{Binding MaxSize.Width, Mode=OneWay}"
                   MaxHeight="{Binding MaxSize.Height, Mode=OneWay}"
                   ShowInTaskbar="{Binding ElementName=layoutRoot, Path=DataContext.ShowInTaskbar, Mode=OneWay}"
-                  x:Name="wizardWindow"
                   CanCloseUsingEscape="False"
                   Background="{DynamicResource Orc.Brushes.GrayBrush10}">
 

@@ -1,24 +1,23 @@
 ﻿namespace Orc.Wizard.Example.Wizard.ViewModels;
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Catel;
 using Catel.MVVM;
 using Catel.Services;
 
 public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
 {
+    private readonly IServiceProvider _serviceProvider;
     private readonly IMessageService _messageService;
 
-    public AgeWizardPageViewModel(AgeWizardPage wizardPage, IMessageService messageService)
-        : base(wizardPage)
+    public AgeWizardPageViewModel(AgeWizardPage wizardPage, IServiceProvider serviceProvider, 
+        IMessageService messageService)
+        : base(wizardPage, serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(messageService);
-
+        _serviceProvider = serviceProvider;
         _messageService = messageService;
 
-        AddPage = new TaskCommand(OnAddPageExecuteAsync);
+        AddPage = new TaskCommand(serviceProvider, OnAddPageExecuteAsync);
     }
 
     [ViewModelToModel]
@@ -33,6 +32,6 @@ public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
             return;
         }
 
-        Wizard.InsertPage<AgeWizardPage>(WizardPage.Number);
+        Wizard.InsertPage<AgeWizardPage>(_serviceProvider, WizardPage.Number);
     }
 }

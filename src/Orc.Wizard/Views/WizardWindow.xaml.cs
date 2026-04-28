@@ -11,15 +11,10 @@ using ViewModels;
 
 public partial class WizardWindow
 {
-    public WizardWindow()
-        : this(null)
+    partial void OnInitializingComponent()
     {
-    }
-
-    public WizardWindow(WizardViewModel? viewModel)
-        : base(viewModel, DataWindowMode.Custom, infoBarMessageControlGenerationMode: InfoBarMessageControlGenerationMode.Overlay)
-    {
-        InitializeComponent();
+        Mode = DataWindowMode.Custom;
+        InfoBarMessageControlGenerationMode = InfoBarMessageControlGenerationMode.Overlay;
     }
 
     protected override void OnLoaded(EventArgs e)

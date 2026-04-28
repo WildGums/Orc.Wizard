@@ -2,8 +2,5 @@
 
 public partial class SummaryWizardPageView
 {
-    public SummaryWizardPageView()
-    {
-        InitializeComponent();
-    }
+
 }

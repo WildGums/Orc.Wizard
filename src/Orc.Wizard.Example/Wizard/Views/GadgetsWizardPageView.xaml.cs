@@ -2,8 +2,5 @@
 
 public partial class GadgetsWizardPageView
 {
-    public GadgetsWizardPageView()
-    {
-        InitializeComponent();
-    }
+
 }

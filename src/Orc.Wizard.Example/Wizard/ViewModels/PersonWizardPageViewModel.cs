@@ -1,17 +1,19 @@
 ﻿namespace Orc.Wizard.Example.Wizard.ViewModels;
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
+using Microsoft.Extensions.Logging;
 
 public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPage>
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(PersonWizardPageViewModel));
 
-    public PersonWizardPageViewModel(PersonWizardPage wizardPage)
-        : base(wizardPage)
+    public PersonWizardPageViewModel(PersonWizardPage wizardPage, IServiceProvider serviceProvider)
+        : base(wizardPage, serviceProvider)
     {
     }
 
@@ -23,14 +25,14 @@ public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPag
 
     protected override Task InitializeAsync()
     {
-        Log.Debug("Initializing");
+        Logger.LogDebug("Initializing");
 
         return base.InitializeAsync();
     }
 
     protected override Task CloseAsync()
     {
-        Log.Debug("Closing");
+        Logger.LogDebug("Closing");
 
         return base.CloseAsync();
     }

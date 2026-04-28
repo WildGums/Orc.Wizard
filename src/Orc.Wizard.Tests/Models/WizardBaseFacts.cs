@@ -2,6 +2,7 @@
 
 using System.Threading.Tasks;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 public class WizardBaseFacts
@@ -12,13 +13,13 @@ public class WizardBaseFacts
         [Test]
         public async Task Raises_PageAdded_Event_Async()
         {
-#pragma warning disable IDISP001 // Dispose created
-            var serviceLocator = new ServiceLocator(ServiceLocator.Default);
-#pragma warning restore IDISP001 // Dispose created
+            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+            using var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var executedEvent = false;
 
-            var testWizard = new TestWizard(serviceLocator.GetTypeFactory());
+            var testWizard = new TestWizard(serviceProvider);
             var wizardPage = new TestWizardPage();
 
             testWizard.PageAdded += (sender, e) =>
@@ -40,13 +41,13 @@ public class WizardBaseFacts
         [Test]
         public async Task Raises_PageRemoved_Event_Async()
         {
-#pragma warning disable IDISP001 // Dispose created
-            var serviceLocator = new ServiceLocator(ServiceLocator.Default);
-#pragma warning restore IDISP001 // Dispose created
+            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+            using var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var executedEvent = false;
 
-            var testWizard = new TestWizard(serviceLocator.GetTypeFactory());
+            var testWizard = new TestWizard(serviceProvider);
             var wizardPage1 = new TestWizardPage();
             var wizardPage2 = new TestWizardPage();
 

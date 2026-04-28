@@ -13,15 +13,10 @@ using ViewModels;
 
 public partial class SideNavigationWizardWindow
 {
-    public SideNavigationWizardWindow()
-        : this(null)
+    partial void OnInitializingComponent()
     {
-    }
-
-    public SideNavigationWizardWindow(SideNavigationWizardViewModel? viewModel)
-        : base(viewModel, DataWindowMode.Custom, infoBarMessageControlGenerationMode: InfoBarMessageControlGenerationMode.Overlay)
-    {
-        InitializeComponent();
+        Mode = DataWindowMode.Custom;
+        InfoBarMessageControlGenerationMode = InfoBarMessageControlGenerationMode.Overlay;
     }
 
     protected override void OnLoaded(EventArgs e)

@@ -1,11 +1,11 @@
 ﻿namespace Orc.Wizard.Tests;
 
-using Catel.IoC;
+using System;
 
 public class TestWizard : WizardBase
 {
-    public TestWizard(ITypeFactory typeFactory)
-        : base(typeFactory)
+    public TestWizard(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
     }
 }

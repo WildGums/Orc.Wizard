@@ -1,11 +1,11 @@
 ﻿namespace Orc.Wizard;
 
-using Catel.IoC;
+using System;
 
 public abstract class SideNavigationWizardBase : WizardBase
 {
-    protected SideNavigationWizardBase(ITypeFactory typeFactory) 
-        : base(typeFactory)
+    protected SideNavigationWizardBase(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
     }
 

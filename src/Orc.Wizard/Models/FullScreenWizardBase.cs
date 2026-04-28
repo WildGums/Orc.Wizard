@@ -1,11 +1,11 @@
 ﻿namespace Orc.Wizard;
 
-using Catel.IoC;
+using System;
 
 public abstract class FullScreenWizardBase : WizardBase
 {
-    protected FullScreenWizardBase(ITypeFactory typeFactory) 
-        : base(typeFactory)
+    protected FullScreenWizardBase(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
     }
 

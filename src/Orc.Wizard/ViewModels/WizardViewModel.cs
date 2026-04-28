@@ -9,19 +9,17 @@ using Catel.Fody;
 using Catel.MVVM;
 using Catel.Services;
 
-public class WizardViewModel : ViewModelBase
+public class WizardViewModel : FeaturedViewModelBase
 {
     private readonly IMessageService _messageService;
     private readonly ILanguageService _languageService;
 
     private bool _isCanceling;
 
-    public WizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService)
+    public WizardViewModel(IWizard wizard, IServiceProvider serviceProvider, 
+        IMessageService messageService, ILanguageService languageService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(wizard);
-        ArgumentNullException.ThrowIfNull(messageService);
-        ArgumentNullException.ThrowIfNull(languageService);
-
         DeferValidationUntilFirstSaveCall = true;
 
         Wizard = wizard;
@@ -30,7 +28,7 @@ public class WizardViewModel : ViewModelBase
 
         UpdatePages();
 
-        ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
+        ShowHelp = new TaskCommand(serviceProvider, OnShowHelpExecuteAsync, OnShowHelpCanExecute);
     }
 
     [Model(SupportIEditableObject = false)]
@@ -158,12 +156,12 @@ public class WizardViewModel : ViewModelBase
 
     private void OnWizardCanceled(object? sender, EventArgs e)
     {
-        CloseViewModelAsync(false);
+        _ = CloseViewModelAsync(false);
     }
 
     private void OnWizardResumed(object? sender, EventArgs e)
     {
-        CloseViewModelAsync(true);
+        _ = CloseViewModelAsync(true);
     }
 
     private void OnWizardPageAdded(object? sender, WizardPageEventArgs e)

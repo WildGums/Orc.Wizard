@@ -1,13 +1,13 @@
 ﻿<Application x:Class="Orc.Wizard.Example.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Views/MainView.xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Application.Resources>
         <ResourceDictionary>
             <SolidColorBrush x:Key="AccentColorBrush" Color="Orange" />
 
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Orc.LogViewer;component/themes/generic.xaml" />
                 <ResourceDictionary Source="/Orc.Wizard;component/themes/generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
