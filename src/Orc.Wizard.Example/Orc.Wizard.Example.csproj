@@ -23,23 +23,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.7.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
-    <!--<PackageReference Include="Orc.Controls" Version="5.4.1" />
-    <PackageReference Include="Orc.SystemInfo" Version="5.1.0" />
-    <PackageReference Include="Orchestra.Core" Version="7.3.0" />-->
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.7" />
+    <PackageReference Include="Orc.Controls" Version="6.0.0-alpha0113" />
+    <PackageReference Include="Orc.LogViewer" Version="6.0.0-alpha0094" />
+    <PackageReference Include="Orc.SystemInfo" Version="6.0.0-alpha0092" />
+    <PackageReference Include="Orchestra.Core" Version="8.0.0-alpha0115" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Orc.Wizard\Orc.Wizard.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Orc.Controls\src\Orc.Controls\Orc.Controls.csproj" />
-    <ProjectReference Include="..\..\..\Orc.LogViewer\src\Orc.LogViewer\Orc.LogViewer.csproj" />
-    <ProjectReference Include="..\..\..\Orc.SystemInfo\src\Orc.SystemInfo\Orc.SystemInfo.csproj" />
-    <ProjectReference Include="..\..\..\Orchestra\src\Orchestra.Core\Orchestra.Core.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
