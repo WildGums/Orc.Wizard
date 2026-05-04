@@ -23,13 +23,13 @@ public static class IWizardServiceExtensions
 
         if (model is not null)
         {
-            Logger.LogDebug("Creating wizard '{0}' with model '{1}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
+            Logger.LogDebug("Creating wizard '{WizardType}' with model '{ModelType}'", typeof(TWizard).GetSafeFullName(), ObjectToStringHelper.ToFullTypeString(model));
 
             wizard = (TWizard)ActivatorUtilities.CreateInstance(IoCContainer.ServiceProvider, typeof(TWizard), model);
         }
         else
         {
-            Logger.LogDebug("Creating wizard '{0}'", typeof(TWizard).GetSafeFullName());
+            Logger.LogDebug("Creating wizard '{WizardType}'", typeof(TWizard).GetSafeFullName());
 
             wizard = (TWizard)ActivatorUtilities.CreateInstance(IoCContainer.ServiceProvider, typeof(TWizard));
         }

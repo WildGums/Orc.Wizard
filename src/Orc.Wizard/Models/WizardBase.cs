@@ -180,7 +180,7 @@ public abstract class WizardBase : ModelBase, IWizard
     {
         ArgumentNullException.ThrowIfNull(page);
 
-        Logger.LogDebug("Adding page '{0}' to index '{1}'", page.GetType().GetSafeFullName(), index);
+        Logger.LogDebug("Adding page '{PageType}' to index '{PageIndex}'", page.GetType().GetSafeFullName(), index);
 
         page.Wizard = this;
 
@@ -199,7 +199,7 @@ public abstract class WizardBase : ModelBase, IWizard
         {
             if (ReferenceEquals(page, _pages[i]))
             {
-                Logger.LogDebug("Removing page '{0}' at index '{1}'", page.GetType().GetSafeFullName(), i);
+                Logger.LogDebug("Removing page '{PageType}' at index '{PageIndex}'", page.GetType().GetSafeFullName(), i);
 
                 page.Wizard = null;
                 _pages.RemoveAt(i--);
@@ -389,7 +389,7 @@ public abstract class WizardBase : ModelBase, IWizard
             return;
         }
 
-        Logger.LogDebug("Saving wizard '{0}'", GetType().GetSafeFullName());
+        Logger.LogDebug("Saving wizard '{WizardType}'", GetType().GetSafeFullName());
 
         // ORCOMP-590: Fix for final view model
         if (!await ValidateAndSaveCurrentPageAsync())
@@ -417,7 +417,7 @@ public abstract class WizardBase : ModelBase, IWizard
             return;
         }
 
-        Logger.LogDebug("Canceling wizard '{0}'", GetType().GetSafeFullName());
+        Logger.LogDebug("Canceling wizard '{WizardType}'", GetType().GetSafeFullName());
 
         foreach (var page in _pages)
         {
@@ -444,7 +444,7 @@ public abstract class WizardBase : ModelBase, IWizard
 
     protected internal virtual IWizardPage? SetCurrentPage(int newIndex)
     {
-        Logger.LogDebug("Setting current page index to '{0}'", newIndex);
+        Logger.LogDebug("Setting current page index to '{PageIndex}'", newIndex);
 
         var currentPage = _currentPage;
         if (currentPage is not null)

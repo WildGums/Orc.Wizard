@@ -110,7 +110,7 @@ public static class IWizardExtensions
         var page = wizard.FindPageByType<TWizardPage>();
         if (page is null)
         {
-            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Could not find required page of type '{typeof(TWizardPage).Name}'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Could not find required page of type '{WizardPageType}'", typeof(TWizardPage).Name);
         }
 
         return page;
@@ -135,7 +135,7 @@ public static class IWizardExtensions
         var page = wizard.FindPage(predicate);
         if (page is null)
         {
-            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Could not find required page using the specified predicate");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Could not find required page using the specified predicate");
         }
 
         return page;

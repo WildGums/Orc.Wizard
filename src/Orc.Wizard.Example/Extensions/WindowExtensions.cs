@@ -16,7 +16,7 @@ public static class WindowExtensions
         ArgumentNullException.ThrowIfNull(window);
         ArgumentNullException.ThrowIfNull(monitor);
 
-        Logger.LogDebug($"Moving window '{window.GetType().FullName}' to monitor '{monitor}'");
+        Logger.LogDebug("Moving window '{WindowType}' to monitor '{Monitor}'", window.GetType().FullName, monitor);
 
         if (window.IsLoaded)
         {
@@ -46,7 +46,7 @@ public static class WindowExtensions
         //    return;
         //}
 
-        Logger.LogDebug($"Updating state of window '{window.GetType().FullName}' for screen '{screen.DeviceName}'");
+        Logger.LogDebug("Updating state of window '{WindowType}' for screen '{ScreenDeviceName}'", window.GetType().FullName, screen.DeviceName);
 
         var previousWindowState = window.WindowState;
         var previousWindowStartupLocation = window.WindowStartupLocation;
