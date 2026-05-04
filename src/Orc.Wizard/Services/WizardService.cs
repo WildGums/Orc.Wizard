@@ -23,7 +23,7 @@ public class WizardService : IWizardService
     {
         ArgumentNullException.ThrowIfNull(wizard);
 
-        _logger.LogDebug("Showing wizard '{0}'", wizard.GetType().GetSafeFullName());
+        _logger.LogDebug("Showing wizard '{WizardType}'", wizard.GetType().GetSafeFullName());
 
         if (wizard is SideNavigationWizardBase)
         {

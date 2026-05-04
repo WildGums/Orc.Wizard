@@ -40,7 +40,7 @@ public class MonitorAwareUIVisualizerService : UIVisualizerService, IMonitorAwar
 
         EnsureViewIsRegistered(name);
 
-        _logger.LogDebug($"Showing modal window '{name}' on monitor '{monitor}'");
+        _logger.LogDebug("Showing modal window '{Name}' on monitor '{Monitor}'", name, monitor);
 
         var window = await CreateWindowAsync(new UIVisualizerContext
         {

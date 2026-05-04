@@ -25,7 +25,7 @@ public class MonitorAwareWizardService : IMonitorAwareWizardService
 
     public Task<UIVisualizerResult> ShowWizardAsync(IWizard wizard, IMonitorInfo monitor)
     {
-        _logger.LogDebug("Showing wizard '{0}' on monitor '{1}'", wizard.GetType().GetSafeFullName(false), monitor);
+        _logger.LogDebug("Showing wizard '{WizardType}' on monitor '{Monitor}'", wizard.GetType().GetSafeFullName(false), monitor);
 
         if (wizard is SideNavigationWizardBase)
         {
