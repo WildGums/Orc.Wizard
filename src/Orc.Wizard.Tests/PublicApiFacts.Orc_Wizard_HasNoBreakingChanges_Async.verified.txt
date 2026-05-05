@@ -601,6 +601,7 @@ namespace Orc.Wizard.Views
         public FullScreenWizardWindow() { }
         public FullScreenWizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public FullScreenWizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
+        protected override System.Threading.Tasks.Task<bool> DiscardChangesAsync() { }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
@@ -610,6 +611,7 @@ namespace Orc.Wizard.Views
         public SideNavigationWizardWindow() { }
         public SideNavigationWizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public SideNavigationWizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
+        protected override System.Threading.Tasks.Task<bool> DiscardChangesAsync() { }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelChanged() { }
