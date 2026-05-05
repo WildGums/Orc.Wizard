@@ -10,11 +10,13 @@ using Microsoft.Extensions.Logging;
 
 public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPage>
 {
-    private static readonly ILogger Logger = LogManager.GetLogger(typeof(PersonWizardPageViewModel));
+    private readonly ILogger<PersonWizardPageViewModel> _logger;
 
-    public PersonWizardPageViewModel(PersonWizardPage wizardPage, IServiceProvider serviceProvider)
+    public PersonWizardPageViewModel(PersonWizardPage wizardPage, ILogger<PersonWizardPageViewModel> logger, 
+        IServiceProvider serviceProvider)
         : base(wizardPage, serviceProvider)
     {
+        _logger = logger;
     }
 
     [ViewModelToModel]
@@ -25,14 +27,14 @@ public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPag
 
     protected override Task InitializeAsync()
     {
-        Logger.LogDebug("Initializing");
+        _logger.LogDebug("Initializing");
 
         return base.InitializeAsync();
     }
 
     protected override Task CloseAsync()
     {
-        Logger.LogDebug("Closing");
+        _logger.LogDebug("Closing");
 
         return base.CloseAsync();
     }
@@ -50,5 +52,12 @@ public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPag
         {
             validationResults.Add(FieldValidationResult.CreateError("LastName", "Last name is required"));
         }
+    }
+
+    protected override Task<bool> CancelAsync()
+    {
+        _logger.LogInformation("Canceling wizard page viewmodel");
+
+        return base.CancelAsync();
     }
 }

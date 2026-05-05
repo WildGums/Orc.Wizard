@@ -373,6 +373,7 @@ namespace Orc.Wizard
         public static readonly Catel.Data.IPropertyData CanShowHelpProperty;
         public static readonly Catel.Data.IPropertyData HandleNavigationStatesProperty;
         public static readonly Catel.Data.IPropertyData HorizontalScrollbarVisibilityProperty;
+        public static readonly Catel.Data.IPropertyData IsCancelingProperty;
         public static readonly Catel.Data.IPropertyData IsHelpVisibleProperty;
         public static readonly Catel.Data.IPropertyData MaxSizeProperty;
         public static readonly Catel.Data.IPropertyData MinSizeProperty;
@@ -511,6 +512,7 @@ namespace Orc.Wizard
         public Orc.Wizard.IWizard? Wizard { get; }
         [Catel.MVVM.Model(SupportIEditableObject=false)]
         public TWizardPage WizardPage { get; }
+        protected override System.Threading.Tasks.Task<bool> CancelAsync() { }
         public virtual void EnableValidationExposure() { }
         public bool QuickNavigateToPageCanExecute(Orc.Wizard.IWizardPage? parameter) { }
         public System.Threading.Tasks.Task QuickNavigateToPageExecuteAsync(Orc.Wizard.IWizardPage? parameter) { }

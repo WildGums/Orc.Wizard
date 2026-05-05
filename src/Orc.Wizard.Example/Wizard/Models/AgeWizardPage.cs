@@ -1,12 +1,18 @@
 ﻿namespace Orc.Wizard.Example.Wizard;
 
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+
 public class AgeWizardPage : WizardPageBase
 {
-    public AgeWizardPage()
+    private readonly ILogger<AgeWizardPage> _logger;
+
+    public AgeWizardPage(ILogger<AgeWizardPage> logger)
     {
         Title = "Age";
         Description = "Specify the age of the person";
         IsOptional = true;
+        _logger = logger;
     }
 
     public string Age { get; set; }
@@ -18,5 +24,12 @@ public class AgeWizardPage : WizardPageBase
             Title = "Age",
             Summary = Age
         };
+    }
+
+    public override Task CancelAsync()
+    {
+        _logger.LogInformation("Canceling wizard page");
+
+        return base.CancelAsync();
     }
 }

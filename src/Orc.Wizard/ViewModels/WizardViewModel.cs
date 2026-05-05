@@ -124,9 +124,12 @@ public class WizardViewModel : FeaturedViewModelBase
     {
         using (new DisposableToken<WizardViewModel>(this, x => x.Instance._isCanceling = true, x => x.Instance._isCanceling = false))
         {
+            if (!Wizard.IsCanceling)
+        {
             if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
             {
                 return false;
+            }
             }
 
             if (!await CancelAsync())

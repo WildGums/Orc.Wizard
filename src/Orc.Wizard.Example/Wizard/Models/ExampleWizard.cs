@@ -86,6 +86,13 @@ public class ExampleWizard : WizardBase, IExampleWizard
         return _messageService.ShowAsync("HELP HANDLER");
     }
 
+    public override Task CancelAsync()
+    {
+        Logger.LogInformation("Canceling wizard");
+
+        return base.CancelAsync();
+    }
+
     public override async Task ResumeAsync()
     {
         Logger.LogInformation("Resuming wizard");
