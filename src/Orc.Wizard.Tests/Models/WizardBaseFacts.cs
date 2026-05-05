@@ -67,7 +67,7 @@ public class WizardBaseFacts
     }
 
     [TestFixture]
-    public class TheIsCancelingProperty
+    public class The_IsCanceling_Property
     {
         [Test]
         public async Task Is_False_Before_CancelAsync_Is_Called_Async()
