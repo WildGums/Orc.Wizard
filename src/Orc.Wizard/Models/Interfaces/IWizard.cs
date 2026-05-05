@@ -29,6 +29,7 @@ public interface IWizard
     bool ShowInTaskbar { get; }
     bool AllowQuickNavigation { get; }
     bool AutoSizeSideNavigationPane { get; set; }
+    bool IsCanceling { get; }
 
     Task CancelAsync();
     Task ResumeAsync();

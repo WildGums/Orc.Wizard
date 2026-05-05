@@ -206,6 +206,7 @@ namespace Orc.Wizard
         bool CanShowHelp { get; }
         Orc.Wizard.IWizardPage? CurrentPage { get; }
         bool HandleNavigationStates { get; }
+        bool IsCanceling { get; }
         bool IsHelpVisible { get; }
         System.Windows.Size MaxSize { get; }
         System.Windows.Size MinSize { get; }
@@ -392,6 +393,7 @@ namespace Orc.Wizard
         public Orc.Wizard.IWizardPage? CurrentPage { get; }
         public virtual bool HandleNavigationStates { get; protected set; }
         public virtual System.Windows.Controls.ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
+        public bool IsCanceling { get; }
         public bool IsHelpVisible { get; protected set; }
         public virtual System.Windows.Size MaxSize { get; protected set; }
         public virtual System.Windows.Size MinSize { get; protected set; }
