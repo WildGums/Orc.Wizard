@@ -12,18 +12,8 @@ using ViewModels;
 
 public partial class WizardWindow
 {
-    private readonly ILanguageService _languageService;
-    private readonly IMessageService _messageService;
-
-    public WizardWindow(IServiceProvider serviceProvider, IWrapControlService wrapControlService,
-        ILanguageService languageService, IMessageService messageService)
-        : base(serviceProvider, wrapControlService, languageService)
-    {
-        _languageService = languageService;
-        _messageService = messageService;
-
-        InitializeComponent();
-
+    partial void OnInitializingComponent()
+    { 
         Mode = DataWindowMode.Custom;
         InfoBarMessageControlGenerationMode = InfoBarMessageControlGenerationMode.Overlay;
     }
@@ -40,15 +30,13 @@ public partial class WizardWindow
 
     protected override async Task<bool> DiscardChangesAsync()
     {
-        var wizard = ViewModel is WizardViewModel vm ? vm.Wizard : null;
-        if (wizard is not null)
+        if (ViewModel is WizardViewModel vm)
         {
-            if (!wizard.IsCanceling)
+            var wizard = vm.Wizard;
+            
+            if (! await wizard.CancelAsync())
             {
-                if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
-                {
-                    return false;
-                }
+                return false;
             }
         }
 

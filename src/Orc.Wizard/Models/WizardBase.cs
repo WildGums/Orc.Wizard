@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Catel;
 using Catel.Data;
 using Catel.IoC;
 using Catel.Logging;
@@ -131,8 +132,6 @@ public abstract class WizardBase : ModelBase, IWizard
         get { return true; }
     }
 
-    public bool IsCanceling { get; private set; }
-
     public virtual bool CanMoveForward
     {
         get
@@ -172,6 +171,7 @@ public abstract class WizardBase : ModelBase, IWizard
     public event EventHandler<EventArgs>? MovedForward;
     public event EventHandler<NavigatingEventArgs>? MovingBack;
     public event EventHandler<EventArgs>? MovedBack;
+    public event AsyncEventHandler<CancelingEventArgs>? Canceling;
     public event EventHandler<EventArgs>? Canceled;
     public event EventHandler<EventArgs>? Resumed;
     public event EventHandler<EventArgs>? HelpShown;
@@ -384,11 +384,11 @@ public abstract class WizardBase : ModelBase, IWizard
         return Task.CompletedTask;
     }
 
-    public virtual async Task ResumeAsync()
+    public virtual async Task<bool> ResumeAsync()
     {
         if (!CanResume)
         {
-            return;
+            return false;
         }
 
         Logger.LogDebug("Saving wizard '{WizardType}'", GetType().GetSafeFullName());
@@ -396,7 +396,7 @@ public abstract class WizardBase : ModelBase, IWizard
         // ORCOMP-590: Fix for final view model
         if (!await ValidateAndSaveCurrentPageAsync())
         {
-            return;
+            return false;
         }
 
         foreach (var page in _pages)
@@ -410,16 +410,25 @@ public abstract class WizardBase : ModelBase, IWizard
         }
 
         RaiseResumed();
+
+        return true;
     }
 
-    public virtual async Task CancelAsync()
+    public virtual async Task<bool> CancelAsync()
     {
         if (!CanCancel)
         {
-            return;
+            return false;
         }
 
-        IsCanceling = true;
+        var cancelEventArgs = new CancelingEventArgs();
+
+        await RaiseCancelingAsync(cancelEventArgs);
+
+        if (cancelEventArgs.Cancel)
+        {
+            return false;
+        }
 
         Logger.LogDebug("Canceling wizard '{WizardType}'", GetType().GetSafeFullName());
 
@@ -429,6 +438,8 @@ public abstract class WizardBase : ModelBase, IWizard
         }
 
         RaiseCanceled();
+
+        return true;
     }
 
     public virtual Task CloseAsync()
@@ -530,6 +541,15 @@ public abstract class WizardBase : ModelBase, IWizard
     protected void RaiseResumed()
     {
         Resumed?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected async Task RaiseCancelingAsync(CancelingEventArgs e)
+    {
+        var canceling = Canceling;
+        if (canceling is not null)
+        {
+            await canceling(this, e);
+        }
     }
 
     protected void RaiseCanceled()

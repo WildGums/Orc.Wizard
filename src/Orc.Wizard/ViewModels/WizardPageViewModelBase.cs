@@ -44,19 +44,6 @@ public class WizardPageViewModelBase<TWizardPage> : FeaturedViewModelBase, IWiza
 
     public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
 
-    protected override async Task<bool> CancelAsync()
-    {
-        // Only allow cancellation if the wizard has confirmed the cancel (IsCanceling = true).
-        // This prevents premature cancellation when Alt+F4 triggers Catel's view framework
-        // to cancel child view models before the confirmation dialog is shown.
-        if (Wizard?.IsCanceling != true)
-        {
-            return false;
-        }
-
-        return await base.CancelAsync();
-    }
-
     public bool QuickNavigateToPageCanExecute(IWizardPage? parameter)
     {
         if (parameter is null)

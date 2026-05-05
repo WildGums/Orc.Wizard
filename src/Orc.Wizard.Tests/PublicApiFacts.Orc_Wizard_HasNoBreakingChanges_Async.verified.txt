@@ -206,7 +206,6 @@ namespace Orc.Wizard
         bool CanShowHelp { get; }
         Orc.Wizard.IWizardPage? CurrentPage { get; }
         bool HandleNavigationStates { get; }
-        bool IsCanceling { get; }
         bool IsHelpVisible { get; }
         System.Windows.Size MaxSize { get; }
         System.Windows.Size MinSize { get; }
@@ -218,6 +217,7 @@ namespace Orc.Wizard
         bool ShowInTaskbar { get; }
         string? Title { get; }
         event System.EventHandler<System.EventArgs>? Canceled;
+        event Catel.AsyncEventHandler<Catel.MVVM.CancelingEventArgs>? Canceling;
         event System.EventHandler<System.EventArgs>? CurrentPageChanged;
         event System.EventHandler<System.EventArgs>? HelpShown;
         event System.EventHandler<System.EventArgs>? MovedBack;
@@ -227,7 +227,7 @@ namespace Orc.Wizard
         event System.EventHandler<Orc.Wizard.WizardPageEventArgs>? PageAdded;
         event System.EventHandler<Orc.Wizard.WizardPageEventArgs>? PageRemoved;
         event System.EventHandler<System.EventArgs>? Resumed;
-        System.Threading.Tasks.Task CancelAsync();
+        System.Threading.Tasks.Task<bool> CancelAsync();
         System.Threading.Tasks.Task CloseAsync();
         Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true);
         System.Threading.Tasks.Task InitializeAsync();
@@ -236,7 +236,7 @@ namespace Orc.Wizard
         System.Threading.Tasks.Task MoveForwardAsync();
         System.Threading.Tasks.Task MoveToPageAsync(int indexOfNextPage);
         void RemovePage(Orc.Wizard.IWizardPage page);
-        System.Threading.Tasks.Task ResumeAsync();
+        System.Threading.Tasks.Task<bool> ResumeAsync();
         System.Threading.Tasks.Task ShowHelpAsync();
     }
     public static class IWizardExtensions
@@ -373,7 +373,6 @@ namespace Orc.Wizard
         public static readonly Catel.Data.IPropertyData CanShowHelpProperty;
         public static readonly Catel.Data.IPropertyData HandleNavigationStatesProperty;
         public static readonly Catel.Data.IPropertyData HorizontalScrollbarVisibilityProperty;
-        public static readonly Catel.Data.IPropertyData IsCancelingProperty;
         public static readonly Catel.Data.IPropertyData IsHelpVisibleProperty;
         public static readonly Catel.Data.IPropertyData MaxSizeProperty;
         public static readonly Catel.Data.IPropertyData MinSizeProperty;
@@ -394,7 +393,6 @@ namespace Orc.Wizard
         public Orc.Wizard.IWizardPage? CurrentPage { get; }
         public virtual bool HandleNavigationStates { get; protected set; }
         public virtual System.Windows.Controls.ScrollBarVisibility HorizontalScrollbarVisibility { get; protected set; }
-        public bool IsCanceling { get; }
         public bool IsHelpVisible { get; protected set; }
         public virtual System.Windows.Size MaxSize { get; protected set; }
         public virtual System.Windows.Size MinSize { get; protected set; }
@@ -407,6 +405,7 @@ namespace Orc.Wizard
         public string? Title { get; protected set; }
         public virtual System.Windows.Controls.ScrollBarVisibility VerticalScrollbarVisibility { get; protected set; }
         public event System.EventHandler<System.EventArgs>? Canceled;
+        public event Catel.AsyncEventHandler<Catel.MVVM.CancelingEventArgs>? Canceling;
         public event System.EventHandler<System.EventArgs>? CurrentPageChanged;
         public event System.EventHandler<System.EventArgs>? HelpShown;
         public event System.EventHandler<System.EventArgs>? MovedBack;
@@ -416,7 +415,7 @@ namespace Orc.Wizard
         public event System.EventHandler<Orc.Wizard.WizardPageEventArgs>? PageAdded;
         public event System.EventHandler<Orc.Wizard.WizardPageEventArgs>? PageRemoved;
         public event System.EventHandler<System.EventArgs>? Resumed;
-        public virtual System.Threading.Tasks.Task CancelAsync() { }
+        public virtual System.Threading.Tasks.Task<bool> CancelAsync() { }
         public virtual System.Threading.Tasks.Task CloseAsync() { }
         public virtual Catel.Data.IValidationContext GetValidationContext(Orc.Wizard.IWizardPage wizardPage, bool validate = true) { }
         public virtual Catel.Data.IValidationContext GetValidationContextForCurrentPage(bool validate = true) { }
@@ -431,13 +430,14 @@ namespace Orc.Wizard
         protected virtual void OnMovingForward() { }
         protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
         protected void RaiseCanceled() { }
+        protected System.Threading.Tasks.Task RaiseCancelingAsync(Catel.MVVM.CancelingEventArgs e) { }
         protected void RaiseMovedBack() { }
         protected void RaiseMovedForward() { }
         protected bool RaiseMovingBack(Orc.Wizard.IWizardPage? fromPage, Orc.Wizard.IWizardPage? toPage) { }
         protected bool RaiseMovingForward(Orc.Wizard.IWizardPage? fromPage, Orc.Wizard.IWizardPage? toPage) { }
         protected void RaiseResumed() { }
         public void RemovePage(Orc.Wizard.IWizardPage page) { }
-        public virtual System.Threading.Tasks.Task ResumeAsync() { }
+        public virtual System.Threading.Tasks.Task<bool> ResumeAsync() { }
         protected virtual Orc.Wizard.IWizardPage? SetCurrentPage(int newIndex) { }
         public virtual System.Threading.Tasks.Task ShowHelpAsync() { }
         protected virtual System.Threading.Tasks.Task<bool> ValidateAndSaveCurrentPageAsync() { }
@@ -512,7 +512,6 @@ namespace Orc.Wizard
         public Orc.Wizard.IWizard? Wizard { get; }
         [Catel.MVVM.Model(SupportIEditableObject=false)]
         public TWizardPage WizardPage { get; }
-        protected override System.Threading.Tasks.Task<bool> CancelAsync() { }
         public virtual void EnableValidationExposure() { }
         public bool QuickNavigateToPageCanExecute(Orc.Wizard.IWizardPage? parameter) { }
         public System.Threading.Tasks.Task QuickNavigateToPageExecuteAsync(Orc.Wizard.IWizardPage? parameter) { }
@@ -579,7 +578,6 @@ namespace Orc.Wizard.ViewModels
         public Orc.Wizard.IWizard Wizard { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton>? WizardButtons { get; }
         public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage>? WizardPages { get; }
-        protected override System.Threading.Tasks.Task<bool> CancelAsync() { }
         protected override System.Threading.Tasks.Task CloseAsync() { }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         public Orc.Wizard.IWizardPage get_CurrentPage() { }
@@ -629,6 +627,7 @@ namespace Orc.Wizard.Views
         public WizardWindow() { }
         public WizardWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public WizardWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
+        protected override System.Threading.Tasks.Task<bool> DiscardChangesAsync() { }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }

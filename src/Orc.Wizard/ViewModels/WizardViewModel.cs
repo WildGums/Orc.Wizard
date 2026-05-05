@@ -14,9 +14,7 @@ public class WizardViewModel : FeaturedViewModelBase
     private readonly IMessageService _messageService;
     private readonly ILanguageService _languageService;
 
-    private bool _isCanceling;
-
-    public WizardViewModel(IWizard wizard, IServiceProvider serviceProvider, 
+    public WizardViewModel(IWizard wizard, IServiceProvider serviceProvider,
         IMessageService messageService, ILanguageService languageService)
         : base(serviceProvider)
     {
@@ -69,6 +67,7 @@ public class WizardViewModel : FeaturedViewModelBase
         Wizard.CurrentPageChanged += OnWizardCurrentPageChanged;
         Wizard.MovedBack += OnWizardMovedBack;
         Wizard.MovedForward += OnWizardMovedForward;
+        Wizard.Canceling += OnWizardCancelingAsync;
         Wizard.Canceled += OnWizardCanceled;
         Wizard.Resumed += OnWizardResumed;
         Wizard.PageAdded += OnWizardPageAdded;
@@ -84,30 +83,12 @@ public class WizardViewModel : FeaturedViewModelBase
         UpdateState();
     }
 
-    protected override async Task<bool> CancelAsync()
-    {
-        if (!_isCanceling)
-        {
-            // Special case, we need to execute the cancel command if users are using ALT + F4
-            if (!Wizard.CanCancel)
-            {
-                return false;
-            }
-
-            if (!await CancelWizardAsync())
-            {
-                return false;
-            }
-        }
-
-        return await base.CancelAsync();
-    }
-
     protected override async Task CloseAsync()
     {
         Wizard.CurrentPageChanged -= OnWizardCurrentPageChanged;
         Wizard.MovedBack -= OnWizardMovedBack;
         Wizard.MovedForward -= OnWizardMovedForward;
+        Wizard.Canceling -= OnWizardCancelingAsync;
         Wizard.Canceled -= OnWizardCanceled;
         Wizard.Resumed -= OnWizardResumed;
         Wizard.PageAdded -= OnWizardPageAdded;
@@ -118,28 +99,6 @@ public class WizardViewModel : FeaturedViewModelBase
         await Wizard.CloseAsync();
 
         await base.CloseAsync();
-    }
-
-    private async Task<bool> CancelWizardAsync()
-    {
-        using (new DisposableToken<WizardViewModel>(this, x => x.Instance._isCanceling = true, x => x.Instance._isCanceling = false))
-        {
-            if (!Wizard.IsCanceling)
-            {
-                if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
-                {
-                    return false;
-                }
-            }
-
-            if (!await CancelAsync())
-            {
-                return false;
-            }
-
-            await Wizard.CancelAsync();
-            return true;
-        }
     }
 
     private void OnWizardCurrentPageChanged(object? sender, EventArgs e)
@@ -155,6 +114,21 @@ public class WizardViewModel : FeaturedViewModelBase
     private void OnWizardMovedForward(object? sender, EventArgs e)
     {
         UpdateState();
+    }
+
+    private async Task OnWizardCancelingAsync(object sender, CancelingEventArgs e)
+    {
+        if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        if (!await CancelViewModelAsync())
+        {
+            e.Cancel = true;
+            return;
+        }
     }
 
     private void OnWizardCanceled(object? sender, EventArgs e)

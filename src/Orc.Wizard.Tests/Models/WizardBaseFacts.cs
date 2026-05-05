@@ -67,61 +67,6 @@ public class WizardBaseFacts
     }
 
     [TestFixture]
-    public class The_IsCanceling_Property
-    {
-        [Test]
-        public async Task Is_False_Before_CancelAsync_Is_Called_Async()
-        {
-            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
-
-            using var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            var testWizard = new TestWizard(serviceProvider);
-            testWizard.AddPage(new TestWizardPage());
-
-            Assert.That(testWizard.IsCanceling, Is.False);
-        }
-
-        [Test]
-        public async Task Is_True_During_CancelAsync_Async()
-        {
-            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
-
-            using var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            var isCancelingDuringCancel = false;
-            var trackingPage = new TrackingWizardPage();
-
-            var testWizard = new TestWizard(serviceProvider);
-            testWizard.AddPage(trackingPage);
-
-            trackingPage.OnCancelAsyncCallback = () =>
-            {
-                isCancelingDuringCancel = testWizard.IsCanceling;
-            };
-
-            await testWizard.CancelAsync();
-
-            Assert.That(isCancelingDuringCancel, Is.True);
-        }
-
-        [Test]
-        public async Task Remains_True_After_CancelAsync_Completes_Async()
-        {
-            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
-
-            using var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            var testWizard = new TestWizard(serviceProvider);
-            testWizard.AddPage(new TestWizardPage());
-
-            await testWizard.CancelAsync();
-
-            Assert.That(testWizard.IsCanceling, Is.True);
-        }
-    }
-
-    [TestFixture]
     public class TheCancelAsyncMethod
     {
         [Test]
@@ -144,8 +89,9 @@ public class WizardBaseFacts
             testWizard.AddPage(page1);
             testWizard.AddPage(page2);
 
-            await testWizard.CancelAsync();
+            var result = await testWizard.CancelAsync();
 
+            Assert.That(result, Is.True);
             Assert.That(page1CancelCalled, Is.True);
             Assert.That(page2CancelCalled, Is.True);
         }
@@ -187,7 +133,6 @@ public class WizardBaseFacts
             await testWizard.CancelAsync();
 
             Assert.That(pageCancelCalled, Is.False);
-            Assert.That(testWizard.IsCanceling, Is.False);
         }
     }
 }

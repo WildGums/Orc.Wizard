@@ -28,6 +28,21 @@ public partial class FullScreenWizardWindow
         });
     }
 
+    protected override async Task<bool> DiscardChangesAsync()
+    {
+        if (ViewModel is WizardViewModel vm)
+        {
+            var wizard = vm.Wizard;
+
+            if (!await wizard.CancelAsync())
+            {
+                return false;
+            }
+        }
+
+        return await base.DiscardChangesAsync();
+    }
+
     protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnViewModelPropertyChanged(e);

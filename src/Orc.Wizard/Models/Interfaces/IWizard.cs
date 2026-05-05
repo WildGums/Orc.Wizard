@@ -2,8 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using Catel;
 using Catel.Data;
+using Catel.MVVM;
 
 public interface IWizard
 {
@@ -29,10 +32,9 @@ public interface IWizard
     bool ShowInTaskbar { get; }
     bool AllowQuickNavigation { get; }
     bool AutoSizeSideNavigationPane { get; set; }
-    bool IsCanceling { get; }
 
-    Task CancelAsync();
-    Task ResumeAsync();
+    Task<bool> CancelAsync();
+    Task<bool> ResumeAsync();
 
     Task InitializeAsync();
     Task CloseAsync();
@@ -46,6 +48,7 @@ public interface IWizard
     event EventHandler<EventArgs>? MovedForward;
     event EventHandler<EventArgs>? MovedBack;
     event EventHandler<EventArgs>? Resumed;
+    event AsyncEventHandler<CancelingEventArgs>? Canceling;
     event EventHandler<EventArgs>? Canceled;
     event EventHandler<EventArgs>? HelpShown;
     event EventHandler<NavigatingEventArgs>? MovingBack;

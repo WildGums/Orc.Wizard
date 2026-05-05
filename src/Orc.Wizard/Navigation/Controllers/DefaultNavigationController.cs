@@ -162,11 +162,6 @@ public class DefaultNavigationController : INavigationController
             IsVisible = true,
             Command = new TaskCommand(_serviceProvider, async () =>
                 {
-                    if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
-                    {
-                        return;
-                    }
-
                     await Wizard.CancelAsync();
                 },
                 () =>
