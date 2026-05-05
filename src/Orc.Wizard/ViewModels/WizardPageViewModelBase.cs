@@ -49,7 +49,7 @@ public class WizardPageViewModelBase<TWizardPage> : FeaturedViewModelBase, IWiza
         // Only allow cancellation if the wizard has confirmed the cancel (IsCanceling = true).
         // This prevents premature cancellation when Alt+F4 triggers Catel's view framework
         // to cancel child view models before the confirmation dialog is shown.
-        if (!(Wizard?.IsCanceling ?? false))
+        if (Wizard?.IsCanceling != true)
         {
             return false;
         }
