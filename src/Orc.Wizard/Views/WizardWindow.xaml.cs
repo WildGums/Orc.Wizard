@@ -12,16 +12,10 @@ using ViewModels;
 
 public partial class WizardWindow
 {
-    private readonly ILanguageService _languageService;
-    private readonly IMessageService _messageService;
-
     public WizardWindow(IServiceProvider serviceProvider, IWrapControlService wrapControlService,
-        ILanguageService languageService, IMessageService messageService)
+        ILanguageService languageService)
         : base(serviceProvider, wrapControlService, languageService)
     {
-        _languageService = languageService;
-        _messageService = messageService;
-
         InitializeComponent();
 
         Mode = DataWindowMode.Custom;
@@ -36,23 +30,6 @@ public partial class WizardWindow
         {
             UpdateOpacityMask();
         });
-    }
-
-    protected override async Task<bool> DiscardChangesAsync()
-    {
-        var wizard = ViewModel is WizardViewModel vm ? vm.Wizard : null;
-        if (wizard is not null)
-        {
-            if (!wizard.IsCanceling)
-            {
-                if (await _messageService.ShowAsync(_languageService.GetRequiredString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
-                {
-                    return false;
-                }
-            }
-        }
-
-        return await base.DiscardChangesAsync();
     }
 
     protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)

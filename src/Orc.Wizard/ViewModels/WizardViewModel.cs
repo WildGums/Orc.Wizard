@@ -130,14 +130,10 @@ public class WizardViewModel : FeaturedViewModelBase
                 {
                     return false;
                 }
+
+                await Wizard.CancelAsync();
             }
 
-            if (!await CancelAsync())
-            {
-                return false;
-            }
-
-            await Wizard.CancelAsync();
             return true;
         }
     }
