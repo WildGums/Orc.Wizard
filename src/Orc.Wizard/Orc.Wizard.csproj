@@ -31,7 +31,7 @@
     <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
     <PackageReference Include="Orc.Automation" Version="6.0.0-alpha0058" />
-    <PackageReference Include="Orc.Theming" Version="6.0.0-alpha0133" />
+    <PackageReference Include="Orc.Theming" Version="6.0.0-alpha0145" />
   </ItemGroup>
 
   <!-- Theming -->
