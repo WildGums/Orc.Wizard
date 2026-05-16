@@ -7,7 +7,7 @@
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
-        <Label Content="Working on it..." HorizontalAlignment="Center" VerticalAlignment="Center" 
+        <Label Content="{catel:LanguageBinding Orc_Wizard_Example_SystemInfoView_WorkingOnIt}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                Visibility="{Binding IsBusy, Converter={catel:BooleanToHidingVisibilityConverter}}" />
 
         <TextBox Text="{Binding SystemInfo}" VerticalScrollBarVisibility="Auto" IsReadOnly="True"

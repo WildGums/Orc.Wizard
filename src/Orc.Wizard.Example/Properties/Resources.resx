@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Orc_Wizard_Example_Common_AppTitle" xml:space="preserve">
+    <value>Orc.Wizard example</value>
+  </data>
+  <data name="Orc_Wizard_Example_Common_HelpHandler" xml:space="preserve">
+    <value>HELP HANDLER</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_Description" xml:space="preserve">
+    <value>This example will show you how to use the wizard elements in Orc.Wizard. The code is fairly easy to understand. Even though this demo isn't very meaningful it illustrates the real power of the wizard in combination with Catel:
+
+- State management (remember values when navigating between views)
+- Views can be used inside and outside of the wizard
+- Validation per view model or model
+- Easy to code, seriously, check it out for yourself!</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowInTaskbar" xml:space="preserve">
+    <value>Show in taskbar</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowInTaskbarToolTip" xml:space="preserve">
+    <value>Show an icon in the taskbar for the wizard</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowHelpButton" xml:space="preserve">
+    <value>Show help button</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowHelpButtonToolTip" xml:space="preserve">
+    <value>Show the help button in the wizard</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_AllowQuickNavigation" xml:space="preserve">
+    <value>Allow quick navigation</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_AllowQuickNavigationToolTip" xml:space="preserve">
+    <value>Allow quick navigation to visited pages</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_UseFastForwardNavigationController" xml:space="preserve">
+    <value>Use fast forward navigation controller</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_UseFastForwardNavigationControllerToolTip" xml:space="preserve">
+    <value>The fast forward navigation controller allows to skip pages and go directly to the summary page. Or when there is no summary page, immediately resume from the wizard.</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowSummaryPage" xml:space="preserve">
+    <value>Show summary page</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowSummaryPageToolTip" xml:space="preserve">
+    <value>Show the summary page at the end of the wizard.</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_HandleNavigationStates" xml:space="preserve">
+    <value>Handle navigation states</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_CacheViews" xml:space="preserve">
+    <value>Cache views (do not recreate on each page navigation)</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_MarkAllPagesAsVisited" xml:space="preserve">
+    <value>Mark all pages as visited before showing wizard</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_AutoSizeSideNavigationPane" xml:space="preserve">
+    <value>Auto size side navigation pane</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_AutoSizeSideNavigationPaneToolTip" xml:space="preserve">
+    <value>Auto sizing adjusts the spacing between the ellipses in navigation pane so they fit without scrolling. The spacing is calculated from the Wizard window minimum size (MinSize).</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_MoveToOtherScreen" xml:space="preserve">
+    <value>Move to other screen (if possible)</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_MoveToOtherScreenToolTip" xml:space="preserve">
+    <value>Tests the auto move logic and the page initialization logic.</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowWizard" xml:space="preserve">
+    <value>Show wizard...</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowWizardWithSideNavigation" xml:space="preserve">
+    <value>Show wizard with side navigation...</value>
+  </data>
+  <data name="Orc_Wizard_Example_MainView_ShowFullScreenWizard" xml:space="preserve">
+    <value>Show full screen wizard...</value>
+  </data>
+  <data name="Orc_Wizard_Example_SystemInfoView_WorkingOnIt" xml:space="preserve">
+    <value>Working on it...</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPage_Title" xml:space="preserve">
+    <value>Person</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPage_Description" xml:space="preserve">
+    <value>Enter the details of the person</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPage_SummaryTitle" xml:space="preserve">
+    <value>Person</value>
+  </data>
+  <data name="Orc_Wizard_Example_AgeWizardPage_Title" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Orc_Wizard_Example_AgeWizardPage_Description" xml:space="preserve">
+    <value>Specify the age of the person</value>
+  </data>
+  <data name="Orc_Wizard_Example_AgeWizardPage_SummaryTitle" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long1WizardPage_Title" xml:space="preserve">
+    <value>Long 1</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long1WizardPage_Description" xml:space="preserve">
+    <value>Very long page 1</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long2WizardPage_Title" xml:space="preserve">
+    <value>Long 2</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long2WizardPage_Description" xml:space="preserve">
+    <value>Very long page 2</value>
+  </data>
+  <data name="Orc_Wizard_Example_SkillsWizardPage_Title" xml:space="preserve">
+    <value>Skills</value>
+  </data>
+  <data name="Orc_Wizard_Example_SkillsWizardPage_Description" xml:space="preserve">
+    <value>Select the skills</value>
+  </data>
+  <data name="Orc_Wizard_Example_SkillsWizardPage_SummaryTitle" xml:space="preserve">
+    <value>Skills</value>
+  </data>
+  <data name="Orc_Wizard_Example_GadgetsWizardPage_Title" xml:space="preserve">
+    <value>Gadgets</value>
+  </data>
+  <data name="Orc_Wizard_Example_GadgetsWizardPage_Description" xml:space="preserve">
+    <value>Select the gadgets</value>
+  </data>
+  <data name="Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle" xml:space="preserve">
+    <value>Gadgets</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPage_Title" xml:space="preserve">
+    <value>Components selection</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPage_Description" xml:space="preserve">
+    <value>Select the components</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle" xml:space="preserve">
+    <value>Components</value>
+  </data>
+  <data name="Orc_Wizard_Example_AgeWizardPageView_Age" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Orc_Wizard_Example_AgeWizardPageView_AddDynamicPage" xml:space="preserve">
+    <value>Add dynamic page</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPageView_Description" xml:space="preserve">
+    <value>This wizard page shows you how to map textbox elements to a model and validate them. Notice that you cannot move to the next page while the fields are not yet valid. When navigating forward and back, you will see the values are automatically restored.
+
+The cool thing is that the view model for this page only has 28 (!) lines of code. This means your pages stay small and are easily maintainable.</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPageView_FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPageView_LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Orc_Wizard_Example_SkillsWizardPageView_Description" xml:space="preserve">
+    <value>Please select your skills:</value>
+  </data>
+  <data name="Orc_Wizard_Example_Common_SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPageView_Description" xml:space="preserve">
+    <value>Please select the components you want to use:</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPageView_MoveBackViaCode" xml:space="preserve">
+    <value>Move back via code</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPageView_MoveForwardViaCode" xml:space="preserve">
+    <value>Move forward via code</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPageView_CancelViaCode" xml:space="preserve">
+    <value>Cancel via code</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPageView_MoveNextOrFinishViaCode" xml:space="preserve">
+    <value>Move next or finish via code</value>
+  </data>
+  <data name="Orc_Wizard_Example_GadgetsWizardPageView_Description" xml:space="preserve">
+    <value>Please select the gadgets you want to use:</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long1WizardPageView_Paragraph1" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum quam sed suscipit aliquet. Nam malesuada et eros id molestie. Phasellus lacinia eleifend nisi, vitae feugiat turpis laoreet in. Maecenas condimentum commodo metus nec tempor. Suspendisse potenti. Etiam interdum ante vitae est elementum iaculis. Mauris tempor orci ut dolor laoreet malesuada. Morbi tortor sapien, congue nec mauris ac, posuere elementum tortor. Aliquam interdum elementum risus eu egestas. Donec neque ipsum, finibus eget nisi nec, semper pellentesque dolor.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long1WizardPageView_Paragraph2" xml:space="preserve">
+    <value>Ut egestas lorem nec nisl accumsan fringilla. Maecenas gravida, nisl quis placerat blandit, odio ligula elementum neque, nec accumsan turpis mauris at orci. Vestibulum lorem ipsum, scelerisque eu sodales sit amet, sollicitudin vel dui. In hendrerit nulla a augue vulputate rutrum. Suspendisse facilisis justo id eros imperdiet facilisis. Nullam risus erat, ultricies non vehicula eu, congue et nulla. Pellentesque non laoreet mauris, ut mattis magna. Pellentesque porta efficitur risus, et posuere nisi mollis et. Cras id pharetra sapien. Donec pulvinar nulla eu semper bibendum. Nullam mattis sit amet est nec rhoncus. Nunc augue tellus, semper vitae porttitor vel, ornare ac dolor. Maecenas purus velit, elementum ut ipsum at, elementum viverra lorem. Nulla facilisi.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long1WizardPageView_Paragraph3" xml:space="preserve">
+    <value>Morbi porta lorem sit amet magna varius iaculis. Donec condimentum tortor eu dignissim lobortis. Duis ac sagittis ante, id interdum eros. Suspendisse ultricies felis urna, ac tincidunt sem dapibus sed. In hendrerit mattis urna, non convallis lectus viverra vitae. Vestibulum sit amet ex leo. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac nisi aliquet, congue tellus id, aliquet nibh. Cras vehicula est et urna condimentum pharetra. Integer ex lacus, aliquam id dui lacinia, tempor interdum massa. Aenean placerat rhoncus augue, interdum viverra massa dictum a.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long1WizardPageView_Paragraph4" xml:space="preserve">
+    <value>Suspendisse potenti. Suspendisse justo lectus, porta in pellentesque et, scelerisque in libero. Nulla posuere felis ut lacus dapibus, ac aliquet tortor tempor. Maecenas feugiat neque eget risus accumsan pharetra. Phasellus sed dolor lacus. Curabitur bibendum lobortis leo eleifend posuere. Phasellus tempus, ante non euismod tincidunt, leo lectus sollicitudin lectus, sed tristique mauris nisl accumsan ligula. Morbi odio velit, vulputate ut leo id, tempus finibus purus. Curabitur vestibulum urna vitae tincidunt tristique. Fusce a lacus augue. Cras aliquet diam neque, eu maximus leo vulputate non. Nulla lacinia aliquam tincidunt. Etiam molestie rutrum eros, a posuere enim venenatis et. Maecenas rutrum dolor vel ultricies tincidunt. Vivamus viverra pellentesque ipsum, sit amet venenatis ex sollicitudin vel.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long1WizardPageView_Paragraph5" xml:space="preserve">
+    <value>Sed fringilla, mi nec blandit ultricies, tortor nunc consequat sem, nec semper arcu justo vel nisi. Praesent scelerisque mauris eget mauris bibendum, at ultricies nunc dictum. Aliquam faucibus massa vitae sapien sollicitudin, nec dapibus tellus condimentum. Duis interdum elit et velit sollicitudin dictum. Suspendisse elementum mi quis sem molestie, a semper magna ultrices. Sed rutrum magna non metus sodales, eget mattis dui hendrerit. Quisque et nisl vehicula, varius erat facilisis, ullamcorper mauris. Mauris fermentum nunc nisi, vitae ullamcorper tortor bibendum et. Morbi malesuada suscipit orci, sed volutpat ligula aliquam et. Suspendisse rutrum vitae turpis eget auctor. Nunc eget pretium diam. Nullam commodo arcu vel tortor aliquet faucibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi finibus varius felis nec placerat.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long2WizardPageView_Paragraph1" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum quam sed suscipit aliquet. Nam malesuada et eros id molestie. Phasellus lacinia eleifend nisi, vitae feugiat turpis laoreet in. Maecenas condimentum commodo metus nec tempor. Suspendisse potenti. Etiam interdum ante vitae est elementum iaculis. Mauris tempor orci ut dolor laoreet malesuada. Morbi tortor sapien, congue nec mauris ac, posuere elementum tortor. Aliquam interdum elementum risus eu egestas. Donec neque ipsum, finibus eget nisi nec, semper pellentesque dolor.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long2WizardPageView_Paragraph2" xml:space="preserve">
+    <value>Ut egestas lorem nec nisl accumsan fringilla. Maecenas gravida, nisl quis placerat blandit, odio ligula elementum neque, nec accumsan turpis mauris at orci. Vestibulum lorem ipsum, scelerisque eu sodales sit amet, sollicitudin vel dui. In hendrerit nulla a augue vulputate rutrum. Suspendisse facilisis justo id eros imperdiet facilisis. Nullam risus erat, ultricies non vehicula eu, congue et nulla. Pellentesque non laoreet mauris, ut mattis magna. Pellentesque porta efficitur risus, et posuere nisi mollis et. Cras id pharetra sapien. Donec pulvinar nulla eu semper bibendum. Nullam mattis sit amet est nec rhoncus. Nunc augue tellus, semper vitae porttitor vel, ornare ac dolor. Maecenas purus velit, elementum ut ipsum at, elementum viverra lorem. Nulla facilisi.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long2WizardPageView_Paragraph3" xml:space="preserve">
+    <value>Morbi porta lorem sit amet magna varius iaculis. Donec condimentum tortor eu dignissim lobortis. Duis ac sagittis ante, id interdum eros. Suspendisse ultricies felis urna, ac tincidunt sem dapibus sed. In hendrerit mattis urna, non convallis lectus viverra vitae. Vestibulum sit amet ex leo. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac nisi aliquet, congue tellus id, aliquet nibh. Cras vehicula est et urna condimentum pharetra. Integer ex lacus, aliquam id dui lacinia, tempor interdum massa. Aenean placerat rhoncus augue, interdum viverra massa dictum a.</value>
+  </data>
+  <data name="Orc_Wizard_Example_Long2WizardPageView_Paragraph4" xml:space="preserve">
+    <value>Suspendisse potenti. Suspendisse justo lectus, porta in pellentesque et, scelerisque in libero. Nulla posuere felis ut lacus dapibus, ac aliquet tortor tempor. Maecenas feugiat neque eget risus accumsan pharetra. Phasellus sed dolor lacus. Curabitur bibendum lobortis leo eleifend posuere. Phasellus tempus, ante non euismod tincidunt, leo lectus sollicitudin lectus, sed tristique mauris nisl accumsan ligula. Morbi odio velit, vulputate ut leo id, tempus finibus purus. Curabitur vestibulum urna vitae tincidunt tristique. Fusce a lacus augue. Cras aliquet diam neque, eu maximus leo vulputate non. Nulla lacinia aliquam tincidunt. Etiam molestie rutrum eros, a posuere enim venenatis et. Maecenas rutrum dolor vel ultricies tincidunt. Vivamus viverra pellentesque ipsum, sit amet venenatis ex sollicitudin vel.</value>
+  </data>
+  <data name="Orc_Wizard_Example_AgeWizardPageViewModel_AddPageQuestion" xml:space="preserve">
+    <value>Would you like to add a new page to see the dynamic navigation pane behavior?</value>
+  </data>
+  <data name="Orc_Wizard_Example_AgeWizardPageViewModel_AddPageTitle" xml:space="preserve">
+    <value>Add page?</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPageViewModel_FirstNameRequired" xml:space="preserve">
+    <value>First name is required</value>
+  </data>
+  <data name="Orc_Wizard_Example_PersonWizardPageViewModel_LastNameRequired" xml:space="preserve">
+    <value>Last name is required</value>
+  </data>
+  <data name="Orc_Wizard_Example_ComponentsWizardPageViewModel_SelectAtLeast1Component" xml:space="preserve">
+    <value>Select at least 1 component</value>
+  </data>
+  <data name="Orc_Wizard_Example_SkillsWizardPageViewModel_SelectAtLeast1Skill" xml:space="preserve">
+    <value>Select at least 1 skill</value>
+  </data>
+</root>

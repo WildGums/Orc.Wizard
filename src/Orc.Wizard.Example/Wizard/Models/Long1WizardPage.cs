@@ -1,14 +1,20 @@
-﻿namespace Orc.Wizard.Example.Wizard;
+namespace Orc.Wizard.Example.Wizard;
 
-using System.Collections.ObjectModel;
-using System.Text;
+using Catel.IoC;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 public class Long1WizardPage : WizardPageBase
 {
     public Long1WizardPage()
+        : this(IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
     {
-        Title = "Long 1";
-        Description = "Very long page 1";
+    }
+
+    public Long1WizardPage(ILanguageService languageService)
+    {
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_Long1WizardPage_Title");
+        Description = languageService.GetRequiredString("Orc_Wizard_Example_Long1WizardPage_Description");
         IsOptional = true;
     }
 }

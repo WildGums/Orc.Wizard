@@ -1,14 +1,25 @@
-﻿namespace Orc.Wizard.Example.Wizard;
+namespace Orc.Wizard.Example.Wizard;
 
 using System.Collections.ObjectModel;
 using System.Text;
+using Catel.IoC;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 public class ComponentsWizardPage : WizardPageBase
 {
+    private readonly ILanguageService _languageService;
+
     public ComponentsWizardPage()
+        : this(IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
     {
-        Title = "Components selection";
-        Description = "Select the components";
+    }
+
+    public ComponentsWizardPage(ILanguageService languageService)
+    {
+        _languageService = languageService;
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Title");
+        Description = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
         IsOptional = true;
 
         Components = new ObservableCollection<Component>(new []
@@ -47,7 +58,7 @@ public class ComponentsWizardPage : WizardPageBase
 
         return new SummaryItem
         {
-            Title = "Components",
+            Title = _languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle"),
             Summary = summary.ToString()
         };
     }

@@ -9,12 +9,22 @@ using System.Threading.Tasks;
 using Catel.Collections;
 using Catel.Data;
 using Catel.MVVM;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 public class SkillsWizardPageViewModel : WizardPageViewModelBase<SkillsWizardPage>
 {
+    private readonly ILanguageService _languageService;
+
     public SkillsWizardPageViewModel(SkillsWizardPage wizardPage, IServiceProvider serviceProvider)
+        : this(wizardPage, serviceProvider, serviceProvider.GetRequiredService<ILanguageService>())
+    {
+    }
+
+    public SkillsWizardPageViewModel(SkillsWizardPage wizardPage, IServiceProvider serviceProvider, ILanguageService languageService)
         : base(wizardPage, serviceProvider)
     {
+        _languageService = languageService;
         SelectAll = new Command(serviceProvider, OnSelectAllExecute);
     }
 
@@ -58,7 +68,8 @@ public class SkillsWizardPageViewModel : WizardPageViewModelBase<SkillsWizardPag
         {
             if (!skills.Any(x => x.IsSelected))
             {
-                validationResults.Add(BusinessRuleValidationResult.CreateError("Select at least 1 skill"));
+                validationResults.Add(BusinessRuleValidationResult.CreateError(
+                    _languageService.GetRequiredString("Orc_Wizard_Example_SkillsWizardPageViewModel_SelectAtLeast1Skill")));
             }
         }
     }

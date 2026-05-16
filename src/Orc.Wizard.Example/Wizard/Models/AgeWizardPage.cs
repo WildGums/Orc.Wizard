@@ -1,16 +1,26 @@
-﻿namespace Orc.Wizard.Example.Wizard;
+namespace Orc.Wizard.Example.Wizard;
 
 using System.Threading.Tasks;
+using Catel.IoC;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class AgeWizardPage : WizardPageBase
 {
     private readonly ILogger<AgeWizardPage> _logger;
+    private readonly ILanguageService _languageService;
 
     public AgeWizardPage(ILogger<AgeWizardPage> logger)
+        : this(logger, IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
     {
-        Title = "Age";
-        Description = "Specify the age of the person";
+    }
+
+    public AgeWizardPage(ILogger<AgeWizardPage> logger, ILanguageService languageService)
+    {
+        _languageService = languageService;
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_AgeWizardPage_Title");
+        Description = languageService.GetRequiredString("Orc_Wizard_Example_AgeWizardPage_Description");
         IsOptional = true;
         _logger = logger;
     }
@@ -21,7 +31,7 @@ public class AgeWizardPage : WizardPageBase
     {
         return new SummaryItem
         {
-            Title = "Age",
+            Title = _languageService.GetRequiredString("Orc_Wizard_Example_AgeWizardPage_SummaryTitle"),
             Summary = Age
         };
     }

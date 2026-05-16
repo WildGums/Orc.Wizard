@@ -15,9 +15,8 @@
         </Grid.RowDefinitions>
 
         <Label>
-            <TextBlock TextWrapping="Wrap">
-                Please select your skills:
-            </TextBlock>
+            <TextBlock TextWrapping="Wrap"
+                       Text="{catel:LanguageBinding Orc_Wizard_Example_SkillsWizardPageView_Description}" />
         </Label>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -30,8 +29,7 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <Button Command="{Binding SelectAll}" Content="Select all" />
+        <Button Command="{Binding SelectAll}" Content="{catel:LanguageBinding Orc_Wizard_Example_Common_SelectAll}" />
     </orccontrols:StackGrid>
 
 </catel:UserControl>
-

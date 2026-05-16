@@ -20,9 +20,8 @@
         </Grid.RowDefinitions>
 
         <Label>
-            <TextBlock TextWrapping="Wrap">
-                Please select the components you want to use:
-            </TextBlock>
+            <TextBlock TextWrapping="Wrap"
+                       Text="{catel:LanguageBinding Orc_Wizard_Example_ComponentsWizardPageView_Description}" />
         </Label>
 
         <ScrollViewer VerticalScrollBarVisibility="Visible">
@@ -35,12 +34,11 @@
             </ItemsControl>
         </ScrollViewer>
         
-        <Button Command="{Binding SelectAll}" Content="Select all" />
-        <Button Command="{Binding MoveBackViaCode}" Content="Move back via code" />
-        <Button Command="{Binding MoveForwardViaCode}" Content="Move forward via code" />
-        <Button Command="{Binding CancelViaCode}" Content="Cancel via code" />
-        <Button Command="{Binding ResumeViaCode}" Content="Move next or finish via code" />
+        <Button Command="{Binding SelectAll}" Content="{catel:LanguageBinding Orc_Wizard_Example_Common_SelectAll}" />
+        <Button Command="{Binding MoveBackViaCode}" Content="{catel:LanguageBinding Orc_Wizard_Example_ComponentsWizardPageView_MoveBackViaCode}" />
+        <Button Command="{Binding MoveForwardViaCode}" Content="{catel:LanguageBinding Orc_Wizard_Example_ComponentsWizardPageView_MoveForwardViaCode}" />
+        <Button Command="{Binding CancelViaCode}" Content="{catel:LanguageBinding Orc_Wizard_Example_ComponentsWizardPageView_CancelViaCode}" />
+        <Button Command="{Binding ResumeViaCode}" Content="{catel:LanguageBinding Orc_Wizard_Example_ComponentsWizardPageView_MoveNextOrFinishViaCode}" />
     </orccontrols:StackGrid>
     
 </catel:UserControl>
-

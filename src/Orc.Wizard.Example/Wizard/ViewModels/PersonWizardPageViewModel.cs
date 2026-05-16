@@ -6,17 +6,27 @@ using System.Threading.Tasks;
 using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPage>
 {
     private readonly ILogger<PersonWizardPageViewModel> _logger;
+    private readonly ILanguageService _languageService;
 
     public PersonWizardPageViewModel(PersonWizardPage wizardPage, ILogger<PersonWizardPageViewModel> logger, 
         IServiceProvider serviceProvider)
+        : this(wizardPage, logger, serviceProvider, serviceProvider.GetRequiredService<ILanguageService>())
+    {
+    }
+
+    public PersonWizardPageViewModel(PersonWizardPage wizardPage, ILogger<PersonWizardPageViewModel> logger,
+        IServiceProvider serviceProvider, ILanguageService languageService)
         : base(wizardPage, serviceProvider)
     {
         _logger = logger;
+        _languageService = languageService;
     }
 
     [ViewModelToModel]
@@ -45,12 +55,14 @@ public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPag
 
         if (string.IsNullOrWhiteSpace(FirstName))
         {
-            validationResults.Add(FieldValidationResult.CreateError("FirstName", "First name is required"));
+            validationResults.Add(FieldValidationResult.CreateError("FirstName",
+                _languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPageViewModel_FirstNameRequired")));
         }
 
         if (string.IsNullOrWhiteSpace(LastName))
         {
-            validationResults.Add(FieldValidationResult.CreateError("LastName", "Last name is required"));
+            validationResults.Add(FieldValidationResult.CreateError("LastName",
+                _languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPageViewModel_LastNameRequired")));
         }
     }
 
