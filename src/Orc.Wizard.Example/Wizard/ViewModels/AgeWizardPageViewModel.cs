@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Catel.MVVM;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
@@ -13,12 +12,6 @@ public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
     private readonly IServiceProvider _serviceProvider;
     private readonly IMessageService _messageService;
     private readonly ILanguageService _languageService;
-
-    public AgeWizardPageViewModel(AgeWizardPage wizardPage, ILogger<AgeWizardPageViewModel> logger, 
-        IServiceProvider serviceProvider, IMessageService messageService)
-        : this(wizardPage, logger, serviceProvider, messageService, serviceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
 
     public AgeWizardPageViewModel(AgeWizardPage wizardPage, ILogger<AgeWizardPageViewModel> logger,
         IServiceProvider serviceProvider, IMessageService messageService, ILanguageService languageService)

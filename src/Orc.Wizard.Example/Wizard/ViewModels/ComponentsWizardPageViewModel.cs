@@ -10,17 +10,11 @@ using Catel.Collections;
 using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Component = Example.Component;
 
 public class ComponentsWizardPageViewModel : WizardPageViewModelBase<ComponentsWizardPage>
 {
     private readonly ILanguageService _languageService;
-
-    public ComponentsWizardPageViewModel(ComponentsWizardPage wizardPage, IServiceProvider serviceProvider)
-        : this(wizardPage, serviceProvider, serviceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
 
     public ComponentsWizardPageViewModel(ComponentsWizardPage wizardPage, IServiceProvider serviceProvider, ILanguageService languageService)
         : base(wizardPage, serviceProvider)

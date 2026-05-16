@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orc.Wizard\Orc.Wizard.csproj" />
-    <ProjectReference Include="..\Orc.Wizard.Example\Orc.Wizard.Example.csproj" />
   </ItemGroup>
 
   <ItemGroup>

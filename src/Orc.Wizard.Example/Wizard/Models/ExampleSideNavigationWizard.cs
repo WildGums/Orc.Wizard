@@ -6,7 +6,6 @@ using Catel;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class ExampleSideNavigationWizard : SideNavigationWizardBase, IExampleWizard
@@ -15,11 +14,6 @@ public class ExampleSideNavigationWizard : SideNavigationWizardBase, IExampleWiz
 
     private readonly IMessageService _messageService;
     private readonly ILanguageService _languageService;
-
-    public ExampleSideNavigationWizard(IServiceProvider serviceProvider, IMessageService messageService)
-        : this(serviceProvider, messageService, serviceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
 
     public ExampleSideNavigationWizard(IServiceProvider serviceProvider, IMessageService messageService, ILanguageService languageService)
         : base(serviceProvider)

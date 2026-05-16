@@ -1,5 +1,6 @@
 namespace Orc.Wizard.Example.Wizard;
 
+using System;
 using System.Collections.ObjectModel;
 using System.Text;
 using Catel.Services;
@@ -8,17 +9,10 @@ public class ComponentsWizardPage : WizardPageBase
 {
     private readonly string _summaryTitle;
 
-    public ComponentsWizardPage()
-    {
-        Title = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Title");
-        Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
-        _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle");
-        IsOptional = true;
-        Components = CreateComponents();
-    }
-
     public ComponentsWizardPage(ILanguageService languageService)
     {
+        ArgumentNullException.ThrowIfNull(languageService);
+
         Title = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Title");
         Description = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
         _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle");

@@ -1,5 +1,6 @@
 namespace Orc.Wizard.Example.Wizard;
 
+using System;
 using System.Threading.Tasks;
 using Catel.Services;
 using Microsoft.Extensions.Logging;
@@ -9,16 +10,11 @@ public class PersonWizardPage : WizardPageBase
     private readonly ILogger<PersonWizardPage> _logger;
     private readonly string _summaryTitle;
 
-    public PersonWizardPage(ILogger<PersonWizardPage> logger)
-    {
-        Title = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_Title");
-        Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_Description");
-        _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_SummaryTitle");
-        _logger = logger;
-    }
-
     public PersonWizardPage(ILogger<PersonWizardPage> logger, ILanguageService languageService)
     {
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(languageService);
+
         Title = languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_Title");
         Description = languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_Description");
         _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_SummaryTitle");

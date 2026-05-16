@@ -1,5 +1,6 @@
 namespace Orc.Wizard.Example.Wizard;
 
+using System;
 using System.Collections.ObjectModel;
 using System.Text;
 using Catel.Services;
@@ -8,17 +9,10 @@ public class GadgetsWizardPage : WizardPageBase
 {
     private readonly string _summaryTitle;
 
-    public GadgetsWizardPage()
-    {
-        Title = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Title");
-        Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Description");
-        _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle");
-        IsOptional = true;
-        Gadgets = CreateGadgets();
-    }
-
     public GadgetsWizardPage(ILanguageService languageService)
     {
+        ArgumentNullException.ThrowIfNull(languageService);
+
         Title = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Title");
         Description = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Description");
         _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle");

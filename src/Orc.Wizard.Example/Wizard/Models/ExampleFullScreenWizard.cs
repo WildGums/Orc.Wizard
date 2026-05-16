@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Catel;
 using Catel.Logging;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class ExampleFullScreenWizard : FullScreenWizardBase, IExampleWizard
@@ -14,11 +13,6 @@ public class ExampleFullScreenWizard : FullScreenWizardBase, IExampleWizard
 
     private readonly IMessageService _messageService;
     private readonly ILanguageService _languageService;
-
-    public ExampleFullScreenWizard(IServiceProvider serviceProvider, IMessageService messageService)
-        : this(serviceProvider, messageService, serviceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
 
     public ExampleFullScreenWizard(IServiceProvider serviceProvider, IMessageService messageService, ILanguageService languageService)
         : base(serviceProvider)

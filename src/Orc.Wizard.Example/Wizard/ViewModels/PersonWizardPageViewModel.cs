@@ -7,19 +7,12 @@ using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class PersonWizardPageViewModel : WizardPageViewModelBase<PersonWizardPage>
 {
     private readonly ILogger<PersonWizardPageViewModel> _logger;
     private readonly ILanguageService _languageService;
-
-    public PersonWizardPageViewModel(PersonWizardPage wizardPage, ILogger<PersonWizardPageViewModel> logger, 
-        IServiceProvider serviceProvider)
-        : this(wizardPage, logger, serviceProvider, serviceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
 
     public PersonWizardPageViewModel(PersonWizardPage wizardPage, ILogger<PersonWizardPageViewModel> logger,
         IServiceProvider serviceProvider, ILanguageService languageService)
