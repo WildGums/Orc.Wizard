@@ -18,13 +18,6 @@ public class MainViewModel : ViewModelBase
     private readonly IMainWindowService _mainWindowService;
 
     public MainViewModel(IServiceProvider serviceProvider, IWizardService wizardService,
-        IMonitorAwareWizardService monitorAwareWizardService, IMainWindowService mainWindowService)
-        : this(serviceProvider, wizardService, monitorAwareWizardService, mainWindowService,
-            serviceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
-
-    public MainViewModel(IServiceProvider serviceProvider, IWizardService wizardService,
         IMonitorAwareWizardService monitorAwareWizardService, IMainWindowService mainWindowService,
         ILanguageService languageService)
         : base(serviceProvider)
