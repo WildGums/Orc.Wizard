@@ -14,6 +14,7 @@ public class ComponentsWizardPage : WizardPageBase
         Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
         _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle");
         IsOptional = true;
+        Components = CreateComponents();
     }
 
     public ComponentsWizardPage(ILanguageService languageService)
@@ -22,8 +23,14 @@ public class ComponentsWizardPage : WizardPageBase
         Description = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
         _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle");
         IsOptional = true;
+        Components = CreateComponents();
+    }
 
-        Components = new ObservableCollection<Component>(new []
+    public ObservableCollection<Component> Components { get; private set; }
+
+    private static ObservableCollection<Component> CreateComponents()
+    {
+        return new ObservableCollection<Component>(new []
         {
             new Component { Name = "Orc.Analytics" },
             new Component { Name = "Orc.CommandLine" },
@@ -42,8 +49,6 @@ public class ComponentsWizardPage : WizardPageBase
             new Component { Name = "Orchestra" },
         });
     }
-
-    public ObservableCollection<Component> Components { get; private set; }
 
     public override ISummaryItem GetSummary()
     {

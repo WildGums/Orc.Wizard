@@ -14,6 +14,7 @@ public class GadgetsWizardPage : WizardPageBase
         Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Description");
         _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle");
         IsOptional = true;
+        Gadgets = CreateGadgets();
     }
 
     public GadgetsWizardPage(ILanguageService languageService)
@@ -22,8 +23,14 @@ public class GadgetsWizardPage : WizardPageBase
         Description = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Description");
         _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle");
         IsOptional = true;
+        Gadgets = CreateGadgets();
+    }
 
-        Gadgets = new ObservableCollection<Gadget>(new[]
+    public ObservableCollection<Gadget> Gadgets { get; private set; }
+
+    private static ObservableCollection<Gadget> CreateGadgets()
+    {
+        return new ObservableCollection<Gadget>(new[]
         {
             new Gadget { Name = "Lumia 950" },
             new Gadget { Name = "Lumia 950 XL" },
@@ -32,8 +39,6 @@ public class GadgetsWizardPage : WizardPageBase
             new Gadget { Name = "Surface Book" }
         });
     }
-
-    public ObservableCollection<Gadget> Gadgets { get; private set; }
 
     public override ISummaryItem GetSummary()
     {
