@@ -2,24 +2,24 @@ namespace Orc.Wizard.Example.Wizard;
 
 using System.Collections.ObjectModel;
 using System.Text;
-using Catel.IoC;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 public class SkillsWizardPage : WizardPageBase
 {
-    private readonly ILanguageService _languageService;
+    private readonly string _summaryTitle;
 
     public SkillsWizardPage()
-        : this(IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
     {
+        Title = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_SkillsWizardPage_Title");
+        Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_SkillsWizardPage_Description");
+        _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_SkillsWizardPage_SummaryTitle");
     }
 
     public SkillsWizardPage(ILanguageService languageService)
     {
-        _languageService = languageService;
         Title = languageService.GetRequiredString("Orc_Wizard_Example_SkillsWizardPage_Title");
         Description = languageService.GetRequiredString("Orc_Wizard_Example_SkillsWizardPage_Description");
+        _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_SkillsWizardPage_SummaryTitle");
 
         Skills = new ObservableCollection<Skill>(new[]
         {
@@ -46,7 +46,7 @@ public class SkillsWizardPage : WizardPageBase
 
         return new SummaryItem
         {
-            Title = _languageService.GetRequiredString("Orc_Wizard_Example_SkillsWizardPage_SummaryTitle"),
+            Title = _summaryTitle,
             Summary = summary.ToString()
         };
     }

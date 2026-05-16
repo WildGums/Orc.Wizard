@@ -2,24 +2,25 @@ namespace Orc.Wizard.Example.Wizard;
 
 using System.Collections.ObjectModel;
 using System.Text;
-using Catel.IoC;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 public class GadgetsWizardPage : WizardPageBase
 {
-    private readonly ILanguageService _languageService;
+    private readonly string _summaryTitle;
 
     public GadgetsWizardPage()
-        : this(IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
     {
+        Title = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Title");
+        Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Description");
+        _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle");
+        IsOptional = true;
     }
 
     public GadgetsWizardPage(ILanguageService languageService)
     {
-        _languageService = languageService;
         Title = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Title");
         Description = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Description");
+        _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle");
         IsOptional = true;
 
         Gadgets = new ObservableCollection<Gadget>(new[]
@@ -48,7 +49,7 @@ public class GadgetsWizardPage : WizardPageBase
 
         return new SummaryItem
         {
-            Title = _languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle"),
+            Title = _summaryTitle,
             Summary = summary.ToString()
         };
     }

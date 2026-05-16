@@ -2,24 +2,25 @@ namespace Orc.Wizard.Example.Wizard;
 
 using System.Collections.ObjectModel;
 using System.Text;
-using Catel.IoC;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 public class ComponentsWizardPage : WizardPageBase
 {
-    private readonly ILanguageService _languageService;
+    private readonly string _summaryTitle;
 
     public ComponentsWizardPage()
-        : this(IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
     {
+        Title = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Title");
+        Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
+        _summaryTitle = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle");
+        IsOptional = true;
     }
 
     public ComponentsWizardPage(ILanguageService languageService)
     {
-        _languageService = languageService;
         Title = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Title");
         Description = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
+        _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle");
         IsOptional = true;
 
         Components = new ObservableCollection<Component>(new []
@@ -58,7 +59,7 @@ public class ComponentsWizardPage : WizardPageBase
 
         return new SummaryItem
         {
-            Title = _languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle"),
+            Title = _summaryTitle,
             Summary = summary.ToString()
         };
     }

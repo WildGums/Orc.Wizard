@@ -1,14 +1,14 @@
 namespace Orc.Wizard.Example.Wizard;
 
-using Catel.IoC;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 public class Long1WizardPage : WizardPageBase
 {
     public Long1WizardPage()
-        : this(IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
     {
+        Title = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_Long1WizardPage_Title");
+        Description = ExampleResourceHelper.GetRequiredString("Orc_Wizard_Example_Long1WizardPage_Description");
+        IsOptional = true;
     }
 
     public Long1WizardPage(ILanguageService languageService)
