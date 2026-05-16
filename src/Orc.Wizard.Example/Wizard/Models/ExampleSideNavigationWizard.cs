@@ -6,7 +6,6 @@ using Catel;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class ExampleSideNavigationWizard : SideNavigationWizardBase, IExampleWizard
@@ -14,15 +13,18 @@ public class ExampleSideNavigationWizard : SideNavigationWizardBase, IExampleWiz
     private static readonly ILogger Logger = LogManager.GetLogger(typeof(ExampleSideNavigationWizard));
 
     private readonly IMessageService _messageService;
+    private readonly ILanguageService _languageService;
 
-    public ExampleSideNavigationWizard(IServiceProvider serviceProvider, IMessageService messageService)
+    public ExampleSideNavigationWizard(IServiceProvider serviceProvider, IMessageService messageService, ILanguageService languageService)
         : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(messageService);
+        ArgumentNullException.ThrowIfNull(languageService);
 
         _messageService = messageService;
+        _languageService = languageService;
 
-        Title = "Orc.Wizard example"; 
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_Common_AppTitle");
 
         this.AddPage<PersonWizardPage>(serviceProvider);
         this.AddPage<AgeWizardPage>(serviceProvider);
@@ -85,7 +87,7 @@ public class ExampleSideNavigationWizard : SideNavigationWizardBase, IExampleWiz
 
     public override Task ShowHelpAsync()
     {
-        return _messageService.ShowAsync("HELP HANDLER");
+        return _messageService.ShowAsync(_languageService.GetRequiredString("Orc_Wizard_Example_Common_HelpHandler"));
     }
 
     public override Task<bool> ResumeAsync()

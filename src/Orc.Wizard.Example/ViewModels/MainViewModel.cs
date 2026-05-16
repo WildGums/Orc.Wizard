@@ -1,10 +1,11 @@
-﻿namespace Orc.Wizard.Example.ViewModels;
+namespace Orc.Wizard.Example.ViewModels;
 
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Catel.Collections;
 using Catel.MVVM;
+using Catel.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Orc.Wizard.Example.Wizard;
 using Orchestra;
@@ -17,7 +18,8 @@ public class MainViewModel : ViewModelBase
     private readonly IMainWindowService _mainWindowService;
 
     public MainViewModel(IServiceProvider serviceProvider, IWizardService wizardService,
-        IMonitorAwareWizardService monitorAwareWizardService, IMainWindowService mainWindowService)
+        IMonitorAwareWizardService monitorAwareWizardService, IMainWindowService mainWindowService,
+        ILanguageService languageService)
         : base(serviceProvider)
     {
         _serviceProvider = serviceProvider;
@@ -36,7 +38,7 @@ public class MainViewModel : ViewModelBase
         AutoSizeSideNavigationPane = false;
         MoveToOtherScreen = true;
 
-        Title = "Orc.Wizard example";
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_Common_AppTitle");
     }
 
     public bool ShowInTaskbar { get; set; }

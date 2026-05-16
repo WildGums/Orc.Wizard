@@ -1,17 +1,30 @@
-﻿namespace Orc.Wizard.Example.Wizard;
+namespace Orc.Wizard.Example.Wizard;
 
+using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using Catel.Services;
 
 public class ComponentsWizardPage : WizardPageBase
 {
-    public ComponentsWizardPage()
-    {
-        Title = "Components selection";
-        Description = "Select the components";
-        IsOptional = true;
+    private readonly string _summaryTitle;
 
-        Components = new ObservableCollection<Component>(new []
+    public ComponentsWizardPage(ILanguageService languageService)
+    {
+        ArgumentNullException.ThrowIfNull(languageService);
+
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Title");
+        Description = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_Description");
+        _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPage_SummaryTitle");
+        IsOptional = true;
+        Components = CreateComponents();
+    }
+
+    public ObservableCollection<Component> Components { get; private set; }
+
+    private static ObservableCollection<Component> CreateComponents()
+    {
+        return new ObservableCollection<Component>(new []
         {
             new Component { Name = "Orc.Analytics" },
             new Component { Name = "Orc.CommandLine" },
@@ -31,8 +44,6 @@ public class ComponentsWizardPage : WizardPageBase
         });
     }
 
-    public ObservableCollection<Component> Components { get; private set; }
-
     public override ISummaryItem GetSummary()
     {
         var summary = new StringBuilder();
@@ -47,7 +58,7 @@ public class ComponentsWizardPage : WizardPageBase
 
         return new SummaryItem
         {
-            Title = "Components",
+            Title = _summaryTitle,
             Summary = summary.ToString()
         };
     }

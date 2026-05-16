@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Catel;
 using Catel.Logging;
 using Catel.Services;
 using Microsoft.Extensions.Logging;
@@ -11,13 +12,18 @@ public class ExampleFullScreenWizard : FullScreenWizardBase, IExampleWizard
     private static readonly ILogger Logger = LogManager.GetLogger(typeof(ExampleFullScreenWizard));
 
     private readonly IMessageService _messageService;
+    private readonly ILanguageService _languageService;
 
-    public ExampleFullScreenWizard(IServiceProvider serviceProvider, IMessageService messageService)
+    public ExampleFullScreenWizard(IServiceProvider serviceProvider, IMessageService messageService, ILanguageService languageService)
         : base(serviceProvider)
     {
-        _messageService = messageService;
+        ArgumentNullException.ThrowIfNull(messageService);
+        ArgumentNullException.ThrowIfNull(languageService);
 
-        Title = "Orc.Wizard example";
+        _messageService = messageService;
+        _languageService = languageService;
+
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_Common_AppTitle");
 
         this.AddPage<PersonWizardPage>(serviceProvider);
         this.AddPage<AgeWizardPage>(serviceProvider);
@@ -79,7 +85,7 @@ public class ExampleFullScreenWizard : FullScreenWizardBase, IExampleWizard
 
     public override Task ShowHelpAsync()
     {
-        return _messageService.ShowAsync("HELP HANDLER");
+        return _messageService.ShowAsync(_languageService.GetRequiredString("Orc_Wizard_Example_Common_HelpHandler"));
     }
 
     public override Task<bool> ResumeAsync()

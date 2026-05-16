@@ -1,16 +1,23 @@
-﻿namespace Orc.Wizard.Example.Wizard;
+namespace Orc.Wizard.Example.Wizard;
 
+using System;
 using System.Threading.Tasks;
+using Catel.Services;
 using Microsoft.Extensions.Logging;
 
 public class PersonWizardPage : WizardPageBase
 {
     private readonly ILogger<PersonWizardPage> _logger;
+    private readonly string _summaryTitle;
 
-    public PersonWizardPage(ILogger<PersonWizardPage> logger)
+    public PersonWizardPage(ILogger<PersonWizardPage> logger, ILanguageService languageService)
     {
-        Title = "Person";
-        Description = "Enter the details of the person";
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(languageService);
+
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_Title");
+        Description = languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_Description");
+        _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_PersonWizardPage_SummaryTitle");
         _logger = logger;
     }
 
@@ -22,7 +29,7 @@ public class PersonWizardPage : WizardPageBase
     {
         return new SummaryItem
         {
-            Title = "Person",
+            Title = _summaryTitle,
             Summary = string.Format("{0} {1}", FirstName, LastName)
         };
     }

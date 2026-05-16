@@ -1,17 +1,30 @@
-﻿namespace Orc.Wizard.Example.Wizard;
+namespace Orc.Wizard.Example.Wizard;
 
+using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using Catel.Services;
 
 public class GadgetsWizardPage : WizardPageBase
 {
-    public GadgetsWizardPage()
-    {
-        Title = "Gadgets";
-        Description = "Select the gadgets";
-        IsOptional = true;
+    private readonly string _summaryTitle;
 
-        Gadgets = new ObservableCollection<Gadget>(new[]
+    public GadgetsWizardPage(ILanguageService languageService)
+    {
+        ArgumentNullException.ThrowIfNull(languageService);
+
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Title");
+        Description = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_Description");
+        _summaryTitle = languageService.GetRequiredString("Orc_Wizard_Example_GadgetsWizardPage_SummaryTitle");
+        IsOptional = true;
+        Gadgets = CreateGadgets();
+    }
+
+    public ObservableCollection<Gadget> Gadgets { get; private set; }
+
+    private static ObservableCollection<Gadget> CreateGadgets()
+    {
+        return new ObservableCollection<Gadget>(new[]
         {
             new Gadget { Name = "Lumia 950" },
             new Gadget { Name = "Lumia 950 XL" },
@@ -20,8 +33,6 @@ public class GadgetsWizardPage : WizardPageBase
             new Gadget { Name = "Surface Book" }
         });
     }
-
-    public ObservableCollection<Gadget> Gadgets { get; private set; }
 
     public override ISummaryItem GetSummary()
     {
@@ -37,7 +48,7 @@ public class GadgetsWizardPage : WizardPageBase
 
         return new SummaryItem
         {
-            Title = "Gadgets",
+            Title = _summaryTitle,
             Summary = summary.ToString()
         };
     }

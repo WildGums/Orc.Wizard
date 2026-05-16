@@ -9,13 +9,17 @@ using System.Threading.Tasks;
 using Catel.Collections;
 using Catel.Data;
 using Catel.MVVM;
+using Catel.Services;
 using Component = Example.Component;
 
 public class ComponentsWizardPageViewModel : WizardPageViewModelBase<ComponentsWizardPage>
 {
-    public ComponentsWizardPageViewModel(ComponentsWizardPage wizardPage, IServiceProvider serviceProvider)
+    private readonly ILanguageService _languageService;
+
+    public ComponentsWizardPageViewModel(ComponentsWizardPage wizardPage, IServiceProvider serviceProvider, ILanguageService languageService)
         : base(wizardPage, serviceProvider)
     {
+        _languageService = languageService;
         SelectAll = new Command(serviceProvider, OnSelectAllExecute);
         MoveBackViaCode = new TaskCommand(serviceProvider, OnMoveBackViaCodeExecuteAsync);
         MoveForwardViaCode = new TaskCommand(serviceProvider, OnMoveForwardViaCodeExecuteAsync);
@@ -96,7 +100,8 @@ public class ComponentsWizardPageViewModel : WizardPageViewModelBase<ComponentsW
         {
             if (!components.Any(x => x.IsSelected))
             {
-                validationResults.Add(BusinessRuleValidationResult.CreateError("Select at least 1 component"));
+                validationResults.Add(BusinessRuleValidationResult.CreateError(
+                    _languageService.GetRequiredString("Orc_Wizard_Example_ComponentsWizardPageViewModel_SelectAtLeast1Component")));
             }
         }
     }

@@ -18,12 +18,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <Label Content="Age" />
+        <Label Content="{catel:LanguageBinding Orc_Wizard_Example_AgeWizardPageView_Age}" />
         <TextBox Text="{Binding Age, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
 
-        <Button Content="Add dynamic page"
+        <Button Content="{catel:LanguageBinding Orc_Wizard_Example_AgeWizardPageView_AddDynamicPage}"
                 Command="{Binding AddPage}" />
     </orccontrols:StackGrid>
 
 </catel:UserControl>
-

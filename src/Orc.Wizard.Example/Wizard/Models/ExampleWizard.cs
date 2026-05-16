@@ -13,15 +13,18 @@ public class ExampleWizard : WizardBase, IExampleWizard
     private static readonly ILogger Logger = LogManager.GetLogger(typeof(ExampleWizard));
 
     private readonly IMessageService _messageService;
+    private readonly ILanguageService _languageService;
 
-    public ExampleWizard(IServiceProvider serviceProvider, IMessageService messageService)
+    public ExampleWizard(IServiceProvider serviceProvider, IMessageService messageService, ILanguageService languageService)
         : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(messageService);
+        ArgumentNullException.ThrowIfNull(languageService);
 
         _messageService = messageService;
+        _languageService = languageService;
 
-        Title = "Orc.Wizard example";
+        Title = languageService.GetRequiredString("Orc_Wizard_Example_Common_AppTitle");
 
         this.AddPage<PersonWizardPage>(serviceProvider);
         this.AddPage<AgeWizardPage>(serviceProvider);
@@ -83,7 +86,7 @@ public class ExampleWizard : WizardBase, IExampleWizard
 
     public override Task ShowHelpAsync()
     {
-        return _messageService.ShowAsync("HELP HANDLER");
+        return _messageService.ShowAsync(_languageService.GetRequiredString("Orc_Wizard_Example_Common_HelpHandler"));
     }
 
     public override Task<bool> CancelAsync()

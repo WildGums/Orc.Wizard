@@ -27,54 +27,55 @@
         </Grid.RowDefinitions>
 
         <Label>
-            <TextBlock TextWrapping="Wrap">
-                This example will show you how to use the wizard elements in Orc.Wizard. The code is fairly easy to understand. Even though 
-                this demo isn't very meaningful it illustrates the real power of the wizard in combination with Catel:
-                <LineBreak /><LineBreak />
-                - State management (remember values when navigating between views)<LineBreak />
-                - Views can be used inside and outside of the wizard<LineBreak />
-                - Validation per view model or model<LineBreak />
-                - Easy to code, seriously, check it out for yourself!<LineBreak />
-            </TextBlock>
+            <TextBlock TextWrapping="Wrap"
+                       Text="{catel:LanguageBinding Orc_Wizard_Example_MainView_Description}" />
         </Label>
 
         <orctheming:ThemeSwitcherView />
 
-        <CheckBox Content="Show in taskbar" IsChecked="{Binding ShowInTaskbar}" 
-                  ToolTip="Show an icon in the taskbar for the wizard" />
-        <CheckBox Content="Show help button" IsChecked="{Binding ShowHelp}" 
-                  ToolTip="Show the help button in the wizard" />
-        <CheckBox Content="Allow quick navigation" IsChecked="{Binding AllowQuickNavigation}" 
-                  ToolTip="Allow quick navigation to visited pages" />
-        <CheckBox Content="Use fast forward navigation controller" IsChecked="{Binding UseFastForwardNavigationController}" 
-                  ToolTip="The fast forward navigation controller allows to skip pages and go directly to the summary page. Or when there is no summary page, immediately resume from the wizard." />
-        <CheckBox Content="Show summary page" IsChecked="{Binding ShowSummaryPage}"
-                  ToolTip="Show the summary page at the end of the wizard." />
-        <CheckBox Content="Handle navigation states" IsChecked="{Binding HandleNavigationStates}" />
-        <CheckBox Content="Cache views (do not recreate on each page navigation)" IsChecked="{Binding CacheViews}" />
-        <CheckBox Content="Mark all pages as visited before showing wizard" IsChecked="{Binding MarkAllPagesAsVisited}" />
-        <CheckBox Content="Auto size side navigation pane" IsChecked="{Binding AutoSizeSideNavigationPane}" 
-                  ToolTip="Auto sizing adjusts the spacing between the ellipses in navigation pane so they fit without scrolling.  The spacing is calculated from the Wizard window minimum size (MinSize)."/>
-        <CheckBox Content="Move to other screen (if possible)"
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowInTaskbar}"
+                  IsChecked="{Binding ShowInTaskbar}" 
+                  ToolTip="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowInTaskbarToolTip}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowHelpButton}"
+                  IsChecked="{Binding ShowHelp}" 
+                  ToolTip="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowHelpButtonToolTip}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_AllowQuickNavigation}"
+                  IsChecked="{Binding AllowQuickNavigation}" 
+                  ToolTip="{catel:LanguageBinding Orc_Wizard_Example_MainView_AllowQuickNavigationToolTip}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_UseFastForwardNavigationController}"
+                  IsChecked="{Binding UseFastForwardNavigationController}" 
+                  ToolTip="{catel:LanguageBinding Orc_Wizard_Example_MainView_UseFastForwardNavigationControllerToolTip}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowSummaryPage}"
+                  IsChecked="{Binding ShowSummaryPage}"
+                  ToolTip="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowSummaryPageToolTip}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_HandleNavigationStates}"
+                  IsChecked="{Binding HandleNavigationStates}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_CacheViews}"
+                  IsChecked="{Binding CacheViews}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_MarkAllPagesAsVisited}"
+                  IsChecked="{Binding MarkAllPagesAsVisited}" />
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_AutoSizeSideNavigationPane}"
+                  IsChecked="{Binding AutoSizeSideNavigationPane}" 
+                  ToolTip="{catel:LanguageBinding Orc_Wizard_Example_MainView_AutoSizeSideNavigationPaneToolTip}"/>
+        <CheckBox Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_MoveToOtherScreen}"
                   IsChecked="{Binding MoveToOtherScreen}"
-                  ToolTip="Tests the auto move logic and the page initialization logic." />
+                  ToolTip="{catel:LanguageBinding Orc_Wizard_Example_MainView_MoveToOtherScreenToolTip}" />
 
         <StackPanel Orientation="Horizontal">
             <Button Command="{Binding ShowWizard}" 
                     CommandParameter="{x:Type local:ExampleWizard}"
-                    Content="Show wizard..." />
+                    Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowWizard}" />
 
             <Button Command="{Binding ShowWizard}" 
                     CommandParameter="{x:Type local:ExampleSideNavigationWizard}"
-                    Content="Show wizard with side navigation..." />
+                    Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowWizardWithSideNavigation}" />
 
             <Button Command="{Binding ShowWizard}" 
                     CommandParameter="{x:Type local:ExampleFullScreenWizard}"
-                    Content="Show full screen wizard..." />
+                    Content="{catel:LanguageBinding Orc_Wizard_Example_MainView_ShowFullScreenWizard}" />
         </StackPanel>
 
         <orclogviewer:AdvancedLogViewerControl />
     </orccontrols:StackGrid>
     
 </catel:Window>
-
