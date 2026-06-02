@@ -25,7 +25,7 @@ public class DefaultNavigationController : INavigationController
 
     public IWizard Wizard { get; }
 
-    public IEnumerable<IWizardNavigationButton> GetNavigationButtons()
+    public IReadOnlyList<IWizardNavigationButton> GetNavigationButtons()
     {
         if (_wizardNavigationButtons.Count == 0)
         {
@@ -43,7 +43,7 @@ public class DefaultNavigationController : INavigationController
         });
     }
 
-    protected virtual IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
+    protected virtual IReadOnlyList<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
     {
         var buttons = new List<WizardNavigationButton>
         {

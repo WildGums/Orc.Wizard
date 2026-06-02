@@ -16,7 +16,7 @@ public class FastForwardNavigationController : DefaultNavigationController
 
     }
 
-    protected override IEnumerable<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
+    protected override IReadOnlyList<IWizardNavigationButton> CreateNavigationButtons(IWizard wizard)
     {
         ArgumentNullException.ThrowIfNull(wizard);
 

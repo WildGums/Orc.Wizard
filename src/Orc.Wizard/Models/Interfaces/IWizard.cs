@@ -11,7 +11,7 @@ using Catel.MVVM;
 public interface IWizard
 {
     IWizardPage? CurrentPage { get; }
-    IEnumerable<IWizardPage> Pages { get; }
+    IReadOnlyList<IWizardPage> Pages { get; }
     INavigationStrategy NavigationStrategy { get; }
 
     INavigationController NavigationController { get; }

@@ -38,9 +38,9 @@ public class WizardViewModel : FeaturedViewModelBase
     [Expose(nameof(IWizard.ShowInTaskbar))]
     public IWizard Wizard { get; set; }
 
-    public IEnumerable<IWizardPage>? WizardPages { get; private set; }
+    public IReadOnlyList<IWizardPage>? WizardPages { get; private set; }
 
-    public IEnumerable<IWizardNavigationButton>? WizardButtons { get; private set; }
+    public IReadOnlyList<IWizardNavigationButton>? WizardButtons { get; private set; }
 
     public string? PageTitle { get; private set; }
 

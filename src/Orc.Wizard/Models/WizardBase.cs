@@ -65,9 +65,9 @@ public abstract class WizardBase : ModelBase, IWizard
         }
     }
 
-    public IEnumerable<IWizardPage> Pages
+    public IReadOnlyList<IWizardPage> Pages
     {
-        get { return _pages.AsEnumerable(); }
+        get { return _pages.ToArray(); }
     }
 
     public INavigationStrategy NavigationStrategy

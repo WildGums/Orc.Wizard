@@ -156,9 +156,9 @@ namespace Orc.Wizard
         protected virtual Orc.Wizard.WizardNavigationButton CreateCancelButton(Orc.Wizard.IWizard wizard) { }
         protected virtual Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
         protected virtual Orc.Wizard.WizardNavigationButton CreateForwardButton(Orc.Wizard.IWizard wizard) { }
-        protected virtual System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
+        protected virtual System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
         public void EvaluateNavigationCommands() { }
-        public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> GetNavigationButtons() { }
+        public System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardNavigationButton> GetNavigationButtons() { }
     }
     public class DefaultNavigationStrategy : Orc.Wizard.INavigationStrategy
     {
@@ -170,7 +170,7 @@ namespace Orc.Wizard
     {
         public FastForwardNavigationController(Orc.Wizard.IWizard wizard, System.IServiceProvider serviceProvider, Catel.Services.ILanguageService languageService, Catel.Services.IMessageService messageService) { }
         protected override Orc.Wizard.WizardNavigationButton CreateFinishButton(Orc.Wizard.IWizard wizard) { }
-        protected override System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
+        protected override System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardNavigationButton> CreateNavigationButtons(Orc.Wizard.IWizard wizard) { }
     }
     public abstract class FullScreenWizardBase : Orc.Wizard.WizardBase
     {
@@ -181,7 +181,7 @@ namespace Orc.Wizard
     public interface INavigationController
     {
         void EvaluateNavigationCommands();
-        System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton> GetNavigationButtons();
+        System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardNavigationButton> GetNavigationButtons();
     }
     public interface INavigationStrategy
     {
@@ -211,7 +211,7 @@ namespace Orc.Wizard
         System.Windows.Size MinSize { get; }
         Orc.Wizard.INavigationController NavigationController { get; }
         Orc.Wizard.INavigationStrategy NavigationStrategy { get; }
-        System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
+        System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardPage> Pages { get; }
         System.Windows.ResizeMode ResizeMode { get; }
         bool RestoreScrollPositionPerPage { get; }
         bool ShowInTaskbar { get; }
@@ -398,7 +398,7 @@ namespace Orc.Wizard
         public virtual System.Windows.Size MinSize { get; protected set; }
         public Orc.Wizard.INavigationController NavigationController { get; protected set; }
         public Orc.Wizard.INavigationStrategy NavigationStrategy { get; protected set; }
-        public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage> Pages { get; }
+        public System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardPage> Pages { get; }
         public virtual System.Windows.ResizeMode ResizeMode { get; protected set; }
         public virtual bool RestoreScrollPositionPerPage { get; protected set; }
         public bool ShowInTaskbar { get; protected set; }
@@ -576,8 +576,8 @@ namespace Orc.Wizard.ViewModels
         public bool ShowInTaskbar { get; set; }
         [Catel.MVVM.Model(SupportIEditableObject=false)]
         public Orc.Wizard.IWizard Wizard { get; set; }
-        public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardNavigationButton>? WizardButtons { get; }
-        public System.Collections.Generic.IEnumerable<Orc.Wizard.IWizardPage>? WizardPages { get; }
+        public System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardNavigationButton>? WizardButtons { get; }
+        public System.Collections.Generic.IReadOnlyList<Orc.Wizard.IWizardPage>? WizardPages { get; }
         protected override System.Threading.Tasks.Task CloseAsync() { }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         public Orc.Wizard.IWizardPage get_CurrentPage() { }

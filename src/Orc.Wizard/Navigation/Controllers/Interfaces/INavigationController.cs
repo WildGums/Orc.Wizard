@@ -4,6 +4,6 @@ using System.Collections.Generic;
 
 public interface INavigationController
 {
-    IEnumerable<IWizardNavigationButton> GetNavigationButtons();
+    IReadOnlyList<IWizardNavigationButton> GetNavigationButtons();
     void EvaluateNavigationCommands();
 }
