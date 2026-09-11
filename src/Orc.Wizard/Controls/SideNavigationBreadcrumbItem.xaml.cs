@@ -58,7 +58,7 @@ public partial class SideNavigationBreadcrumbItem
     }
 
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string),
-        typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(string.Empty));
+        typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(string.Empty, (sender, e) => ((SideNavigationBreadcrumbItem)sender).OnTitleOrDescriptionChanged()));
 
 
     public string? Description
@@ -68,7 +68,7 @@ public partial class SideNavigationBreadcrumbItem
     }
 
     public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string),
-        typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(string.Empty));
+        typeof(SideNavigationBreadcrumbItem), new PropertyMetadata(string.Empty, (sender, e) => ((SideNavigationBreadcrumbItem)sender).OnTitleOrDescriptionChanged()));
 
 
     public int Number
@@ -200,6 +200,29 @@ public partial class SideNavigationBreadcrumbItem
         SetCurrentValue(CursorProperty, (Page?.Wizard?.AllowQuickNavigation ?? false && isVisited) ? System.Windows.Input.Cursors.Hand : null);
         UpdateContent(isCompleted);
         UpdateSelection(isSelected, isCompleted, isVisited);
+    }
+
+    private void OnTitleOrDescriptionChanged()
+    {
+        SetCurrentValue(ToolTipProperty, CreateToolTipContent(Title, Description));
+    }
+
+    private static string? CreateToolTipContent(string? title, string? description)
+    {
+        var hasTitle = !string.IsNullOrWhiteSpace(title);
+        var hasDescription = !string.IsNullOrWhiteSpace(description);
+
+        if (hasTitle && hasDescription)
+        {
+            return $"{title}{Environment.NewLine}{description}";
+        }
+
+        if (hasTitle)
+        {
+            return title;
+        }
+
+        return hasDescription ? description : null;
     }
 
     private void UpdateSelection(bool isSelected, bool isCompleted, bool isVisited)

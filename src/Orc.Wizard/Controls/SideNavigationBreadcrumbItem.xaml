@@ -19,7 +19,7 @@
     </xamlbehaviors:Interaction.Triggers>
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type localcontrols:SideNavigationBreadcrumbItem}}}">
-        <Grid ToolTip="{Binding Description}" MinWidth="240" MaxWidth="240" Margin="{Binding NavigationItemMargin}">
+        <Grid MinWidth="240" MaxWidth="240" Margin="{Binding NavigationItemMargin}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
@@ -65,7 +65,8 @@
                        VerticalAlignment="Center" 
                        FontWeight="Medium"
                        TextAlignment="Center"
-                       TextWrapping="Wrap"
+                       TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis"
                        Foreground="{DynamicResource Orc.Brushes.GrayBrush1}"/>
         </Grid>
         <Canvas HorizontalAlignment="Left" Margin="{x:Static controls:SideNavigationBreadcrumbItem.CanvasLineMargin}">
