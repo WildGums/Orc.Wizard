@@ -15,7 +15,7 @@ public class SideNavigationBreadcrumbItemFacts
     [Test]
     public void Uses_Breadcrumb_Title_And_Description_In_Tooltip()
     {
-        var control = new SideNavigationBreadcrumbItem
+        var control = CreateControlInHost(new SideNavigationBreadcrumbItem
         {
             Page = new TestWizardPage
             {
@@ -23,7 +23,7 @@ public class SideNavigationBreadcrumbItemFacts
                 BreadcrumbTitle = "Breadcrumb title",
                 Description = "Page description"
             }
-        };
+        });
 
         var navigationItemGrid = control.FindName("navigationItemGrid") as Grid;
         var toolTip = navigationItemGrid?.ToolTip as ToolTip;
@@ -38,13 +38,32 @@ public class SideNavigationBreadcrumbItemFacts
     [Test]
     public void Trims_Title_Instead_Of_Wrapping()
     {
-        var control = new SideNavigationBreadcrumbItem();
-        control.ApplyTemplate();
+        var control = CreateControlInHost(new SideNavigationBreadcrumbItem());
 
         var titleTextBlock = control.FindName("txtTitle") as TextBlock;
 
         Assert.That(titleTextBlock, Is.Not.Null);
         Assert.That(titleTextBlock!.TextWrapping, Is.EqualTo(TextWrapping.NoWrap));
         Assert.That(titleTextBlock.TextTrimming, Is.EqualTo(TextTrimming.CharacterEllipsis));
+    }
+
+    private static SideNavigationBreadcrumbItem CreateControlInHost(SideNavigationBreadcrumbItem control)
+    {
+        var host = new ContentControl
+        {
+            Content = control
+        };
+
+        host.ApplyTemplate();
+        host.Measure(new Size(400, 300));
+        host.Arrange(new Rect(0, 0, 400, 300));
+        host.UpdateLayout();
+
+        control.ApplyTemplate();
+        control.Measure(new Size(400, 300));
+        control.Arrange(new Rect(0, 0, 400, 300));
+        control.UpdateLayout();
+
+        return control;
     }
 }
