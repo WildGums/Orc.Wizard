@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="Orc.Wizard.Controls.SideNavigationBreadcrumbItem"
+             x:Name="root"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,7 +20,31 @@
     </xamlbehaviors:Interaction.Triggers>
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type localcontrols:SideNavigationBreadcrumbItem}}}">
-        <Grid MinWidth="240" MaxWidth="240" Margin="{Binding NavigationItemMargin}">
+        <Grid x:Name="navigationItemGrid" MinWidth="240" MaxWidth="240" Margin="{Binding NavigationItemMargin}">
+            <Grid.ToolTip>
+                <ToolTip>
+                    <StackPanel MaxWidth="240">
+                        <TextBlock Text="{Binding ElementName=root, Path=Title}"
+                                   FontWeight="Medium"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding ElementName=root, Path=Description}"
+                                   TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=root, Path=Description}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=root, Path=Description}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Grid.ToolTip>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>

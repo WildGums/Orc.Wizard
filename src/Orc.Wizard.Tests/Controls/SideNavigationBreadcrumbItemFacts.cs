@@ -1,6 +1,7 @@
 ﻿namespace Orc.Wizard.Tests;
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +25,14 @@ public class SideNavigationBreadcrumbItemFacts
             }
         };
 
-        Assert.That(control.ToolTip, Is.EqualTo($"Breadcrumb title{Environment.NewLine}Page description"));
+        var navigationItemGrid = control.FindName("navigationItemGrid") as Grid;
+        var toolTip = navigationItemGrid?.ToolTip as ToolTip;
+        var toolTipContent = toolTip?.Content as StackPanel;
+        var textBlocks = toolTipContent?.Children.OfType<TextBlock>().ToArray();
+
+        Assert.That(textBlocks, Has.Length.EqualTo(2));
+        Assert.That(textBlocks![0].Text, Is.EqualTo("Breadcrumb title"));
+        Assert.That(textBlocks[1].Text, Is.EqualTo("Page description"));
     }
 
     [Test]
