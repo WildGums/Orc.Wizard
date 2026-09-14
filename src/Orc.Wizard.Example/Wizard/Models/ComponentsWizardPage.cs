@@ -1,4 +1,4 @@
-namespace Orc.Wizard.Example.Wizard;
+﻿namespace Orc.Wizard.Example.Wizard;
 
 using System;
 using System.Collections.ObjectModel;
@@ -26,8 +26,6 @@ public class ComponentsWizardPage : WizardPageBase
     {
         return new ObservableCollection<Component>(new []
         {
-            new Component { Name = "Orc.Analytics" },
-            new Component { Name = "Orc.CommandLine" },
             new Component { Name = "Orc.Controls" },
             new Component { Name = "Orc.FilterBuilder" },
             new Component { Name = "Orc.FileAssociation" },
