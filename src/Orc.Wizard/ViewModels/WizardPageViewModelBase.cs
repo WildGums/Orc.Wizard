@@ -1,8 +1,10 @@
 ﻿namespace Orc.Wizard;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Catel.Linq;
 using Catel.MVVM;
 
 public class WizardPageViewModelBase<TWizardPage> : FeaturedViewModelBase, IWizardPageViewModel
@@ -72,10 +74,12 @@ public class WizardPageViewModelBase<TWizardPage> : FeaturedViewModelBase, IWiza
     public async Task QuickNavigateToPageExecuteAsync(IWizardPage? parameter)
     {
         var page = parameter;
-        if (page is not null && page.IsVisited && Wizard?.Pages is System.Collections.Generic.List<IWizardPage>)
+        if (page is not null && 
+            page.IsVisited && 
+            Wizard?.Pages is IReadOnlyList<IWizardPage> pages)
         {
-            var list = Wizard.Pages.ToList();
-            var index = list.IndexOf(page);
+            var pagesList = pages.ToList();
+            var index = pagesList.IndexOf(page);
 
             await Wizard.MoveToPageAsync(index);
         }
