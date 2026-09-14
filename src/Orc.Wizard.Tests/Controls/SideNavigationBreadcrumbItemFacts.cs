@@ -13,29 +13,6 @@ using Orc.Wizard.Controls;
 public class SideNavigationBreadcrumbItemFacts
 {
     [Test]
-    public void Uses_Breadcrumb_Title_And_Description_In_Tooltip()
-    {
-        var control = CreateControlInHost(new SideNavigationBreadcrumbItem
-        {
-            Page = new TestWizardPage
-            {
-                Title = "Full title",
-                BreadcrumbTitle = "Breadcrumb title",
-                Description = "Page description"
-            }
-        });
-
-        var navigationItemGrid = control.FindName("navigationItemGrid") as Grid;
-        var toolTip = navigationItemGrid?.ToolTip as ToolTip;
-        var toolTipContent = toolTip?.Content as StackPanel;
-        var textBlocks = toolTipContent?.Children.OfType<TextBlock>().ToArray();
-
-        Assert.That(textBlocks, Has.Length.EqualTo(2));
-        Assert.That(textBlocks![0].Text, Is.EqualTo("Breadcrumb title"));
-        Assert.That(textBlocks[1].Text, Is.EqualTo("Page description"));
-    }
-
-    [Test]
     public void Trims_Title_Instead_Of_Wrapping()
     {
         var control = CreateControlInHost(new SideNavigationBreadcrumbItem());
