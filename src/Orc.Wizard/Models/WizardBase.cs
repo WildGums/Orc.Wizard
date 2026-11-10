@@ -113,12 +113,21 @@ public abstract class WizardBase : ModelBase, IWizard
             var validationContext = GetValidationContextForCurrentPage(true);
             if (validationContext.HasErrors)
             {
+                // Only block if vm is exposing
+                if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+                {
+                    if (wizardPageViewModel.IsHidingValidationResults)
+                    {
+                        return true;
+                    }
+                }
+
                 return false;
             }
 
             if (remainingPages.All(x => (x is SummaryWizardPage == true) ||
                                         x.IsOptional))
-                //(x.IsVisited && !GetValidationContext(x).HasErrors))) // Not enabled yet since we must be sure that we validate everything
+            //(x.IsVisited && !GetValidationContext(x).HasErrors))) // Not enabled yet since we must be sure that we validate everything
             {
                 return true;
             }
@@ -139,6 +148,15 @@ public abstract class WizardBase : ModelBase, IWizard
             var validationContext = GetValidationContextForCurrentPage(true);
             if (validationContext.HasErrors)
             {
+                // Only block if vm is exposing
+                if (_currentPage?.ViewModel is IWizardPageViewModel wizardPageViewModel)
+                {
+                    if (wizardPageViewModel.IsHidingValidationResults)
+                    {
+                        return true;
+                    }
+                }
+
                 return false;
             }
 

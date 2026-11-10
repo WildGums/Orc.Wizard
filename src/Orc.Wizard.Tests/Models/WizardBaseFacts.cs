@@ -1,11 +1,103 @@
 ﻿namespace Orc.Wizard.Tests;
 
 using System.Threading.Tasks;
+using Catel.MVVM;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 public class WizardBaseFacts
 {
+    [TestFixture]
+    public class The_CanMoveForward_Property
+    {
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task Allows_Validation_Errors_Only_While_Results_Are_Hidden_Async(bool exposeValidationResults)
+        {
+            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+            using var serviceProvider = serviceCollection.BuildServiceProvider();
+            var wizard = new TestWizard(serviceProvider);
+            var page = new TestWizardPage();
+            IWizardPageViewModel viewModel = new InvalidWizardPageViewModel(page, serviceProvider);
+            page.ViewModel = viewModel;
+            wizard.AddPage(page);
+            wizard.AddPage(new TestWizardPage());
+            Assert.That(wizard.CurrentPage, Is.SameAs(page));
+            await viewModel.InitializeViewModelAsync();
+
+            if (exposeValidationResults)
+            {
+                viewModel.EnableValidationExposure();
+            }
+
+            var canMoveForward = wizard.CanMoveForward;
+
+            Assert.That(viewModel.ValidationContext.HasErrors, Is.True);
+            Assert.That(viewModel.IsHidingValidationResults, Is.EqualTo(!exposeValidationResults));
+            Assert.That(canMoveForward, Is.EqualTo(!exposeValidationResults));
+        }
+    }
+
+    [TestFixture]
+    public class The_CanResume_Property
+    {
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task Allows_Validation_Errors_Only_While_Results_Are_Hidden_Async(bool exposeValidationResults)
+        {
+            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+            using var serviceProvider = serviceCollection.BuildServiceProvider();
+            var wizard = new TestWizard(serviceProvider);
+            var page = new TestWizardPage();
+            IWizardPageViewModel viewModel = new InvalidWizardPageViewModel(page, serviceProvider);
+            page.ViewModel = viewModel;
+            wizard.AddPage(page);
+            wizard.AddPage(ActivatorUtilities.CreateInstance<SummaryWizardPage>(serviceProvider));
+            Assert.That(wizard.CurrentPage, Is.SameAs(page));
+            await viewModel.InitializeViewModelAsync();
+
+            if (exposeValidationResults)
+            {
+                viewModel.EnableValidationExposure();
+            }
+
+            var canResume = wizard.CanResume;
+
+            Assert.That(viewModel.ValidationContext.HasErrors, Is.True);
+            Assert.That(viewModel.IsHidingValidationResults, Is.EqualTo(!exposeValidationResults));
+            Assert.That(canResume, Is.EqualTo(!exposeValidationResults));
+        }
+    }
+
+    [TestFixture]
+    public class The_MoveForwardAsync_Method
+    {
+        [Test]
+        public async Task Exposes_Hidden_Validation_Errors_Without_Leaving_Current_Page_Async()
+        {
+            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+            using var serviceProvider = serviceCollection.BuildServiceProvider();
+            var wizard = new TestWizard(serviceProvider);
+            var page = new TestWizardPage();
+            IWizardPageViewModel viewModel = new InvalidWizardPageViewModel(page, serviceProvider);
+            page.ViewModel = viewModel;
+            wizard.AddPage(page);
+            wizard.AddPage(new TestWizardPage());
+            Assert.That(wizard.CurrentPage, Is.SameAs(page));
+            await viewModel.InitializeViewModelAsync();
+            Assert.That(wizard.CanMoveForward, Is.True);
+            Assert.That(viewModel.ValidationContext.HasErrors, Is.True);
+            Assert.That(viewModel.IsHidingValidationResults, Is.True);
+
+            await wizard.MoveForwardAsync();
+
+            Assert.That(wizard.CurrentPage, Is.SameAs(page));
+            Assert.That(viewModel.ValidationContext.HasErrors, Is.True);
+            Assert.That(viewModel.IsHidingValidationResults, Is.False);
+            Assert.That(wizard.CanMoveForward, Is.False);
+        }
+    }
+
     [TestFixture]
     public class TheAddPageMethod
     {
